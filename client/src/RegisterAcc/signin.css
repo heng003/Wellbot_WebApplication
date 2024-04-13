@@ -1,0 +1,66 @@
+#signincontainer {
+    padding: 0px 60px;
+    background-color: #FBF4E8;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 100vw; 
+    height: 100vh;
+}
+
+.signinsubTitle{
+    color: #FF5C00;
+    margin-bottom: 20px;
+}
+
+#signincontainer .subTitleDesc{
+    color: #6F6F6F;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+#signincontainer .card{
+    box-sizing: content-box;
+    border: 2px solid black;
+    padding: 0px 50px;
+    align-items: center;
+}
+
+#signincontainer h5{
+    font-weight: bold;
+}
+
+#signincontainer .buttonLandlord{
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 2px;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-left: -60px;
+    cursor: pointer;
+}
+
+.buttonLandlord:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}
+
+#signincontainer .buttonTenant{
+    background-color: #7C7C7C;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 2px;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-left: -60px;
+    cursor: pointer;
+}
+
+.buttonTenant:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}
+
