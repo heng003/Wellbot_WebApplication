@@ -92,7 +92,7 @@ const Home = () => {
                     <div class="row row-cols-1 row-cols-md-3 g-5">
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/condo2.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                            <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
                                 <div class="card-body">
                                     <h4 class="card-title1">RM 500 Per Month</h4>
                                     <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -112,7 +112,7 @@ const Home = () => {
                         </div>
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/bungalow.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                            <img src="Images/bungalow.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
                                 <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -130,7 +130,7 @@ const Home = () => {
                         </div>
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/commercial.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                            <img src="Images/commercial.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
                                 <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -148,7 +148,7 @@ const Home = () => {
                         </div>
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture" height="200" width="500"/>
+                            <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
                                 <h6 class="card-title2">Tiara Damansara's Master Room</h6>

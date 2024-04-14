@@ -36,11 +36,13 @@
 
 #filter .subTitle{
     color: #FF5C00;;
-    margin-bottom: 25px;
+    margin-bottom: 1.35em;
+    margin-top: 2.725em;
 }
 
 #filter{
     margin: 20px 100px;
+    margin-top: 2.75em;
 }
 
 .filterTitle{
@@ -49,10 +51,11 @@
     
 }
 
-#filter .form-select{
-    background-color: #FFF6EA;
+#filter .form-select {
+    background-color: rgba(255, 246, 234, 0.5); /* 50% transparent white */
     border: 2px solid black;
     width: 80%;
+    margin-top: 0.5em;
 }
 
 .searchButton{
@@ -62,8 +65,9 @@
     border: 2px;
     border-radius: 6px;
     padding: 10px 20px;
-    margin-top: 40px;
+    margin-top: 3.125em;
     cursor: pointer;
+    margin-bottom: 3.125em;
 }
 
 .searchButton:hover{
@@ -88,9 +92,12 @@
 }
 
 #recommendation .card-img-top{
-    padding: 20px;
+    padding: 1.35em;
     object-fit:cover;
     background-repeat: no-repeat;
+    width: 26em;
+    height: 16.88m;
+    align-self: center;
 }
 
 #recommendation .room {
@@ -101,17 +108,18 @@
     border: 1.5px solid black;
     border-left: white;
     border-right: white;
-    
 }
 
 #recommendation .room .roomDetails {
     list-style: none;
-    margin: 10px;
+    margin: 0.6em;
+    margin-left: -0.6em;
 }
 
 #recommendation .card:hover{
     opacity: 0.7;
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
 }
 
 #recommendation .card-title1{
@@ -133,8 +141,9 @@
 #info{
     content: 200%;
 }
+
 #info .col{
-    padding-top: 50px;
+    padding-top: 3.125em;
 }
 
 #info .contain{
@@ -153,4 +162,8 @@
 #info p{
     text-align: justify;
     padding-top: 10px;
+}
+
+.card{
+    padding-inline: 1em;
 }
