@@ -10,23 +10,7 @@
     font-size: 1em;
     display: flex;
     justify-content: flex-end;
-    column-gap: 2em;
-    align-items: center;
-    margin-right: 5em;
-}
-
-.social_links_row a {
-    margin-right: 10px; 
-    color: white;
-}
-
-.social_links_row a:last-child {
-    margin-right: 0; 
-}
-
-.social_links_row svg {
-    width: 2em; 
-    height: 2em; 
+    column-gap: 30px;
 }
 
 .social_links_row h2{
@@ -34,13 +18,16 @@
     font-size: 1em;
 }
 
+.social_links_row a{
+    color: white;
+}
+
 #footer_backgroundColor .nav-footer {
     display: flex;
-    margin-bottom: 5em;
 }
 
 #footer_backgroundColor .nav_col1{
-    margin-right: 5em;
+    margin-right: 100px;
 }
 
 #footer_backgroundColor .nav-footer a{
@@ -53,11 +40,3 @@
     text-align: center;
 }
 
-.nav_col1 ul li,
-.nav_col2 ul li {
-    margin-bottom: 1em; 
-}
-
-.nav_col1 ul li {
-    padding-left: 5em;
-}

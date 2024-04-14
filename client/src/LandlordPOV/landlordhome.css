@@ -1,0 +1,167 @@
+#landlordHome{
+    width: 99vw; 
+    height: 80vh;
+    background-image: url('/public/Images/bungalow.jpg');
+    background-size: cover;
+    background-position: 0em;
+}
+
+#landlordMain{
+    padding-top: 5em;
+
+}
+
+#landlordHome #homeTitle{
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 40vh;
+    margin-top: 5em;
+}
+
+#landlordHome p{
+    color: white;
+    font-size: 2em;
+    margin-left: 0.5em;
+}
+
+#landlordHome #hoverText{
+    color: #FF8A00;
+}
+
+/* #landlordMain .form-select{
+    background-color: #FFF6EA;
+} */
+
+#state_search_find #stateType{
+    width: 10em;
+    height: 3em;
+    margin-left: 1em;
+    border-radius: 0;
+    font-weight: 500;
+}
+
+#residentialFilter #residential, 
+#priceRangeFilter #priceRange{
+    width: 35em;
+    height: 3em;
+    margin-left: 1em;
+    border-radius: 0;
+    font-weight: 500;
+}
+
+#searchProperty{
+    height: 3em;
+    width: 60em;
+    padding-left: 3em;
+}
+
+#searchIcon{
+    position: absolute;
+    padding-left: 1em;
+    padding-top: 0.8em;
+    color: #171616;
+}
+
+#landlordHome #findButton{
+    background-color: #FF8A00;
+    color: #F9F9F9;
+    font-weight: bold;
+    border: 2px;
+    border-radius: 2px;
+    height: 3em;
+    width: 5em;
+    cursor: pointer;
+}
+
+#residential_price{
+    margin-top: 1em;
+}
+
+#property{
+    width: 100%;
+    background-color: #F0F0F0;
+    overflow-x: hidden;
+}
+
+.propertyTitle{
+    color: #FF5C00;;
+    padding-top: 30px;
+    margin-left: 100px;
+}
+
+#property .row{
+    margin:-25px 70px;
+}
+
+#property .card-img-top{
+    padding: 20px;
+    object-fit:cover;
+    background-repeat: no-repeat;
+}
+
+#property .room {
+    margin-bottom: -8px;
+    display: flex;
+    justify-content: space-around;
+    box-sizing: content-box;
+    border: 1.5px solid black;
+    border-left: white;
+    border-right: white;
+    
+}
+
+#property .room .roomDetails {
+    list-style: none;
+    margin: 10px;
+}
+
+#property .card:hover{
+    opacity: 0.7;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+#property .card-title1{
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+#property .card-text{
+    color: rgba(23, 22, 22, 0.6);
+    font-weight:500;
+    padding-top: 10px;
+}
+
+#property .manageButton,
+#property .uploadButton{
+    display: flex;
+    justify-content: center;
+}
+
+#manage, #upload{
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 2px;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+#manage:hover,
+#upload:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}
+
+#property h4{
+    font-size: 1.3em;
+}
+
+#hoverText{
+    color: #FF5C00;
+}
+
+#upload{
+    margin-top: 12.5em;
+}
+
