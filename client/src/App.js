@@ -17,6 +17,7 @@ import LandlordNavbar from './LandlordPOV/LandlordNavbar';
 import TenantNavbar from './TenantPOV/TenantNavbar';
 import TenantHome from './TenantPOV/TenantHome';
 import EditLandlordProfile from './LandlordPOV/EditLandlordProfile';
+import EditTenantProfile from './TenantPOV/EditTenantProfile';
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
             <Route path="/landlordHome" element={<LandlordHome />}/>
             <Route path="/tenantHome" element={<TenantHome />}/>
             <Route path="/landlordProfileEdit" element={<EditLandlordProfile />}/>
+            <Route path="/tenantProfileEdit" element={<EditTenantProfile />}/>
+            
           </Routes>
           <ShowFooter>
             <Footer /> 

@@ -30,8 +30,12 @@ const TenantNavbar = () => {
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                        <Link className="nav-link" to="/">Log Out</Link>
+                            <Link className="nav-link" to="/tenantProfileEdit">Edit Profile</Link>
                         </li>
+                        <li class="nav-item">
+                            <Link className="nav-link" to="/">Log Out</Link>
+                        </li>
+                        
                     </ul>
                 </div>
                 <a href="#"><img src="Images/tenantProfile.png" alt="Avatar" width="90" height="90"/></a>

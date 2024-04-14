@@ -21,6 +21,7 @@ const LandlordHome = () => {
     setSelectedOption3(event.target.value);
   };
   
+  
     return(
         <div>
             <main>
@@ -30,7 +31,7 @@ const LandlordHome = () => {
                             <div className="col">
                                 <div className="container" id="homeTitle">
                                     <div className="row">
-                                        <p className="display-4 fw-bolder mt-5">Find Your Uploaded Property <div id="hoverText"><span id="text">In Just A Moment</span></div></p>
+                                        <p className="display-4 fw-bolder mt-5">Find Your Uploaded Property<span id="text"> In Just A Moment</span></p>
                                     </div>
                                     <div className="row" id="state_search_find">
                                         <div className="col" id="stateFilter">
@@ -71,6 +72,7 @@ const LandlordHome = () => {
                                                 <option value="option2-1">Condominium</option>
                                                 <option value="option2-2">Apartments</option>
                                             </select>
+                                            
                                         </div>
 
                                         <div className="col" id="priceRangeFilter">
