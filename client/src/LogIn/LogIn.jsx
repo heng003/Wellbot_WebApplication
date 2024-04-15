@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { faUser, faLock, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import '../LogIn/login.css'
 
@@ -8,6 +8,20 @@ const LogIn = () => {
 
     const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(true);
+    
+    const [username, setUsername] = useState("");
+    const navigate = useNavigate();
+
+    const handleLogin = () => {
+        navigate("/");
+        
+        /* Hardcode for frontend demo
+        if(username === "tenant") {
+            navigate("/");
+        } else {
+            navigate("/landlordHome");
+        }*/
+    }
 
     return(
         <div id="login">
@@ -20,7 +34,7 @@ const LogIn = () => {
                     <div class="form d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
                         <div class="form-outline flex-fill mb-0">
-                            <input type="text" id="username" class="form-control" placeholder="Username" required/>
+                            <input type="text" id="username" class="form-control" placeholder="Username" required onChange={(e) => setUsername(e.target.value)}/>
                         </div>
                     </div>
                     <div class="form d-flex flex-row position-relative align-items-center mb-4">
@@ -34,7 +48,7 @@ const LogIn = () => {
                         <Link className="link" id="forgotpasswwordlink" to="/forgotPassword"><h6 className="forgotPassword">Forgot password?</h6></Link>
                     </div>
                     <div id="bottomDetails">
-                        <Link className="link" to="/"><button id="loginbutton" type="button">Log In</button></Link>
+                        <button id="loginbutton" type="button" onClick={handleLogin}>Log In</button>
                         <div id="haveAcc">Don't have an account? <Link className="link" id="signuplink" to="/signIn">SIGN UP</Link></div>
                     </div>
                 </div>

@@ -26,19 +26,14 @@ const Home = () => {
             <main>
                 <section id="Home">
                     <div className="container">
-                        <div className="row">
-                            <div className="main-col">  
-                                <h1 className="display-4 fw-bolder mt-5"><div id="hoverText"><span id="text">Your</span></div> Partner <br/>In Housing & Relocation</h1>
-                                <p className="lead text-left fs-4 mb-5">Bridging Homes, Building Futures: Where Landlords and Tenants Unite</p>
-                            </div>
-                        </div>
+                        <img src="Images/generalPageBackground.png" id='backgroundImg'/>
                     </div>
                 </section>
             
                 <section id="filter">
                     <div className="container">
                         <header className="subTitle text-center fs-2 fw-bolder mt-4">Find Your Dream Property</header>
-                        <div class="row row-cols-1 row-cols-md-3 g-5">
+                        <div className="row row-cols-1 row-cols-md-3 g-5">
                             <div className="col">
                             <label htmlFor="propertyType" className="filterTitle">Property Type</label>
                             <select

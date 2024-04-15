@@ -5,44 +5,36 @@
     font-family: 'Poppins';
 }
 
-.main-col{
-    color: white ;
-    padding-top: 20em;
-    filter: brightness(200%);
+#Home .container {
+    padding-inline: 0;
+    margin-inline: 0;
 }
 
-#Home{
-    width: 100%;
-    background-image: url('/public/Images/homeBackground.jpg');
-    background-size: cover;
-}
-
-#Home .container{
-    margin-left: 50px;
+#Home #backgroundImg {
+    width: 115%;
+    height: auto;
+    display: block; 
 }
 
 #hoverText {
     display: inline-block; 
 }
 
-#Home #hoverText #text::after{
-    content: '';
-    display: block;
-    width: 100%;
-    height: 10px;
-    background-color: orangered;
-    margin-top: -15px;
+#filter{
+    margin-block: 2.5em;
+    margin-inline: 0;
+    padding-inline: 0;
+}
+
+#filter .col{
+    align-self: center;
+    justify-content: center;
 }
 
 #filter .subTitle{
     color: #FF5C00;;
     margin-bottom: 1.35em;
     margin-top: 2.725em;
-}
-
-#filter{
-    margin: 20px 100px;
-    margin-top: 2.75em;
 }
 
 .filterTitle{
@@ -67,7 +59,7 @@
     padding: 10px 20px;
     margin-top: 3.125em;
     cursor: pointer;
-    margin-bottom: 3.125em;
+    margin-bottom: 2em;
 }
 
 .searchButton:hover{
@@ -84,11 +76,17 @@
 .recommendationTitle{
     color: #FF5C00;;
     padding-top: 30px;
-    margin-left: 100px;
+    margin-left: 3.14em;
+}
+
+.row-cols-1 {
+    display: flex;
+    justify-content: center;
 }
 
 #recommendation .row{
-    margin:-25px 70px;
+    padding: 1em 6em;
+    justify-content: start;
 }
 
 #recommendation .card-img-top{
