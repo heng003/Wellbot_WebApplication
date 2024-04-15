@@ -1,5 +1,5 @@
 import React from "react";
-import './home.css';
+import '../GeneralPage/home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import { useNavigate } from "react-router-dom";
 

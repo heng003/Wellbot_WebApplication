@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
-import '../LandlordPOV/landlordhome.css';
+import '../GeneralPage/home.css';
+import CardProperty from "../component/CardProperty";
 
 const TenantHome = () => {
 
@@ -85,7 +86,7 @@ const TenantHome = () => {
                 <div class="row row-cols-1 row-cols-md-3 g-5">
                     <div class="col">
                         <div class="card h-100">
-                        <img src="Images/condo2.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                        <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
                                 <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -105,7 +106,7 @@ const TenantHome = () => {
                     </div>
                     <div class="col">
                         <div class="card h-100">
-                        <img src="Images/bungalow.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                        <img src="Images/bungalow.jpg" class="card-img-top" alt="house picture"/>
                         <div class="card-body">
                             <h4 class="card-title1">RM 500 Per Month</h4>
                             <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -123,7 +124,7 @@ const TenantHome = () => {
                     </div>
                     <div class="col">
                         <div class="card h-100">
-                        <img src="Images/commercial.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                        <img src="Images/commercial.jpg" class="card-img-top" alt="house picture"/>
                         <div class="card-body">
                             <h4 class="card-title1">RM 500 Per Month</h4>
                             <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -140,22 +141,13 @@ const TenantHome = () => {
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card h-100">
-                        <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture" height="200" width="500"/>
-                        <div class="card-body">
-                            <h4 class="card-title1">RM 500 Per Month</h4>
-                            <h6 class="card-title2">Tiara Damansara's Master Room</h6>
-                            <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                            <ul className="room">
-                                <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
-                            </ul>
-                            <div className="viewButton"> 
-                                <a href="#"><button className="searchButton" type="button">View</button></a>
-                            </div>
-                        </div>
-                        </div>
+                        <CardProperty
+                            imgSrc="Images/commercial2.jpg"
+                            cardTitle1="RM 500 Per Month"
+                            cardTitle2="Tiara Damansara's Master Room"
+                            cardText="Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor"
+                            roomDetails={["1", "2", "350sf"]}
+                        />
                     </div>
                     </div>
                     <br /><br /><br /><br /><br />
