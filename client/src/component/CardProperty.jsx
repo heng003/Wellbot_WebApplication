@@ -9,6 +9,7 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
     const navigate = useNavigate();
 
     const handleViewProperty = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         navigate("/tenantViewProperty"); 
     }
 
@@ -23,7 +24,7 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
                 <ul className="room">
                     {roomDetails.map((detail, index) => (
                         <li key={index} className="roomDetails">
-                            <img src={roomImgSrc} alt="details" width="35" height="35" /> {detail}
+                            <img src={roomImgSrc[index]} alt="details" width="35" height="35" /> {detail}
                         </li>
                     ))}
                 </ul>

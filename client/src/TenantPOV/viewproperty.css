@@ -56,3 +56,26 @@
 #PropertyDetails .container {
     margin-top: 2em;
 }
+
+.viewButton {
+    display: flex;
+    justify-content: center;
+}
+
+.viewAgreementButton {
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 2px;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin-top: 3.125em;
+    cursor: pointer;
+    margin-bottom: 5em;
+    font-size: larger;
+}
+
+.viewAgreementButton:hover {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}

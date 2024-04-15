@@ -10,13 +10,19 @@
     text-transform: capitalize;
 }
 
+.heading {
+  margin-bottom: -0.8em;
+}
+
 .heading,
 .rental-details,
-.property-details {
-    display: flex;
+.property-details,
+.property-description,
+.description-block-wrap {
+    display: row;
     align-items: start;
     flex-wrap: wrap; 
-    margin-top: 0.8em;
+    margin-top: 0.7em;
 }
 
 .rent-price {
@@ -32,32 +38,33 @@
 .rent-breakdown,
 .rent-price-unit-panel,
 .property-details-breakdown,
-.property-details {
+.property-details,
+.description-block-wrap  {
     display: flex;
     align-items: flex-start;
     max-width: 100%;
     flex-wrap: wrap; /* Allow wrapping of elements */
 }
 
-.rent-breakdown,
-.property-details-breakdown {
+.rent-breakdown {
     flex-direction: column;
     justify-content: flex-start;
     gap: 1rem;
     flex-basis: 100%; /* Take full width */
 }
 
-.property-details-breakdown {
+.property-details-breakdown,
+.description-block-wrap {
     flex-direction: column;
     justify-content: flex-start;
-    gap: 1rem;
+    gap: 1.2rem;
 }
 
 .property-address {
     align-self: start;
     position: relative;
     text-transform: capitalize;
-    font-weight: normal;
+    font-weight: 400;
     font-family: inherit;
     color: #1858d3;
 }
@@ -65,10 +72,9 @@
 .specs-grid {
     display: flex;
     flex-direction: row;
-    flex: 1;
-    justify-content: space-between;
     gap: 2em;
     margin-top: 1em;
+    width: fit-content;
 }
 
 .icon-wrapper {
@@ -81,6 +87,7 @@
 }
 
 .icon {
+    align-self: center;
     height: 4rem;
     width: auto;
     position: relative;
@@ -93,119 +100,11 @@
   font-size: 0.7em;
   text-transform: capitalize;
   font-weight: normal;
+  position: relative;
+  align-self: center;
 }
 
-  .specs-row-two {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 0 0.875rem 0 0.906rem;
-  }
-  .high-rise {
-    position: relative;
-    text-transform: capitalize;
-    font-weight: 500;
-    display: inline-block;
-    min-width: 6.188rem;
-  }
-  .specs-row-one {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1.063rem;
-  }
-  .square-icon {
-    height: 3.375rem;
-    width: 3.563rem;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .square-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 0 0.813rem;
-  }
-  .sqft {
-    align-self: stretch;
-    position: relative;
-    text-transform: capitalize;
-    font-weight: 500;
-    display: inline-block;
-    min-width: 5.188rem;
-  }
-  .specs-row-one1 {
-    width: 5.188rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1.438rem;
-    text-align: center;
-  }
-  .bed-icon {
-    height: 4.375rem;
-    width: 4.813rem;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .bed-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 0 0.875rem;
-  }
-  .bedroom {
-    position: relative;
-    text-transform: capitalize;
-    font-weight: 500;
-    display: inline-block;
-    min-width: 6.563rem;
-  }
-  .specs-row-one2 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 0.438rem;
-  }
-
-
-  .separator-icon {
-    align-self: stretch;
-    position: relative;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-    object-fit: contain;
-    margin-top: -0.062rem;
-  }
-  .description,
-  .lets-grab-this {
-    margin: 0;
-    position: relative;
-    font-family: inherit;
-  }
-  .description {
-    width: 14.813rem;
-    font-size: inherit;
-    text-transform: capitalize;
-    font-weight: 600;
-    display: inline-block;
-  }
-  .lets-grab-this {
-    align-self: stretch;
-    font-size: 1.75rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.7);
-  }
-  .description-panel {
+.description-block {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -213,114 +112,43 @@
     justify-content: flex-start;
     gap: 1.125rem;
     max-width: 100%;
-  }
-  
-.property-description,
-.property-details {
-    display: flex;
-    align-items: flex-start;
-    max-width: 100%;
-  }
-
-  .security-24-hr {
-    align-self: stretch;
-    font-size: 1.75rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.7);
-  }
-
-  .accessibility1 {
-    margin: 0;
-    width: 16.563rem;
-    position: relative;
-    font-size: inherit;
-    text-transform: capitalize;
-    font-weight: 600;
-    font-family: inherit;
-    display: inline-block;
-  }
-  .seventeen-mall-,
-  .t815-bus-stop {
-    margin-block-start: 0;
-    margin-block-end: 1.5px;
-  }
-  .mrt-tiara-damansara {
-    margin: 0;
-  }
-  .t815-bus-stop-container {
-    margin: 0;
-    position: relative;
-    font-size: 1.75rem;
-    font-weight: 400;
-    font-family: inherit;
-    color: rgba(0, 0, 0, 0.7);
-  }
-  .accessibility {
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 1.5rem;
-    text-align: left;
-  }
-  .accessibility,
-  .amenities,
-  .facilities-parent {
-    display: flex;
-    align-items: flex-start;
-    max-width: 100%;
-  }
-  .facilities-parent {
-    width: 35.875rem;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 3.625rem;
-  }
-  .amenities {
-    width: 47.375rem;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0 1.25rem;
-    box-sizing: border-box;
-    font-size: 2rem;
-  }
-  .status-panel-child {
-    height: 6.563rem;
-    width: 90rem;
-    position: relative;
-    background-color: #ffe6d0;
-    display: none;
-    max-width: 100%;
-  }
-  .pending-for-action {
-    margin: 0;
-    height: 3.625rem;
-    width: 47.625rem;
-    position: relative;
-    font-size: inherit;
-    text-transform: capitalize;
-    font-weight: 600;
-    font-family: inherit;
-    display: inline-block;
-    flex-shrink: 0;
-    max-width: 100%;
-    z-index: 1;
-  }
-
-.details-panel,
-.rental-details,
-.status-panel {
-    align-self: stretch;
-    display: flex;
-    align-items: flex-start;
+    margin-top: 1.2em;
 }
 
-  .status-panel {
-    background-color: #ffe6d0;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 1.625rem 18.688rem 1.313rem;
-    box-sizing: border-box;
-    color: #ff5c00;
-  }
+.description-title {
+    text-transform: capitalize;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.description-text {
+    align-self: flex-start;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.description-text-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    max-width: 100%;
+}
+
+.line-block {
+  width: 103%;
+  margin-left: -0.3em;
+  margin-top: 0.2em;
+  margin-bottom: -0.3em;
+}
+
+.line {
+  border: 0.1em, #595959;
+}
+
+
   .details-panel,
   .rental-details {
     flex-direction: column;

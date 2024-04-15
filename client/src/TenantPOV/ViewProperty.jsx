@@ -3,6 +3,7 @@ import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 
 const ViewProperty = () => {
+    
     const propertyImageSrc = [
         "Images/propertyImg3.png",
         "Images/propertyImg4.png",
@@ -63,10 +64,13 @@ const ViewProperty = () => {
                 </section>
 
                 <section id="PropertyDetails">
-                    <div className="container">
-                        <DetailsPanel/>
-                    </div>
+                    <div className="container"><DetailsPanel/></div>
                 </section>
+
+                <div className="viewButton"> 
+                    <a href="#"><button className="viewAgreementButton" type="button">View Lease Agreement</button></a>
+                </div>
+            
             </main>
         </div>
     );

@@ -46,7 +46,7 @@ const DetailsPanel = () => {
                                     {propertyFacilitiesIcons.map((icon, index) => (
                                         <div key={index} className={`specs-row-one${index + 1}`}>
                                             <div className="icon-wrapper">
-                                                <img className="icon" src={icon}/>
+                                                <img className="icon" alt='icon' src={icon}/>
                                             </div>
                                             <div className='facility-text'>
                                                 {propertyFacilities[index]}
@@ -56,52 +56,32 @@ const DetailsPanel = () => {
                                 </div>
                             </div>
                         </div>
+                    
+                    <div className="line-block">
+                        <hr className="line"></hr>
+                    </div>
 
-                        <img
-                            className="separator-icon"
-                            loading="lazy"
-                            alt=""
-                            src="/line-3.svg"
-                        />
+                    <div className="description-block">
+                        <h2 className="description-title">Description</h2>
+                        <h3 className="description-text">Let's grab this opportunity to have this cheap and nice room !</h3>
+                    </div>
 
-                        <div className="property-description">
-                            <div className="description-panel">
-                                <h2 className="description">Description</h2>
-                                <h3 className="lets-grab-this">
-                                    Let’s grab this opportunity to have this cheap and nice room !
-                                </h3>
-                            </div>
-                        </div>
+                    <div className="description-block">
+                        <h2 className="description-title">Facilities</h2>
+                        <h3 className="description-text">Security 24 Hr, Swimming, BBQ Area, Gym
+                        </h3>
+                    </div>
+                    
+                    <div className="description-block">
+                        <h2 className="description-title">Accessibility</h2>
+                        <h3 className="description-text-wrap">
+                            <p className="description-text">T815 Bus Stop - 200m</p>
+                            <p className="description-text">Seventeen Mall - 600 m</p>
+                            <p className="description-text">MRT Tiara Damansara - 800m</p>
+                        </h3>
                     </div>
                 </div>
-
-                <div className="amenities">
-                    <div className="facilities-parent">
-                        <div className="facilities">
-                            <h2 className="facilities1">Facilities</h2>
-                            <h3 className="security-24-hr">
-                                Security 24 Hr, Swimming, BBQ Area, Gym
-                            </h3>
-                        </div>
-                        <div className="accessibility">
-                            <h2 className="accessibility1">Accessibility</h2>
-                            <h3 className="t815-bus-stop-container">
-                                <p className="t815-bus-stop">T815 Bus Stop - 200m</p>
-                                <p className="seventeen-mall-">Seventeen Mall - 600 m</p>
-                                <p className="mrt-tiara-damansara">
-                                    MRT Tiara Damansara - 800m
-                                </p>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="status-panel">
-                    <div className="status-panel-child" />
-                    <h2 className="pending-for-action">
-                        PENDING FOR ACTION FROM LANDLORD
-                    </h2>
-                </div>
+            </div>
             </div>
         </section>
     );
