@@ -4,34 +4,85 @@
     font-family: 'Poppins';
 }
 
-.row {
+.comment-card {
     align-self: stretch;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.29);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 1.625rem 2.375rem;
+    padding: 2em 3.5em;
     gap: 0.813rem;
     text-align: left;
-    font-size: 1.125rem;
     color: #000;
+    margin-left: 1.2em;
 }
-
+  
 .user-img {
-    height: 4.438rem;
-    width: 4.375rem;
+    height: 5rem;
+    width: auto;
     position: relative;
-    border-radius: 100px;
-    overflow: hidden;
-    flex-shrink: 0;
+    border-radius: 0.2em;
     object-fit: cover;
 }
 
-.comment-details {
-    width: 11.375rem;
+.row-one {
+    width: 100%;
+    display: flex;
+    align-items: center;
     flex-direction: row;
-    gap: 1.313rem;
+}
+
+.row-wrapper {
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.left-content-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+  
+.left-content {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem; /* Adjust the gap as needed */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.313rem;
+    padding-left: 1.2em;
+}
+
+.star {
+    height: 2.125rem;
+    padding-right: 0;
+}
+
+.comment-star {
+    margin-left: auto;
+    flex-direction: column;
+}
+  
+.comment-card:hover {
+    opacity: 0.9;
+    box-shadow: 1px 1px 3px;
+}
+  
+.username {
+    color: black;
+    font-weight: 550;
+    font-size: larger;
+}
+  
+.date {
+    color: #8A8A8A; 
 }

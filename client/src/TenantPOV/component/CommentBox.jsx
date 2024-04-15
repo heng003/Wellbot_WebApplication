@@ -1,35 +1,32 @@
 import React from "react";
 import "./commentbox.css";
 
-const CommentBox = ({username, date}) => {
-  
+const CommentBox = ({ username, date }) => {
   const profilePic = "Images/commentProfilePic.png";
-    
-  return (
-    <div className="row">
-      <div className="row-one">
-        <div className="comment-details">
-          <img
-            className="user-img"
-            alt=""
-            src={profilePic}
-          />
 
-          <div className="user-detail">
-            <div className="user-name-date">
-              <div className="username">{username}</div>
-              <div className="date">{date}</div>
+  return (
+    <div className="comment-card">
+      <div className="row-one">
+        <div className="row-wrapper">
+          <div className="left-content-container">
+            <div className="left-content">
+              <div className="profile">
+                <img className="user-img" alt="" src={profilePic} />
+              </div>
+              <div className="user-info">
+                <div className="username">{username}</div>
+                <div className="date">{date}</div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="comment-star">
-          <img
-            className="star"
-            loading="lazy"
-            alt=""
-            src="/Images/commentStar.png"
-          />
+          <div className="comment-star">
+            <img
+              className="star"
+              loading="lazy"
+              alt=""
+              src="/Images/commentStar.png"
+            />
+          </div>
         </div>
       </div>
 
@@ -40,7 +37,7 @@ const CommentBox = ({username, date}) => {
         future tenancy without reservation.
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CommentBox;
