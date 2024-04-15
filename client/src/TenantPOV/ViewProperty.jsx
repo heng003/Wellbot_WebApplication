@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
+import CommentBox from "./component/CommentBox";
 
 const ViewProperty = () => {
     
@@ -67,10 +68,20 @@ const ViewProperty = () => {
                     <div className="container"><DetailsPanel/></div>
                 </section>
 
-                <div className="viewButton"> 
-                    <a href="#"><button className="viewAgreementButton" type="button">View Lease Agreement</button></a>
+                <div className="applyButton"> 
+                    <a href="#"><button className="applyNowButton" type="button">Apply Now</button></a>
                 </div>
-            
+
+                <section id="Comment">
+                    <header className="commentTitle">Comment And Rating</header>
+                    
+                    <section className="comments">
+                        <div className="comment-grid">
+                            <CommentBox username="Joyce Lim" date="2 days ago" />
+                            <CommentBox username="Ali bin Abu" date="12/3/2021"/>
+                        </div>
+                    </section>
+                </section>
             </main>
         </div>
     );

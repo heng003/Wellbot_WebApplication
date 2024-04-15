@@ -55,27 +55,68 @@
 
 #PropertyDetails .container {
     margin-top: 2em;
+    width: 100%;
 }
 
-.viewButton {
+.applyButton {
     display: flex;
     justify-content: center;
 }
 
-.viewAgreementButton {
+.applyNowButton {
     background-color: #FF8C22;
     font-weight: bold;
     color: #FFF6EA;
     border: 2px;
     border-radius: 6px;
-    padding: 10px 20px;
+    padding: 0.65em 4.5em;
     margin-top: 3.125em;
     cursor: pointer;
     margin-bottom: 5em;
     font-size: larger;
 }
 
-.viewAgreementButton:hover {
+.applyNowButton:hover {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
     opacity: 0.7;
+}
+
+#Comment {
+    width: 100%;
+    background-color: #F0F0F0;
+    overflow-x: hidden;
+}
+
+.commentTitle{
+    color: #FF5C00;;
+    padding-top: 3em;
+    margin-left: 3.3em;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+.comment-grid,
+.comments {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.comment-grid {
+    width: 78.444rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2.563rem;
+}
+
+.comments {
+  width: 88.694rem;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0 1.25rem 1.875rem;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 1.125rem;
+  color: #000;
+  font-family: Poppins;
 }

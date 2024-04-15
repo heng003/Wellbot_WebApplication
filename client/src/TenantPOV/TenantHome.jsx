@@ -126,7 +126,6 @@ const TenantHome = () => {
                     {isSearchClicked ? "Filter Result/s" : "Recommendations"}
                 </header>
                 <div className="row row-cols-1 row-cols-md-3 g-5">
-                    {/* Map over cardData array to render CardProperty components */}
                     {cardData.map((card, index) => (
                     <div key={index} className="col">
                         <CardProperty

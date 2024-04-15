@@ -4,25 +4,23 @@
     font-family: 'Poppins';
 }
 
-.property-classfication {
-    margin: 0;
-    position: relative;
-    text-transform: capitalize;
-}
-
-.heading {
-  margin-bottom: -0.8em;
-}
-
 .heading,
 .rental-details,
 .property-details,
 .property-description,
 .description-block-wrap {
     display: row;
-    align-items: start;
+    align-items: stretch;
     flex-wrap: wrap; 
-    margin-top: 0.7em;
+    margin-top: 2em;
+}
+
+
+.property-classfication {
+    margin: 0;
+    position: relative;
+    text-transform: capitalize;
+    align-self: start;
 }
 
 .rent-price {
@@ -42,7 +40,7 @@
 .description-block-wrap  {
     display: flex;
     align-items: flex-start;
-    max-width: 100%;
+    width: 100%;
     flex-wrap: wrap; /* Allow wrapping of elements */
 }
 
@@ -77,22 +75,24 @@
     width: fit-content;
 }
 
+.specs-row {
+    width: fit-content;
+}
+
 .icon-wrapper {
     display: flex;
     align-items: center; /* Center items horizontally */
     justify-content: center; /* Center items vertically */
-    padding: 0 1.6rem;
     text-align: center; 
     width: fit-content;
 }
 
 .icon {
     align-self: center;
+    justify-self: center;
     height: 4rem;
+    padding-left: 0.52em;
     width: auto;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
     margin-bottom: 0.5em;
 }
 
@@ -124,6 +124,7 @@
 .description-text {
     align-self: flex-start;
     font-weight: 400;
+    font-size: smaller;
     color: rgba(0, 0, 0, 0.7);
 }
 
@@ -145,26 +146,19 @@
 }
 
 .line {
-  border: 0.1em, #595959;
+  border: 0.15em, #595959;
 }
 
-
-  .details-panel,
-  .rental-details {
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-  .rental-details {
+.rental-details {
     gap: 2.313rem;
-    font-size: 2.25rem;
     color: #000;
-  }
-  .details-panel {
-    padding: 0 0 0.938rem;
+}
+
+.details-panel {
     box-sizing: border-box;
-    gap: 4.5rem;
-    text-align: center;
+    text-align: start;
     font-size: 1.75rem;
     color: rgba(47, 47, 47, 0.76);
     font-family: Poppins;
-  }
+} 
+   
