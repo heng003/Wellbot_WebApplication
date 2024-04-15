@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    font-family: 'Poppins';
+}
+
+#PropertyImage .container {
+    position: relative; /* Required for absolute positioning */
+    padding: 0;
+    margin: 0;
+}
+
+.imageContainer {
+    position: relative; /* Required for absolute positioning */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.propertyImage {
+    width: 57.5%;
+    height: auto;
+}
+
+.buttonContainer {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: -15%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding-inline: 0.5em;
+}
+
+.previousButton,
+.nextButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.previousButton:hover svg ellipse,
+.nextButton:hover svg ellipse {
+    fill: white;
+    fill-opacity: 0.9;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+#propertyImage2 {
+    padding-left: 1.3em;
+}
+
+#PropertyDetails .container {
+    margin-top: 2em;
+}

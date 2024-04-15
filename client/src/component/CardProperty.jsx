@@ -4,17 +4,17 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import { useNavigate } from "react-router-dom";
 
 const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetails }) => {
+    const roomImgSrc = ["Images/bedroom.png", "Images/bathroom.png", "Images/sqrt.png"];
 
-    const roomImgSrc = ["/Images/bedroom.png", "/Images/bathroom.png", "/Images/sqrt.png"];
     const navigate = useNavigate();
 
     const handleViewProperty = () => {
-        navigate()
+        navigate("/tenantViewProperty"); 
     }
 
     return (
-        <div className="card h-100">
-            <img src={imgSrc} className="card-img-top" alt="house picture" />
+        <div className="card h-100" onClick={handleViewProperty}>
+            <img src={imgSrc} className="card-img-top" alt="propertyImage" />
             <div className="card-body">
                 <h4 className="card-title1">{cardTitle}</h4>
                 <h6 className="card-title2">{propertyTitle}</h6>

@@ -18,6 +18,7 @@ import TenantNavbar from './TenantPOV/TenantNavbar';
 import TenantHome from './TenantPOV/TenantHome';
 import EditLandlordProfile from './LandlordPOV/EditLandlordProfile';
 import EditTenantProfile from './TenantPOV/EditTenantProfile';
+import TenantViewProperty from './TenantPOV/ViewProperty';
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
             <Route path="/tenantHome" element={<TenantHome />}/>
             <Route path="/landlordProfileEdit" element={<EditLandlordProfile />}/>
             <Route path="/tenantProfileEdit" element={<EditTenantProfile />}/>
-            
+            <Route path="/tenantViewProperty" element={< TenantViewProperty/>}/>
           </Routes>
           <ShowFooter>
             <Footer /> 

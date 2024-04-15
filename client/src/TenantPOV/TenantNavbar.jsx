@@ -16,7 +16,7 @@ const TenantNavbar = () => {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <Link className="nav-link" to="#">Property</Link>
+                            <Link className="nav-link" to="/tenantHome">Property</Link>
                         </li>
                         <li class="nav-item">
                             <Link className="nav-link" to="#">Application</Link>
@@ -38,7 +38,9 @@ const TenantNavbar = () => {
                         
                     </ul>
                 </div>
-                <a href="#"><img src="Images/tenantProfile.png" alt="Avatar" width="90" height="90"/></a>
+                <a href="/tenantProfileEdit" >
+                    <img src="Images/tenantProfile.png" alt="Avatar" width="90" height="90" />
+                </a>
            </div>
            </nav>
         </div>
