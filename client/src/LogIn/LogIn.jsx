@@ -12,15 +12,13 @@ const LogIn = () => {
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        navigate("/");
-        
-        /* Hardcode for frontend demo
+    //frontend demo purpose
+    const handleLogin = () => {        
         if(username === "tenant") {
-            navigate("/");
+            navigate("/tenantHome");
         } else {
             navigate("/landlordHome");
-        }*/
+        }
     }
 
     return(
