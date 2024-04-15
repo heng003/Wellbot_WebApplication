@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetails }) => {
 
-    const roomImgSrc = ["Images/bedroom.png", "Images/bathroom.png", "Images/sqrt.png"];
+    const roomImgSrc = ["/Images/bedroom.png", "/Images/bathroom.png", "/Images/sqrt.png"];
     const navigate = useNavigate();
 
     const handleViewProperty = () => {
