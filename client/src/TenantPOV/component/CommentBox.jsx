@@ -7,26 +7,20 @@ const CommentBox = ({ username, date }) => {
   return (
     <div className="comment-card">
       <div className="row-one">
-        <div className="row-wrapper">
-          <div className="left-content-container">
-            <div className="left-content">
-              <div className="profile">
-                <img className="user-img" alt="" src={profilePic} />
-              </div>
-              <div className="user-info">
-                <div className="username">{username}</div>
-                <div className="date">{date}</div>
-              </div>
-            </div>
+        <div className="left-content">
+          <img className="user-img" alt="" src={profilePic} />
+          <div className="user-info-container">
+            <div className="username">{username}</div>
+            <div className="date">{date}</div>
           </div>
-          <div className="comment-star">
-            <img
-              className="star"
-              loading="lazy"
-              alt=""
-              src="/Images/commentStar.png"
-            />
-          </div>
+        </div>
+        <div className="comment-star">
+          <img
+            className="star"
+            loading="lazy"
+            alt=""
+            src="/Images/commentStar.png"
+          />
         </div>
       </div>
 

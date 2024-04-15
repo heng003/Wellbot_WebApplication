@@ -6,6 +6,10 @@
     margin-left: 0.5em;
 }
 
+#editContainer .edit-title{
+    color: #FF5C00;
+}
+
 #editContainer #row1{
     margin: -2em;
     margin-bottom: -4.5em;
@@ -25,14 +29,11 @@
     padding-bottom: 0.5em;
 }
 
-#editContainer #editLandlordForm input{
+#editContainer #editLandlordForm input,
+#editContainer #editLandlordForm select{
     padding: 0.5em;
     width: 80%;
     border: 2px solid black;
-}
-
-#editContainer #editLandlordForm input:valid{
-    background-color: #E6E6E6;
 }
 
 #editLandlordForm #alertMessage{
@@ -45,14 +46,16 @@
 }
 
 #submitEdirProfileInfoBtn{
-        background-color: #FF8C22;
-        font-weight: bold;
-        color: #FFF6EA;
-        border: 1em;
-        border-radius: 0.5em;
-        padding: 0.5em 2em;
-        margin-left:70em;
-        cursor: pointer;
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 1em;
+    border-radius: 0.5em;
+    padding: 0.7em 2.8em;
+    margin-left:70em;
+    cursor: pointer;
+    margin-top: 3.9em;
+    margin-bottom: 2em;
 }
 
 #submitEdirProfileInfoBtn:hover{

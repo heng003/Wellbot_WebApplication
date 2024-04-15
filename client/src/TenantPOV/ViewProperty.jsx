@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import CommentBox from "./component/CommentBox";
+import AverageRating from "./component/AverageRating";
 
 const ViewProperty = () => {
     
@@ -11,6 +13,8 @@ const ViewProperty = () => {
         "Images/propertyImg2.png",
         "Images/propertyImg5.png"
     ];
+
+    const nav = useNavigate();
     
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -37,6 +41,11 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
+
+    const handleViewPropertyPageButton = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        nav("/tenantApplyForm");
+    }
     
     return (
         <div>
@@ -69,11 +78,17 @@ const ViewProperty = () => {
                 </section>
 
                 <div className="applyButton"> 
-                    <a href="#"><button className="applyNowButton" type="button">Apply Now</button></a>
+                    <button className="applyNowButton" type="button" onClick={handleViewPropertyPageButton}>Apply Now</button>
                 </div>
 
                 <section id="Comment">
                     <header className="commentTitle">Comment And Rating</header>
+
+                    <section className="comment-avg">
+                        <div className="comment-grid">
+                            <AverageRating numOfReview="2" avg="4.0" />
+                        </div>
+                    </section>
                     
                     <section className="comments">
                         <div className="comment-grid">
