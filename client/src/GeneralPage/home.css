@@ -16,8 +16,9 @@
     display: block; 
 }
 
-#hoverText {
+#Home #hoverText {
     display: inline-block; 
+    color: #F0F0F0;
 }
 
 #filter{

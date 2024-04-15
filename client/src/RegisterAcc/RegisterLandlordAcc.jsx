@@ -151,7 +151,7 @@ const RegisterLandlordAcc = () => {
                                 />  
                         </div>
                         <div className="displayErrorMessage">
-                        {errors.password && <span>{errors.password}</span>}
+                            {errors.password && <span>{errors.password}</span>}
                         </div>
                         <div className="eye-icon" onClick={() => setVisible(!visible)}>{ visible ? <FontAwesomeIcon icon={faEye} className="fa-lg me-3 fa-fw"/> : <FontAwesomeIcon icon={faEyeSlash} className="fa-lg me-3 fa-fw"/> }</div>
                     </div>
