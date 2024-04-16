@@ -85,7 +85,7 @@ const RegisterLandlordAcc = () => {
             <div class="row">
                 <div class="col">
                     <h2 className="registerTitleLandlord fs-2 fw-bolder mt-4">Register As Landlord</h2>
-                    <img src="Images/landlord.png" class="landlord" alt="landlord" width="350" height="300"/>
+                    <img src="Images/landlord.png" class="landlord" alt="landlord" width="350" />
                 </div>
                 <div class="col">
                 <form id="register-form" ref={formRef} onSubmit={handleRegisterClick}>
