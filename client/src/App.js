@@ -22,6 +22,7 @@ import TenantViewProperty from './TenantPOV/ViewProperty';
 import TenantApplyForm from './TenantPOV/TenantApplyForm';
 import LandlordHistory from './LandlordPOV/LandlordHistory';
 import LandlordComment from './LandlordPOV/LandlordComment';
+import TenantComment from './TenantPOV/TenantComment';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
 
             <Route path="/landlordHistory" element={< LandlordHistory/>}/>
             <Route path="/landlordComment" element={< LandlordComment/>}/>
+            <Route path="/tenantComment" element={< TenantComment/>}/>
            
            
                 
