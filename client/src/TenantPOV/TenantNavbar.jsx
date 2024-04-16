@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import '../GeneralPage/navbar.css';
 
 const TenantNavbar = () => {
+
+    const [activeItem, setActiveItem] = useState('Property');
+
+    const handleItemClick = (itemName) => {
+        setActiveItem(itemName);
+    };
 
     return(
         <div className="navBarContainer">   
@@ -15,17 +21,17 @@ const TenantNavbar = () => {
                 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <Link className="nav-link" to="/tenantHome">Property</Link>
+                        <li className={`nav-item ${activeItem === 'Property' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="/tenantHome" onClick={() => handleItemClick('Property')}>Property</Link>
                         </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="#">Application</Link>
+                        <li className={`nav-item ${activeItem === 'Application' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="/tenantApplication" onClick={() => handleItemClick('Application')}>Application</Link>
                         </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="#">Lease Agreement</Link>
+                        <li className={`nav-item ${activeItem === 'Lease Agreement' ? 'active' : ''}`} >
+                            <Link className="nav-link" to="#" onClick={() => handleItemClick('Lease Agreement')}>Lease Agreement</Link>
                         </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="#">Rental History</Link>
+                        <li className={`nav-item ${activeItem === 'Rental History' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="#" onClick={() => handleItemClick('Rental History')}>Rental History</Link>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
