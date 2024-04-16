@@ -1,12 +1,12 @@
-#landlordHome{
-    width: 99vw; 
+#landlordHome {
+    width: 100%; 
     height: 80vh;
     background-image: url('/public/Images/bungalow.jpg');
     background-size: cover;
     background-position: 0em;
 }
 
-#landlordMain{
+#landlordMain {
     padding-top: 5em;
 }
 
@@ -17,17 +17,17 @@
     border-radius: 1em;
 }
 
-#landlordHome p{
+#landlordHome p {
     color: white;
     font-size: 2em;
     margin-left: 0.5em;
 }
 
-#landlordHome #text{
+#landlordHome #text {
     color: #FF8A00;
 }
 
-#state_search_find #stateType{
+#state_search_find #stateType {
     width: 10em;
     height: 3em;
     margin-left: 1em;
@@ -79,66 +79,6 @@
     margin-top: 1em;
 }
 
-#property{
-    width: 100%;
-    background-color: #F0F0F0;
-    overflow-x: hidden;
-}
-
-.propertyTitle{
-    color: #FF5C00;;
-    padding-top: 30px;
-    margin-left: 100px;
-}
-
-#property .row{
-    margin:-25px 70px;
-}
-
-#property .card-img-top{
-    padding: 20px;
-    object-fit:cover;
-    background-repeat: no-repeat;
-}
-
-#property .room {
-    margin-bottom: -8px;
-    display: flex;
-    justify-content: space-around;
-    box-sizing: content-box;
-    border: 1.5px solid black;
-    border-left: white;
-    border-right: white;
-    
-}
-
-#property .room .roomDetails {
-    list-style: none;
-    margin: 10px;
-}
-
-#property .card:hover{
-    opacity: 0.7;
-    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
-}
-
-#property .card-title1{
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-#property .card-text{
-    color: rgba(23, 22, 22, 0.6);
-    font-weight:500;
-    padding-top: 10px;
-}
-
-#property .manageButton,
-#property .uploadButton{
-    display: flex;
-    justify-content: center;
-}
-
 #manage, #upload{
     background-color: #FF8C22;
     font-weight: bold;
@@ -156,10 +96,6 @@
     opacity: 0.7;
 }
 
-#property h4{
-    font-size: 1.3em;
-}
-
 #hoverText{
     color: #FF5C00;
 }
@@ -168,3 +104,6 @@
     margin-top: 12.5em;
 }
 
+#recommendation .uploadButton {
+    margin-top: -3em;
+}

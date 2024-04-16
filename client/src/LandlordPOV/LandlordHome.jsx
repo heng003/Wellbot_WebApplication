@@ -96,15 +96,15 @@ const LandlordHome = () => {
                     </div>
                 </section>
         
-                <section id="property">
+                <section id="recommendation">
                     <header className="propertyTitle text-left fs-2 fw-bolder mt-4">Your Properties</header>
                     <div class="row row-cols-1 row-cols-md-3 g-5">
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/condo2.jpg" class="card-img-top" alt="house picture" height={200} width={500}/>
+                            <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
                                 <div class="card-body">
                                     <h4 class="card-title1">RM 500 Per Month</h4>
-                                    <h6 class="card-title2">Tiara Damansara's Master Room Unit 315/3</h6>
+                                    <h6 class="card-title2">Tiara Damansara's Master Room</h6>
                                     <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
                                     
                                     <ul className="room">
@@ -114,7 +114,7 @@ const LandlordHome = () => {
                                     </ul>
                                     
                                     <div className="manageButton"> 
-                                        <a href="#"><button id="manage" type="button">Manage</button></a>
+                                        <a href="#"><button id="manage" type="button">Edit</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@ const LandlordHome = () => {
                         
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture" height="200" width="500"/>
+                            <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
                                 <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -133,14 +133,14 @@ const LandlordHome = () => {
                                     <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
                                 </ul>
                                 <div className="manageButton"> 
-                                    <a href="#"><button id="manage" type="button">Manage</button></a>
+                                    <a href="#"><button id="manage" type="button">Edit</button></a>
                                 </div>
                             </div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="card h-100">
-                            <img src="Images/plus.png" class="card-img-top" alt="upload" height={200}/>
+                            <img src="Images/plus.png" class="card-img-top" alt="upload" height={295}/>
                             <div class="card-body">
                                 <h4 class="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
                                 <div className="uploadButton"> 
