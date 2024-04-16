@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
 import '../LandlordPOV/landlordhome.css'
+import '../GeneralPage/home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 

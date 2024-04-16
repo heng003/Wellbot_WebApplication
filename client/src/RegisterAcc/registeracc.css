@@ -34,12 +34,22 @@
     padding-left: 50px;
 }
 
+#register .col img{
+    margin-top: 1.5em;
+}
+
 #register .col{
     display:flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: start; 
     align-items: center;
-    margin-block: 2.5em;
+    padding-top: 2em;
+    margin-top: 1em;
+    margin-left: -1.5em;
+}
+
+#register .rightCol{
+    margin-top: 8em;
 }
 
 #register .registerTitleLandlord{
@@ -51,9 +61,12 @@
 }
 
 #register-form{
-    padding-top: 35px;
-    width: 65%;
-    margin-block: 2em;
+    margin-left: -3.5em;
+    width: 70%;
+}
+
+.form {
+    padding-top: 2.8em;
 }
 
 .eye-icon {
@@ -69,9 +82,9 @@
     color: #F9F9F9;
     border: 2px;
     border-radius: 6px;
-    padding: 0.65em 1.2em;
+    padding: 0.65em 1.6em;
     margin-left: -3.6em;
-    margin-top: 2em;
+    margin-top: 1.2em;
     cursor: pointer;
 }
 
@@ -86,9 +99,9 @@
     color: #FFF6EA;
     border: 2px;
     border-radius: 6px;
-    padding: 0.65em 1.2em;
+    padding: 0.65em 1.6em;
     margin-left: -3.6em;
-    margin-top: 2em;
+    margin-top: 1.2em;
     cursor: pointer;
 }
 
@@ -101,6 +114,7 @@
     align-content: center;
     width: 100%;
     margin-left: 2.5em;
+    padding-bottom: 3.5em;
 }
 
 #bottomDetails .link{
@@ -112,3 +126,11 @@
     margin-left: -2.7em;
     margin-top: 1.5em;
 } 
+
+#register .col input[type="text"],
+#register .col input[type="email"],
+#register .col input[type="tel"],
+#register .col input[type="password"] {
+    border-radius: 18px; /* Set border radius to match tenant form */
+    border: 2px solid black; /* Set border color */
+}
