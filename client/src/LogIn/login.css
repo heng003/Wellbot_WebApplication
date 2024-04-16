@@ -1,0 +1,73 @@
+#login{
+    padding: 0px 60px;
+    background-color: #FBF4E8;
+    width: 100vw; 
+    height: 100vh;
+}
+
+#login .container{
+    border: 2px solid black;
+    background-color: #FFFFFF;
+    border-radius: 25px;
+    height: 70vh;
+}
+
+#login .col{
+    display:flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+
+#pic{
+    background-image: url('/public/Images/homeBackground.jpg');
+    background-size: cover;
+    border-radius: 20px;
+    height: 400px;
+    margin: 50px;
+}
+
+#login .form{
+    width: 65%;
+    padding: 5px;
+}
+
+#login .loginTitle{
+    color: #FF5C00;
+    margin: 50px;
+}
+
+#login .forgotPassword{
+    margin-left: 105px;
+    margin-top: -5px;
+}
+
+#forgotpasswwordlink{
+    font-style: italic;
+    font-weight: 300;
+    color: #A4A4A4;
+    align-items: end;
+}
+
+#loginbutton{
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #F9F9F9;
+    border: 2px;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#loginbutton:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}
+
+#signuplink{
+    color: #FF8C22;
+}
+
+#login #bottomDetails{
+    margin-top: 40px;
+}

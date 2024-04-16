@@ -1,0 +1,203 @@
+
+.EditTitle{
+    font-weight: bold;
+    font-size: 35px; ;
+    color: black;
+    padding: 1em 0em 1.5em 1.5em;
+  }
+
+
+  .rentalTitle{
+    font-weight: 600;
+    font-size: 35px; ;
+    color: hwb(22 0% 0%);
+    padding: 1em 0em 1.5em 1.5em;
+  }
+  
+
+  .profileSection{
+    display: flex;
+    padding-left: 3.4em;
+    margin-top: -1em;
+  }
+
+
+  .accountRight_Section{
+    align-items: center;
+    padding-top: 1.3em;
+    padding-left: 2em;
+    padding-bottom: 1.5em;
+  }
+
+  .usernameText{
+    font-size: 20px;
+    font-weight: 500px;
+    margin-bottom: 0.7em;
+  }
+
+  .accountDetail{
+    font-size: 16px;
+    font-weight: 500;
+    color: #8A8A8A;
+  }
+
+
+  .commentForm{
+    padding-left: 3.4em;
+  }
+
+.commenth5{
+    font-weight: 400;
+    font-size: 15px;
+    color: black;
+    padding-top: 0.2em;
+    padding-bottom: 1.4em;
+    padding-left: 0.4em;
+    line-height: 1.6em;
+    border-bottom: 1px solid black;
+    width: auto;
+    margin-right: 3.8em;
+}
+
+
+.Rate h3{
+    padding-left: 0.4em;
+    padding-top: 1.3em;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.comment h3{
+    padding-left: 0.4em;
+    padding-top: 1.3em;
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 0.6em;
+}
+
+.line{
+    border-top: 1px solid black;
+    margin-right: 3em;
+}
+
+
+.starAlone{
+    margin-left: 1.6em;
+    padding-bottom: 0.6em;
+}
+
+.RatingStar_row {
+    margin-left: -2.6em;
+    margin-top: -0.6em;
+    cursor: pointer;
+}
+
+
+
+.form textarea {
+    width: 95%; 
+    border: 1px solid rgba(91, 90, 90, 0.607);
+    border-radius: 15px;
+    font-size: 16px;
+    font-size: 500;
+    line-height: 1.7em;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1.3em;
+    margin-top: 1.5em;
+    margin-left: 0.2em;
+    box-sizing: border-box;
+    resize: none; 
+}
+
+
+.centreButton{
+    text-align: center;
+    margin-right: 25em;
+}
+
+#submitEdirProfileInfoBtn{
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 1em;
+    border-radius: 0.5em;
+    padding: 0.8em 3em;
+    cursor: pointer;
+    margin-top: 3.8em;
+    margin-bottom: 2em;
+    font-size: 18px;
+    margin-left: 30%;
+}
+
+#submitEdirProfileInfoBtn:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#editContainer #row1{
+    margin: -2em;
+    margin-bottom: -4.5em;
+}
+
+#editContainer #row1 #col2{
+    margin-top: 3em;
+    margin-left: -70em;
+    margin-bottom: 5em;
+}
+
+#editContainer #editLandlordForm .row{
+    padding: 1em;
+}
+
+#editContainer #editLandlordForm h6{
+    padding-bottom: 0.5em;
+}
+
+#editContainer #editLandlordForm input,
+#editContainer #editLandlordForm select{
+    padding: 0.5em;
+    width: 80%;
+    border: 2px solid black;
+}
+
+#editLandlordForm #alertMessage{
+    color: red;
+    margin-left: 1em;
+}
+
+#editLandlordForm span{
+    font-weight: bold;
+}

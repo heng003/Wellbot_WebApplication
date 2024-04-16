@@ -1,0 +1,38 @@
+#tenantImg{
+    margin: 2%;
+}
+  
+.row-checkbox {
+    padding: 1em;
+    display: flex;
+    justify-content: flex-start; /* Align items to the start */
+    align-items: center;
+}
+
+.row-checkbox input[type="checkbox"] {
+    width: 20px; 
+    height: 20px; 
+    cursor: pointer;
+}
+
+.row-checkbox label {
+    margin-left: 10px; /* Add space between checkbox and label */
+}
+
+#submitApplicationBtn {
+    background-color: #FF8C22;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 1em;
+    border-radius: 0.5em;
+    padding: 0.7em 2.8em;
+    cursor: pointer;
+    margin-top: 3.9em;
+    margin-bottom: 2em;
+    align-self: start;
+}
+
+#submitApplicationBtn:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}

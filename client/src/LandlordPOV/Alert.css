@@ -1,0 +1,21 @@
+.my-confirm-button-class {
+    background-color: #FF8C22; 
+    border-color:#FF8C22 ;
+    color: white; 
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 8px; 
+    font-weight: 600;
+    font-size: 28px;
+    font-family: 'Poppins'; 
+    margin-top: 0.8em;
+    margin-bottom: 1.5em;
+    width: 7em;
+    height: 3em; 
+}
+
+.my-custom-image-class {
+   padding-top: 1.5em;
+}
+
