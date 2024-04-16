@@ -26,9 +26,11 @@ const LogIn = () => {
              <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
             <div class="container text-center">
             <div class="row">
-                <div class="col" id="pic"></div>
-                <div class="col" id="login-form">
-                    <h2 className="loginTitle fs-2 fw-bolder mt-4">Login</h2>
+                <div class="col imageCol">
+                    <img src="Images/loginBackground.png" class="login" alt="login" className="loginImage" />
+                </div>
+                <div class="col rightCol" id="login-form">
+                    <h2 className="loginTitle fs-2 fw-bolder mt-4">Log In</h2>
                     <div class="form d-flex flex-row align-items-center mb-4">
                         <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
                         <div class="form-outline flex-fill mb-0">
