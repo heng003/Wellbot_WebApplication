@@ -11,8 +11,8 @@ const TenantApplication = () => {
     };
 
     return(
-        <div id="editContainer">
-            <h1 className="edit-title">Application</h1>
+        <div id="applicationContainer">
+            <h1 className="edit-title">Application History</h1>
             
             <div id="editLandlordForm">
                 <div className="row" id="row2">
