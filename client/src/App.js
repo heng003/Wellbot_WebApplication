@@ -25,7 +25,6 @@ import EditLandlordProfile from "./LandlordPOV/EditLandlordProfile";
 import EditTenantProfile from "./TenantPOV/EditTenantProfile";
 import TenantViewProperty from "./TenantPOV/ViewProperty";
 import TenantApplyForm from "./TenantPOV/TenantApplyForm";
-import TenantApplication from "./TenantPOV/TenantApplication";
 import LandlordHistory from "./LandlordPOV/LandlordHistory";
 import LandlordComment from "./LandlordPOV/LandlordComment";
 import TenantComment from "./TenantPOV/TenantComment";
@@ -72,10 +71,11 @@ function App() {
             path="/landlordProfileEdit"
             element={<EditLandlordProfile />}
           />
+          <Route path="/landlordhistory" element={<LandlordHistory />} />
           <Route path="/tenantProfileEdit" element={<EditTenantProfile />} />
           <Route path="/tenantViewProperty" element={<TenantViewProperty />} />
           <Route path="/tenantApplyForm" element={<TenantApplyForm />} />
-          <Route path="/tenantApplication" element={<TenantApplication />} />
+
           <Route path="/landlordHistory" element={<LandlordHistory />} />
           <Route path="/landlordComment" element={<LandlordComment />} />
           <Route path="/tenantComment" element={<TenantComment />} />
