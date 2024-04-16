@@ -35,8 +35,8 @@ const DetailsPanel = () => {
                     </div>
                 </div>
 
-                <div className="property-details">
-                    <div className="property-details-breakdown">
+                <div className="property-info">
+                    <div className="property-info-breakdown">
                         <h2 className="property-name">Tiara Damansara's Master Room Unit 315/3</h2>
                         <h3 className="property-address">Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor</h3>
                         
