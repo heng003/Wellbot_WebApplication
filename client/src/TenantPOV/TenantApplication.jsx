@@ -6,7 +6,7 @@ const TenantApplication = () => {
 
     const propertyListingInfo = [
         {
-            title: "Tiara Damansara’s Master Room Unit 315/3",
+            title: "Tiara Damansara's Master Room Unit 315/3",
             locationOwner: "PETALING JAYA | CONDO by Ali bin Abu",
             duration: "7 January 2024 - 7 January 2025",
             imageUrl: "Images/commercial2.jpg",
@@ -31,7 +31,7 @@ const TenantApplication = () => {
                         <CardRent key={index} listing={listing} />
                     ))
                 }
-                <h2 className="application-subTitle">Other Application/s</h2>
+                <h2 className="applicationSubTitle">Other Application/s</h2>
             </div>
         </main>
     );
