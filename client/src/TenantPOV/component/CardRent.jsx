@@ -36,10 +36,8 @@ const CardRent = ({ listing }) => {
   };
 
   return (
-    <div className={`rentalList_statusCard ${isActive ? "active" : "expired"}`}>
-      <h2 className="cardRental_subtitle">{subtitle}</h2>
-
-      <div className="history-listing">
+    <div className="rentalList_card">
+      <div className={`history-listing ${isActive ? "active" : "expired"}`}>
         <div className="rentalHistory-image">
           <img src={listing.imageUrl} alt="Rental Property" />
         </div>
