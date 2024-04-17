@@ -4,13 +4,11 @@ import '../GeneralPage/navbar.css';
 
 const LandlordNavbar = () => {
 
-    const [activeItem, setActiveItem] = useState('Your Property');
+    const [activeItem, setActiveItem] = useState('YourProperty');
 
     const handleItemClick = (itemName) => {
         setActiveItem(itemName);
     };
-
-
 
     return(
         <div className="navbarContainer">   
@@ -21,17 +19,16 @@ const LandlordNavbar = () => {
                 </button>
                 <img src="Images/logoText.png" alt="Logo" width='90' height='90'/>
 
-
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className={`nav-item ${activeItem === 'YourProperty' ? 'active' : ''}`}>
                             <Link className="nav-link" to="/landlordHome" onClick={() => handleItemClick('YourProperty')}>Your Property</Link>
                         </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="#">Applicant</Link>
+                        <li className={`nav-item ${activeItem === 'Applicant' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="#" onClick={() => handleItemClick('Applicant')}>Applicant</Link>
                         </li>
-                        <li class="nav-item">
-                            <Link className="nav-link" to="#">Lease Agreement</Link>
+                        <li className={`nav-item ${activeItem === 'Lease Agreement' ? 'active' : ''}`}>
+                            <Link className="nav-link" to="#" onClick={() => handleItemClick('Lease Agreement')}>Lease Agreement</Link>
                         </li> 
 
                         <li className={`nav-item ${activeItem === 'RentalHistory' ? 'active' : ''}`}>
