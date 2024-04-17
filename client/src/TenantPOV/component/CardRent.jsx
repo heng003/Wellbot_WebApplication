@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './cardRent.css';
+import './cardHistory.css';
 import downLoad_Icon from '../component/Rental_Icon/download.png';
 import downLoad_HoverIcon from '../component/Rental_Icon/download_hover.png';
 import Comment_Icon from '../component/Rental_Icon/comment.png';
