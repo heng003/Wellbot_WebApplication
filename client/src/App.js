@@ -23,6 +23,9 @@ import TenantApplyForm from './TenantPOV/TenantApplyForm';
 import TenantApplication from './TenantPOV/TenantApplication';
 import LandlordHistory from './LandlordPOV/LandlordHistory';
 import LandlordComment from './LandlordPOV/LandlordComment';
+import TenantComment from './TenantPOV/TenantComment';
+import RentTenant from './TenantPOV/RentTenant';
+
 
 function App() {
   return (
@@ -50,6 +53,8 @@ function App() {
             <Route path="/tenantApplication" element={<TenantApplication/>}/>
             <Route path="/landlordHistory" element={< LandlordHistory/>}/>
             <Route path="/landlordComment" element={< LandlordComment/>}/>
+            <Route path="/tenantComment" element={< TenantComment/>}/>
+            <Route path="/rentTenant" element={< RentTenant/>}/>
           </Routes>
           <ShowFooter>
             <Footer /> 
