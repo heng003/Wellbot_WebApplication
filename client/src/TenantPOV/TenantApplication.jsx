@@ -1,23 +1,47 @@
 import React from "react";
 import './tenantapplication.css';
-import CardRent from "./component/CardRent";
+import CardApplication from "./component/CardApplication";
 
 const TenantApplication = () => {
-
-    const propertyListingInfo = [
+    const propertyActionListingInfo = [
         {
             title: "Tiara Damansara's Master Room Unit 315/3",
             locationOwner: "PETALING JAYA | CONDO by Ali bin Abu",
-            duration: "7 January 2024 - 7 January 2025",
             imageUrl: "Images/commercial2.jpg",
-            isActive: true
-        },
+            isViewLease: true,
+            isPending: false,
+            isRejected: false,
+            bedroom: 1,
+            bathroom: 2,
+            sqft: "1250 Sqft",
+            price: "RM 500"
+        }
+    ];
+
+    const propertyOtherListingInfo = [
         {
             title: "Sekeyen 15, Unit 34",
             locationOwner: "PETALING JAYA | Landed House by Rosli",
-            duration: "2 February 2023 - 1 February 2024",
             imageUrl: "Images/propertyImg3.png",
-            isActive: false
+            isViewLease: false,
+            isPending: true,
+            isRejected: false,
+            bedroom: 1,
+            bathroom: 2,
+            sqft: "1250 Sqft",
+            price: "RM 500"
+        }, 
+        {
+            title: "Sekeyen 17, Unit 775",
+            locationOwner: "PETALING JAYA | Landed House by Rosli",
+            imageUrl: "Images/condo2.jpg",
+            isViewLease: false,
+            isPending: false,
+            isRejected: true,
+            bedroom: 1,
+            bathroom: 2,
+            sqft: "1250 Sqft",
+            price: "RM 500"
         }
     ];
 
@@ -27,15 +51,19 @@ const TenantApplication = () => {
                 <h1 className="pageMainTitle">Application History</h1>
                 <h2 className="applicationSubTitle">Action Needed</h2>
                 {
-                    propertyListingInfo.map((listing, index) => (
-                        <CardRent key={index} listing={listing} />
+                    propertyActionListingInfo.map((listing, index) => (
+                        <CardApplication key={index} listing={listing} />
                     ))
                 }
                 <h2 className="applicationSubTitle">Other Application/s</h2>
+                {
+                    propertyOtherListingInfo.map((listing, index) => (
+                        <CardApplication key={index} listing={listing} />
+                    ))
+                }
             </div>
         </main>
     );
-
 }
 
 export default TenantApplication;

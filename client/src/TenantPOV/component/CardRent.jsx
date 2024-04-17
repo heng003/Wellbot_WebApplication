@@ -1,46 +1,50 @@
-import React from "react";
-import './cardRent.css';
-import downLoad_Icon from '../component/Rental_Icon/download.png';
-import Comment_Icon from '../component/Rental_Icon/comment.png';
-
-const CardRent = ({ listing }) => {
-    const { title, locationOwner, duration, isActive } = listing;
-
-    return (
-
-        <div className="rentalList_card">
-
-            <div className={`history-listing ${isActive ? 'active' : 'expired'}`}>
-
-                <div className="rentalHistory-image">
-                    <img src={listing.imageUrl} alt="Rental Property" />
-                </div>
-
-                <div className="rentalHistory-details">
-                    <h2 className="rental_historyTitle">{title}</h2>
-                    <p className="descript_rental">{locationOwner}</p>
-                    <p className="descript_duration">Duration: {duration}</p>
-                </div>
-
-                <div className="property-actions">
-                    {isActive ? (
-                    <button className="view-agreement-btn">Active</button>
-                    ) : (
-                    <button className="expired-btn">Expired</button>
-                    )}
-                    </div>
-
-                <div className="contact-icons">
-                    <img src={downLoad_Icon} alt="Download" />
-                    <img src={Comment_Icon} alt="Message" />
-                </div>
-
-            </div>
-
-        </div>
-   
-    );
-};
-
-
+import React from "react"; 
+import './cardRent.css'; 
+import downLoad_Icon from '../component/Rental_Icon/download.png'; 
+import Comment_Icon from '../component/Rental_Icon/comment.png'; 
+ 
+const CardRent = ({ listing }) => { 
+ 
+    const { title, locationOwner, duration, isActive } = listing; 
+    const subtitle = isActive ? "Active" : "Expired"; 
+ 
+    return ( 
+ 
+        <div className={`rentalList_statusCard ${isActive ? 'active' : 'expired'}`}> 
+ 
+            <h2 className= "cardRental_subtitle">{subtitle}</h2> 
+ 
+            <div className="history-listing"> 
+ 
+                <div className="rentalHistory-image"> 
+                    <img src={listing.imageUrl} alt="Rental Property" /> 
+                </div> 
+ 
+                <div className="rentalHistory-details"> 
+                    <h2 className="rental_historyTitle">{title}</h2> 
+                    <p className="descript_rental">{locationOwner}</p> 
+                    <p className="descript_duration">Duration: {duration}</p> 
+                </div> 
+ 
+                <div className="property-actions"> 
+                    {isActive ? ( 
+                    <button className="view-agreement-btn">Active</button> 
+                    ) : ( 
+                    <button className="expired-btn">Expired</button> 
+                    )} 
+                     
+                </div> 
+ 
+                <div className="contact-icons"> 
+                    <img className = "rentalTenant-download"src={downLoad_Icon} alt="Download" /> 
+                    <img className = "rentalTenant-comment" src={Comment_Icon} alt="Message" /> 
+                </div> 
+ 
+            </div> 
+                
+        </div> 
+ 
+    ); 
+}; 
+ 
 export default CardRent;

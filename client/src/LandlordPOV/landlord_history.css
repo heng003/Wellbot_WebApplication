@@ -1,12 +1,10 @@
-.rental-history,
-.pageMainContainer {
+.rental-history {
     font-family: Poppins;
     padding: 1em;
     padding-top: 0.6em;
 }
 
-.rentalTitle,
-.pageMainTitle {
+.rentalTitle {
     font-weight: 600; 
     font-size: 35px; ; 
     color: hwb(22 0% 0%); 
