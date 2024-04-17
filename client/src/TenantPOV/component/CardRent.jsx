@@ -19,7 +19,6 @@ const CardRent = ({ listing }) => {
 
 
 
-
             <div className={`history-listing ${isActive ? 'active' : 'expired'}`}>
 
 
