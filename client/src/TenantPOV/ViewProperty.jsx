@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import CommentBox from "./component/CommentBox";
 import AverageRating from "./component/AverageRating";
+import Swal from 'sweetalert2';
 
 const ViewProperty = () => {
     
@@ -15,14 +16,13 @@ const ViewProperty = () => {
     ];
 
     const nav = useNavigate();
-    
+    const location = useLocation();
+
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => {
-            // Calculate the new index after moving back two images
             let newIndex = prevIndex - 2;
-            // If the new index is less than 0, wrap around to the end of the array
             if (newIndex < 0) {
                 newIndex = propertyImageSrc.length + newIndex;
             }
@@ -32,9 +32,7 @@ const ViewProperty = () => {
     
     const handleNext = () => {
         setCurrentIndex(prevIndex => {
-            // Calculate the new index after moving forward two images
             let newIndex = prevIndex + 2;
-            // If the new index exceeds the length of the array, wrap around to the beginning
             if (newIndex >= propertyImageSrc.length) {
                 newIndex = newIndex - propertyImageSrc.length;
             }
@@ -43,8 +41,24 @@ const ViewProperty = () => {
     };
 
     const handleViewPropertyPageButton = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        nav("/tenantApplyForm");
+        if (location.pathname !== "/tenantHome") {
+            Swal.fire({
+                title: 'Warning!',
+                text: 'You need to register or log in to your account before performing this action.',
+                icon: 'warning',
+                confirmButtonColor: "#FF8C22",
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    nav("/logIn");
+                }
+            });
+            return;
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            nav("/tenantApplyForm");
+        }
     }
     
     return (

@@ -23,7 +23,7 @@ const TenantHome = () => {
     };
 
     const handleSearchButtonClick = () => {
-        setIsSearchClicked(true); // Set search button clicked to true
+        setIsSearchClicked(true); 
     };
 
     // Array of card data objects for frontend demo
