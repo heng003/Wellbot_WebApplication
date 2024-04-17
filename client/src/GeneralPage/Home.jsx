@@ -72,7 +72,7 @@ const Home = () => {
                 <section id="filter">
                     <div className="container">
                         <header className="subTitle text-center fs-2 fw-bolder mt-4">
-                            Find Your Dream Property{isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                            Find Your Dream Property
                         </header>
                         <div className="row row-cols-1 row-cols-md-3 g-5">
                             <div className="col">

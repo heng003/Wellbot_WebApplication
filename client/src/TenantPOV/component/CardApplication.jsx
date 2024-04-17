@@ -3,13 +3,11 @@ import './cardRent.css';
 import downLoad_Icon from '../component/Rental_Icon/download.png';
 import Comment_Icon from '../component/Rental_Icon/comment.png';
 
-const CardRent = ({ listing }) => {
-    const { title, locationOwner, duration, isActive } = listing;
+const CardApplication = ({ listing }) => {
 
     return (
 
-        <div className="rentalList_card">
-
+        <div className="applicationList_card">
             <div className={`history-listing ${isActive ? 'active' : 'expired'}`}>
 
                 <div className="rentalHistory-image">
@@ -17,18 +15,19 @@ const CardRent = ({ listing }) => {
                 </div>
 
                 <div className="rentalHistory-details">
-                    <h2 className="rental_historyTitle">{title}</h2>
-                    <p className="descript_rental">{locationOwner}</p>
-                    <p className="descript_duration">Duration: {duration}</p>
+                    <h2 className="rental_historyTitle">{listing.title}</h2>
+                    <p className="descript_rental">{listing.locationOwner}</p>
                 </div>
 
                 <div className="property-actions">
-                    {isActive ? (
-                    <button className="view-agreement-btn">Active</button>
-                    ) : (
-                    <button className="expired-btn">Expired</button>
+                    {isViewLease ? (
+                        <button className="view-lease-btn">View Lease</button>
+                    ) : isPending ? (
+                        <button className="pending-btn">Pending</button>
+                    ) : isRejected && (
+                        <button className="rejected-btn">Rejected</button>
                     )}
-                    </div>
+                </div>
 
                 <div className="contact-icons">
                     <img src={downLoad_Icon} alt="Download" />
@@ -43,4 +42,4 @@ const CardRent = ({ listing }) => {
 };
 
 
-export default CardRent;
+export default CardApplication;

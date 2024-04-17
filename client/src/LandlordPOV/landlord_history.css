@@ -1,23 +1,25 @@
-.rental-history {
+.rental-history,
+.pageMainContainer {
     font-family: Poppins;
     padding: 1em;
     padding-top: 0.5em;
-  }
+}
 
-  .rentalTitle{
+.rentalTitle,
+.pageMainTitle {
     font-weight: 600;
     font-size: 35px; ;
     color: hwb(22 0% 0%);
     padding: 1em 0em 1.5em 1.5em;
-  }
+}
   
-  .property-selector {
+.property-selector {
     font-weight: 600;
     font-size: 20px; 
     margin-top: -1%;
     padding-left: 2.8em;
     padding-bottom: 2em;
-  }
+}
 
 
 .notHistory_Text{

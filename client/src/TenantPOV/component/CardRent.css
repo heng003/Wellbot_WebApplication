@@ -1,4 +1,5 @@
-.rentalList_card {
+.rentalList_card,
+.applicationList_card {
     display: flex;
     flex-direction: column;
     justify-content: space-between; 

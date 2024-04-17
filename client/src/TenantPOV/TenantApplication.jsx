@@ -1,5 +1,5 @@
 import React from "react";
-import './edittenantprofile.css';
+import './tenantapplication.css';
 import CardRent from "./component/CardRent";
 
 const TenantApplication = () => {
@@ -23,9 +23,9 @@ const TenantApplication = () => {
 
     return (
         <main>
-            <div className="application-history">
-                <h1 className="application-title">Rental History</h1>
-                <h2 className="application-subTitle">Action Needed</h2>
+            <div className="pageMainContainer">
+                <h1 className="pageMainTitle">Application History</h1>
+                <h2 className="applicationSubTitle">Action Needed</h2>
                 {
                     propertyListingInfo.map((listing, index) => (
                         <CardRent key={index} listing={listing} />
