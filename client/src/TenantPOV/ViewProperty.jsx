@@ -50,8 +50,8 @@ const ViewProperty = () => {
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
                     nav("/logIn");
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
             return;
