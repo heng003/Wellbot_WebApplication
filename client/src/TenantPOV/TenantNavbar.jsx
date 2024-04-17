@@ -25,7 +25,7 @@ const TenantNavbar = () => {
                             <Link className="nav-link" to="#">Lease Agreement</Link>
                         </li>
                         <li class="nav-item">
-                            <Link className="nav-link" to="#">Rental History</Link>
+                            <Link className="nav-link" to="/rentTenant">Rental History</Link>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
