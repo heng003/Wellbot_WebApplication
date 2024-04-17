@@ -13,7 +13,6 @@
     padding: 1em 0em 1.5em 1.5em;
   }
   
-
   .profileSection{
     display: flex;
     padding-left: 3.4em;
@@ -40,7 +39,6 @@
     color: #8A8A8A;
   }
 
-
   .commentForm{
     padding-left: 3.4em;
   }
@@ -57,7 +55,6 @@
     width: auto;
     margin-right: 3.8em;
 }
-
 
 .Rate h3{
     padding-left: 0.4em;
@@ -79,7 +76,6 @@
     margin-right: 3em;
 }
 
-
 .starAlone{
     margin-left: 1.6em;
     padding-bottom: 0.6em;
@@ -90,7 +86,6 @@
     margin-top: -0.6em;
     cursor: pointer;
 }
-
 
 .additional-form textarea {
     width: 95%; 
@@ -108,11 +103,13 @@
     resize: none; 
 }
 
-
 .centreButton{
     text-align: center;
     margin-right: 25em;
 }
+
+
+
 
 #submitEdirProfileInfoBtn{
     background-color: #FF8C22;
@@ -134,36 +131,10 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.editLandlordForm{
+    margin-left: 3.8em;
+    padding-top: 0.5em;  
+}
 
 #editContainer #row1{
     margin: -2em;
@@ -172,7 +143,6 @@
 
 #editContainer #row1 #col2{
     margin-top: 3em;
-    margin-left: -70em;
     margin-bottom: 5em;
 }
 

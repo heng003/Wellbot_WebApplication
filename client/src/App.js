@@ -54,7 +54,7 @@ function App() {
             <Route path="/landlordHistory" element={< LandlordHistory/>}/>
             <Route path="/landlordComment" element={< LandlordComment/>}/>
             <Route path="/tenantComment" element={< TenantComment/>}/>
-            <Route path="/rentTenant" element={< RentTenant/>}/>
+            <Route path="/tenantRent" element={< RentTenant/>}/>
           </Routes>
           <ShowFooter>
             <Footer /> 

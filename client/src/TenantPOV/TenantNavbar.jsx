@@ -39,7 +39,7 @@ const TenantNavbar = () => {
                                 <Link className="nav-link" to="#" onClick={() => handleItemClick('Lease Agreement')}>Lease Agreement</Link>
                             </li>
                             <li className={`nav-item ${activeItem === 'Rental History' ? 'active' : ''}`}>
-                                <Link className="nav-link" to="/rentTenant" onClick={() => handleItemClick('Rental History')}>Rental History</Link>
+                                <Link className="nav-link" to="/tenantRent" onClick={() => handleItemClick('Rental History')}>Rental History</Link>
                             </li>
                         </ul>
                         <ul className="navbar-nav">

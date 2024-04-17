@@ -11,19 +11,29 @@ const EditTenantProfile = () => {
             confirmButtonColor: "#FF8C22"
           });
     }
+
+
     return(
         <>
+
         <div id="editContainer">
             <h1 className="yourProfile text-left fs-2 fw-bolder mt-2">Your Profile</h1>
+            
             <div class="row" id="row1">
                 <div class="col" id="col1">
                     <img id="tenantImg" src="Images/tenantProfile.png" alt="Logo" width='100' height='100'/>
                 </div>
+
                 <div class="col" id="col2">
                     <h5>Username</h5>
                     <p id="accCreated">Account has created <span id="day">one</span> day before</p>
-                </div>
+                </div>            
             </div>
+
+
+
+
+
             <div id="editLandlordForm">
                 <div className="row" id="row2">
                     <div class="col">
