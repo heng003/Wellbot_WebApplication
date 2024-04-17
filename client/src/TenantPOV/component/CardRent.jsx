@@ -3,7 +3,6 @@ import './cardRent.css';
 import downLoad_Icon from '../component/Rental_Icon/download.png';
 import Comment_Icon from '../component/Rental_Icon/comment.png';
 
-
 const CardRent = ({ listing }) => {
     const { title, locationOwner, duration, isActive } = listing;
 
