@@ -92,7 +92,7 @@ const LandlordComment = () => {
 
                     <h3>Additional Comment</h3>
 
-                    <div className="form">
+                    <div className="additional-form">
                         <textarea
                             name="additionalComment"
                             id="additionalComment"

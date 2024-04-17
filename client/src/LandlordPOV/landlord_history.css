@@ -1,7 +1,7 @@
 .rental-history {
     font-family: Poppins;
     padding: 1em;
-    padding-top: 0.5em;
+    padding-top: 0.6em;
   }
 
   .rentalTitle{
@@ -126,10 +126,9 @@
   
 
   .history-table tr {
-    position: relative; /* Needed for positioning the pseudo-element */
+    position: relative;
   }
 
-  /* Create a single border for the entire row */
   .history-table tr::after {
     content: '';
     position: absolute;
