@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/js/bootstrap.bundle";
-import CardRent from "./component/cardRent";
+import CardRent from "./component/CardRent";
 
 const RentTenant = () => {
   const propertyListingInfo = [
