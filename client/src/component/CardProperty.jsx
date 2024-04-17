@@ -16,10 +16,12 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
     return (
         <div className="card h-100" onClick={handleViewProperty}>
             <img src={imgSrc} className="card-img-top" alt="propertyImage" />
-            <div className="card-body">
-                <h4 className="card-title1">{cardTitle}</h4>
-                <h6 className="card-title2">{propertyTitle}</h6>
-                <p className="card-text">{propertyAdd}</p>
+            <div className="card-body d-flex flex-column justify-content-between">
+                <div className="card-desription-container">
+                    <h4 className="card-title1">{cardTitle}</h4>
+                    <h6 className="card-title2">{propertyTitle}</h6>
+                    <p className="card-text">{propertyAdd}</p>
+                </div>
 
                 <ul className="room">
                     {roomDetails.map((detail, index) => (

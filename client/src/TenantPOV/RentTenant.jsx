@@ -1,6 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
-import CardRent from "../TenantPOV/component/CardRent";
+import CardRent from "./component/CardRent";
+
 
 const RentTenant = () => {
     const propertyListingInfo = [
@@ -24,7 +25,7 @@ const RentTenant = () => {
         <main>
             <div className="rental-history">
                 <h1 className="rentalTitle">Rental History</h1>
-                
+               
                
                 {
                     propertyListingInfo.map((listing, index) => (
@@ -36,5 +37,6 @@ const RentTenant = () => {
         </main>
     );
 }
+
 
 export default RentTenant;

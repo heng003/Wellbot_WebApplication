@@ -1,4 +1,3 @@
-
 #footer_backgroundColor{
     background-color: #333F48;
     color: white;
@@ -10,24 +9,35 @@
     font-size: 1em;
     display: flex;
     justify-content: flex-end;
-    column-gap: 30px;
+    column-gap: 2em;
+    align-items: center;
+    padding-right: 2.5em;
+    padding-block: 0.6em;
 }
 
 .social_links_row h2{
-    margin: -0px;
+    margin: 0;
     font-size: 1em;
 }
 
-.social_links_row a{
+.social_links_row a {
+    margin-right: 10px; 
     color: white;
+}
+
+.social_links_row a:last-child {
+    margin-right: 0; 
+}
+
+.social_links_row svg {
+    width: 1.6em; 
+    height: auto;
 }
 
 #footer_backgroundColor .nav-footer {
     display: flex;
-}
-
-#footer_backgroundColor .nav_col1{
-    margin-right: 100px;
+    padding-block: 1em;
+    gap: 6em;
 }
 
 #footer_backgroundColor .nav-footer a{
@@ -38,5 +48,14 @@
 
 .footer_copyright{
     text-align: center;
+    padding-block: 0.6em;
 }
 
+.nav_col1 ul li,
+.nav_col2 ul li {
+    margin-bottom: 1em; 
+}
+
+.nav_col1 ul li {
+    padding-left: 5em;
+}

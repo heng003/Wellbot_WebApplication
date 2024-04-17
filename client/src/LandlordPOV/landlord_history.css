@@ -53,7 +53,6 @@
     background-size: 0.9em; /* Adjust the size of the arrow as needed */
   }
 
-
 .custom-options {
     position: absolute;
     margin-top: 0.6em;
@@ -124,7 +123,6 @@
     border: 0; 
   }
   
-
   .history-table tr {
     position: relative;
   }
@@ -174,7 +172,6 @@
     text-align: center;
     align-items: center;
   }
-
 
 .downloadIcon{
     margin-right: 1.2em;

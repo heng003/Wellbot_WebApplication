@@ -10,18 +10,18 @@ const Navbar = () => {
     };
 
     return(
-        <div>   
+        <div className="navbarContainer">   
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
                 <div className="container-fluid">
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <img src="Images/logoText.png" alt="Logo" width='90' height='90'/>
+                <img src="Images/logoText.png" alt="Logo" width='90' height='90' style={{ marginLeft: '1.5em' }}/>
                 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className={`nav-item ${activeItem === 'Rent' ? 'active' : ''}`}>
-                            <Link className="nav-link" to="/rent" onClick={() => handleItemClick('Rent')}>Rent</Link>
+                            <Link className="nav-link" to="/" onClick={() => handleItemClick('Rent')}>Rent</Link>
                         </li>
                         <li className={`nav-item ${activeItem === 'Condo' ? 'active' : ''}`}>
                             <Link className="nav-link" to="/condo" onClick={() => handleItemClick('Condo')}>Condo</Link>
@@ -32,11 +32,11 @@ const Navbar = () => {
                     </ul>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/signIn">Sign In</Link>
+                            <Link className="nav-link" to="/logIn">Sign In</Link>
                         </li>
                     </ul>
                 </div>
-                <a href="#"><img src="Images/profilepic.png" alt="Avatar" width="90" height="90"/></a>
+                <a href="#"><img src="Images/profilepic.png" alt="Avatar" width="90" height="90" style={{ marginLeft: '1.5em' }}/></a>
            </div>
            </nav>
         </div>

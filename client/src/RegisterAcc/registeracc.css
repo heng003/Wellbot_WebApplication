@@ -1,15 +1,19 @@
 #register{
-    padding: 0px 60px;
+    padding: 0em 3.5em;
+    padding-bottom: 5em;
     background-color: #FBF4E8;
-    width: 100vw; 
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 100%; 
+    height: 100%;
 }
 
 #register .container{
     border: 2px solid black;
     background-color: #FFFFFF;
     border-radius: 25px;
-    height: 70vh;
+    height: fit-content;
 }
 
 #username, #email, #phonenumber, #password{
@@ -19,7 +23,7 @@
 
 #register .form {
     position: relative; 
-    padding:5px;
+    padding:0.5em;
 }
 
 #register .displayErrorMessage {
@@ -30,12 +34,22 @@
     padding-left: 50px;
 }
 
+#register .col img{
+    margin-top: 1.5em;
+}
+
 #register .col{
     display:flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: start; 
     align-items: center;
-    margin-top: 50px;
+    padding-top: 2em;
+    margin-top: 1em;
+    margin-left: -1.5em;
+}
+
+#register .rightCol{
+    margin-top: 8em;
 }
 
 #register .registerTitleLandlord{
@@ -47,8 +61,12 @@
 }
 
 #register-form{
-    padding-top: 35px;
-    width: 65%;
+    margin-left: -3.5em;
+    width: 70%;
+}
+
+.form {
+    padding-top: 2.8em;
 }
 
 .eye-icon {
@@ -64,7 +82,9 @@
     color: #F9F9F9;
     border: 2px;
     border-radius: 6px;
-    padding: 10px 20px;
+    padding: 0.65em 1.6em;
+    margin-left: -3.6em;
+    margin-top: 1.2em;
     cursor: pointer;
 }
 
@@ -79,7 +99,9 @@
     color: #FFF6EA;
     border: 2px;
     border-radius: 6px;
-    padding: 10px 20px;
+    padding: 0.65em 1.6em;
+    margin-left: -3.6em;
+    margin-top: 1.2em;
     cursor: pointer;
 }
 
@@ -88,10 +110,11 @@
     opacity: 0.7;
 }
 
-
 #bottomDetails{
-    margin-left: 35px;
-    margin-top: 15px;
+    align-content: center;
+    width: 100%;
+    margin-left: 2.5em;
+    padding-bottom: 3.5em;
 }
 
 #bottomDetails .link{
@@ -100,5 +123,14 @@
 }
 
 #haveAcc{
-    margin-top: 10px;
+    margin-left: -2.7em;
+    margin-top: 1.5em;
 } 
+
+#register .col input[type="text"],
+#register .col input[type="email"],
+#register .col input[type="tel"],
+#register .col input[type="password"] {
+    border-radius: 18px; /* Set border radius to match tenant form */
+    border: 2px solid black; /* Set border color */
+}

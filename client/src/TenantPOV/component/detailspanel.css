@@ -6,7 +6,7 @@
 
 .heading,
 .rental-details,
-.property-details,
+.property-info,
 .property-description,
 .description-block-wrap {
     display: row;
@@ -15,6 +15,9 @@
     margin-top: 2em;
 }
 
+.property-info-breakdown {
+    gap: 1em;
+}
 
 .property-classfication {
     margin: 0;
@@ -31,12 +34,12 @@
 .rent-unit {
     color: #717171;
     font-weight: normal;
+    font-size: 0.95em;
 }
 
 .rent-breakdown,
 .rent-price-unit-panel,
-.property-details-breakdown,
-.property-details,
+.property-info,
 .description-block-wrap  {
     display: flex;
     align-items: flex-start;
@@ -51,20 +54,26 @@
     flex-basis: 100%; /* Take full width */
 }
 
-.property-details-breakdown,
+.property-info-breakdown,
+.property-info {
+    width: 100%;
+}
+
+.property-info-breakdown,
 .description-block-wrap {
-    flex-direction: column;
     justify-content: flex-start;
-    gap: 1.2rem;
+    gap: 1.3rem;
 }
 
 .property-address {
     align-self: start;
     position: relative;
     text-transform: capitalize;
-    font-weight: 400;
-    font-family: inherit;
+    font-weight: normal;
+    font-size: 0.95em;
     color: #1858d3;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
 }
 
 .specs-grid {
@@ -110,9 +119,9 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 1.125rem;
+    gap: 1rem;
     max-width: 100%;
-    margin-top: 1.2em;
+    margin-top: 1.7em;
 }
 
 .description-title {

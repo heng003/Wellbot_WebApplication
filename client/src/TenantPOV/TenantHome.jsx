@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
 import '../GeneralPage/home.css';
+import '../GeneralPage/navbar.css';
 import CardProperty from "../component/CardProperty";
 
 const TenantHome = () => {
@@ -22,7 +23,7 @@ const TenantHome = () => {
     };
 
     const handleSearchButtonClick = () => {
-        setIsSearchClicked(true); // Set search button clicked to true
+        setIsSearchClicked(true); 
     };
 
     // Array of card data objects for frontend demo

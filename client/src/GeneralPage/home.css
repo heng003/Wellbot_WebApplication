@@ -70,18 +70,19 @@
     margin-bottom: 2em;
 }
 
-.searchButton:hover{
+.searchButton:hover {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
     opacity: 0.7;
 }
 
-#recommendation{
+#recommendation {
     width: 100%;
     background-color: #F0F0F0;
     overflow-x: hidden;
 }
 
-.recommendationTitle{
+.recommendationTitle,
+.propertyTitle {
     color: #FF5C00;;
     padding-top: 30px;
     margin-left: 3.14em;
@@ -92,12 +93,12 @@
     justify-content: center;
 }
 
-#recommendation .row{
+#recommendation .row {
     padding: 1em 6em;
     justify-content: start;
 }
 
-#recommendation .card-img-top{
+#recommendation .card-img-top {
     padding: 1.35em;
     object-fit:cover;
     background-repeat: no-repeat;
@@ -106,7 +107,8 @@
     align-self: center;
 }
 
-#recommendation .room {
+#recommendation .room,
+#property .room {
     margin-bottom: -8px;
     display: flex;
     justify-content: space-around;
@@ -122,7 +124,7 @@
     margin-left: -0.6em;
 }
 
-#recommendation .card:hover{
+#recommendation .card:hover {
     opacity: 0.7;
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
     cursor: pointer;
@@ -133,43 +135,57 @@
     margin-bottom: 15px;
 }
 
-#recommendation .card-text{
+#recommendation .card-text {
     color: rgba(23, 22, 22, 0.6);
     font-weight:500;
     padding-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show before truncating */
+    -webkit-box-orient: vertical;
 }
 
-#recommendation .viewButton{
+
+#recommendation .card-desription-container {
+    padding-bottom: 1.5em;
+}
+
+#recommendation .viewButton,
+#recommendation .manageButton,
+#recommendation .uploadButton {
     display: flex;
     justify-content: center;
-}
+    align-self: center;
+} 
 
-#info{
+#info {
     content: 200%;
 }
 
-#info .col{
+#info .col {
     padding-top: 3.125em;
 }
 
-#info .contain{
+#info .contain {
     text-align: center;
 }
 
-#info h5{
+#info h5 {
     font-weight:bold;
     padding-top: 30px;
 }
 
-#info .highlightText{
+#info .highlightText {
     color: #FF8C22;
 }
 
-#info p{
+#info p {
     text-align: justify;
     padding-top: 10px;
 }
 
-.card{
+#recommendation .card {
+    padding-inline: 1em;
     padding-inline: 1em;
 }

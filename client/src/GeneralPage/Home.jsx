@@ -1,25 +1,64 @@
 import React, {useState} from "react";
 import './home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
+import CardProperty from "../component/CardProperty";
 
 const Home = () => {
 
-  const [selectedOption1, setSelectedOption1] = useState("");
-  const [selectedOption2, setSelectedOption2] = useState("");
-  const [selectedOption3, setSelectedOption3] = useState("");
+    const [selectedOption1, setSelectedOption1] = useState("");
+    const [selectedOption2, setSelectedOption2] = useState("");
+    const [selectedOption3, setSelectedOption3] = useState("");
+    const [isSearchClicked, setIsSearchClicked] = useState(false);
 
-  // Handler functions to update the selected value of each dropdown
-  const handleDropdownChange1 = (event) => {
-    setSelectedOption1(event.target.value);
-  };
+    const handleDropdownChange1 = (event) => {
+        setSelectedOption1(event.target.value);
+    };
+    const handleDropdownChange2 = (event) => {
+        setSelectedOption2(event.target.value);
+    };
 
-  const handleDropdownChange2 = (event) => {
-    setSelectedOption2(event.target.value);
-  };
+    const handleDropdownChange3 = (event) => {
+        setSelectedOption3(event.target.value);
+    };
 
-  const handleDropdownChange3 = (event) => {
-    setSelectedOption3(event.target.value);
-  };
+    const handleSearchButtonClick = () => {
+        setIsSearchClicked(true); 
+    };
+
+    // Array of card data objects for frontend demo
+    const cardData = [
+            {
+            imgSrc: "Images/condo2.jpg",
+            cardTitle1: "RM 500 Per Month",
+            cardTitle2: "Tiara Damansara's Master Room",
+            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor abababab abababa abababa abababa abababa",
+            roomDetails: ["1", "2", "350sf"]
+            },
+
+            {
+            imgSrc: "Images/bungalow.jpg",
+            cardTitle1: "RM 500 Per Month",
+            cardTitle2: "Tiara Damansara's Master Room",
+            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+            roomDetails: ["1", "2", "350sf"]
+            },
+            
+            {
+            imgSrc: "Images/commercial.jpg",
+            cardTitle1: "RM 500 Per Month",
+            cardTitle2: "Tiara Damansara's Master Room",
+            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+            roomDetails: ["1", "2", "350sf"]
+            },
+
+            {
+            imgSrc: "Images/commercial2.jpg",
+            cardTitle1: "RM 500 Per Month",
+            cardTitle2: "Tiara Damansara's Master Room",
+            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+            roomDetails: ["1", "2", "350sf"]
+            }
+        ];
 
     return(
         <div>
@@ -32,7 +71,9 @@ const Home = () => {
             
                 <section id="filter">
                     <div className="container">
-                        <header className="subTitle text-center fs-2 fw-bolder mt-4">Find Your Dream Property</header>
+                        <header className="subTitle text-center fs-2 fw-bolder mt-4">
+                            Find Your Dream Property{isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                        </header>
                         <div className="row row-cols-1 row-cols-md-3 g-5">
                             <div className="col">
                             <label htmlFor="propertyType" className="filterTitle">Property Type</label>
@@ -78,90 +119,29 @@ const Home = () => {
                             </select>
                             </div>
                         </div>
-                        <button className="searchButton" type="button">Search</button>
+                        <button className="searchButton" type="button" onClick={handleSearchButtonClick}>Search</button>
                     </div>
                 </section>
 
                 <section id="recommendation">
-                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4">Recommendations</header>
-                    <div class="row row-cols-1 row-cols-md-3 g-5">
-                        <div class="col">
-                            <div class="card h-100">
-                            <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
-                                <div class="card-body">
-                                    <h4 class="card-title1">RM 500 Per Month</h4>
-                                    <h6 class="card-title2">Tiara Damansara's Master Room</h6>
-                                    <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                                    
-                                    <ul className="room">
-                                        <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                        <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                        <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
-                                    </ul>
-                                    
-                                    <div className="viewButton"> 
-                                        <a href="#"><button className="searchButton" type="button">View</button></a>
-                                    </div>
-                                </div>
-                            </div>
+                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4">
+                        {isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                    </header>
+                    <div className="row row-cols-1 row-cols-md-3 g-5">
+                        {cardData.map((card, index) => (
+                        <div key={index} className="col">
+                            <CardProperty
+                                imgSrc={card.imgSrc}
+                                cardTitle={card.cardTitle1}
+                                propertyTitle={card.cardTitle2}
+                                propertyAdd={card.cardText}
+                                roomDetails={card.roomDetails}
+                            />
                         </div>
-                        <div class="col">
-                            <div class="card h-100">
-                            <img src="Images/bungalow.jpg" class="card-img-top" alt="house picture"/>
-                            <div class="card-body">
-                                <h4 class="card-title1">RM 500 Per Month</h4>
-                                <h6 class="card-title2">Tiara Damansara's Master Room</h6>
-                                <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                                    <ul className="room">
-                                        <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                        <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                        <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
-                                    </ul>
-                                <div className="viewButton"> 
-                                    <a href="#"><button className="searchButton" type="button">View</button></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                            <img src="Images/commercial.jpg" class="card-img-top" alt="house picture"/>
-                            <div class="card-body">
-                                <h4 class="card-title1">RM 500 Per Month</h4>
-                                <h6 class="card-title2">Tiara Damansara's Master Room</h6>
-                                <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                                <ul className="room">
-                                    <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                    <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                    <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
-                                </ul>
-                                <div className="viewButton"> 
-                                    <a href="#"><button className="searchButton" type="button">View</button></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card h-100">
-                            <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
-                            <div class="card-body">
-                                <h4 class="card-title1">RM 500 Per Month</h4>
-                                <h6 class="card-title2">Tiara Damansara's Master Room</h6>
-                                <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                                <ul className="room">
-                                    <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                    <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                    <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
-                                </ul>
-                                <div className="viewButton"> 
-                                    <a href="#"><button className="searchButton" type="button">View</button></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        <br /><br /><br /><br /><br />
-                    </section>
+                        ))}
+                    </div>
+                    <br /><br /><br /><br /><br />
+                </section>
 
                 <section id="info">
                     <div className="container">

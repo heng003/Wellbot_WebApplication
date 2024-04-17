@@ -85,9 +85,9 @@ const Tenant = () => {
             <div class="row">
                 <div class="col">
                     <h2 className="registerTitleTenant fs-2 fw-bolder mt-4">Register As Tenant</h2>
-                    <img src="Images/tenant.png" class="landlord" alt="landlord" width="350" height="300"/>
+                    <img src="Images/tenant.png" class="landlord" alt="landlord" width="350" height=""/>
                 </div>
-                <div class="col">
+                <div class="col rightCol">
                     <form id="register-form" ref={formRef} onSubmit={handleRegisterClick}>
                         <div class="form d-flex flex-row align-items-center mb-4">
                             <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
