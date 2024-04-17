@@ -1,66 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import './edittenantprofile.css';
+import CardRent from "./component/CardRent";
 
 const TenantApplication = () => {
 
-    const [selectedGender, setSelectedGender] = useState("");
-    const [clicked, setClicked] = useState(false);
+    const propertyListingInfo = [
+        {
+            title: "Tiara Damansara’s Master Room Unit 315/3",
+            locationOwner: "PETALING JAYA | CONDO by Ali bin Abu",
+            duration: "7 January 2024 - 7 January 2025",
+            imageUrl: "Images/commercial2.jpg",
+            isActive: true
+        },
+        {
+            title: "Sekeyen 15, Unit 34",
+            locationOwner: "PETALING JAYA | Landed House by Rosli",
+            duration: "2 February 2023 - 1 February 2024",
+            imageUrl: "Images/propertyImg3.png",
+            isActive: false
+        }
+    ];
 
-    const handleDropdownGenderChange = (event) => {
-        setSelectedGender(event.target.value);
-    };
-
-    return(
-        <div id="applicationContainer">
-            <h1 className="edit-title">Application History</h1>
-            
-            <div id="editLandlordForm">
-                <div className="row" id="row2">
-                    <div className="col">
-                        <h6>FullName *</h6>
-                        <input type="text" name="editFullname" id="editFullname" placeholder="Enter Your FullName Stated in MyKad" required/>
-                    </div>
-                    <div className="col">
-                        <h6>UserName *</h6>
-                        <input type="text" name="editUsername" id="editUsername" placeholder="Enter Your Username" required/>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <h6>NRIC *</h6>
-                        <input type="text" name="editIC" id="editIC" placeholder="Enter Your IC Number" required pattern="[0-9]{12}}" />
-                    </div>
-                    <div className="col">
-                        <h6>Phone Number *</h6>
-                        <input type="tel" name="editPhoneno" id="editPhoneno" placeholder="Enter Your Phone Number" required pattern="[0-9]{3}-[0-9]{7,8}"/>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">
-                        <h6>Email Address *</h6>
-                        <input type="email" name="editEmail" id="editEmail" placeholder="Enter Your Email Address" required/>
-                    </div>
-                    <div className="col">
-                        <h6>Gender *</h6>
-                        <select name="editGender" id="editGender" required className="gender-dropdownlist" value={selectedGender} onChange={handleDropdownGenderChange}>
-                            <option value="" disabled hidden style={{ color: '#E6E6E6' }}>Please Select Your Gender</option>
-                            <option value="male">Male</option>
-                            <option style={{ fontSize: '16px', padding: '10px', color: '#333' }} value="female">Female</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col">
-                        <h6>Remarks</h6>
-                        <input type="text" name="editRemarks" id="editRemarks" placeholder="Eg: Price Negotiable"/>
-                    </div>
-                    <div className="col"></div>
-                </div>
+    return (
+        <main>
+            <div className="application-history">
+                <h1 className="application-title">Rental History</h1>
+                <h2 className="application-subTitle">Action Needed</h2>
+                {
+                    propertyListingInfo.map((listing, index) => (
+                        <CardRent key={index} listing={listing} />
+                    ))
+                }
+                <h2 className="application-subTitle">Other Application/s</h2>
             </div>
+        </main>
+    );
 
-        </div>
-    )
 }
 
 export default TenantApplication;
