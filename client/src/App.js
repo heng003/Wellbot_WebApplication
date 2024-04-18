@@ -83,11 +83,9 @@ function App() {
 function CustomNavbar() {
   const location = useLocation();
 
-  // Check if the current location is related to landlord or tenant pages
   const isLandlordPage = location.pathname.startsWith('/landlord');
-  const isTenantPage = location.pathname.startsWith('/tenant');
+  const isTenantPage = location.pathname.startsWith('/tenant') && location.pathname !== "/tenantViewProperty";
 
-  // Render the appropriate navbar based on the route
   if (isLandlordPage) {
     return <LandlordNavbar />;
   } else if (isTenantPage) {

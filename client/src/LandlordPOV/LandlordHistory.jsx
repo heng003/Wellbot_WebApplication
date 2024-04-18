@@ -94,7 +94,7 @@ function LandlordHistory() {
                         onMouseLeave={() => handleDownloadLeave(index)}
                         onClick={triggerDownload}
                         width="29"
-                        height="27"
+                        height="29"
                         />
 
                         <a 
@@ -108,7 +108,7 @@ function LandlordHistory() {
                             src={commentIconState[index] ? CommentHoverIcon : CommentIcon}
                             alt="Comment Link" 
                             width="25.17" 
-                            height="27"
+                            height="29"
                             />
 
                         </a>
