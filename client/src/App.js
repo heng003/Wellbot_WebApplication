@@ -72,7 +72,7 @@ function CustomNavbar() {
   const location = useLocation();
 
   const isLandlordPage = location.pathname.startsWith('/landlord');
-  const isTenantPage = location.pathname.startsWith('/tenant');
+  const isTenantPage = location.pathname.startsWith('/tenant') && location.pathname !== "/tenantViewProperty";
 
   if (isLandlordPage) {
     return <LandlordNavbar />;

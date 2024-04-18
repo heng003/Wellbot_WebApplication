@@ -39,9 +39,9 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
-
+    
     const handleViewPropertyPageButton = () => {
-        if (location.pathname !== "/tenantViewProperty") {
+        if (localStorage.getItem("previousPath") !== "/tenantHome") {
             Swal.fire({
                 title: 'Warning!',
                 text: 'You need to register or log in to your account before performing this action.',
