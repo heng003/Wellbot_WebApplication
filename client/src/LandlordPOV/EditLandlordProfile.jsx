@@ -24,14 +24,15 @@ const EditLandlordProfile = () => {
                 </div>
 
                 <div className="accountRight_Section">
-                    <h5>Username</h5>
-                    <p id="uploadproperty">Uploaded Properties: <span id="countProperty">2</span></p>
+                    <h5 className= "usernameText">UseHtt54@</h5>
+                    <p  className = "accountDetail" id="uploadproperty">Uploaded Properties: <span id="countProperty">2</span></p>
                 </div>
+
             </div>
+            
 
+            <div className="editLandlordForm">
 
-
-            <div id="editLandlordForm">
                 <div className="row" id="row2">
                     <div class="col">
                         <h6>FullName *</h6>
@@ -42,6 +43,7 @@ const EditLandlordProfile = () => {
                         <input type="text" name="editUsername" id="editUsername" placeholder="Enter Your Username" required/>
                     </div>
                 </div>
+
                 <div className="row">
                     <div class="col">
                         <h6>NRIC *</h6>
@@ -52,6 +54,7 @@ const EditLandlordProfile = () => {
                         <input type="tel" name="editPhoneno" id="editPhoneno" placeholder="Enter Your Phone Number" required pattern="[0-9]{3}-[0-9]{7,8}"/>
                     </div>
                 </div>
+
                 <div className="row">
                     <div class="col">
                         <h6>Email Address *</h6>
@@ -60,8 +63,13 @@ const EditLandlordProfile = () => {
                     <div className="col"></div>
                 </div>
                 <p id="alertMessage">** It is <span>compulsory</span> to fill in all of the above information before uploading your property</p>
-                <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
+                
+                <div className="centreButton">
+                    <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
+                </div>
+                
             </div>
+
         </div>
         </>
     )
