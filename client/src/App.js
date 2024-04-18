@@ -25,6 +25,7 @@ import EditLandlordProfile from "./LandlordPOV/EditLandlordProfile";
 import EditTenantProfile from "./TenantPOV/EditTenantProfile";
 import TenantViewProperty from "./TenantPOV/ViewProperty";
 import TenantApplyForm from "./TenantPOV/TenantApplyForm";
+import TenantApplication from "./TenantPOV/TenantApplication";
 import LandlordHistory from "./LandlordPOV/LandlordHistory";
 import LandlordComment from "./LandlordPOV/LandlordComment";
 import TenantComment from "./TenantPOV/TenantComment";
