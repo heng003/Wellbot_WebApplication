@@ -82,17 +82,17 @@ const TenantApplyForm = () => {
                     <div className="col"></div>
                 </div>
 
-            </div>
+                <div className="row-checkbox">
+                    <input
+                        type="checkbox"
+                        id="confirmCheckbox"
+                        checked={clicked}
+                        onChange={handleCheckboxChange}
+                        className="checkbox"
+                    />
+                    <label htmlFor="confirmCheckbox">I hereby confirm the information is true and allow my information to be shared with this property's landlord.</label>
+                </div>
 
-            <div className="row-checkbox">
-                <input
-                    type="checkbox"
-                    id="confirmCheckbox"
-                    checked={clicked}
-                    onChange={handleCheckboxChange}
-                    className="checkbox"
-                />
-                <label htmlFor="confirmCheckbox">I hereby confirm the information is true and allow my information to be shared with this property's landlord.</label>
             </div>
 
             <div className="centreButton">
