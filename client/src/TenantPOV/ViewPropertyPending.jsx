@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import CommentBox from "./component/CommentBox";
 import AverageRating from "./component/AverageRating";
-import Swal from 'sweetalert2';
+import PropertyStatus from "./component/PropertyStatus";
 
-const ViewProperty = () => {
+const ViewPropertyPending = () => {
     
     const propertyImageSrc = [
         "Images/propertyImg3.png",
@@ -14,9 +13,6 @@ const ViewProperty = () => {
         "Images/propertyImg2.png",
         "Images/propertyImg5.png"
     ];
-
-    const nav = useNavigate();
-    const location = useLocation();
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -39,27 +35,6 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
-    
-    const handleViewPropertyPageButton = () => {
-        if (localStorage.getItem("previousPath") !== "/tenantHome") {
-            Swal.fire({
-                title: 'Warning!',
-                text: 'You need to register or log in to your account before performing this action.',
-                icon: 'warning',
-                confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    nav("/logIn");
-                }
-            });
-            return;
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            nav("/tenantApplyForm");
-        }
-    }
     
     return (
         <div>
@@ -91,8 +66,8 @@ const ViewProperty = () => {
                     <div className="container"><DetailsPanel/></div>
                 </section>
 
-                <div className="applyButton"> 
-                    <button className="applyNowButton" type="button" onClick={handleViewPropertyPageButton}>Apply Now</button>
+                <div className="PropertyStatus">
+                    <PropertyStatus text="PENDING FOR ACTION FROM LANDLORD" backgroundColor="#FFE6D0" textColor="#FF5C00"/>
                 </div>
 
                 <section id="Comment">
@@ -116,4 +91,4 @@ const ViewProperty = () => {
     );
 }
 
-export default ViewProperty;
+export default ViewPropertyPending;

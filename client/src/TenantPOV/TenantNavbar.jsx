@@ -9,10 +9,12 @@ const TenantNavbar = () => {
     // Set activeItem based on current path
     useEffect(() => {
         const path = location.pathname;
-        if (path === '/tenantApplyForm') {
-            setActiveItem('Application');
-        } 
-    }, [location]);
+            if (path === '/tenantViewPropertyLease' || path === '/tenantViewPropertyPending' || path === '/tenantViewPropertyRejected') {
+                setActiveItem('Property');
+            } else if (path === '/tenantApplyForm'){
+                setActiveItem('Application');
+            }
+        }, [location]);
 
     const handleItemClick = (itemName) => {
         setActiveItem(itemName);
@@ -39,7 +41,7 @@ const TenantNavbar = () => {
                                 <Link className="nav-link" to="#" onClick={() => handleItemClick('Lease Agreement')}>Lease Agreement</Link>
                             </li>
                             <li className={`nav-item ${activeItem === 'Rental History' ? 'active' : ''}`}>
-                                <Link className="nav-link" to="/rentTenant" onClick={() => handleItemClick('Rental History')}>Rental History</Link>
+                                <Link className="nav-link" to="/tenantRent" onClick={() => handleItemClick('Rental History')}>Rental History</Link>
                             </li>
                         </ul>
                         <ul className="navbar-nav">

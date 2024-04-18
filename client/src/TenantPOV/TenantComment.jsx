@@ -3,7 +3,7 @@ import '../LandlordPOV/editlandlordprofile.css';
 import '../LandlordPOV/landlord_history.css';
 import Swal from 'sweetalert2'
 import starDefault from '../LandlordPOV/Rental_Icon/rating_star_default.svg';
-import starOnClick from '../LandlordPOV/Rental_Icon//rating_star_onClick.svg';
+import starOnClick from '../LandlordPOV/Rental_Icon/rating_star_onClick.svg';
 
 const TenantComment = () => {
 
@@ -49,7 +49,7 @@ const TenantComment = () => {
         
             <div className="profileSection">
                 <div className="pictureLeft_Section">
-                    <img src="Images/Edit_Property_TenantProfile.png" alt="Logo" width='100' height='100'/>
+                    <img src="Images/Edit_landlord_progile.png" alt="Logo" width='100' height='100'/>
                 </div>
 
                 <div className="accountRight_Section">
@@ -62,7 +62,8 @@ const TenantComment = () => {
 
             <div className="commentForm">
 
-                <h5 className="commenth5"></h5>
+               <h5 className="commenth5">Your review is helpful to other tenants. Feel free to share your feedback with them based on below aspects.</h5>
+
 
                 <div className="Rate">
 
@@ -92,17 +93,16 @@ const TenantComment = () => {
 
                     <h3>Additional Comment</h3>
 
-                    <div className="form">
+                    <div className="additional-form">
                         <textarea
                             name="additionalComment"
                             id="additionalComment"
                             rows="5" 
-                            placeholder="You can leave your comment based on timeliness of rent payments, property maintenance and care, communication and responsiveness, adherence to lease terms and neighbor relations."
+                            placeholder="Rate your experience with rent collection, property upkeep, landlord communication, lease compliance, and neighbor relations management."
                         required></textarea>
                     </div>
 
                 </div>
-
 
                 <div className="centreButton">
                     <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>

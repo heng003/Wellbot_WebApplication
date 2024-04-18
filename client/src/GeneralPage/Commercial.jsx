@@ -37,7 +37,7 @@ const Commercial = () => {
             <section id="filter">
                 <div className="container">
                     <header className="subTitle text-center fs-2 fw-bolder mt-4">
-                        Find Your Dream Property{isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                        Find Your Dream Property
                     </header>
                     <div class="row row-cols-1 row-cols-md-2 g-5">
                         <div className="col">

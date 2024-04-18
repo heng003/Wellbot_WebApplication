@@ -1,22 +1,36 @@
-#tenantImg{
-    margin: 2%;
-}
-  
-.row-checkbox {
-    padding: 1em;
+.editLandlordForm .checkbox {
     display: flex;
-    justify-content: flex-start; /* Align items to the start */
-    align-items: center;
+    align-items: start; /* Align items vertically */
 }
 
-.row-checkbox input[type="checkbox"] {
-    width: 20px; 
-    height: 20px; 
-    cursor: pointer;
+.editLandlordForm .row-checkbox label {
+    font-size: 16px; 
+    color: black; 
 }
 
-.row-checkbox label {
-    margin-left: 10px; /* Add space between checkbox and label */
+.editLandlordForm .row-checkbox {
+    align-self: start;
+    flex-direction: row;
+    padding-bottom: 2em;
+}
+
+.editLandlordForm select {
+    width: 80%;
+    padding: 0.8em 2em 0.8em 1.2em;
+    border: 1px solid black;
+    border-radius: 2px;
+    margin-top: 0.2em;
+    font-size: 16px;
+}
+
+.editLandlordForm select option {
+    font-size: 16px;
+}
+
+.editLandlordForm ::placeholder {
+    color: #8A8A8A;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 #submitApplicationBtn {
@@ -27,7 +41,7 @@
     border-radius: 0.5em;
     padding: 0.7em 2.8em;
     cursor: pointer;
-    margin-top: 3.9em;
+    margin-top: 2em;
     margin-bottom: 2em;
     align-self: start;
 }
@@ -35,4 +49,14 @@
 #submitApplicationBtn:hover{
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
     opacity: 0.7;
+}
+
+.row-checkbox {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 1em; /* Adjust margin as needed */
+}
+
+.row-checkbox .checkbox {
+    margin-right: 1.5em;
 }

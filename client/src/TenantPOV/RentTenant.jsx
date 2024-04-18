@@ -1,10 +1,6 @@
-
-
-
 import React from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
 import CardRent from "./component/CardRent";
-
 
 const RentTenant = () => {
     const propertyListingInfo = [
@@ -24,24 +20,24 @@ const RentTenant = () => {
         }
     ];
 
-
     return (
         <main>
+
             <div className="rental-history">
                 <h1 className="rentalTitle">Rental History</h1>
-               
-               
+
+            <div className="Rental-Card ">
                 {
                     propertyListingInfo.map((listing, index) => (
                         <CardRent key={index} listing={listing} />
                     ))
-                }
-
-
+                }                
+            </div>        
+                
             </div>
+
         </main>
     );
 }
-
 
 export default RentTenant;

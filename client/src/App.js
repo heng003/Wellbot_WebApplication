@@ -25,7 +25,9 @@ import LandlordHistory from './LandlordPOV/LandlordHistory';
 import LandlordComment from './LandlordPOV/LandlordComment';
 import TenantComment from './TenantPOV/TenantComment';
 import RentTenant from './TenantPOV/RentTenant';
-
+import TenantViewPropertyPending from './TenantPOV/ViewPropertyPending';
+import TenantViewPropertyRejected from './TenantPOV/ViewPropertyRejected';
+import TenantViewPropertyLease from './TenantPOV/ViewPropertyLease';
 
 function App() {
   return (
@@ -54,7 +56,10 @@ function App() {
             <Route path="/landlordHistory" element={< LandlordHistory/>}/>
             <Route path="/landlordComment" element={< LandlordComment/>}/>
             <Route path="/tenantComment" element={< TenantComment/>}/>
-            <Route path="/rentTenant" element={< RentTenant/>}/>
+            <Route path="/tenantRent" element={<RentTenant/>}/>
+            <Route path="/tenantViewPropertyPending" element={<TenantViewPropertyPending/>}/>
+            <Route path="/tenantViewPropertyRejected" element={<TenantViewPropertyRejected/>}/>
+            <Route path="/tenantViewPropertyLease" element={<TenantViewPropertyLease/>}/>
           </Routes>
           <ShowFooter>
             <Footer /> 
@@ -66,11 +71,9 @@ function App() {
 function CustomNavbar() {
   const location = useLocation();
 
-  // Check if the current location is related to landlord or tenant pages
   const isLandlordPage = location.pathname.startsWith('/landlord');
-  const isTenantPage = location.pathname.startsWith('/tenant');
+  const isTenantPage = location.pathname.startsWith('/tenant') && location.pathname !== "/tenantViewProperty";
 
-  // Render the appropriate navbar based on the route
   if (isLandlordPage) {
     return <LandlordNavbar />;
   } else if (isTenantPage) {

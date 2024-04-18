@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import './landlord_history.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import downloadIcon from './Rental_Icon/download.png';
 import CommentIcon from './Rental_Icon/comment.png';
 import DownloadHoverIcon from './Rental_Icon/download_hover.png';
@@ -45,8 +43,6 @@ function LandlordHistory() {
     const handleDownloadIconMouseLeave2 = index => setHoveredDownloadIcon2(prev => ({ ...prev, [index]: false }));
     const handleCommentIconMouseEnter2 = index => setHoveredCommentIcon2(prev => ({ ...prev, [index]: true }));
     const handleCommentIconMouseLeave2 = index => setHoveredCommentIcon2(prev => ({ ...prev, [index]: false }));
-
-    const handlePropertyChange = event => setSelectedProperty(event.target.value);
 
     const handleAlert = () => {
         Alert();
@@ -98,7 +94,7 @@ function LandlordHistory() {
                         onMouseLeave={() => handleDownloadLeave(index)}
                         onClick={triggerDownload}
                         width="29"
-                        height="27"
+                        height="29"
                         />
 
                         <a 
@@ -112,7 +108,7 @@ function LandlordHistory() {
                             src={commentIconState[index] ? CommentHoverIcon : CommentIcon}
                             alt="Comment Link" 
                             width="25.17" 
-                            height="27"
+                            height="29"
                             />
 
                         </a>
