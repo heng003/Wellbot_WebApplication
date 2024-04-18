@@ -4,9 +4,11 @@ import '../LandlordPOV/landlordhome.css'
 import '../GeneralPage/home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const LandlordHome = () => {
 
+  const navigate = useNavigate();
   const [selectedOption1, setSelectedOption1] = useState("");
   const [selectedOption2, setSelectedOption2] = useState("");
   const [selectedOption3, setSelectedOption3] = useState("");
@@ -120,7 +122,7 @@ const LandlordHome = () => {
                             </div>
                         </div>
                         
-                        <div class="col">
+                        <div class="col" onClick={() => navigate('/LandlordViewProperty')}> 
                             <div class="card h-100">
                             <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
@@ -138,7 +140,10 @@ const LandlordHome = () => {
                             </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col" onClick={() => {
+                            navigate('/LandlordUploadProperty');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}>
                             <div class="card h-100">
                             <img src="Images/plus.png" class="card-img-top" alt="upload" height={295}/>
                             <div class="card-body">
