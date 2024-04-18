@@ -115,8 +115,8 @@ function App() {
           <Route path="/landlordEditPhoto" element={<LandlordEditPhoto />} />
           <Route path="/landlordApplicant" element={<LandlordApplicant />} />
           <Route
-            path="/landlordApplicantFeedback"
-            element={<LandlordApplicantFeedback />}
+            path="/landlordArrangePhoto"
+            element={<LandlordArrangePhoto />}
           />
           <Route
             path="/landlordLeaseAgreementPg1"
