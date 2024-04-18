@@ -3,7 +3,7 @@ import "./cardComment.css";
 
 const CardComment = ({ userImgSrc, username, date, comment }) => {
   return (
-    <div id="applicantCommentCard" onClick={onClick}>
+    <div id="applicantCommentCard">
       <div className="row-one">
         <div className="left-content">
           <img className="user-img" alt="" src={userImgSrc} />
