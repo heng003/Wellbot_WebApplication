@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../TenantPOV/edittenantprofile.css';
 import '../LandlordPOV/editlandlordprofile.css';
 import '../LandlordPOV/landlord_history.css';
 import Swal from 'sweetalert2'
