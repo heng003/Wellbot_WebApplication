@@ -41,7 +41,6 @@ const TenantComment = () => {
           });
     }
 
-
     return(
         <>
         <div className="rental-history">
