@@ -39,19 +39,7 @@ const CardRent = ({ listing }) => {
 
             <h2 className= "cardRental_subtitle">{subtitle}</h2>
 
-<<<<<<< HEAD
-
-        <div className="rentalList_card">
-
-
-
-
-
-            <div className={`history-listing ${isActive ? 'active' : 'expired'}`}>
-
-=======
             <div className="history-listing">
->>>>>>> 34e283d95bd938648582fc6732d68de15f067a0e
 
                 <div className="rentalHistory-image">
                     <img src={listing.imageUrl} alt="Rental Property" />
@@ -82,7 +70,6 @@ const CardRent = ({ listing }) => {
                         alt="Download"
                     />
 
-                    
                     <a href="/tenantComment" className="rentalTenant-link">
                         <img 
                             className="rentalTenant-comment" 
@@ -100,6 +87,5 @@ const CardRent = ({ listing }) => {
 
     );
 };
-
 
 export default CardRent;
