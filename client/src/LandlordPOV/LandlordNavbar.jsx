@@ -25,7 +25,7 @@ const LandlordNavbar = () => {
                             <Link className="nav-link" to="/landlordHome" onClick={() => handleItemClick('YourProperty')}>Your Property</Link>
                         </li>
                         <li className={`nav-item ${activeItem === 'Applicant' ? 'active' : ''}`}>
-                            <Link className="nav-link" to="#" onClick={() => handleItemClick('Applicant')}>Applicant</Link>
+                            <Link className="nav-link" to="/landlordApplicantFeedback" onClick={() => handleItemClick('Applicant')}>Applicant</Link>
                         </li>
                         <li className={`nav-item ${activeItem === 'Lease Agreement' ? 'active' : ''}`}>
                             <Link className="nav-link" to="#" onClick={() => handleItemClick('Lease Agreement')}>Lease Agreement</Link>

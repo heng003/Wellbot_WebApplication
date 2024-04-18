@@ -28,6 +28,7 @@ import RentTenant from './TenantPOV/RentTenant';
 import TenantViewPropertyPending from './TenantPOV/ViewPropertyPending';
 import TenantViewPropertyRejected from './TenantPOV/ViewPropertyRejected';
 import TenantViewPropertyLease from './TenantPOV/ViewPropertyLease';
+import LandlordApplicantFeedback from './LandlordPOV/LandlordApplicantFeedback';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
             <Route path="/tenantViewPropertyPending" element={<TenantViewPropertyPending/>}/>
             <Route path="/tenantViewPropertyRejected" element={<TenantViewPropertyRejected/>}/>
             <Route path="/tenantViewPropertyLease" element={<TenantViewPropertyLease/>}/>
+            <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback/>}/>
           </Routes>
           <ShowFooter>
             <Footer /> 
