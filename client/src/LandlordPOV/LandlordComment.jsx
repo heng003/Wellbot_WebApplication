@@ -58,8 +58,6 @@ const LandlordComment = () => {
                 </div>
             </div>
 
-
-
             <div className="commentForm">
 
                 <h5 className="commenth5">Your review is important to help other landlords to find a favourite tenant. Feel free to share your feedback with them based on below aspects.</h5>

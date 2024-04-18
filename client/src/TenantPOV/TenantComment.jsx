@@ -62,7 +62,8 @@ const TenantComment = () => {
 
             <div className="commentForm">
 
-                <h5 className="commenth5"></h5>
+               <h5 className="commenth5">Your review is helpful to other tenants. Feel free to share your feedback with them based on below aspects.</h5>
+
 
                 <div className="Rate">
 

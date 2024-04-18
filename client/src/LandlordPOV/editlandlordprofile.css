@@ -1,5 +1,5 @@
 .EditTitle{
-    font-weight: bold;
+    font-weight: 600;
     font-size: 35px; ;
     color: black;
     padding: 1em 0em 1.5em 1.5em;
@@ -27,6 +27,7 @@
     padding-bottom: 1.5em;
   }
 
+  
   .usernameText{
     font-size: 20px;
     font-weight: 500px;
@@ -108,9 +109,6 @@
     margin-right: 25em;
 }
 
-
-
-
 #submitEdirProfileInfoBtn{
     background-color: #FF8C22;
     font-weight: bold;
@@ -132,40 +130,63 @@
 
 
 .editLandlordForm{
+    position: relative;
     margin-left: 3.8em;
-    padding-top: 0.5em;  
+    padding-top: 1.6em;  
 }
 
-#editContainer #row1{
-    margin: -2em;
-    margin-bottom: -4.5em;
+.editLandlordForm h6 {
+    margin-bottom: 1em; 
+    color: black; 
+    font-size: 18px;
+    font-weight: 500;
 }
 
-#editContainer #row1 #col2{
-    margin-top: 3em;
-    margin-bottom: 5em;
+.editLandlordForm .row {
+    margin-bottom: 3em; 
+    display: flex; 
+    justify-content: space-between; 
 }
 
-#editContainer #editLandlordForm .row{
-    padding: 1em;
+.editLandlordForm .col {
+    flex: 1; 
+    margin-right: 10px; 
 }
 
-#editContainer #editLandlordForm h6{
-    padding-bottom: 0.5em;
+.editLandlordForm .col:last-child {
+    margin-right: 0; 
 }
 
-#editContainer #editLandlordForm input,
-#editContainer #editLandlordForm select{
-    padding: 0.5em;
+
+.editLandlordForm input[type="text"],
+.editLandlordForm input[type="tel"],
+.editLandlordForm input[type="email"] {
     width: 80%;
-    border: 2px solid black;
+    padding: 0.8em 1.2em 0.8em 1.2em;
+    border: 1px solid black ;
+    border-radius: 2px;
+    margin-top: 0.2em;
 }
 
-#editLandlordForm #alertMessage{
+.editLandlordForm input::placeholder {
+    color: #8A8A8A;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+.editLandlordForm #alertMessage{
     color: red;
-    margin-left: 1em;
+    position: absolute;
+    top: 70%;
 }
 
-#editLandlordForm span{
+
+.editLandlordForm span{
     font-weight: bold;
 }
+
+
+
+
+
