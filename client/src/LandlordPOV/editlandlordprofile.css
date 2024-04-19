@@ -5,7 +5,6 @@
     padding: 1em 0em 1.5em 1.5em;
   }
 
-
   .rentalTitle{
     font-weight: 600;
     font-size: 35px; ;
@@ -104,7 +103,7 @@
     resize: none; 
 }
 
-.centreButton{
+.mainCentreButton{
     text-align: center;
     margin-right: 25em;
 }
@@ -185,8 +184,3 @@
 .editLandlordForm span{
     font-weight: bold;
 }
-
-
-
-
-

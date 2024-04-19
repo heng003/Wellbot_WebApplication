@@ -107,8 +107,7 @@ function LandlordHistory() {
                             <img 
                             src={commentIconState[index] ? CommentHoverIcon : CommentIcon}
                             alt="Comment Link" 
-                            width="25.17" 
-                            height="29"
+                            width="29" 
                             />
 
                         </a>

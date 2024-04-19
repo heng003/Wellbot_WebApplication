@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
-import CommentBox from "./component/CommentBox";
-import AverageRating from "./component/AverageRating";
 import Swal from 'sweetalert2';
 
 const ViewProperty = () => {
@@ -39,9 +37,9 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
-    
+
     const handleViewPropertyPageButton = () => {
-        if (localStorage.getItem("previousPath") !== "/tenantHome") {
+        if (location.pathname !== "/LandlordViewProperty" || location.pathname !== "/landlordViewProperty" || location.pathname !== "/LandlordViewProperty#") {
             Swal.fire({
                 title: 'Warning!',
                 text: 'You need to register or log in to your account before performing this action.',
@@ -57,7 +55,7 @@ const ViewProperty = () => {
             return;
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            nav("/tenantApplyForm");
+            nav("/landlordUpdateProperty");
         }
     }
     
@@ -92,25 +90,9 @@ const ViewProperty = () => {
                 </section>
 
                 <div className="applyButton"> 
-                    <button className="applyNowButton" type="button" onClick={handleViewPropertyPageButton}>Apply Now</button>
+                    <button className="applyNowButton" type="button" onClick={handleViewPropertyPageButton}>Edit Information</button>
                 </div>
 
-                <section id="Comment">
-                    <header className="commentTitle">Comment And Rating</header>
-
-                    <section className="comment-avg">
-                        <div className="comment-grid">
-                            <AverageRating numOfReview="2" avg="4.0" />
-                        </div>
-                    </section>
-                    
-                    <section className="comments">
-                        <div className="comment-grid">
-                            <CommentBox username="Joyce Lim" date="2 days ago" />
-                            <CommentBox username="Ali bin Abu" date="12/3/2021"/>
-                        </div>
-                    </section>
-                </section>
             </main>
         </div>
     );

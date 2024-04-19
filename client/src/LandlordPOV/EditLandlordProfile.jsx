@@ -64,7 +64,7 @@ const EditLandlordProfile = () => {
                 </div>
                 <p id="alertMessage">** It is <span>compulsory</span> to fill in all of the above information before uploading your property</p>
                 
-                <div className="centreButton">
+                <div className="mainCentreButton">
                     <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
                 </div>
                 

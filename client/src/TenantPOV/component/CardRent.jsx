@@ -70,7 +70,6 @@ const CardRent = ({ listing }) => {
                         alt="Download"
                     />
 
-                    
                     <a href="/tenantComment" className="rentalTenant-link">
                         <img 
                             className="rentalTenant-comment" 
@@ -88,6 +87,5 @@ const CardRent = ({ listing }) => {
 
     );
 };
-
 
 export default CardRent;

@@ -65,12 +65,15 @@ const TenantApplyForm = () => {
                     </div>
 
                     <div className="col">
-                        <h6>Gender *</h6>
-                        <select name="editGender" id="editGender" required className="gender-dropdownlist" value={selectedGender} onChange={handleDropdownGenderChange}>
-                        <option value="" disabled hidden style={{ color: '#E6E6E6' }}>Please Select Your Gender</option>
-                            <option value="male">Male</option>
-                            <option style={{ fontSize: '16px', padding: '10px', color: '#333' }} value="female">Female</option>
-                        </select>
+
+                    </div>
+
+                </div>
+                    
+                    <p id="alertMessage">** It is <span>compulsory</span> to fill in all of the above information before uploading your property</p>
+
+                    <div className="mainCentreButton">
+                        <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
                     </div>
                 </div>
 

@@ -46,7 +46,7 @@ const DetailsPanel = () => {
                                     {propertyFacilitiesIcons.map((icon, index) => (
                                         <div key={index} className="specs-row">
                                             <div className="icon-wrapper">
-                                                <img className="icon-facility" alt='icon' src={icon}/>
+                                                <img className="icon" alt='icon' src={icon}/>
                                             </div>
                                             <div className='facility-text'>
                                                 {propertyFacilities[index]}

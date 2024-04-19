@@ -59,8 +59,8 @@ const RegisterLandlordAcc = () => {
                 titleColor: "#FF5C00",
                 text: "We have sent an email to *****w455@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
                 imageUrl: "Images/email.png",
-                imageWidth: 280,
-                imageHeight: 200,
+                imageHeight:150,
+                padding: "1.5em",
                 imageAlt: "email",
                 confirmButtonText: "OK",
                 confirmButtonColor: "#FF8C22"

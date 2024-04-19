@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../LandlordPOV/editlandlordprofile.css';
+import '../TenantPOV/edittenantprofile.css';
 import '../LandlordPOV/landlord_history.css';
 import Swal from 'sweetalert2'
 
@@ -27,13 +27,13 @@ const TenantApplyForm = () => {
     return(
     
         <>
-        <div className="rental-history">
+        <div className="pageMainContainer">
 
-            <h1 className="rentalTitle">Edit Personal Details</h1>
+            <h1 className="pageMainTitle">Edit Personal Details</h1>
 
-            <h3 className="instructionText">Please make sure personal details are correct before proceed.</h3>
+            <h3 className="pageMainSubTitle">Please make sure personal details are correct before proceed.</h3>
             
-            <div className="ApplyForm">
+            <div className="editLandlordForm">
 
                 <div className="row" id="row2">
                     <div class="col">
@@ -65,10 +65,10 @@ const TenantApplyForm = () => {
 
                     <div className="col">
                         <h6>Gender *</h6>
-                        <select name="editGender" id="editGender" required className="gender-dropdownlist" value={selectedGender} onChange={handleDropdownGenderChange}>
-                        <option value="" disabled hidden style={{ color: '#E6E6E6' }}>Please Select Your Gender</option>
+                        <select name="editGender" id="editGender" required className="dropdwon" value={selectedGender} onChange={handleDropdownGenderChange}>
+                        <option value="" disabled hidden>Please Select Your Gender</option>
                             <option value="male">Male</option>
-                            <option style={{ fontSize: '16px', padding: '10px', color: '#333' }} value="female">Female</option>
+                            <option value="female">Female</option>
                         </select>
                     </div>
                 </div>
@@ -82,19 +82,20 @@ const TenantApplyForm = () => {
                     <div className="col"></div>
                 </div>
 
+                <div className="row-checkbox">
+                    <input
+                        type="checkbox"
+                        id="confirmCheckbox"
+                        checked={clicked}
+                        onChange={handleCheckboxChange}
+                        className="checkbox"
+                    />
+                    <label htmlFor="confirmCheckbox">I hereby confirm the information is true and allow my information to be shared with this property's landlord.</label>
+                </div>
+
             </div>
 
-            <div className="row-checkbox">
-                <input
-                    type="checkbox"
-                    id="confirmCheckbox"
-                    checked={clicked}
-                    onChange={handleCheckboxChange}
-                />
-                <label htmlFor="confirmCheckbox">I hereby confirm the information is true and allow my information to be shared with this property's landlord.</label>
-            </div>
-
-            <div className="centreButton">
+            <div className="mainCentreButton">
                     <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
             </div>
 

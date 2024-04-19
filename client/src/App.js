@@ -28,6 +28,14 @@ import RentTenant from './TenantPOV/RentTenant';
 import TenantViewPropertyPending from './TenantPOV/ViewPropertyPending';
 import TenantViewPropertyRejected from './TenantPOV/ViewPropertyRejected';
 import TenantViewPropertyLease from './TenantPOV/ViewPropertyLease';
+import LandlordViewProperty from './LandlordPOV/ViewProperty';
+import LandlordUpdateProperty from './LandlordPOV/UpdateProperty';
+import LandlordUploadProperty from './LandlordPOV/UploadProperty';
+import LandlordUploadPropertyPhoto from './LandlordPOV/UploadPropertyPhoto';
+import LandlordArrangePhoto from './LandlordPOV/ArrangePhoto';
+import LandlordEditPhoto from './LandlordPOV/EditPhoto';
+import LandlordApplicant from './LandlordPOV/LandlordApplicant';
+import LandlordApplicantFeedback from './LandlordPOV/LandlordApplicantFeedback';
 
 function App() {
   return (
@@ -60,6 +68,14 @@ function App() {
             <Route path="/tenantViewPropertyPending" element={<TenantViewPropertyPending/>}/>
             <Route path="/tenantViewPropertyRejected" element={<TenantViewPropertyRejected/>}/>
             <Route path="/tenantViewPropertyLease" element={<TenantViewPropertyLease/>}/>
+            <Route path="/landlordViewProperty" element={<LandlordViewProperty/>}/>
+            <Route path="/landlordUpdateProperty" element={<LandlordUpdateProperty/>}/>
+            <Route path="/landlordUploadProperty" element={<LandlordUploadProperty/>}/>
+            <Route path="/landlordUploadPropertyPhoto" element={<LandlordUploadPropertyPhoto/>}/>
+            <Route path="/landlordArrangePhoto" element={<LandlordArrangePhoto/>}/>
+            <Route path="/landlordEditPhoto" element={<LandlordEditPhoto/>}/>
+            <Route path="/landlordApplicant" element={<LandlordApplicant/>}/>
+            <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback/>}/>
           </Routes>
           <ShowFooter>
             <Footer /> 
@@ -72,7 +88,7 @@ function CustomNavbar() {
   const location = useLocation();
 
   const isLandlordPage = location.pathname.startsWith('/landlord');
-  const isTenantPage = location.pathname.startsWith('/tenant');
+  const isTenantPage = location.pathname.startsWith('/tenant') && location.pathname !== "/tenantViewProperty";
 
   if (isLandlordPage) {
     return <LandlordNavbar />;

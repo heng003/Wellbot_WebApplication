@@ -4,9 +4,11 @@ import '../LandlordPOV/landlordhome.css'
 import '../GeneralPage/home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const LandlordHome = () => {
 
+  const navigate = useNavigate();
   const [selectedOption1, setSelectedOption1] = useState("");
   const [selectedOption2, setSelectedOption2] = useState("");
   const [selectedOption3, setSelectedOption3] = useState("");
@@ -22,6 +24,10 @@ const LandlordHome = () => {
     setSelectedOption3(event.target.value);
   };
   
+  const handleUpdateProperty = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        navigate("/landlordUpdateProperty");
+  }
   
     return(
         <div>
@@ -100,7 +106,7 @@ const LandlordHome = () => {
                     <header className="propertyTitle text-left fs-2 fw-bolder mt-4">Your Properties</header>
                     <div class="row row-cols-1 row-cols-md-3 g-5">
                         <div class="col">
-                            <div class="card h-100">
+                            <div class="card h-100" onClick={handleUpdateProperty}>
                             <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
                                 <div class="card-body">
                                     <h4 class="card-title1">RM 500 Per Month</h4>
@@ -120,8 +126,8 @@ const LandlordHome = () => {
                             </div>
                         </div>
                         
-                        <div class="col">
-                            <div class="card h-100">
+                        <div class="col" onClick={() => navigate('/LandlordViewProperty')}> 
+                            <div class="card h-100" onClick={handleUpdateProperty}>
                             <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
@@ -138,7 +144,10 @@ const LandlordHome = () => {
                             </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col" onClick={() => {
+                            navigate('/LandlordUploadProperty');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}>
                             <div class="card h-100">
                             <img src="Images/plus.png" class="card-img-top" alt="upload" height={295}/>
                             <div class="card-body">
