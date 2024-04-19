@@ -39,7 +39,7 @@ const ViewProperty = () => {
     };
 
     const handleViewPropertyPageButton = () => {
-        if (location.pathname !== "/landlordViewProperty") {
+        if (location.pathname !== "/LandlordViewProperty" || location.pathname !== "/landlordViewProperty" || location.pathname !== "/LandlordViewProperty#") {
             Swal.fire({
                 title: 'Warning!',
                 text: 'You need to register or log in to your account before performing this action.',

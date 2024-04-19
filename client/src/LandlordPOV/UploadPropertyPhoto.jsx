@@ -33,8 +33,8 @@ return (
 
         <h2 className="pageMainSubTitle">STEP 2 : UPLOAD YOUR PROPERTY'S PHOTO </h2>
 
-        <div className="container">
-      <div className="rectangle">
+        <div className="containerUploadPhoto">
+      <div className="rectangleUploadPhoto">
         <input
           ref={fileInputRef}
           type="file"

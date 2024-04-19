@@ -46,7 +46,7 @@ const UpdateProperty = () => {
 
   const handleNext = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    nav("/tenantApplyForm");
+    nav("/landlordEditPhoto");
 };
 
   return (
