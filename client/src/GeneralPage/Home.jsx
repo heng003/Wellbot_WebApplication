@@ -1,9 +1,27 @@
+import React, { useState } from "react";
+import "./home.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import React, { useState, useRef, useEffect } from "react";
 import "./home.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import CardProperty from "../component/CardProperty";
 
 const Home = () => {
+  const [selectedOption1, setSelectedOption1] = useState("");
+  const [selectedOption2, setSelectedOption2] = useState("");
+  const [selectedOption3, setSelectedOption3] = useState("");
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+
+  const handleDropdownChange1 = (event) => {
+    setSelectedOption1(event.target.value);
+  };
+  const handleDropdownChange2 = (event) => {
+    setSelectedOption2(event.target.value);
+  };
+
+  const handleDropdownChange3 = (event) => {
+    setSelectedOption3(event.target.value);
+  };
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [selectedOption3, setSelectedOption3] = useState(null);
@@ -75,6 +93,9 @@ const Home = () => {
 
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
+  };
+  const handleSearchButtonClick = () => {
+    setIsSearchClicked(true);
     const results = cardData.filter((card) => {
       const matchesType =
         selectedOption1 === "All Properties Type" ||
@@ -104,6 +125,16 @@ const Home = () => {
       cardTitle1: "RM 500 Per Month",
       cardTitle2: "Tiara Damansara's Master Room",
       cardText:
+        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor abababab abababa abababa abababa abababa",
+      roomDetails: ["1", "2", "350sf"],
+    },
+  // Array of card data objects for frontend demo
+  const cardData = [
+    {
+      imgSrc: "Images/condo2.jpg",
+      cardTitle1: "RM 500 Per Month",
+      cardTitle2: "Tiara Damansara's Master Room",
+      cardText:
         "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
       roomDetails: ["1", "2", "350sf"],
       propertyType: "Room",
@@ -111,6 +142,23 @@ const Home = () => {
       priceRange: "RM 500 - RM 1000",
     },
 
+    {
+      imgSrc: "Images/bungalow.jpg",
+      cardTitle1: "RM 500 Per Month",
+      cardTitle2: "Tiara Damansara's Master Room",
+      cardText:
+        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+      roomDetails: ["1", "2", "350sf"],
+    },
+
+    {
+      imgSrc: "Images/commercial.jpg",
+      cardTitle1: "RM 500 Per Month",
+      cardTitle2: "Tiara Damansara's Master Room",
+      cardText:
+        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+      roomDetails: ["1", "2", "350sf"],
+    },
     {
       imgSrc: "Images/bungalow.jpg",
       cardTitle1: "RM 2500 Per Month",
@@ -135,6 +183,15 @@ const Home = () => {
       priceRange: "RM 1001 - RM 1500",
     },
 
+    {
+      imgSrc: "Images/commercial2.jpg",
+      cardTitle1: "RM 500 Per Month",
+      cardTitle2: "Tiara Damansara's Master Room",
+      cardText:
+        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+      roomDetails: ["1", "2", "350sf"],
+    },
+  ];
     {
       imgSrc: "Images/commercial2.jpg",
       cardTitle1: "RM 1800 Per Month",
@@ -333,6 +390,103 @@ const Home = () => {
           <br />
         </section>
 
+        <section id="info">
+          <div className="container">
+            <div class="row row-cols-1 row-cols-md-3 g-5">
+              <div className="col">
+                <div className="contain">
+                  <img
+                    src="Images/content1.png"
+                    class="contextImage"
+                    alt="house picture"
+                    width="100"
+                    height="100"
+                  />
+                  <h5>Most Properties & Rental</h5>
+                  <div className="contextDetails">
+                    <p>
+                      Discover The Ideal Residence From Our Extensive Selection
+                      Of Premier Properties. Embark On Your Journey With Us As
+                      We Present The
+                      <span className="highlightText">
+                        {" "}
+                        Best Real Estate Options
+                      </span>{" "}
+                      In Malaysia, Including{" "}
+                      <span className="highlightText">
+                        {" "}
+                        Stylish Condominiums, Charming Townhouses, Modern
+                        Apartments, Majestic Bingalows, And Spacious
+                        Semi-Detached Houses
+                      </span>
+                      , Tailored To Fulfill Your Aspirations.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="contain">
+                  <img
+                    src="Images/content2.png"
+                    class="contextImage"
+                    alt="house picture"
+                    width="100"
+                    height="100"
+                  />
+                  <h5>House Safe</h5>
+                  <div className="contextDetails">
+                    <p>
+                      Our Dedicated Property Services Are Designed To Ensure A
+                      <span className="highlightText">
+                        {" "}
+                        Safe, Secure, And Seamless Experience For Homeowners Ans
+                        Renters
+                      </span>{" "}
+                      Alike. From{" "}
+                      <span className="highlightText">
+                        Verified Listings To State-Of-The-Art Security Features
+                      </span>
+                      , We Provide The Tools And Support You Need To Find Or
+                      Lease Properties With Confidence.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col">
+                <div className="contain">
+                  <img
+                    src="Images/content3.png"
+                    class="contextImage"
+                    alt="house picture"
+                    width="100"
+                    height="100"
+                  />
+                  <h5>Transparency</h5>
+                  <div className="contextDetails">
+                    <p>
+                      Our Property Website Stands On The Foundation Of
+                      Transparency. We Believe That Whether You're Buying,
+                      Selling, Or Renting, You Should Have Clear, Accessible
+                      Information At Your Fingertips. From Open Listings To
+                      Straightforward Pricing And Honest Property Conditions, We
+                      <span className="highlightText">
+                        Ensure That What You See Is What You Get.{" "}
+                      </span>
+                      Navigate Your Property Journey With Us, Where Transparency
+                      Isn't Just A promise-It's Our Practice.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+        </section>
+      </main>
+    </div>
+  );
+};
         <section id="info">
           <div className="container">
             <div class="row row-cols-1 row-cols-md-3 g-5">
