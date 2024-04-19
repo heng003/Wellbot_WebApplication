@@ -63,11 +63,7 @@ const Home = () => {
     return(
         <div>
             <main>
-                <section id="Home">
-                    <div className="container">
-                        <img src="Images/generalPageBackground.png" id='backgroundImg'/>
-                    </div>
-                </section>
+                <section id="Home"/>
             
                 <section id="filter">
                     <div className="container">

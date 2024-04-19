@@ -4,6 +4,7 @@
     background-image: url('/public/Images/bungalow.jpg');
     background-size: cover;
     background-position: 0em;
+    padding-top: 0.1em;
 }
 
 #landlordMain {
