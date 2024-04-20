@@ -7,9 +7,9 @@ import "bootstrap/dist/js/bootstrap.bundle";
 import CardProperty from "../component/CardProperty";
 
 const Home = () => {
-  const [selectedOption1, setSelectedOption1] = useState("");
-  const [selectedOption2, setSelectedOption2] = useState("");
-  const [selectedOption3, setSelectedOption3] = useState("");
+  const [selectedOption1, setSelectedOption1] = useState(null);
+  const [selectedOption2, setSelectedOption2] = useState(null);
+  const [selectedOption3, setSelectedOption3] = useState(null);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
   const handleDropdownChange1 = (event) => {
@@ -125,7 +125,7 @@ const Home = () => {
       cardTitle1: "RM 500 Per Month",
       cardTitle2: "Tiara Damansara's Master Room",
       cardText:
-        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor abababab abababa abababa abababa abababa",
+        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
       roomDetails: ["1", "2", "350sf"],
     },
   // Array of card data objects for frontend demo
