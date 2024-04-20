@@ -36,6 +36,9 @@ import LandlordArrangePhoto from './LandlordPOV/ArrangePhoto';
 import LandlordEditPhoto from './LandlordPOV/EditPhoto';
 import LandlordApplicant from './LandlordPOV/LandlordApplicant';
 import LandlordApplicantFeedback from './LandlordPOV/LandlordApplicantFeedback';
+import AgreementPage1 from "./LeaseAgreement/AgreementPage1";
+import AgreementPage2 from "./LeaseAgreement/AgreementPage2";
+import AgreementPage3 from "./LeaseAgreement/AgreementPage3";
 
 function App() {
   return (
@@ -76,6 +79,9 @@ function App() {
             <Route path="/landlordEditPhoto" element={<LandlordEditPhoto/>}/>
             <Route path="/landlordApplicant" element={<LandlordApplicant/>}/>
             <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback/>}/>
+            <Route path="/leaseAgreement/page1" element={<AgreementPage1 />} />
+            <Route path="/leaseAgreement/page2" element={<AgreementPage2 />} />
+            <Route path="/leaseAgreement/page3" element={<AgreementPage3 />} />
           </Routes>
           <ShowFooter>
             <Footer /> 
