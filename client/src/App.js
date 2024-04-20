@@ -28,7 +28,7 @@ import RentTenant from './TenantPOV/RentTenant';
 import TenantViewPropertyPending from './TenantPOV/ViewPropertyPending';
 import TenantViewPropertyRejected from './TenantPOV/ViewPropertyRejected';
 import TenantViewPropertyLease from './TenantPOV/ViewPropertyLease';
-import LandlordViewProperty from './LandlordPOV/ViewProperty';
+import LandlordViewProperty from './LandlordPOV/LandlordViewProperty';
 import LandlordUpdateProperty from './LandlordPOV/UpdateProperty';
 import LandlordUploadProperty from './LandlordPOV/UploadProperty';
 import LandlordUploadPropertyPhoto from './LandlordPOV/UploadPropertyPhoto';

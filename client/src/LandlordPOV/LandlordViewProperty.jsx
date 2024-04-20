@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import './viewproperty.css';
+import './landlordviewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import Swal from 'sweetalert2';
 
@@ -39,7 +39,7 @@ const ViewProperty = () => {
     };
 
     const handleViewPropertyPageButton = () => {
-        if (location.pathname !== "/LandlordViewProperty" || location.pathname !== "/landlordViewProperty" || location.pathname !== "/LandlordViewProperty#") {
+        if (localStorage.getItem("previousPath") !== "/landlordHome") {
             Swal.fire({
                 title: 'Warning!',
                 text: 'You need to register or log in to your account before performing this action.',

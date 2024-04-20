@@ -24,10 +24,15 @@ const LandlordHome = () => {
     setSelectedOption3(event.target.value);
   };
   
-  const handleUpdateProperty = () => {
+  const handleViewProperty = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        navigate("/landlordUpdateProperty");
+        navigate("/landlordViewProperty");
   }
+
+  const handleUpdateProperty = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate("/landlordUpdateProperty");
+}
   
     return(
         <div>
@@ -120,14 +125,14 @@ const LandlordHome = () => {
                                     </ul>
                                     
                                     <div className="manageButton"> 
-                                        <a href="#"><button id="manage" type="button">Edit</button></a>
+                                        <a href="#"><button id="manage" type="button" onClick={handleUpdateProperty} >Edit</button></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col" onClick={() => navigate('/LandlordViewProperty')}> 
-                            <div class="card h-100" onClick={handleUpdateProperty}>
+                        <div class="col"> 
+                            <div class="card h-100" onClick={handleViewProperty}>
                             <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
                             <div class="card-body">
                                 <h4 class="card-title1">RM 500 Per Month</h4>
@@ -139,7 +144,7 @@ const LandlordHome = () => {
                                     <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
                                 </ul>
                                 <div className="manageButton"> 
-                                    <a href="#"><button id="manage" type="button">Edit</button></a>
+                                    <a href="#"><button id="manage" type="button"  onClick={handleUpdateProperty}>Edit</button></a>
                                 </div>
                             </div>
                             </div>
