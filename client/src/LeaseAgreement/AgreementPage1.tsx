@@ -1,5 +1,5 @@
 import React from "react";
-import { AgreementWrapper } from "../component/AgreementComponents/agreement-wrapper";
+import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import {
   LeaseIntro,
   PropertyInfo,
@@ -8,9 +8,15 @@ import {
   TermThree,
   TermTwo,
 } from "./AgreementText";
-import { AgreementTerm } from "../component/AgreementComponents/agreeement-term";
+import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+
+const localStorageValue = JSON.parse(localStorage.getItem("formValues") || "");
 
 const AgreementPage1 = () => {
+  console.log(localStorageValue);
+
+  // console.log("Address ", formValues.value.address);
+
   return (
     <>
       <AgreementWrapper
@@ -19,23 +25,33 @@ const AgreementPage1 = () => {
         nextButtonHref="/landlordLeaseAgreementPg2"
       >
         {LeaseIntro(
-          "1",
-          "May",
-          "24",
-          "Lye Xin Tian",
-          "000000000",
-          "Joshua Lim",
-          "111111111"
+          localStorageValue.day,
+          localStorageValue.month,
+          localStorageValue.year,
+          localStorageValue.lessorName,
+          localStorageValue.lessorIc,
+          localStorageValue.lesseeName,
+          localStorageValue.lesseIc
         )}
-        {PropertyInfo("775 House")}
+        {PropertyInfo(localStorageValue.address)}
         <AgreementTerm number="1" title="term">
-          {TermOne("1 May 2024", "1 May 2025")}
+          {TermOne(
+            localStorageValue.effectiveDate,
+            localStorageValue.expireDate
+          )}
         </AgreementTerm>
         <AgreementTerm number="2" title="rent">
-          {TermTwo("Five Hundred", "500", "10")}
+          {TermTwo(
+            localStorageValue.rentRmWord,
+            localStorageValue.rentRmNum,
+            localStorageValue.advanceDay
+          )}
         </AgreementTerm>
         <AgreementTerm number="3" title="deposit">
-          {TermThree("Five Hundred", "500")}
+          {TermThree(
+            localStorageValue.depositRmWord,
+            localStorageValue.depositRmNum
+          )}
         </AgreementTerm>
         <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
           {TermFour()}

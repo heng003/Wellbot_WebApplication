@@ -1,5 +1,4 @@
-import React from "react";
-import { AgreementWrapper } from "../component/AgreementComponents/agreement-wrapper";
+import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import {
   TermEight,
   TermEleven,
@@ -15,7 +14,9 @@ import {
   TermThirteen,
   TermTwelve,
 } from "./AgreementText";
-import { AgreementTerm } from "../component/AgreementComponents/agreeement-term";
+import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+
+const localStorageValue = JSON.parse(localStorage.getItem("formValues") || "");
 
 const AgreementPage2 = () => {
   return (
@@ -54,12 +55,12 @@ const AgreementPage2 = () => {
         </AgreementTerm>
         <AgreementTerm number="12" title="notice">
           {TermTwelve(
-            "775 House",
-            "010-3977461",
-            "04-3977461",
-            "Ryan n Miho",
-            "012-3456789",
-            "04-3977461"
+            localStorageValue.lessorAdd,
+            localStorageValue.lessorTel,
+            localStorageValue.lessorFax,
+            localStorageValue.lesseeAdd,
+            localStorageValue.lesseeTel,
+            localStorageValue.lesseeFax
           )}
         </AgreementTerm>
         <AgreementTerm number="13" title="modification">

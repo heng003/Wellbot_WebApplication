@@ -1,14 +1,16 @@
-import { AgreementTerm } from "../component/AgreementComponents/agreeement-term";
-import { AgreementWrapper } from "../component/AgreementComponents/agreement-wrapper";
-import { TermEighteen, TermSeventeen } from "./AgreementText";
+import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
+import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
 
 const AgreementPage3 = () => {
   return (
     <>
       <AgreementWrapper
         title="Lease Agreement"
-        nextButtonText="Save And Submit"
-        nextButtonHref="/"
+        dialogCloseText="OK"
+        dialogDescription="You have agreed and submitted the lease agreement to the landlord."
+        dialogTitle="Submitted Successfully"
+        dialogTriggerText="Save and Submit"
       >
         <AgreementTerm number="17" title="no partnership">
           {TermSeventeen()}

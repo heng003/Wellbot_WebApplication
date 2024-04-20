@@ -39,6 +39,7 @@ import LandlordApplicantFeedback from './LandlordPOV/LandlordApplicantFeedback';
 import AgreementPage1 from "./LeaseAgreement/AgreementPage1";
 import AgreementPage2 from "./LeaseAgreement/AgreementPage2";
 import AgreementPage3 from "./LeaseAgreement/AgreementPage3";
+import AgreementFormPage from "LeaseAgreement/AgreementFormPage";
 
 function App() {
   return (
