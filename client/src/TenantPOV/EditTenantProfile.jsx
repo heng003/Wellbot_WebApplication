@@ -4,19 +4,8 @@ import '../LandlordPOV/editlandlordprofile.css';
 import '../LandlordPOV/landlord_history.css';
 import Swal from 'sweetalert2'
 
-const TenantApplyForm = () => {
+const EditLandlordProfile = () => {
 
-    const [selectedGender, setSelectedGender] = useState("");
-    const [clicked, setClicked] = useState(false);
-
-    const handleDropdownGenderChange = (event) => {
-        setSelectedGender(event.target.value);
-    };
-
-    const handleCheckboxChange = () => {
-        setClicked(!clicked); 
-    };
-    
     const handleSaveAndSubmit = (e) =>{
         Swal.fire({
             text: "Saved and Submitted!",
@@ -26,15 +15,25 @@ const TenantApplyForm = () => {
     }
 
     return(
-    
         <>
         <div className="rental-history">
-
-            <h1 className="rentalTitle">Edit Personal Details</h1>
-
-            <h3 className="instructionText">Please make sure personal details are correct before proceed.</h3>
+            <h1 className="EditTitle">Your Profile</h1>
+         
             
-            <div className="ApplyForm">
+            <div className="profileSection">
+                <div className="pictureLeft_Section">
+                    <img src="Images/Edit_Property_TenantProfile.png" alt="Logo" width='100' height='100'/>
+                </div>
+
+                <div className="accountRight_Section">
+                    <h5 className= "usernameText">UseHtt54@</h5>
+                    <p  className = "accountDetail" id="uploadproperty">Account has created <span id="day">one</span> day before</p>
+                </div>
+
+            </div>
+            
+
+            <div className="editLandlordForm">
 
                 <div className="row" id="row2">
                     <div class="col">
@@ -63,48 +62,19 @@ const TenantApplyForm = () => {
                         <h6>Email Address *</h6>
                         <input type="email" name="editEmail" id="editEmail" placeholder="Enter Your Email Address" required/>
                     </div>
-
-                    <div className="col">
-
-                    </div>
-
-                </div>
-                    
-                    <p id="alertMessage">** It is <span>compulsory</span> to fill in all of the above information before uploading your property</p>
-
-                    <div className="mainCentreButton">
-                        <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col">
-                        <h6>Remarks</h6>
-                        <input type="text" name="editRemarks" id="editRemarks" placeholder="Eg: Price Negotiable"/>
-                    </div>
-
                     <div className="col"></div>
                 </div>
-
-            </div>
-
-            <div className="row-checkbox">
-                <input
-                    type="checkbox"
-                    id="confirmCheckbox"
-                    checked={clicked}
-                    onChange={handleCheckboxChange}
-                />
-                <label htmlFor="confirmCheckbox">I hereby confirm the information is true and allow my information to be shared with this property's landlord.</label>
-            </div>
-
-            <div className="centreButton">
+                <p id="alertMessage">** It is <span>compulsory</span> to fill in all of the above information before applying your property</p>
+                
+                <div className="mainCentreButton">
                     <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
+                </div>
+                
             </div>
 
         </div>
         </>
-       
     )
 }
-export default TenantApplyForm;
+
+export default EditLandlordProfile;

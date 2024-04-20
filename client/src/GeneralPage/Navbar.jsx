@@ -36,7 +36,7 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-                <a href="#"><img src="Images/profilepic.png" alt="Avatar" width="90" height="90" style={{ marginLeft: '1.5em' }}/></a>
+                <a href="#"><img src="Images/general_Profile.svg" alt="Avatar" width="110" height="auto"/></a>
            </div>
            </nav>
         </div>

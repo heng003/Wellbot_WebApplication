@@ -55,7 +55,7 @@ const TenantNavbar = () => {
                         </ul>
                     </div>
                     <a href="/tenantProfileEdit" >
-                        <img src="Images/tenantProfile.png" alt="Avatar" width="90" height="90" style={{ marginRight: '1.5em' }} />
+                        <img src="Images/tenant_Profile.svg" alt="Avatar" width="110" height="auto" />
                     </a>
                 </div>
             </nav>

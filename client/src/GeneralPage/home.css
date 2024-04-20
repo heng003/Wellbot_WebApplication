@@ -12,6 +12,10 @@
     background-position: 0em;
 }
 
+.generalContent{
+    margin-bottom: 10em;
+}
+
 
 #Home .container {
     padding-inline: 0;
@@ -30,17 +34,17 @@
 }
 
 #filter{
-    margin-block: 2.5em;
+    margin-block: 2em;
     margin-inline: 0;
     padding-inline: 0;
 }
 
 #filter .row-cols-1{
-    padding-left: 8%;
+    padding-left: 6%;
 }
 
 #filter .searchButton{
-    margin-left: 8%;
+    margin-left: 6.2%;
 }
 
 #filter .col{
@@ -49,33 +53,94 @@
 }
 
 #filter .subTitle{
-    color: #FF5C00;;
+    font-weight: 600; 
+    font-size: 35px; ; 
+    color: hwb(22 0% 0%); 
     margin-bottom: 1.35em;
     margin-top: 2.725em;
-}
-
-.filterTitle{
-    font-weight: bold;
-    margin-bottom: 10px;
-    
+    margin-left: 2.2em;
 }
 
 #filter .form-select {
-    background-color: rgba(255, 246, 234, 0.5); /* 50% transparent white */
-    border: 2px solid black;
-    width: 80%;
-    margin-top: 0.5em;
+  position: relative; 
+  border: 2px solid black; 
+  border-radius: 12px; 
+  font-size: 14px; 
+  font-weight:450; 
+  color: #000; 
+  padding: 1em 2em 1em 1.4em; 
+  cursor: pointer; 
+  background-color: #FFFBF4; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 22em;  
+  -webkit-appearance: none; /* Remove the native arrow for Webkit browsers */ 
+  -moz-appearance: none; /* Remove the native arrow for Firefox */ 
+  appearance: none; /* Remove the native arrow */ 
+  background: url('/public/Images/drop_down_arrow.png') no-repeat right 2em center; /* Adjust the right position as needed */ 
+  background-color: #FFFBF4; 
+  background-size: 0.9em; /* Adjust the size of the arrow as needed */ 
+} 
+
+#filter .form-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #FFFBF4;
+  }
+  
+
+#filter .Specificform-select{
+  position: relative; 
+  border: 2px solid black; 
+  border-radius: 12px; 
+  font-size: 14px; 
+  font-weight:450; 
+  color: #000; 
+  padding: 1em 2em 1em 1.4em; 
+  cursor: pointer; 
+  background-color: #FFFBF4; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 30em;  
+  -webkit-appearance: none; /* Remove the native arrow for Webkit browsers */ 
+  -moz-appearance: none; /* Remove the native arrow for Firefox */ 
+  appearance: none; /* Remove the native arrow */ 
+  background: url('/public/Images/drop_down_arrow.png') no-repeat right 2em center; /* Adjust the right position as needed */ 
+  background-color: #FFFBF4; 
+  background-size: 0.9em; /* Adjust the size of the arrow as needed */ 
+    
+}
+
+
+.View-Button{
+    background-color: #FF8C22;
+    font-weight: 600;
+    color: #FFF6EA;
+    border: 2px;
+    border-radius: 6px;
+    font-size: 16px;
+    padding: 10px 38px;
+    margin-top: 3.125em;
+    cursor: pointer;
+    margin-bottom: 2em;
+}
+
+.View-Button:hover {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
 }
 
 .searchButton{
     background-color: #FF8C22;
-    font-weight: bold;
-    color: #FFF6EA;
+    font-weight: 600;
+    color: #fff6ea;
     border: 2px;
     border-radius: 6px;
-    padding: 10px 20px;
-    margin-top: 3.125em;
+    font-size: 16px;
+    padding: 10px 38px;
     cursor: pointer;
+    margin-top: 0.8em;
     margin-bottom: 2em;
 }
 
@@ -112,7 +177,7 @@
     object-fit:cover;
     background-repeat: no-repeat;
     width: 26em;
-    height: 16.88m;
+    height: 16.88em;
     align-self: center;
 }
 
@@ -130,7 +195,8 @@
 #recommendation .room .roomDetails {
     list-style: none;
     margin: 0.6em;
-    margin-left: -0.6em;
+    margin-left: -1.6em;
+    font-weight: 500;
 }
 
 #recommendation .card:hover {
@@ -141,15 +207,22 @@
 
 #recommendation .card-title1{
     font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 0.6em;
+}
+
+
+#recommendation .card-title2{
+    font-weight: 500;
+    font-size: 19px;
 }
 
 #recommendation .card-text {
     color: rgba(23, 22, 22, 0.6);
     font-weight:500;
-    padding-top: 10px;
+    font-size: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.6em;
     display: -webkit-box;
     -webkit-line-clamp: 2; /* Number of lines to show before truncating */
     -webkit-box-orient: vertical;
