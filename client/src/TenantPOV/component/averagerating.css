@@ -4,34 +4,34 @@
     font-family: 'Poppins';
 }
 
-.avg-rating-group .col {
+.avg-rating-group .avg-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: fit-content;
-    margin-right: 2rem; /* Adjust the margin as needed */
-    white-space: nowrap; /* Prevent text from wrapping */
 }
 
-.avg-star-img {
-    height: 2.125rem;
+.avg-rating-group .avg-stars-img {
+    height: 1.8em;
 }
 
 .avg-rating-group {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    width: fit-content;
+    justify-content: start;
+    width: max-content;
+    column-gap: 2em;
+    align-items: center;
 }
 
-.review-number {
-    font-weight: 480;
+.avg-rating-group .review-number {
+    font-weight: 580;
     font-size: 1.1em;
     color: #B3B3B3;
 }
 
-.review-score {
+.avg-rating-group .review-score {
     font-weight: 580;
     font-size: 1.1em;
     color: #F28E19;

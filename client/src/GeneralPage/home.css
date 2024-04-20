@@ -181,8 +181,8 @@
     align-self: center;
 }
 
-#recommendation .room,
-#property .room {
+#recommendation .roomIconsGroup,
+#property .roomIconsGroup {
     margin-bottom: -8px;
     display: flex;
     justify-content: space-around;
@@ -190,13 +190,17 @@
     border: 1.5px solid black;
     border-left: white;
     border-right: white;
+    flex-direction: row;
 }
 
-#recommendation .room .roomDetails {
+#recommendation .roomIconsGroup .roomDetailsOneIconGroup {
     list-style: none;
     margin: 0.6em;
     margin-left: -1.6em;
     font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 #recommendation .card:hover {
@@ -243,14 +247,20 @@
 
 #info {
     content: 200%;
+    display: flex;
 }
 
 #info .col {
     padding-top: 3.125em;
+    display: flex;
 }
 
 #info .contain {
     text-align: center;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #info h5 {

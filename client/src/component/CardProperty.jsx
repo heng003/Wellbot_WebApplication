@@ -25,9 +25,9 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
                     <p className="card-text">{propertyAdd}</p>
                 </div>
 
-                <ul className="room">
+                <ul className="roomIconsGroup">
                     {roomDetails.map((detail, index) => (
-                        <li key={index} className="roomDetails">
+                        <li key={index} className="roomDetailsOneIconGroup">
                             <img src={roomImgSrc[index]} alt="details" width="35" height="35" style={{ marginRight: '0.5em' }}/> {detail}
                         </li>
                     ))}

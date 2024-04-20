@@ -8,17 +8,19 @@ const AverageRating = ({ numOfReview, avg }) => {
 
     return (
         <div className="avg-rating-group">
-            <div className="col">
-                <img className="avg-star-img" alt="" src="Images/commentStar.png" />
+            <div className="avg-col">
+                <img className="avg-stars-img" alt="" src="Images/commentStar.png" height={20}/>
+            </div>
+
+            <div className="avg-col">
+                <span className="review-score">{avgRatingScore}</span>
             </div>
             
-            <div className="col">
+            <div className="avg-col">
                 <span className="review-number">{reviewNumbers}</span>
             </div>
 
-            <div className="col">
-                <span className="review-score">{avgRatingScore}</span>
-            </div>
+            
         </div>
     );
 };
