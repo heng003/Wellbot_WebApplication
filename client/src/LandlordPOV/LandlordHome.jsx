@@ -113,10 +113,10 @@ const LandlordHome = () => {
                                     <h6 class="card-title2">Tiara Damansara's Master Room</h6>
                                     <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
                                     
-                                    <ul className="room">
-                                        <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                        <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                        <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
+                                    <ul className="roomIconsGroup">
+                                        <li className="roomDetailsOneIconGroup"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
+                                        <li className="roomDetailsOneIconGroup"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
+                                        <li className="roomDetailsOneIconGroup"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
                                     </ul>
                                     
                                     <div className="manageButton"> 
@@ -133,10 +133,10 @@ const LandlordHome = () => {
                                 <h4 class="card-title1">RM 500 Per Month</h4>
                                 <h6 class="card-title2">Tiara Damansara's Master Room</h6>
                                 <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                                <ul className="room">
-                                    <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                    <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                    <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
+                                <ul className="roomIconsGroup">
+                                    <li className="roomDetailsOneIconGroup"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
+                                    <li className="roomDetailsOneIconGroup"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
+                                    <li className="roomDetailsOneIconGroup"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
                                 </ul>
                                 <div className="manageButton"> 
                                     <a href="#"><button id="manage" type="button">Edit</button></a>
