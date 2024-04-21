@@ -267,7 +267,7 @@
     padding-top: 10px;
 }
 
-#recommendation .card {
-    padding-inline: 1em;
-    padding-inline: 1em;
+#recommendation .card-body {
+    margin-left: 1em;
+    margin-right: 1em;
 }
