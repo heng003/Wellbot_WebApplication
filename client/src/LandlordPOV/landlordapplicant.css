@@ -74,6 +74,14 @@
     margin-bottom: 0.3em;
 }
 
+.applicant-list-table .ratingStarsGroup {
+    margin-right: 2em;
+}
+
+.applicant-list-table .rating-star {
+    margin-right: -2em;
+}
+
 @media screen and (max-width: 1000px) {
     .property-selectors-group {
         display: block;

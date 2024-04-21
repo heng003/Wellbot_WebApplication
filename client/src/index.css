@@ -15,3 +15,13 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.collapse {
+  visibility: visible;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: inline;
+  vertical-align: middle;
+  max-width: none;
+}

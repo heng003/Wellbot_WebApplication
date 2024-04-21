@@ -45,7 +45,7 @@ const LandlordApplicantFeedback = () => {
 
                     <div className="applicantContactSection">
                         <div className="contactTop_Section">
-                            <img src={contactIcon} alt="Contact Icon" height={45} className="contactIcon"/>
+                            <img src={contactIcon} alt="Contact Icon" height={55} width={55} className="contactIcon"/>
                             <p className="contactText">Contact me <span className="contactLink">HERE</span></p>
                         </div>
 

@@ -107,8 +107,8 @@ function LandlordApplicant() {
                     key={i}
                     src={starOnClick}
                     alt="Rating Star"
-                    width='55'
-                    height='55'
+                    width='65'
+                    height='65'
                     className="rating-star"
                 />
             ))}
@@ -117,8 +117,8 @@ function LandlordApplicant() {
                     key={i}
                     src={starDefault}
                     alt="Rating Star"
-                    width='55'
-                    height='55'
+                    width='65'
+                    height='65'
                     className="rating-star"
                 />
             ))}
