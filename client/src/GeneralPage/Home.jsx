@@ -93,6 +93,16 @@ const Home = () => {
 
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
+    const results = cardData.filter((card) => {
+      const matchesType =
+        !selectedOption1 || card.propertyType === selectedOption1;
+      const matchesLocation =
+        !selectedOption2 || card.location === selectedOption2;
+      const matchesPriceRange =
+        !selectedOption3 || card.priceRange === selectedOption3;
+      return matchesType && matchesLocation && matchesPriceRange;
+    });
+    setFilteredResults(results);
   };
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
@@ -127,6 +137,9 @@ const Home = () => {
       cardText:
         "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
       roomDetails: ["1", "2", "350sf"],
+      propertyType: "Room",
+      location: "Petaling Jaya",
+      priceRange: "RM500 - RM1000",
     },
   // Array of card data objects for frontend demo
   const cardData = [
@@ -153,11 +166,14 @@ const Home = () => {
 
     {
       imgSrc: "Images/commercial.jpg",
-      cardTitle1: "RM 500 Per Month",
-      cardTitle2: "Tiara Damansara's Master Room",
+      cardTitle1: "RM 1500 Per Month",
+      cardTitle2: "8 Trium (Office)",
       cardText:
-        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-      roomDetails: ["1", "2", "350sf"],
+        "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor",
+      roomDetails: ["0", "3", "1000sf"],
+      propertyType: "Commercial",
+      location: "Bandar Sri Damansara",
+      priceRange: "RM1000 - RM1500",
     },
     {
       imgSrc: "Images/bungalow.jpg",
