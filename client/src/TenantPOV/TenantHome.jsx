@@ -158,7 +158,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="generalContent">
+    <div>
       <main>
         <section id="Home" />
 
