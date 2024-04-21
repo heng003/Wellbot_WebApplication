@@ -128,8 +128,15 @@ const UpdateProperty = () => {
                 <div className="row">
                     <div class="col">
                         <h6>Postcode</h6>
-                        <input type="text" name="editPostcode" id="editPostcode" placeholder="Enter Postcode" required pattern="[0-9]{5}}" />
+                        <input type="text" name="editPostcode" id="editPostcode" placeholder="Enter Postcode" required pattern="[0-9]{5}}"/>
                     </div>
+                    <div class="col">
+                        <h6>Location</h6>
+                        <input type="text" name="editLocation" id="editLocation" placeholder="Eg: Petaling Jaya"/>
+                    </div>
+                </div>
+
+                <div className="row">
                     <div className="col">
                         <h6>Bedroom</h6>
                         <select name="editBedroom" id="editBedroom" required className="dropdwon" value={selectedBedroom} onChange={handleDropdownBedroomChange}>
@@ -139,10 +146,7 @@ const UpdateProperty = () => {
                             <option value="3">3</option>
                         </select>
                     </div>
-                </div>
-
-                <div className="row">
-                <div className="col">
+                    <div className="col">
                         <h6>Bathroom</h6>
                         <select name="editBathroom" id="editBathroom" required className="dropdwon" value={selectedBathroom} onChange={handleDropdownBathroomChange}>
                         <option value="" disabled hidden>Please Select Number of Bathroom(s)</option>
@@ -151,6 +155,9 @@ const UpdateProperty = () => {
                             <option value="3">3</option>
                         </select>
                     </div>
+                </div>
+
+                <div className="row">
                     <div className="col">
                         <h6>Furnishing</h6>
                         <select name="editFurnish" id="editFurnish" required className="dropdwon" value={selectedFurnish} onChange={handleDropdownFurnishChange}>
@@ -160,10 +167,7 @@ const UpdateProperty = () => {
                             <option value="Unfurnished">Unfurnished</option>
                         </select>
                     </div>
-                </div>
-
-                <div className="row">
-                <div className="col">
+                    <div className="col">
                         <h6>Parking</h6>
                         <select name="editParking" id="editParking" required className="dropdwon" value={selectedParking} onChange={handleDropdownParkingChange}>
                         <option value="" disabled hidden>Please Select Number of Parking(s)</option>
@@ -172,6 +176,9 @@ const UpdateProperty = () => {
                             <option value="2">2</option>
                         </select>
                     </div>
+                </div>
+
+                <div className="row">
                     <div className="col">
                         <h6>Floor level</h6>
                         <select name="editFloor" id="editFloor" required className="dropdwon" value={selectedFloor} onChange={handleDropdownFloorChange}>
@@ -181,41 +188,38 @@ const UpdateProperty = () => {
                             <option value="2">2</option>
                         </select>
                     </div>
-                </div>
-
-                <div className="row">
                     <div class="col">
                         <h6>Build-up Size</h6>
                         <input type="text" name="editSize" id="editSize" placeholder="Enter Build-up Size" required pattern="[0-9]}"/>
                     </div>
-                    <div class="col">
-                        <h6>Facilities</h6>
-                        <input type="text" name="editFac" id="editFac" placeholder="Enter Facilities" required/>
-                    </div>
                 </div>
 
                 <div className="row">
                     <div class="col">
-                        <h6>Accesibility</h6>
-                        <input type="text" name="editAccesibility" id="editAccesibility" placeholder="Enter Accesibility" required/>
+                        <h6>Facilities</h6>
+                        <input type="text" name="editFac" id="editFac" placeholder="Enter Facilities" required/>
                     </div>
                     <div class="col">
-                        <h6>Price</h6>
-                        <input type="text" name="editPrice" id="editPrice" placeholder="Enter Price" required pattern="[0-9]}"/>
+                        <h6>Accesibility</h6>
+                        <input type="text" name="editAccesibility" id="editAccesibility" placeholder="Enter Accesibility" required/>
                     </div>
                 </div>
 
                 <div className="row">
                     <div class="col">
                         <h6>Description</h6>
-                        <input type="text" name="editDesc" id="editDesc" placeholder="Enter any additional details" />
+                        <input type="text" name="editDesc" id="editDesc" placeholder="Eg : First come first serve, don’t miss your opportunity to get this wonderful room ! " />
                     </div>
+                </div>
+
+                <div class="col">
+                    <h6>Price</h6>
+                    <input type="text" name="editPrice" id="editPrice" placeholder="RM ----" required pattern="[0-9]}"/>
                 </div>
 
                 <div className="applyButton"> 
                     <button className="applyNowButton" type="button" onClick={handleNext}>Continue</button>
                 </div>
-
 
             </div>
      </div>
