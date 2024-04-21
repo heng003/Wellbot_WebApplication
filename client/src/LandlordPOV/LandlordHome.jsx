@@ -119,7 +119,8 @@ const LandlordHome = () => {
                     <div class="row row-cols-1 row-cols-md-3 g-5">
                         <div class="col">
                             <div class="card h-100" onClick={handleViewProperty}>
-                            <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
+                                <div><img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/></div>
+                            
                                 <div class="card-body">
                                     <h4 class="card-title1">RM 500 Per Month</h4>
                                     <h6 class="card-title2">Tiara Damansara's Master Room</h6>
@@ -140,20 +141,21 @@ const LandlordHome = () => {
                         
                         <div class="col"> 
                             <div class="card h-100" onClick={handleViewProperty}>
-                            <img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/>
-                            <div class="card-body">
-                                <h4 class="card-title1">RM 500 Per Month</h4>
-                                <h6 class="card-title2">Tiara Damansara's Master Room</h6>
-                                <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
-                                <ul className="roomIconsGroup">
-                                    <li className="roomDetailsOneIconGroup"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
-                                    <li className="roomDetailsOneIconGroup"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
-                                    <li className="roomDetailsOneIconGroup"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
-                                </ul>
-                                <div className="manageButton"> 
-                                    <a href="#"><button id="manage" type="button"  onClick={(event) => handleUpdateProperty(event)}>Edit</button></a>
+                                <div><img src="Images/commercial2.jpg" class="card-img-top" alt="house picture"/></div>
+                            
+                                <div class="card-body">
+                                    <h4 class="card-title1">RM 500 Per Month</h4>
+                                    <h6 class="card-title2">Tiara Damansara's Master Room</h6>
+                                    <p class="card-text">Tiara Damansara Condominium<br></br>Seksyen 16, 46350 Petaling Jaya, Selangor</p>
+                                    <ul className="room">
+                                        <li className="roomDetails"><img src="Images/bedroom.png" alt="details" width="35" height="35"/> 1</li>
+                                        <li className="roomDetails"><img src="Images/bathroom.png" alt="details" width="35" height="35"/> 2</li>
+                                        <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
+                                    </ul>
+                                    <div className="manageButton"> 
+                                        <a href="#"><button id="manage" type="button"  onClick={(event) => handleUpdateProperty(event)}>Edit</button></a>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                         <div class="col" onClick={() => {

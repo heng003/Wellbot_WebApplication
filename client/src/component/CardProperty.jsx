@@ -17,7 +17,9 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
 
     return (
         <div className="card h-100" onClick={handleViewProperty}>
-            <img src={imgSrc} className="card-img-top" alt="propertyImage" />
+            <div>
+                <img src={imgSrc} className="card-img-top" alt="propertyImage"/>
+            </div>
             <div className="card-body d-flex flex-column justify-content-between">
                 <div className="card-desription-container">
                     <h4 className="card-title1">{cardTitle}</h4>

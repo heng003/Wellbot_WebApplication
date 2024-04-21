@@ -176,7 +176,7 @@
     padding: 1.35em;
     object-fit:cover;
     background-repeat: no-repeat;
-    width: 26em;
+    width: 100%;
     height: 16.88em;
     align-self: center;
 }
@@ -278,7 +278,8 @@
     padding-top: 10px;
 }
 
-#recommendation .card {
-    padding-inline: 1em;
-    padding-inline: 1em;
+#recommendation .card-body {
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-top: -0.9em;
 }

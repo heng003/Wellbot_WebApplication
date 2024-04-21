@@ -43,17 +43,23 @@ const Commercial = () => {
         refSetter(false);
     };
     
-
     // Array of card data objects for frontend demo
     const cardData = [
         {
-            imgSrc: "Images/condo2.jpg",
-            cardTitle1: "RM 500 Per Month",
-            cardTitle2: "Tiara Damansara's Master Room",
-            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-            roomDetails: ["1", "2", "350sf"]
+        imgSrc: "Images/commercial.jpg",
+        cardTitle1: "RM 500 Per Month",
+        cardTitle2: "Tiara Damansara's Master Room",
+        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+        roomDetails: ["1", "2", "350sf"]
         },
 
+        {
+        imgSrc: "Images/commercial2.jpg",
+        cardTitle1: "RM 500 Per Month",
+        cardTitle2: "Tiara Damansara's Master Room",
+        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+        roomDetails: ["1", "2", "350sf"]
+        }
     ];
 
     return(

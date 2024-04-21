@@ -46,22 +46,14 @@ const Condo = () => {
 
     // Array of card data objects for frontend demo
     const cardData = [
-            {
-            imgSrc: "Images/commercial.jpg",
+        {
+            imgSrc: "Images/condo2.jpg",
             cardTitle1: "RM 500 Per Month",
             cardTitle2: "Tiara Damansara's Master Room",
             cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
             roomDetails: ["1", "2", "350sf"]
-            },
-
-            {
-            imgSrc: "Images/commercial2.jpg",
-            cardTitle1: "RM 500 Per Month",
-            cardTitle2: "Tiara Damansara's Master Room",
-            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-            roomDetails: ["1", "2", "350sf"]
-            }
-        ];
+        },
+    ];
 
         return (
             <div className='generalContent'>
