@@ -9,6 +9,7 @@ const Home = () => {
     const [selectedOption2, setSelectedOption2] = useState(null);
     const [selectedOption3, setSelectedOption3] = useState(null);
     const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const [filteredResults, setFilteredResults] = useState([]);
       
     const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
     const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -18,37 +19,46 @@ const Home = () => {
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
       
-    const properties = ["Condo", "Commercial", "Landed", "Bingalows", "Room"];
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang"];
-    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000"];
+    const properties = ["Condo", "Commercial", "Landed", "Room"];
+    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
+    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000","RM2000 - RM2500"];
       
-    useEffect(() => {
-        const handleClickOutside = event => {
-        if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
-              setIsPropertyTypeOpen(false);
-        }
-        if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
-              setIsLocationOpen(false);
-        }
-        if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) {
-              setIsPriceRangeOpen(false);
-        }
-        };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-      
-    const handleSearchButtonClick = () => {
-        setIsSearchClicked(true);
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
+        setIsPropertyTypeOpen(false);
+      }
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
+        setIsLocationOpen(false);
+      }
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) {
+        setIsPriceRangeOpen(false);
+      }
     };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
       
+  const handleSearchButtonClick = () => {
+      setIsSearchClicked(true);
+      const results = cardData.filter(card => {
+      const matchesType = !selectedOption1 || card.propertyType === selectedOption1;
+      const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
+      const matchesPriceRange = !selectedOption3 || card.priceRange === selectedOption3;
+      return matchesType && matchesLocation && matchesPriceRange;
+    });
+    setFilteredResults(results);
+  };
     const selectOption = (option, setter, refSetter) => {
-        setter(option);
-        refSetter(false);
-    };
+      setter(option);
+      refSetter(false);
+  };
+
 
      // Array of card data objects for frontend demo
      const cardData = [
@@ -56,32 +66,44 @@ const Home = () => {
         imgSrc: "Images/condo2.jpg",
         cardTitle1: "RM 500 Per Month",
         cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
+        roomDetails: ["1", "2", "350sf"],
+        propertyType: "Room", 
+        location: "Petaling Jaya", 
+        priceRange: "RM500 - RM1000"
         },
 
         {
         imgSrc: "Images/bungalow.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 2500 Per Month",
+        cardTitle2: "Sekysen 17 Landed House",
+        cardText: "16, Jalan King 123/A, Seksyen 17, 46350 Petaling Jaya, Selangor", 
+        roomDetails: ["7", "3", "2000sf"],
+        propertyType: "Landed", 
+        location: "Petaling Jaya", 
+        priceRange: "RM2000 - RM2500"
         },
         
         {
         imgSrc: "Images/commercial.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 1500 Per Month",
+        cardTitle2: "8 Trium (Office)",
+        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
+        roomDetails: ["0", "3", "1000sf"],
+        propertyType: "Commercial", 
+        location: "Bandar Sri Damansara", 
+        priceRange: "RM1000 - RM1500"
         },
 
         {
         imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 1800 Per Month",
+        cardTitle2: "Menara Yayasan Tun Razak",
+        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
+        roomDetails: ["0", "4", "1200sf"],
+        propertyType: "Commercial", 
+        location: "Bukit Bintang,", 
+        priceRange: "RM1500 - RM2000"
         }
     ];
 
@@ -167,7 +189,7 @@ const Home = () => {
                         {isSearchClicked ? "Filter Result/s" : "Recommendations"}
                     </header>
                     <div className="row row-cols-1 row-cols-md-3 g-5">
-                        {cardData.map((card, index) => (
+                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
                         <div key={index} className="col">
                             <CardProperty
                                 imgSrc={card.imgSrc}
