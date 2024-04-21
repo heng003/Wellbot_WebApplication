@@ -40,7 +40,7 @@ const ViewProperty = () => {
         });
     };
     
-    const handleViewPropertyPageButton = () => {
+    const handleApplyPropertyPageButton = () => {
         if (localStorage.getItem("previousPath") !== "/tenantHome") {
             Swal.fire({
                 title: 'Warning!',
@@ -92,7 +92,7 @@ const ViewProperty = () => {
                 </section>
 
                 <div className="applyButton"> 
-                    <button className="applyNowButton" type="button" onClick={handleViewPropertyPageButton}>Apply Now</button>
+                    <button className="applyNowButton" type="button" onClick={handleApplyPropertyPageButton}>Apply Now</button>
                 </div>
 
                 <section id="Comment">

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../TenantPOV/edittenantprofile.css';
 import '../LandlordPOV/landlord_history.css';
 import Swal from 'sweetalert2'
 
 const TenantApplyForm = () => {
+
+    const nav = useNavigate();
 
     const [selectedGender, setSelectedGender] = useState("");
     const [clicked, setClicked] = useState(false);
@@ -21,7 +24,12 @@ const TenantApplyForm = () => {
             text: "Saved and Submitted!",
             icon: "success",
             confirmButtonColor: "#FF8C22"
-          });
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                nav("/tenantApplication");
+            }    
+        });
     }
 
     return(
@@ -64,22 +72,8 @@ const TenantApplyForm = () => {
                     </div>
 
                     <div className="col">
-                        <h6>Gender *</h6>
-                        <select name="editGender" id="editGender" required className="dropdwon" value={selectedGender} onChange={handleDropdownGenderChange}>
-                        <option value="" disabled hidden>Please Select Your Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
+                        <div className="col"></div>
                     </div>
-                </div>
-
-                <div className="row">
-                    <div className="col">
-                        <h6>Remarks</h6>
-                        <input type="text" name="editRemarks" id="editRemarks" placeholder="Eg: Price Negotiable"/>
-                    </div>
-
-                    <div className="col"></div>
                 </div>
 
                 <div className="row-checkbox">

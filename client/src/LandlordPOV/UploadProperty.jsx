@@ -190,16 +190,11 @@ const handleNext = (e) => {
                         <input type="text" name="editPostcode" id="editPostcode" placeholder="Enter Postcode" required pattern="[0-9]{5}}" onChange={handleChange} />
                     </div>
                     <div className="displayErrorMessage">
-                            {errors.editPostcode && <span>{errors.editPostcode}</span>}
-                        </div>
-                    <div className="col">
-                        <h6>Bedroom</h6>
-                        <select name="editBedroom" id="editBedroom" required className="dropdwon" value={selectedBedroom} onChange={handleDropdownBedroomChange}>
-                        <option value="" disabled hidden>Please Select Number of Bedroom(s)</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                        {errors.editPostcode && <span>{errors.editPostcode}</span>}
+                    </div>
+                    <div class="col">
+                        <h6>Location</h6>
+                        <input type="text" name="editLocation" id="editLocation" placeholder="Eg: Petaling Jaya" onChange={handleChange} />
                     </div>
                 </div>
             </div>
@@ -217,7 +212,7 @@ const handleNext = (e) => {
                             <option value="3">3</option>
                         </select>
                     </div>
-                <div className="col">
+                    <div className="col">
                         <h6>Bathroom</h6>
                         <select name="editBathroom" id="editBathroom" required className="dropdwon" value={selectedBathroom} onChange={handleDropdownBathroomChange}>
                         <option value="" disabled hidden>Please Select Number of Bathroom(s)</option>
@@ -238,7 +233,7 @@ const handleNext = (e) => {
                             <option value="Unfurnished">Unfurnished</option>
                         </select>
                     </div>
-                <div className="col">
+                    <div className="col">
                         <h6>Parking</h6>
                         <select name="editParking" id="editParking" required className="dropdwon" value={selectedParking} onChange={handleDropdownParkingChange}>
                         <option value="" disabled hidden>Please Select Number of Parking(s)</option>
@@ -289,7 +284,7 @@ const handleNext = (e) => {
                 <div class="col">
                         <h6>Price</h6>
                         <input type="text" name="editPrice" id="editPrice" placeholder="RM ----" required pattern="[0-9]}"/>
-                    </div>
+                </div>
                 <div className="applyButton"> 
                     <button className="applyNowButton" type="button" onClick={handleNext}>Continue</button>
                 </div>

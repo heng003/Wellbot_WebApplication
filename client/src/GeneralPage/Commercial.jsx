@@ -51,7 +51,6 @@ const Commercial = () => {
         refSetter(false);
     };
     
-
     // Array of card data objects for frontend demo
     const cardData = [
         {
@@ -65,6 +64,13 @@ const Commercial = () => {
             priceRange: "RM 500 - RM 1000"
         },
 
+        {
+        imgSrc: "Images/commercial2.jpg",
+        cardTitle1: "RM 500 Per Month",
+        cardTitle2: "Tiara Damansara's Master Room",
+        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
+        roomDetails: ["1", "2", "350sf"]
+        }
     ];
 
     return(
