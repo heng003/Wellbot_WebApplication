@@ -46,6 +46,7 @@ const Home = () => {
       
   const handleSearchButtonClick = () => {
       setIsSearchClicked(true);
+      console.log('Selected location:', selectedOption2);
       const results = cardData.filter(card => {
       const matchesType = !selectedOption1 || card.propertyType === selectedOption1;
       const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
@@ -102,7 +103,7 @@ const Home = () => {
         cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
         roomDetails: ["0", "4", "1200sf"],
         propertyType: "Commercial", 
-        location: "Bukit Bintang,", 
+        location: "Bukit Bintang", 
         priceRange: "RM1500 - RM2000"
         }
     ];
