@@ -248,6 +248,7 @@ const LandlordHome = () => {
                         </div>
                         ))}
                         </div>
+                        </section>
     
                         <div class="col" onClick={() => {
                             navigate('/LandlordUploadProperty');
@@ -264,10 +265,9 @@ const LandlordHome = () => {
                             </div>
                         </div>
                         <br /><br /><br /><br /><br />
-                    </section>
-            </main>
+             </main>
         </div>
     );
-}
+};
 
 export default LandlordHome;
