@@ -98,12 +98,20 @@ code {
   visibility: visible;
 }
 
-img, svg, video, canvas, audio, iframe, embed, object {
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
   display: inline;
   vertical-align: middle;
   max-width: none;
 }
 
-img, video {
-  height:max-content;
+img,
+video {
+  height: max-content;
 }
