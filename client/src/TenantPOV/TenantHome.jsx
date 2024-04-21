@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import 'bootstrap/dist/js/bootstrap.bundle';
 import '../GeneralPage/home.css';
-import '../GeneralPage/navbar.css';
+import 'bootstrap/dist/js/bootstrap.bundle';
 import CardProperty from "../component/CardProperty";
 
-const TenantHome = () => {
+const Home = () => {
 
     const [selectedOption1, setSelectedOption1] = useState(null);
     const [selectedOption2, setSelectedOption2] = useState(null);
     const [selectedOption3, setSelectedOption3] = useState(null);
     const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const [filteredResults, setFilteredResults] = useState([]);
       
     const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
     const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -19,79 +19,102 @@ const TenantHome = () => {
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
       
-    const properties = ["Condo", "Commercial", "Landed", "Bingalows", "Room"];
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang"];
-    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000"];
+    const properties = ["Condo", "Commercial", "Landed", "Room"];
+    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
+    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000","RM2000 - RM2500"];
       
-    useEffect(() => {
-        const handleClickOutside = event => {
-        if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
-              setIsPropertyTypeOpen(false);
-        }
-        if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
-              setIsLocationOpen(false);
-        }
-        if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) {
-              setIsPriceRangeOpen(false);
-        }
-        };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-      
-    const handleSearchButtonClick = () => {
-        setIsSearchClicked(true);
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
+        setIsPropertyTypeOpen(false);
+      }
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
+        setIsLocationOpen(false);
+      }
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) {
+        setIsPriceRangeOpen(false);
+      }
     };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
       
+  const handleSearchButtonClick = () => {
+      setIsSearchClicked(true);
+      const results = cardData.filter(card => {
+      const matchesType = !selectedOption1 || card.propertyType === selectedOption1;
+      const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
+      const matchesPriceRange = !selectedOption3 || card.priceRange === selectedOption3;
+      return matchesType && matchesLocation && matchesPriceRange;
+    });
+    setFilteredResults(results);
+  };
     const selectOption = (option, setter, refSetter) => {
-        setter(option);
-        refSetter(false);
-    };
+      setter(option);
+      refSetter(false);
+  };
 
-    // Array of card data objects for frontend demo
-    const cardData = [
+
+     // Array of card data objects for frontend demo
+     const cardData = [
         {
         imgSrc: "Images/condo2.jpg",
         cardTitle1: "RM 500 Per Month",
         cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
+        roomDetails: ["1", "2", "350sf"],
+        propertyType: "Room", 
+        location: "Petaling Jaya", 
+        priceRange: "RM500 - RM1000"
         },
 
         {
         imgSrc: "Images/bungalow.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 2500 Per Month",
+        cardTitle2: "Sekysen 17 Landed House",
+        cardText: "16, Jalan King 123/A, Seksyen 17, 46350 Petaling Jaya, Selangor", 
+        roomDetails: ["7", "3", "2000sf"],
+        propertyType: "Landed", 
+        location: "Petaling Jaya", 
+        priceRange: "RM2000 - RM2500"
         },
         
         {
         imgSrc: "Images/commercial.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 1500 Per Month",
+        cardTitle2: "8 Trium (Office)",
+        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
+        roomDetails: ["0", "3", "1000sf"],
+        propertyType: "Commercial", 
+        location: "Bandar Sri Damansara", 
+        priceRange: "RM1000 - RM1500"
         },
 
         {
         imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 1800 Per Month",
+        cardTitle2: "Menara Yayasan Tun Razak",
+        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
+        roomDetails: ["0", "4", "1200sf"],
+        propertyType: "Commercial", 
+        location: "Bukit Bintang,", 
+        priceRange: "RM1500 - RM2000"
         }
     ];
-  
-    return(
-        <div className='generalContent'>
-            <main>
+
+      
+    return (
+        <div>
+
+        <main>
             <section id="Home"/>
-        
-            <section id="filter">
+      
+             <section id="filter">
                 <div className="container">
                   <header className="subTitle text-center fs-2 fw-bolder mt-4">
                     Find Your Dream Property
@@ -160,30 +183,68 @@ const TenantHome = () => {
                   <button className="searchButton" type="button" onClick={handleSearchButtonClick}>Search</button>
                 </div>
                 
-            </section>
-
-            <section id="recommendation">
-                <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                    {isSearchClicked ? "Filter Result/s" : "Recommendations"}
-                </header>
-                <div className="row row-cols-1 row-cols-md-3 g-5">
-                    {cardData.map((card, index) => (
-                    <div key={index} className="col">
-                        <CardProperty
-                            imgSrc={card.imgSrc}
-                            cardTitle={card.cardTitle1}
-                            propertyTitle={card.cardTitle2}
-                            propertyAdd={card.cardText}
-                            roomDetails={card.roomDetails}
-                        />
+              </section>
+                <section id="recommendation">
+                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
+                        {isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                    </header>
+                    <div className="row row-cols-1 row-cols-md-3 g-5">
+                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
+                        <div key={index} className="col">
+                            <CardProperty
+                                imgSrc={card.imgSrc}
+                                cardTitle={card.cardTitle1}
+                                propertyTitle={card.cardTitle2}
+                                propertyAdd={card.cardText}
+                                roomDetails={card.roomDetails}
+                            />
+                        </div>
+                        ))}
                     </div>
-                    ))}
-                </div>
-                <br /><br /><br /><br /><br />
-            </section>
+                    <br /><br /><br /><br /><br />
+                </section>
+
+                <section id="info">
+                    <div className="container">
+                        <div class="row row-cols-1 row-cols-md-3 g-5">
+                            <div className="col">
+                                <div className="contain">
+                                    <img src="Images/content1.png" class="contextImage" alt="house picture" width="100" height="100"/>
+                                    <h5>Most Properties & Rental</h5>
+                                    <div className="contextDetails">
+                                        <p>Discover The Ideal Residence From Our Extensive Selection Of Premier Properties. Embark On Your Journey With Us As We Present The 
+                                        <span className="highlightText"> Best Real Estate Options</span> In Malaysia, Including <span className="highlightText"> Stylish Condominiums, Charming Townhouses, Modern Apartments, Majestic Bingalows, And Spacious Semi-Detached Houses</span>
+                                        , Tailored To Fulfill Your Aspirations.</p>  
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="contain">
+                                    <img src="Images/content2.png" class="contextImage" alt="house picture" width="100" height="100"/>
+                                    <h5>House Safe</h5>
+                                    <div className="contextDetails">
+                                        <p>Our Dedicated Property Services Are Designed To Ensure A
+                                        <span className="highlightText"> Safe, Secure, And Seamless Experience For Homeowners Ans Renters</span> Alike. From <span className="highlightText">Verified Listings To State-Of-The-Art Security Features</span>
+                                        , We Provide The Tools And Support You Need To Find Or Lease Properties With Confidence.</p>  
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col">
+                                <div className="contain">
+                                    <img src="Images/content3.png" class="contextImage" alt="house picture" width="100" height="100"/>
+                                    <h5>Transparency</h5>
+                                    <div className="contextDetails">
+                                        <p>Our Property Website Stands On The Foundation Of Transparency. We Believe That Whether You're Buying, Selling, Or Renting, You Should Have Clear, Accessible Information At Your Fingertips. From Open Listings To Straightforward Pricing And Honest Property Conditions, We
+                                        <span className="highlightText"> Ensure That What You See Is What You Get. </span>Navigate Your Property Journey With Us, Where Transparency Isn't Just A promise-It's Our Practice.</p>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br /><br />
+                </section>
             </main>
         </div>
     );
 }
 
-export default TenantHome;
+export default Home;
