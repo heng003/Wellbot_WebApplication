@@ -100,7 +100,7 @@ const Home = () => {
         cardTitle1: "RM 1800 Per Month",
         cardTitle2: "Menara Yayasan Tun Razak",
         cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["0", "4", "1200sf"],
+        roomDetails: ["7", "4", "1200sf"],
         propertyType: "Commercial", 
         location: "Bukit Bintang", 
         priceRange: "RM 1501 - RM 2000"

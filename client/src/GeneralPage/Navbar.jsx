@@ -1,9 +1,29 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState,useEffect } from "react";
+import { Link, useLocation } from 'react-router-dom';
 import './navbar.css';
 
 const Navbar = () => {
+
+    const location = useLocation();
     const [activeItem, setActiveItem] = useState('Rent');
+
+    useEffect(() => {
+      
+        const determineActiveItem = () => {
+            const path = location.pathname;
+            if (path.includes('/condo')) {
+                return 'Condo';
+            } else if (path.includes('/commercial')) {
+                return 'Commercial';
+            } else {
+                return 'Rent';
+            }
+        };
+
+       
+        setActiveItem(determineActiveItem());
+        }, [location]);
+    
 
     const handleItemClick = (itemName) => {
         setActiveItem(itemName);

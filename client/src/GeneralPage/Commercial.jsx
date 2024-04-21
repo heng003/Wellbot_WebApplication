@@ -54,22 +54,25 @@ const Commercial = () => {
     // Array of card data objects for frontend demo
     const cardData = [
         {
-            imgSrc: "Images/condo2.jpg",
-            cardTitle1: "RM 500 Per Month",
-            cardTitle2: "Tiara Damansara's Master Room",
-            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-            roomDetails: ["1", "2", "350sf"],
-            propertyType: "Room", 
-            location: "Petaling Jaya", 
-            priceRange: "RM 500 - RM 1000"
-        },
+            imgSrc: "Images/commercial.jpg",
+            cardTitle1: "RM 1500 Per Month",
+            cardTitle2: "8 Trium (Office)",
+            cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
+            roomDetails: ["0", "3", "1000sf"],
+            propertyType: "Commercial", 
+            location: "Bandar Sri Damansara", 
+            priceRange: "RM 1001 - RM 1500"
+            },
 
         {
         imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-        roomDetails: ["1", "2", "350sf"]
+        cardTitle1: "RM 1800 Per Month",
+        cardTitle2: "Menara Yayasan Tun Razak",
+        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
+        roomDetails: ["7", "4", "1200sf"],
+        propertyType: "Commercial", 
+        location: "Bukit Bintang", 
+        priceRange: "RM 1501 - RM 2000"
         }
     ];
 
