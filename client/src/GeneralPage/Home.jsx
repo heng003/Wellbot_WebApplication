@@ -21,7 +21,7 @@ const Home = () => {
       
     const properties = ["Condo", "Commercial", "Landed", "Room"];
     const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
-    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000","RM2000 - RM2500"];
+    const priceRanges = ["RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
       
 
   useEffect(() => {
@@ -46,7 +46,6 @@ const Home = () => {
       
   const handleSearchButtonClick = () => {
       setIsSearchClicked(true);
-      console.log('Selected location:', selectedOption2);
       const results = cardData.filter(card => {
       const matchesType = !selectedOption1 || card.propertyType === selectedOption1;
       const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
@@ -71,7 +70,7 @@ const Home = () => {
         roomDetails: ["1", "2", "350sf"],
         propertyType: "Room", 
         location: "Petaling Jaya", 
-        priceRange: "RM500 - RM1000"
+        priceRange: "RM 500 - RM 1000"
         },
 
         {
@@ -82,7 +81,7 @@ const Home = () => {
         roomDetails: ["7", "3", "2000sf"],
         propertyType: "Landed", 
         location: "Petaling Jaya", 
-        priceRange: "RM2000 - RM2500"
+        priceRange: "RM 2001 - RM 2500"
         },
         
         {
@@ -93,7 +92,7 @@ const Home = () => {
         roomDetails: ["0", "3", "1000sf"],
         propertyType: "Commercial", 
         location: "Bandar Sri Damansara", 
-        priceRange: "RM1000 - RM1500"
+        priceRange: "RM 1001 - RM 1500"
         },
 
         {
@@ -104,7 +103,7 @@ const Home = () => {
         roomDetails: ["0", "4", "1200sf"],
         propertyType: "Commercial", 
         location: "Bukit Bintang", 
-        priceRange: "RM1500 - RM2000"
+        priceRange: "RM 1501 - RM 2000"
         }
     ];
 
