@@ -8,45 +8,38 @@ import { useNavigate } from 'react-router-dom';
 
 const LandlordHome = () => {
 
-  const navigate = useNavigate();
-  const [selectedOption1, setSelectedOption1] = useState("");
-  const [selectedOption2, setSelectedOption2] = useState("");
-  const [selectedOption3, setSelectedOption3] = useState("");
+    const navigate = useNavigate();
+    const [selectedOption1, setSelectedOption1] = useState("");
+    const [selectedOption2, setSelectedOption2] = useState("");
+    const [selectedOption3, setSelectedOption3] = useState("");
 
-  const [filterCriteria, setFilterCriteria] = useState({ state: '', residential: '', priceRange: '' });
-  const [filteredProperties, setFilteredProperties] = useState([]);
+    const handleDropdownChange1 = (event) => {
+        setSelectedOption1(event.target.value);
+    };
+    const handleDropdownChange2 = (event) => {
+        setSelectedOption2(event.target.value);
+    };
 
-
-  const handleDropdownChange1 = (event) => {
-    setSelectedOption1(event.target.value);
-    setFilterCriteria({ ...filterCriteria, state: event.target.value });
-  };
-  const handleDropdownChange2 = (event) => {
-    setSelectedOption2(event.target.value);
-    setFilterCriteria({ ...filterCriteria, residential: event.target.value });
-  };
-
-  const handleDropdownChange3 = (event) => {
-    setSelectedOption3(event.target.value);
-    setFilterCriteria({ ...filterCriteria, priceRange: event.target.value });
-  };
-
-  
-
-  const isPriceInRange = (price, range) => {
-    const [min, max] = range.split('-').map(val => parseInt(val.trim().replace('RM', '')));
-    return price >= min && price <= max;
-};
-  
-  const handleViewProperty = () => {
+    const handleDropdownChange3 = (event) => {
+        setSelectedOption3(event.target.value);
+    };
+    
+    const handleViewProperty = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         navigate("/landlordViewProperty");
-  }
+    }
 
-  const handleUpdateProperty = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    navigate("/landlordUpdateProperty");
-}
+    const handleUpdateProperty = (event) => {
+        // Prevent the default behavior of the link
+        event.preventDefault();
+        // Stop event propagation to prevent triggering handleViewProperty
+        event.stopPropagation();
+        
+        // Add your edit property logic here
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        navigate("/landlordUpdateProperty");
+    }
+
   
     return(
         <div>
@@ -125,7 +118,7 @@ const LandlordHome = () => {
                     <header className="propertyTitle text-left fs-2 fw-bolder mt-4">Your Properties</header>
                     <div class="row row-cols-1 row-cols-md-3 g-5">
                         <div class="col">
-                            <div class="card h-100" onClick={handleUpdateProperty}>
+                            <div class="card h-100" onClick={handleViewProperty}>
                             <img src="Images/condo2.jpg" class="card-img-top" alt="house picture"/>
                                 <div class="card-body">
                                     <h4 class="card-title1">RM 500 Per Month</h4>
@@ -139,7 +132,7 @@ const LandlordHome = () => {
                                     </ul>
                                     
                                     <div className="manageButton"> 
-                                        <a href="#"><button id="manage" type="button" onClick={handleUpdateProperty} >Edit</button></a>
+                                        <a href="#"><button id="manage" type="button" onClick={(event) => handleUpdateProperty(event)}>Edit</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +151,7 @@ const LandlordHome = () => {
                                     <li className="roomDetails"><img src="Images/sqrt.png" alt="details" width="35" height="35"/> 350sf</li>
                                 </ul>
                                 <div className="manageButton"> 
-                                    <a href="#"><button id="manage" type="button"  onClick={handleUpdateProperty}>Edit</button></a>
+                                    <a href="#"><button id="manage" type="button"  onClick={(event) => handleUpdateProperty(event)}>Edit</button></a>
                                 </div>
                             </div>
                             </div>

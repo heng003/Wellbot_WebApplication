@@ -37,27 +37,6 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
-
-    const handleViewPropertyPageButton = () => {
-        if (localStorage.getItem("previousPath") !== "/landlordHome") {
-            Swal.fire({
-                title: 'Warning!',
-                text: 'You need to register or log in to your account before performing this action.',
-                icon: 'warning',
-                confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    nav("/logIn");
-                }
-            });
-            return;
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            nav("/landlordUpdateProperty");
-        }
-    }
     
     return (
         <div>
@@ -88,10 +67,6 @@ const ViewProperty = () => {
                 <section id="PropertyDetails">
                     <div className="container"><DetailsPanel/></div>
                 </section>
-
-                <div className="applyButton"> 
-                    <button className="applyNowButton" type="button" onClick={handleViewPropertyPageButton}>Edit Information</button>
-                </div>
 
             </main>
         </div>
