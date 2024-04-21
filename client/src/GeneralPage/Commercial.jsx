@@ -57,7 +57,7 @@ const Commercial = () => {
             imgSrc: "Images/commercial.jpg",
             cardTitle1: "RM 1500 Per Month",
             cardTitle2: "8 Trium (Office)",
-            cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
+            cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansgit ara, 52200 Kuala Lumpur, Selangor", 
             roomDetails: ["0", "3", "1000sf"],
             propertyType: "Commercial", 
             location: "Bandar Sri Damansara", 
