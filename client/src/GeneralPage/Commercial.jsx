@@ -13,8 +13,8 @@ const Commercial = () => {
     const [isLocationOpen, setIsLocationOpen] = useState(false);
     const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
 
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
-    const priceRanges = ["RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
+    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
 
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
@@ -39,8 +39,8 @@ const Commercial = () => {
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
     const results = cardData.filter(card => {
-    const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
-    const matchesPriceRange = !selectedOption3 || card.priceRange === selectedOption3;
+        const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+        const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
     return matchesLocation && matchesPriceRange;
   });
   setFilteredResults(results);
@@ -57,7 +57,7 @@ const Commercial = () => {
             imgSrc: "Images/commercial.jpg",
             cardTitle1: "RM 1500 Per Month",
             cardTitle2: "8 Trium (Office)",
-            cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansgit ara, 52200 Kuala Lumpur, Selangor", 
+            cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansgit ara, 52200 Kuala Lumpur", 
             roomDetails: ["0", "3", "1000sf"],
             propertyType: "Commercial", 
             location: "Bandar Sri Damansara", 

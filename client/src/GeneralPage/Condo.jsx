@@ -13,8 +13,8 @@ const Condo = () => {
     const [isLocationOpen, setIsLocationOpen] = useState(false);
     const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
 
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
-    const priceRanges = ["RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
+    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
 
@@ -38,13 +38,12 @@ const Condo = () => {
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
     const results = cardData.filter(card => {
-    const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
-    const matchesPriceRange = !selectedOption3 || card.priceRange === selectedOption3;
+    const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+    const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
     return matchesLocation && matchesPriceRange;
   });
   setFilteredResults(results);
 };
-
 
   const selectOption = (option, setter, refSetter) => {
     setter(option);
@@ -54,27 +53,29 @@ const Condo = () => {
 
     // Array of card data objects for frontend demo
     const cardData = [
-             {
-        imgSrc: "Images/commercial.jpg",
-        cardTitle1: "RM 1500 Per Month",
-        cardTitle2: "8 Trium (Office)",
-        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
-        roomDetails: ["0", "3", "1000sf"],
-        propertyType: "Commercial", 
-        location: "Bandar Sri Damansara", 
-        priceRange: "RM 1001 - RM 1500"
-        },
-
         {
-        imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 1800 Per Month",
-        cardTitle2: "Menara Yayasan Tun Razak",
-        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["0", "4", "1200sf"],
-        propertyType: "Commercial", 
-        location: "Bukit Bintang", 
-        priceRange: "RM 1501 - RM 2000"
-        }
+            imgSrc: "Images/condo_1.jpg",
+            cardTitle1: "RM 2300 Per Month",
+            cardTitle2: "Ryan & Miho",
+            cardText: "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",     
+            roomDetails: ["4", "3", "1200sf"],
+            propertyType: "Condo", 
+            location: "Petaling Jaya", 
+            priceRange: "RM 2001 - RM 2500"
+            },
+  
+  
+            {
+              imgSrc: "Images/condo_2.jpg",
+              cardTitle1: "RM 3500 Per Month",
+              cardTitle2: "D' Latour",
+              cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",     
+              roomDetails: ["5", "3", "1800sf"],
+              propertyType: "Condo", 
+              location: "Bandar Sunway", 
+              priceRange: "RM 2500 Above"
+              }
+
     ];
 
 
