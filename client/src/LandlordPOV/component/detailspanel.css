@@ -86,25 +86,26 @@
     display: flex;
     align-items: center; /* Center items horizontally */
     justify-content: center; /* Center items vertically */
-    text-align: center; 
-    width: fit-content;
+    justify-items: center;
 }
 
 .icon-facility {
+    display: flex;
     align-self: center;
     justify-self: center;
-    height: 4rem;
-    padding-left: 0.52em;
+    height: 2.3em;
     width: auto;
-    margin-bottom: 0.5em;
 }
 
 .facility-text {
-  font-size: 0.7em;
-  text-transform: capitalize;
-  font-weight: normal;
-  position: relative;
-  align-self: center;
+    padding-top: 0.8em;
+    display: flex;
+    font-size: 0.7em;
+    text-transform: capitalize;
+    font-weight: normal;
+    position: relative;
+    align-self: center;
+    justify-self: center;
 }
 
 .description-block {
