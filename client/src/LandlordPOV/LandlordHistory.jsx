@@ -151,7 +151,13 @@ function LandlordHistory() {
               case properties[2]:
               return (
                 <>
-      
+                  <h3 className = "notHistory_Text">Sorry, this property hasn't been rented out yet, so it <b>doesn't have any rental history</b>. You might review its applicants for renting purposes.</h3>
+                </>
+              );
+
+              case properties[3]:
+              return (
+                <>
                   <h3 className = "notHistory_Text">Sorry, this property hasn't been rented out yet, so it <b>doesn't have any rental history</b>. You might review its applicants for renting purposes.</h3>
                 </>
               );

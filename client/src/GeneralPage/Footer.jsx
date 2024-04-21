@@ -10,7 +10,7 @@ const Footer = () => {
                 <div class="social_links_row">
                     <h2>Follow Us</h2>
                     <a href="#"><FontAwesomeIcon icon={faInstagram} /></a>
-                    <a href="#"><FontAwesomeIcon icon={faFacebook} /></a>
+                    <a href="#"><img src="Images/fb.png" style={{ widths: 'auto', height:'25px',marginBottom:'0.25em', marginRight:'1.2em'}} /></a>
                 </div>
                 <hr></hr>
                 <div class="nav-footer">

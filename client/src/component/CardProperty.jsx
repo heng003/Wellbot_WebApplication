@@ -28,13 +28,13 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
                 <ul className="room">
                     {roomDetails.map((detail, index) => (
                         <li key={index} className="roomDetails">
-                            <img src={roomImgSrc[index]} alt="details" width="35" height="35" /> {detail}
+                            <img src={roomImgSrc[index]} alt="details" width="35" height="35" style={{ marginRight: '0.5em' }}/> {detail}
                         </li>
                     ))}
                 </ul>
 
                 <div className="viewButton">
-                    <button className="searchButton" type="button" onClick={handleViewProperty}>View</button>
+                    <button className="View-Button" type="button" onClick={handleViewProperty}>View</button>
                 </div>
             </div>
         </div>

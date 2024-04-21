@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import './cardRent.css';
+import './cardHistory.css';
 import './cardApplication.css';
 import bedroomIcon from './Rental_Icon/bedroom.png';
 import bathroomIcon from './Rental_Icon/bathroom.png';

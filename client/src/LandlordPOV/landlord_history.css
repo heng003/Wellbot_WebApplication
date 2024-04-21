@@ -71,6 +71,11 @@ padding-bottom: 3em;
   padding: 0.8em 1em; 
   transition: background-color 0.3s ease; 
 } 
+
+.custom-option:focus{
+  outline: none;
+  background-color: #FFFBF4;
+}
  
 .custom-option:first-child:hover { 
   border-radius: 12px 12px 0 0; 
