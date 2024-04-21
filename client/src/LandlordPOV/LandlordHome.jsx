@@ -235,7 +235,10 @@ const LandlordHome = () => {
                     <header className="propertyTitle text-left fs-2 fw-bolder mt-4">
                     {filteredProperties.length > 0 ? 'Filter Result/s' : 'Your Properties'}
                     </header>
-                    <div class="row row-cols-1 row-cols-md-3 g-5">
+                    <div class="row row-cols-1 row-cols-md-3 g-5" onClick={() => {
+                            navigate('/landlordViewProperty');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}>
                     {(isSearchClicked ? filteredProperties : cardData).map((card, index) => (  
                         <div key={index} className="col">
                             <CardProperty
@@ -247,9 +250,6 @@ const LandlordHome = () => {
                             />
                         </div>
                         ))}
-                        </div>
-                        </section>
-    
                         <div class="col" onClick={() => {
                             navigate('/LandlordUploadProperty');
                             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -264,7 +264,10 @@ const LandlordHome = () => {
                             </div>
                             </div>
                         </div>
-                        <br /><br /><br /><br /><br />
+                        </div>
+                        </section>
+                        <br /><br /><br />
+
              </main>
         </div>
     );
