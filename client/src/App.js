@@ -79,9 +79,9 @@ function App() {
             <Route path="/landlordEditPhoto" element={<LandlordEditPhoto/>}/>
             <Route path="/landlordApplicant" element={<LandlordApplicant/>}/>
             <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback/>}/>
-            <Route path="/leaseAgreement/page1" element={<AgreementPage1 />} />
-            <Route path="/leaseAgreement/page2" element={<AgreementPage2 />} />
-            <Route path="/leaseAgreement/page3" element={<AgreementPage3 />} />
+            <Route path="/landlordLeaseAgreementPg1" element={<AgreementPage1 />} />
+            <Route path="/landlordLeaseAgreementPg2" element={<AgreementPage2 />} />
+            <Route path="/landlordLeaseAgreementPg3" element={<AgreementPage3 />} />
           </Routes>
           <ShowFooter>
             <Footer /> 

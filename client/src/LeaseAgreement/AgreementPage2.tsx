@@ -23,7 +23,7 @@ const AgreementPage2 = () => {
       <AgreementWrapper
         title="Lease Agreement"
         nextButtonText="Next"
-        nextButtonHref="/leaseAgreement/page3"
+        nextButtonHref="/landlordLeaseAgreementPg3"
       >
         <AgreementTerm number="5" title="ASSIGNMENT AND SUB-LETTING">
           {TermFive()}
