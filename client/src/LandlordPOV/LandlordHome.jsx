@@ -13,16 +13,30 @@ const LandlordHome = () => {
   const [selectedOption2, setSelectedOption2] = useState("");
   const [selectedOption3, setSelectedOption3] = useState("");
 
+  const [filterCriteria, setFilterCriteria] = useState({ state: '', residential: '', priceRange: '' });
+  const [filteredProperties, setFilteredProperties] = useState([]);
+
+
   const handleDropdownChange1 = (event) => {
     setSelectedOption1(event.target.value);
+    setFilterCriteria({ ...filterCriteria, state: event.target.value });
   };
   const handleDropdownChange2 = (event) => {
     setSelectedOption2(event.target.value);
+    setFilterCriteria({ ...filterCriteria, residential: event.target.value });
   };
 
   const handleDropdownChange3 = (event) => {
     setSelectedOption3(event.target.value);
+    setFilterCriteria({ ...filterCriteria, priceRange: event.target.value });
   };
+
+  
+
+  const isPriceInRange = (price, range) => {
+    const [min, max] = range.split('-').map(val => parseInt(val.trim().replace('RM', '')));
+    return price >= min && price <= max;
+};
   
   const handleViewProperty = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
