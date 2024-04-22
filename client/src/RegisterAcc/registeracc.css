@@ -75,7 +75,7 @@
     position: absolute;
     top: 4.15em;
     transform: translateY(-50%);
-    cursor: pointer;
+    right: 0px; 
 }
 
 #registerButtonLandlord{

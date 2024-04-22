@@ -3,7 +3,7 @@ import '../GeneralPage/home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import CardProperty from "../component/CardProperty";
 
-const Home = () => {
+const TenantHome = () => {
 
     const [selectedOption1, setSelectedOption1] = useState(null);
     const [selectedOption2, setSelectedOption2] = useState(null);
@@ -19,10 +19,9 @@ const Home = () => {
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
       
-     
-    const properties = ["Condo", "Commercial", "Landed", "Room"];
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
-    const priceRanges = ["RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+    const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
+    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
+    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
       
 
   useEffect(() => {
@@ -46,15 +45,15 @@ const Home = () => {
 
       
   const handleSearchButtonClick = () => {
-      setIsSearchClicked(true);
-      const results = cardData.filter(card => {
-      const matchesType = !selectedOption1 || card.propertyType === selectedOption1;
-      const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
-      const matchesPriceRange = !selectedOption3 || card.priceRange === selectedOption3;
-      return matchesType && matchesLocation && matchesPriceRange;
+    setIsSearchClicked(true);
+    const results = cardData.filter(card => {
+        const matchesType = selectedOption1 === "All Properties Type" || !selectedOption1 || card.propertyType === selectedOption1;
+        const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+        const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
+        return matchesType && matchesLocation && matchesPriceRange;
     });
     setFilteredResults(results);
-  };
+};
     const selectOption = (option, setter, refSetter) => {
       setter(option);
       refSetter(false);
@@ -71,7 +70,7 @@ const Home = () => {
         roomDetails: ["1", "2", "350sf"],
         propertyType: "Room", 
         location: "Petaling Jaya", 
-        priceRange: "RM500 - RM1000"
+        priceRange: "RM 500 - RM 1000"
         },
 
         {
@@ -82,7 +81,7 @@ const Home = () => {
         roomDetails: ["7", "3", "2000sf"],
         propertyType: "Landed", 
         location: "Petaling Jaya", 
-        priceRange: "RM2000 - RM2500"
+        priceRange: "RM 2001 - RM 2500"
         },
         
         {
@@ -93,7 +92,7 @@ const Home = () => {
         roomDetails: ["0", "3", "1000sf"],
         propertyType: "Commercial", 
         location: "Bandar Sri Damansara", 
-        priceRange: "RM1000 - RM1500"
+        priceRange: "RM 1001 - RM 1500"
         },
 
         {
@@ -101,10 +100,10 @@ const Home = () => {
         cardTitle1: "RM 1800 Per Month",
         cardTitle2: "Menara Yayasan Tun Razak",
         cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["0", "4", "1200sf"],
+        roomDetails: ["7", "4", "1200sf"],
         propertyType: "Commercial", 
-        location: "Bukit Bintang,", 
-        priceRange: "RM1500 - RM2000"
+        location: "Bukit Bintang", 
+        priceRange: "RM 1501 - RM 2000"
         },
 
         {
@@ -123,7 +122,7 @@ const Home = () => {
             imgSrc: "Images/condo_2.jpg",
             cardTitle1: "RM 3500 Per Month",
             cardTitle2: "D' Latour",
-            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",     
+            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",  
             roomDetails: ["5", "3", "1800sf"],
             propertyType: "Condo", 
             location: "Bandar Sunway", 
@@ -271,4 +270,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default TenantHome;
