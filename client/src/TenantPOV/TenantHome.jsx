@@ -19,9 +19,10 @@ const Home = () => {
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
       
+     
     const properties = ["Condo", "Commercial", "Landed", "Room"];
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
-    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000","RM2000 - RM2500"];
+    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
+    const priceRanges = ["RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
       
 
   useEffect(() => {
@@ -63,7 +64,7 @@ const Home = () => {
      // Array of card data objects for frontend demo
      const cardData = [
         {
-        imgSrc: "Images/condo2.jpg",
+        imgSrc: "Images/room.jpg",
         cardTitle1: "RM 500 Per Month",
         cardTitle2: "Tiara Damansara's Master Room",
         cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
@@ -88,7 +89,7 @@ const Home = () => {
         imgSrc: "Images/commercial.jpg",
         cardTitle1: "RM 1500 Per Month",
         cardTitle2: "8 Trium (Office)",
-        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
+        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur", 
         roomDetails: ["0", "3", "1000sf"],
         propertyType: "Commercial", 
         location: "Bandar Sri Damansara", 
@@ -104,7 +105,30 @@ const Home = () => {
         propertyType: "Commercial", 
         location: "Bukit Bintang,", 
         priceRange: "RM1500 - RM2000"
-        }
+        },
+
+        {
+          imgSrc: "Images/condo_1.jpg",
+          cardTitle1: "RM 2300 Per Month",
+          cardTitle2: "Ryan & Miho",
+          cardText: "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",     
+          roomDetails: ["4", "3", "1200sf"],
+          propertyType: "Condo", 
+          location: "Petaling Jaya", 
+          priceRange: "RM 2001 - RM 2500"
+          },
+
+
+          {
+            imgSrc: "Images/condo_2.jpg",
+            cardTitle1: "RM 3500 Per Month",
+            cardTitle2: "D' Latour",
+            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",     
+            roomDetails: ["5", "3", "1800sf"],
+            propertyType: "Condo", 
+            location: "Bandar Sunway", 
+            priceRange: "RM 2500 Above"
+            }
     ];
 
       

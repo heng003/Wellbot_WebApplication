@@ -19,3 +19,11 @@
    padding-top: 1.5em;
 }
 
+.my-title-class {
+    margin-top: -0.95em;
+    color: #FF5C00;
+    font-weight: bold;
+    font-family: "Poppins";
+    font-size: 28px;
+    padding-bottom: 0.25em;
+}  

@@ -5,16 +5,16 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 
 const Condo = () => {
 
-    const [selectedOption2, setSelectedOption2] = useState('');
-    const [selectedOption3, setSelectedOption3] = useState('');
+    const [selectedOption2, setSelectedOption2] = useState(null);
+    const [selectedOption3, setSelectedOption3] = useState(null);
     const [isSearchClicked, setIsSearchClicked] = useState(false);
-
+    const [filteredResults, setFilteredResults] = useState([]);
+      
     const [isLocationOpen, setIsLocationOpen] = useState(false);
     const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
 
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang"];
-    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000"];
-
+    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
+    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
 
@@ -34,26 +34,50 @@ const Condo = () => {
         };
     }, []);
 
-    const handleSearchButtonClick = () => {
-        setIsSearchClicked(true);
-    };
+ 
+  const handleSearchButtonClick = () => {
+    setIsSearchClicked(true);
+    const results = cardData.filter(card => {
+    const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+    const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
+    return matchesLocation && matchesPriceRange;
+  });
+  setFilteredResults(results);
+};
 
-    const selectOption = (option, setter, refSetter) => {
-        setter(option);
-        refSetter(false);
-    };
-    
+  const selectOption = (option, setter, refSetter) => {
+    setter(option);
+    refSetter(false);
+};
+
 
     // Array of card data objects for frontend demo
     const cardData = [
         {
-            imgSrc: "Images/condo2.jpg",
-            cardTitle1: "RM 500 Per Month",
-            cardTitle2: "Tiara Damansara's Master Room",
-            cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-            roomDetails: ["1", "2", "350sf"]
-        },
+            imgSrc: "Images/condo_1.jpg",
+            cardTitle1: "RM 2300 Per Month",
+            cardTitle2: "Ryan & Miho",
+            cardText: "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",     
+            roomDetails: ["4", "3", "1200sf"],
+            propertyType: "Condo", 
+            location: "Petaling Jaya", 
+            priceRange: "RM 2001 - RM 2500"
+            },
+  
+  
+            {
+              imgSrc: "Images/condo_2.jpg",
+              cardTitle1: "RM 3500 Per Month",
+              cardTitle2: "D' Latour",
+              cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",     
+              roomDetails: ["5", "3", "1800sf"],
+              propertyType: "Condo", 
+              location: "Bandar Sunway", 
+              priceRange: "RM 2500 Above"
+              }
+
     ];
+
 
         return (
             <div className='generalContent'>
@@ -108,7 +132,7 @@ const Condo = () => {
                         {isSearchClicked ? "Filter Results" : "Recommendations"}
                     </header>
                     <div className="row row-cols-1 row-cols-md-3 g-5">
-                        {cardData.map((card, index) => (
+                    {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
                             <div key={index} className="col">
                                 <CardProperty
                                     imgSrc={card.imgSrc}
