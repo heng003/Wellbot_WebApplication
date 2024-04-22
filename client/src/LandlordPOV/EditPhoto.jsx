@@ -30,9 +30,24 @@ const EditPhoto = () => {
         setIsVisible2(false);
      };
   
-    // const handleDelete = (id) => {
-    //   setPhotoItems(photoItems.filter(item => item.id !== id));
-    // };
+     const handleDelete = (id) => {
+      setPhotoItems(prevItems => prevItems.filter(item => item.id !== id));
+  };
+
+  const handleMakeCover = (id) => {
+    setPhotoItems(prevItems => {
+        const newItems = [...prevItems];
+        const index1 = newItems.findIndex(item => item.id === 1);
+        const index2 = newItems.findIndex(item => item.id === 2);
+        if (index1 !== -1 && index2 !== -1) {
+            // Swap the positions of the images
+            const temp = newItems[index1].image;
+            newItems[index1].image = newItems[index2].image;
+            newItems[index2].image = temp;
+        }
+        return newItems;
+    });
+};
 
     const handleImageClick = () => {
         fileInputRef.current.click(); // Trigger file input click
@@ -85,24 +100,19 @@ const EditPhoto = () => {
         <h1 className="pageMainTitle">Edit your property's photo</h1>
 
         <div>
-      {isVisible1 && (
-        <div className="frame">
-          <img className="photo" src={Image1} alt="Cover" />
-          <div className="overlay">
-            <div className="text">Cover photo</div>
-            <div className="icon" onClick={handleDelete1}>x</div>
-          </div>
-        </div>
-      )}
-      {isVisible2 && (
-        <div className="frame">
-          <img className="photo" src={Image2} alt="Cover" />
-          <div className="overlay">
-            <div className="text2">Make cover photo</div>
-            <div className="icon" onClick={handleDelete2}>x</div>
-          </div>
-        </div>
-      )}
+        {photoItems.map(({ id, image, isCover }) => (
+            <div key={id} className="frame">
+                <img className="photo" src={image} alt="Property" />
+                <div className="overlay">
+                    {isCover ? (
+                        <div className="text">Cover photo</div>
+                    ) : (
+                        <div className="text2" onClick={() => handleMakeCover(id)}>Make cover photo</div>
+                    )}
+                    <div className="icon" onClick={() => handleDelete(id)}>x</div>
+                </div>
+            </div>
+        ))}
       <div className="rectangleArrangePhoto">
         <input
           ref={fileInputRef}
