@@ -85,6 +85,7 @@ const Tenant = () => {
         <div id="register">
             <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
             <div class="container text-center">
+                
             <div class="row">
                 <div class="col">
                     <h2 className="registerTitleTenant fs-2 fw-bolder mt-4">Register As Tenant</h2>

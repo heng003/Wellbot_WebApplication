@@ -26,8 +26,6 @@
     position: relative; 
 }
 
-
-
 #register .displayErrorMessage {
     color: red;
     font-size: 13px;

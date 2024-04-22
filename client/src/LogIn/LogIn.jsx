@@ -7,7 +7,7 @@ import '../LogIn/login.css'
 const LogIn = () => {
 
     const [password, setPassword] = useState("");
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
@@ -23,12 +23,18 @@ const LogIn = () => {
 
     return(
         <div id="login">
-             <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
-            <div class="container text-center">
+
+            <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
+
+            <div className="Left_Design">
+                <h2 className="logIn_wlcTxt">Welcome Back To <br></br>RentSpotter !</h2>
+                <p className="brief_txt">Direct Dialogue: Your Bridge-Free<br></br> Connection to Home</p>
+                <img src="Images/signIn_pic.svg" alt="signIn_pic" width='900' height='auto' style={{marginLeft:'-12em', marginTop:'-8.5em'}}/>
+            </div>
+
+            <div class="container_login text-center">
             <div class="row">
-                <div class="col imageCol">
-                    <img src="Images/loginBackground.png" class="login" alt="login" className="loginImage" />
-                </div>
+                
                 <div class="col rightCol" id="login-form">
                     <h2 className="loginTitle fs-2 fw-bolder mt-4">Log In</h2>
                     <div class="form d-flex flex-row align-items-center mb-4">
@@ -49,7 +55,7 @@ const LogIn = () => {
                     </div>
                     <div id="bottomDetails">
                         <button id="loginbutton" type="button" onClick={handleLogin}>Log In</button>
-                        <div id="haveAcc">Don't have an account? <Link className="link" id="signuplink" to="/signIn">SIGN UP</Link></div>
+                        <div id="haveAcc">Don't have an account ? <Link className="link" id="signuplink" to="/signIn">SIGN UP</Link></div>
                     </div>
                 </div>
             </div>
