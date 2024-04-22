@@ -32,15 +32,14 @@ function App() {
             <Route path="/condo" element={<Condo />} />
             <Route path="/commercial" element={<Commercial />} />
             <Route path="/signIn" element={<SignIn />} />
-            <Route path="/registerLandlordAcc" element={<RegisterLandlordAcc />} />
-            <Route path="/registerTenantAcc" element={<RegisterTenantAcc />} />
+            <Route path="/registerLandlordAcc" element={<RegisterLandlordAcc role="landlord"/>} />
+            <Route path="/registerTenantAcc" element={<RegisterTenantAcc role="tenant"/>} />
             <Route path="/logIn" element={<LogIn />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/landlordHome" element={<LandlordHome />}/>
             <Route path="/tenantHome" element={<TenantHome />}/>
             <Route path="/landlordProfileEdit" element={<EditLandlordProfile />}/>
             <Route path="/tenantProfileEdit" element={<EditTenantProfile />}/>
-            
           </Routes>
           <ShowFooter>
             <Footer /> 

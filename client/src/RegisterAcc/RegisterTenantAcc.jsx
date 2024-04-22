@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 import { faUser, faEnvelope, faPhone, faLock, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2'
+import axios from 'axios';
 import '../RegisterAcc/registeracc.css'
 
-const Tenant = () => {
+const RegisterTenantAcc = ({role}) => {
 
     const [visible, setVisible] = useState(true);
     const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ const Tenant = () => {
         phonenumber:'',
         password:''
     })
-
+    formData.role = role;
     const [errors, setErrors] = useState({})
     const formRef = useRef(null);
     
@@ -25,7 +26,7 @@ const Tenant = () => {
         })
     }
 
-    const handleRegisterClick = (e) =>{
+    const handleRegisterClick = async (e) =>{
         e.preventDefault();
         const validationErrors = {};
 
@@ -53,28 +54,47 @@ const Tenant = () => {
         setErrors(validationErrors)
 
         if (Object.keys(validationErrors).length === 0) {
-            // No validation errors, show success message
-            Swal.fire({
-                title: "Check Your Email",
-                titleColor: "#FF5C00",
-                text: "We have sent an email to *****w455@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
-                imageUrl: "Images/email.png",
-                imageWidth: 280,
-                imageHeight: 200,
-                imageAlt: "email",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#FF8C22"
-            }).then(() => {
-                // Clear the form fields
-                formRef.current.reset();
-                // Clear the form data
-                setFormData({
-                    username: '',
-                    email: '',
-                    phonenumber: '',
-                    password: ''
+            try {
+                const response = await axios.post('/api/auth/registerTenantAcc', formData);
+                // Handle successful registration
+                console.log(response.data); // Log response from the server
+                // Show success message using Swal or any other method
+                // No validation errors, show success message
+                Swal.fire({
+                    title: "Check Your Email",
+                    titleColor: "#FF5C00",
+                    text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 24 hours.",
+                    imageUrl: "Images/email.png",
+                    imageWidth: 280,
+                    imageHeight: 200,
+                    imageAlt: "email",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#FF8C22"
+                })
+                .then(() => {
+                    // Clear the form fields
+                    formRef.current.reset();
+                    // Clear the form data
+                    setFormData({
+                        username: '',
+                        email: '',
+                        phonenumber: '',
+                        password: ''
+                    });
                 });
-            });
+            } catch (error) {
+                // Handle registration error
+                console.error(error); // Log error message
+                console.error("Registration Error:", error.response.data);
+                // Handle showing the error message from the backend
+                Swal.fire({
+                    title: "Error!",
+                    text: error.response?.data?.message || "An unknown error occurred",
+                    icon: "error",
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "OK"
+                });
+            }
         }
     }
 
@@ -88,7 +108,7 @@ const Tenant = () => {
                     <img src="Images/tenant.png" class="landlord" alt="landlord" width="350" height="300"/>
                 </div>
                 <div class="col">
-                    <form id="register-form" ref={formRef} onSubmit={handleRegisterClick}>
+                    <form id="register-form" ref={formRef} onSubmit={handleRegisterClick} method="post">
                         <div class="form d-flex flex-row align-items-center mb-4">
                             <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
                             <div class="form-outline flex-fill mb-0">
@@ -99,7 +119,8 @@ const Tenant = () => {
                                     class="form-control" 
                                     placeholder="Username" 
                                     autoComplete="off" 
-                                    onChange={handleChange}/>    
+                                    onChange={handleChange}
+                                    required/>    
                             </div>
                             <div className="displayErrorMessage">
                                 {errors.username && <span>{errors.username}</span>}
@@ -115,7 +136,8 @@ const Tenant = () => {
                                     class="form-control" 
                                     placeholder="Email" 
                                     autoComplete="off"
-                                    onChange={handleChange}/>
+                                    onChange={handleChange}
+                                    required/>
                             </div>
                             <div className="displayErrorMessage">
                                 {errors.email && <span>{errors.email}</span>}
@@ -131,7 +153,8 @@ const Tenant = () => {
                                 class="form-control" 
                                 placeholder="Phone Number" 
                                 autoComplete="off"
-                                onChange={handleChange}/>
+                                onChange={handleChange}
+                                required/>
                             </div>
                             <div className="displayErrorMessage">
                                 {errors.phonenumber && <span>{errors.phonenumber}</span>}
@@ -148,6 +171,7 @@ const Tenant = () => {
                                     class="form-control" 
                                     placeholder="Password" 
                                     onChange={handleChange} 
+                                    required
                                     />  
                             </div>
                             <div className="displayErrorMessage">
@@ -168,4 +192,4 @@ const Tenant = () => {
     );
 }
 
-export default Tenant;
+export default RegisterTenantAcc;
