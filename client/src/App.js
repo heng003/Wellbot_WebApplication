@@ -84,6 +84,7 @@ function App() {
     </>
   );
 }
+
 function CustomNavbar() {
   const location = useLocation();
 
