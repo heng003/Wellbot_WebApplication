@@ -65,8 +65,17 @@ const EditPhoto = () => {
             });
             return;
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            navigate("/landlordHome");
+          Swal.fire({
+              text: "Uploaded succesfully!",
+              icon: "success",
+              confirmButtonColor: "#FF8C22",
+              confirmButtonText: 'OK'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                navigate("/landlordHome");
+              }
+          });
         }
     }
   

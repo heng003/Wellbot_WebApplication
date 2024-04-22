@@ -17,6 +17,7 @@ const LandlordHome = () => {
     const [selectedOption2, setSelectedOption2] = useState("");
     const [selectedOption3, setSelectedOption3] = useState("");
     const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
       
     const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
     const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -26,9 +27,14 @@ const LandlordHome = () => {
     const dropdownRef2 = useRef(null);
     const dropdownRef3 = useRef(null);
       
-    const properties = ["Condo", "Commercial", "Landed", "Room"];
-    const locations = ["Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang"];
-    const priceRanges = ["RM500 - RM1000", "RM1000 - RM1500", "RM1500 - RM2000","RM2000 - RM2500"];
+    const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
+    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
+    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+    
+
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
 
     const isPriceInRange = (price, range) => {
         const [min, max] = range.split('-').map(val => parseInt(val.trim().replace('RM', '')));
@@ -67,12 +73,13 @@ const LandlordHome = () => {
     const handleSearchButtonClick = () => {
         setIsSearchClicked(true);
         const results = cardData.filter(card => {
-        const matchesType = !selectedOption1 || card.propertyType === selectedOption1;
-        const matchesLocation = !selectedOption2 || card.location === selectedOption2; 
-        const matchesPriceRange = !selectedOption3 || card.priceRange === selectedOption3;
-        return matchesType && matchesLocation && matchesPriceRange;
-      });
-      setFilteredProperties(results);
+            const matchesType = selectedOption1 === "All Properties Type" || !selectedOption1 || card.propertyType === selectedOption1;
+            const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+            const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
+            const matchesSearchQuery = !searchQuery || card.cardTitle2.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesType && matchesLocation && matchesPriceRange && matchesSearchQuery;
+        });
+        setFilteredProperties(results);
     };
 
     const selectOption = (option, setter, refSetter) => {
@@ -80,6 +87,7 @@ const LandlordHome = () => {
         refSetter(false);
     };
 
+    // Array of card data objects for frontend demo
     const cardData = [
         {
         imgSrc: "Images/room.jpg",
@@ -89,7 +97,7 @@ const LandlordHome = () => {
         roomDetails: ["1", "2", "350sf"],
         propertyType: "Room", 
         location: "Petaling Jaya", 
-        priceRange: "RM500 - RM1000"
+        priceRange: "RM 500 - RM 1000"
         },
 
         {
@@ -100,18 +108,18 @@ const LandlordHome = () => {
         roomDetails: ["7", "3", "2000sf"],
         propertyType: "Landed", 
         location: "Petaling Jaya", 
-        priceRange: "RM2000 - RM2500"
+        priceRange: "RM 2001 - RM 2500"
         },
         
         {
         imgSrc: "Images/commercial.jpg",
         cardTitle1: "RM 1500 Per Month",
         cardTitle2: "8 Trium (Office)",
-        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur, Selangor", 
+        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur", 
         roomDetails: ["0", "3", "1000sf"],
         propertyType: "Commercial", 
         location: "Bandar Sri Damansara", 
-        priceRange: "RM1000 - RM1500"
+        priceRange: "RM 1001 - RM 1500"
         },
 
         {
@@ -119,11 +127,34 @@ const LandlordHome = () => {
         cardTitle1: "RM 1800 Per Month",
         cardTitle2: "Menara Yayasan Tun Razak",
         cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["0", "4", "1200sf"],
+        roomDetails: ["7", "4", "1200sf"],
         propertyType: "Commercial", 
-        location: "Bukit Bintang,", 
-        priceRange: "RM1500 - RM2000"
-        }
+        location: "Bukit Bintang", 
+        priceRange: "RM 1501 - RM 2000"
+        },
+
+        {
+          imgSrc: "Images/condo_1.jpg",
+          cardTitle1: "RM 2300 Per Month",
+          cardTitle2: "Ryan & Miho",
+          cardText: "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",     
+          roomDetails: ["4", "3", "1200sf"],
+          propertyType: "Condo", 
+          location: "Petaling Jaya", 
+          priceRange: "RM 2001 - RM 2500"
+          },
+
+
+          {
+            imgSrc: "Images/condo_2.jpg",
+            cardTitle1: "RM 3500 Per Month",
+            cardTitle2: "D' Latour",
+            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",  
+            roomDetails: ["5", "3", "1800sf"],
+            propertyType: "Condo", 
+            location: "Bandar Sunway", 
+            priceRange: "RM 2500 Above"
+            }
     ];
 
 
@@ -161,10 +192,10 @@ const LandlordHome = () => {
                                     </div>
                                     <div className="row" id="filter_location">
                                     <div className="col" id="state_search_find">
-                                        <div className="form-select" tabIndex={0} onClick={() => setIsLocationOpen(!isLocationOpen)}>
+                                        <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsLocationOpen(!isLocationOpen)}>
                                         <div className="displayed-value">{selectedOption2 || 'All Location'}</div>
                                         {isLocationOpen && (
-                                        <div className="custom-options" ref={dropdownRef2}>
+                                        <div className="custom-options-landlordhome" ref={dropdownRef2}>
                                             {locations.map((location, index) => (
                                             <div key={index}
                                                 className={`custom-option ${selectedOption2 === location ? 'selected' : ''}`}
@@ -179,10 +210,10 @@ const LandlordHome = () => {
                                     
                                     </div>
                                     <div className="col" id="filter_residential">
-                                    <div className="form-select" tabIndex={0} onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}>
-                                        <div className="displayed-value">{selectedOption1 || 'All Residential'}</div>
+                                    <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}>
+                                        <div className="displayed-value">{selectedOption1 || 'All Properties Type'}</div>
                                         {isPropertyTypeOpen && (
-                                        <div className="custom-options" ref={dropdownRef1}>
+                                        <div className="custom-options-landlordhome" ref={dropdownRef1}>
                                             {properties.map((property, index) => (
                                             <div key={index}
                                                 className={`custom-option ${selectedOption1 === property ? 'selected' : ''}`}
@@ -197,10 +228,10 @@ const LandlordHome = () => {
                                     </div>
                                     
                                     <div className="col" id="filter_pricerange">
-                                    <div className="form-select" tabIndex={0} onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}>
-                                        <div className="displayed-value">{selectedOption3 || 'Price Range'}</div>
+                                    <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}>
+                                        <div className="displayed-value">{selectedOption3 || 'All Price Range'}</div>
                                         {isPriceRangeOpen && (
-                                        <div className="custom-options" ref={dropdownRef3}>
+                                        <div className="custom-options-landlordhome" ref={dropdownRef3}>
                                             {priceRanges.map((priceRange, index) => (
                                             <div key={index}
                                                 className={`custom-option ${selectedOption3 === priceRange ? 'selected' : ''}`}
@@ -214,15 +245,15 @@ const LandlordHome = () => {
                                     <br></br>
                                     </div>
                                 </div>
-                                        <div className="col" id="searchFilter">
+                                        <div className="col-landlordhome" id="searchFilter">
                                             <div id="searchIcon">
                                                 <FontAwesomeIcon icon={faSearch} />
                                             </div>
-                                            <input type="search" name="searchProperty" id="searchProperty" placeholder="Search By Your Property Name"/>
+                                            <input type="search" name="searchProperty" id="searchProperty" placeholder="Search By Your Property Name" value={searchQuery} onChange={handleSearchInputChange} />
                                         </div>
                                         <br></br>
-                                        <div className="col" id="find">
-                                            <button id="findButton" type="button" onClick={handleSearchButtonClick} >Find</button>
+                                        <div className="col-landlordhome" id="find">
+                                        <button id="findButton" type="button" onClick={handleSearchButtonClick}>Find</button>
                                         </div>
                                     </div>
                                 </div>
@@ -235,10 +266,7 @@ const LandlordHome = () => {
                     <header className="propertyTitle text-left fs-2 fw-bolder mt-4">
                     {filteredProperties.length > 0 ? 'Filter Result/s' : 'Your Properties'}
                     </header>
-                    <div class="row row-cols-1 row-cols-md-3 g-5" onClick={() => {
-                            navigate('/landlordViewProperty');
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}>
+                    <div class="row row-cols-1 row-cols-md-3 g-5">
                     {(isSearchClicked ? filteredProperties : cardData).map((card, index) => (  
                         <div key={index} className="col">
                             <CardPropertyLandlord
