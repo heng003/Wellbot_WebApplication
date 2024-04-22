@@ -5,7 +5,7 @@ import '../GeneralPage/home.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import CardProperty from "../component/CardProperty";
+import CardPropertyLandlord from "../component/CardPropertyLandlord";
 
 const LandlordHome = () => {
 
@@ -82,7 +82,7 @@ const LandlordHome = () => {
 
     const cardData = [
         {
-        imgSrc: "Images/condo2.jpg",
+        imgSrc: "Images/room.jpg",
         cardTitle1: "RM 500 Per Month",
         cardTitle2: "Tiara Damansara's Master Room",
         cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
@@ -241,7 +241,7 @@ const LandlordHome = () => {
                             }}>
                     {(isSearchClicked ? filteredProperties : cardData).map((card, index) => (  
                         <div key={index} className="col">
-                            <CardProperty
+                            <CardPropertyLandlord
                                 imgSrc={card.imgSrc}
                                 cardTitle={card.cardTitle1}
                                 propertyTitle={card.cardTitle2}
@@ -251,7 +251,7 @@ const LandlordHome = () => {
                         </div>
                         ))}
                         <div class="col" onClick={() => {
-                            navigate('/LandlordUploadProperty');
+                            navigate('/landlordUploadProperty');
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}>
                             <div class="card h-100">

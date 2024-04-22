@@ -37,6 +37,11 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
+
+    const handleEditButton = () => {
+        nav("/landlordUpdateProperty");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
     
     return (
         <div>
@@ -67,6 +72,10 @@ const ViewProperty = () => {
                 <section id="PropertyDetails">
                     <div className="container"><DetailsPanel/></div>
                 </section>
+
+                <div className="applyButton"> 
+                    <button className="applyNowButton" type="button" onClick={handleEditButton}>Edit Information</button>
+                </div>
 
             </main>
         </div>
