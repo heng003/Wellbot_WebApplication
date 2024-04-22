@@ -6,7 +6,7 @@ const SignIn = () => {
     return(
         <>
         <div id="signincontainer">
-            <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
+            <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
             <h1 className="signinsubTitle text-left fs-2 fw-bolder mt-2">Register Account</h1>
             <h6 className="subTitleDesc">Choose Your Account Type</h6>
             <div class="row row-cols-1 row-cols-md-2 g-5">

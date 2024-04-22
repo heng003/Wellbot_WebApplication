@@ -7,7 +7,7 @@ import '../RegisterAcc/registeracc.css'
 
 const RegisterLandlordAcc = () => {
 
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email:'',
@@ -57,13 +57,16 @@ const RegisterLandlordAcc = () => {
             Swal.fire({
                 title: "Check Your Email",
                 titleColor: "#FF5C00",
-                text: "We have sent an email to *****w455@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
-                imageUrl: "Images/email.png",
-                imageHeight:150,
-                padding: "1.5em",
+                text: "We have sent an email to *****tian@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
+                imageUrl: "Images/check_email.gif",
+                imageHeight:200,
                 imageAlt: "email",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#FF8C22"
+                confirmButtonColor: "#FF8C22",
+                customClass: {
+                    title: 'my-title-class',
+                    confirmButton: 'my-confirm-button-class'
+                  }
             }).then(() => {
                 // Clear the form fields
                 formRef.current.reset();
@@ -80,7 +83,7 @@ const RegisterLandlordAcc = () => {
 
     return(
         <div id="register">
-            <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
+            <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
             <div class="container text-center">
             <div class="row">
                 <div class="col">
@@ -89,8 +92,8 @@ const RegisterLandlordAcc = () => {
                 </div>
                 <div class="col rightCol">
                 <form id="register-form" ref={formRef} onSubmit={handleRegisterClick}>
-                    <div class="form d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" size="2x"/>
                         <div class="form-outline flex-fill mb-0">
                             <input 
                                 type="text" 
@@ -105,31 +108,35 @@ const RegisterLandlordAcc = () => {
                             {errors.username && <span>{errors.username}</span>}
                         </div>
                     </div>
-                    <div class="form d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw" />
-                        <div class="form-outline flex-fill mb-0">
-                            <input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
-                                class="form-control" 
-                                placeholder="Email" 
-                                autoComplete="off"
-                                onChange={handleChange}/>
+
+
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw"size="2x"/>
+                        <div class="form-outline flex-fill mb-0" >
+                        <input 
+                            type="email" 
+                            name="register_email" 
+                            id="register_email" 
+                            class="form-control" 
+                            placeholder="Email" 
+                            autoComplete="off"
+                            onChange={handleChange}/>
                         </div>
                         <div className="displayErrorMessage">
-                            {errors.email && <span>{errors.email}</span>}
+                            {errors.phonenumber && <span>{errors.phonenumber}</span>}
                         </div>
                     </div>
-                    <div class="form d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"/>
-                        <div class="form-outline flex-fill mb-0">
+
+
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"size="2x"/>
+                        <div class="form-outline flex-fill mb-0" >
                         <input 
                             type="tel" 
                             name="phonenumber" 
                             id="phonenumber" 
                             class="form-control" 
-                            placeholder="Phone Number" 
+                            placeholder="Phone Number ( Eg: 0113456789 )" 
                             autoComplete="off"
                             onChange={handleChange}/>
                         </div>
@@ -138,7 +145,7 @@ const RegisterLandlordAcc = () => {
                         </div>
                     </div>
                     <div class="form d-flex flex-row position-relative align-items-center mb-4">
-                        <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"/>
+                        <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"size="2x"/>
                         <div class="form-outline flex-fill mb-0 position-relative">
                             <input 
                                 value={formData.password} 
@@ -158,7 +165,7 @@ const RegisterLandlordAcc = () => {
 
                     <div id="bottomDetails">
                         <button id="registerButtonLandlord" type="submit">Register</button>
-                        <div id="haveAcc">Already have an account? <Link className="link" to="/logIn">LOG IN</Link></div>
+                        <div id="haveAcc">Already have an account ? <Link className="link" to="/logIn">LOG IN</Link></div>
                     </div>
                 </form>
             </div>

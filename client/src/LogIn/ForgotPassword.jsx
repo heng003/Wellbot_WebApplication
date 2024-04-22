@@ -20,7 +20,7 @@ const ForgotPassword = () => {
 
     return(
         <div id="forgotPassword">
-             <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
+             <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
             <div class="container text-center">
                 <img src="Images/lock.png" alt="Logo" width='150' height='150'/>
                     <h2 className="forgotPasswordTitle fs-2 fw-bolder mt-4">Forgot Password</h2>

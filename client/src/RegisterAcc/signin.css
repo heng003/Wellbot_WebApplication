@@ -27,13 +27,15 @@
 .signinsubTitle{
     color: #FF5C00;
     margin-bottom: 0.6em;
+    margin-top: 1em;
 }
 
 #signincontainer .subTitleDesc{
     color: #6F6F6F;
     font-weight: 600;
-    font-size: 1.25em;
-    margin-bottom: 40px;
+    font-size: 1.3em;
+    margin-top: 0.3em;
+    margin-bottom: 1.8em;
 }
 
 #signincontainer .card{
@@ -49,13 +51,15 @@
 
 #signincontainer .buttonLandlord{
     background-color: #FF8C22;
-    font-weight: bold;
+    font-weight: 600;
     color: #FFF6EA;
     border: 2px;
     border-radius: 6px;
-    padding: 0.65em 1.2em;
+    font-size: 16.5px;
+    padding: 11px 40px;
     margin-block: 2em;
-    margin-left: -3.6em;
+    margin-top: 1.8em;
+    margin-left: -4.6em;
     cursor: pointer;
 }
 
@@ -66,13 +70,15 @@
 
 #signincontainer .buttonTenant{
     background-color: #7C7C7C;
-    font-weight: bold;
+    font-weight: 600;
     color: #FFF6EA;
     border: 2px;
     border-radius: 6px;
-    padding: 0.65em 1.2em;
+    font-size: 16.5px;
+    padding: 11px 40px;
+    margin-top: -10em;
     margin-block: 2em;
-    margin-left: -3.6em;
+    margin-left: -3.5em;
     cursor: pointer;
 }
 

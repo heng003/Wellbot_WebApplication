@@ -108,8 +108,7 @@
   appearance: none; /* Remove the native arrow */ 
   background: url('/public/Images/drop_down_arrow.png') no-repeat right 2em center; /* Adjust the right position as needed */ 
   background-color: #FFFBF4; 
-  background-size: 0.9em; /* Adjust the size of the arrow as needed */ 
-    
+  background-size: 0.9em; /* Adjust the size of the arrow as needed */    
 }
 
 

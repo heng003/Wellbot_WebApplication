@@ -38,6 +38,7 @@ const CardProperty = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetai
                 <div className="viewButton">
                     <button className="View-Button" type="button" onClick={handleViewProperty}>View</button>
                 </div>
+                
             </div>
         </div>
     )
