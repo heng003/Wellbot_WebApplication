@@ -11,9 +11,14 @@ import {
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 
 const TenantAgreementPage1 = () => {
-  const localStorageValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
-  );
+  // Retrieve data from localStorage
+  const localStorageValue = JSON.parse(localStorage.getItem("lessorFormValues") || "{}");
+
+  // Check if localStorageValue is empty or invalid
+  if (!localStorageValue || Object.keys(localStorageValue).length === 0) {
+    // Handle the case when localStorageValue is empty or invalid
+    return <div>No data available.</div>;
+  }
 
   return (
     <>

@@ -50,7 +50,7 @@ import TenantAgreementPage3 from "./LeaseAgreement/tenant/TenantAgreementPage3";
 import LandlordAgreementFormPage from "./LeaseAgreement/landlord/LandlordAgreementFormPage";
 import LandlordAgreementPage1 from "./LeaseAgreement/tenant/TenantAgreementPage1";
 import LandlordAgreementPage2 from "./LeaseAgreement/landlord/LandlordAgreementPage2";
-import LandlordAgreementPage3 from "./LeaseAgreement/landlord/LandlordAgreementPage3";
+import LandlordAgrementPage3 from "./LeaseAgreement/landlord/LandlordAgreementPage3"
 
 function App() {
   return (
@@ -139,7 +139,7 @@ function App() {
           />
           <Route
             path="/landlordLeaseAgreementPg3"
-            element={<LandlordAgreementPage3 />}
+            element={<LandlordAgrementPage3 />}
           />
           <Route
             path="/tenantLeaseAgreementForm"
