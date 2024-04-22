@@ -13,12 +13,13 @@ import {
   TermTen,
   TermThirteen,
   TermTwelve,
-} from "./AgreementText";
+} from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 
-const localStorageValue = JSON.parse(localStorage.getItem("formValues") || "");
-
-const AgreementPage2 = () => {
+const TenantAgreementPage2 = () => {
+  const localStorageValue = JSON.parse(
+    localStorage.getItem("lessorFormValues") || ""
+  );
   return (
     <>
       <AgreementWrapper
@@ -80,4 +81,4 @@ const AgreementPage2 = () => {
   );
 };
 
-export default AgreementPage2;
+export default TenantAgreementPage2;

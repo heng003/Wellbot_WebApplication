@@ -7,15 +7,13 @@ import {
   TermOne,
   TermThree,
   TermTwo,
-} from "./AgreementText";
+} from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 
-const localStorageValue = JSON.parse(localStorage.getItem("formValues") || "");
-
-const AgreementPage1 = () => {
-  console.log(localStorageValue);
-
-  // console.log("Address ", formValues.value.address);
+const LandlordAgreementPage1 = () => {
+  const localStorageValue = JSON.parse(
+    localStorage.getItem("lessorFormValues") || ""
+  );
 
   return (
     <>
@@ -61,4 +59,4 @@ const AgreementPage1 = () => {
   );
 };
 
-export default AgreementPage1;
+export default LandlordAgreementPage1;

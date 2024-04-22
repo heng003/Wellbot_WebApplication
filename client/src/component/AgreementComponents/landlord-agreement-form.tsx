@@ -17,9 +17,14 @@ import { FormError } from "./form-error";
 import { FormSuccess } from "./form-success";
 import { Button } from "components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { formValues } from "./agreement-signals";
+import {
+  lessorFormValues,
+  lessorSignature,
+  lessorSignatureUrl,
+} from "./agreement-signals";
+import { effect } from "@preact/signals";
 
-export const AgreementForm = () => {
+export const LandlordAgreementForm = () => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -34,7 +39,7 @@ export const AgreementForm = () => {
       lessorName: "Lye",
       lessorIc: "000000",
       lesseeName: "Joshua",
-      lesseIc: "000000",
+      lesseeIc: "000000",
       address: "775 House",
       effectiveDate: "1 April 2024",
       expireDate: "1 April 2025",
@@ -49,19 +54,53 @@ export const AgreementForm = () => {
       lesseeAdd: "Ryan n Miho",
       lesseeTel: "0123456789",
       lesseeFax: "04-1234567",
+      lessorDesignation: "Ms.",
+      lesseeDesignation: "Mr.",
+      lessorSignature: new File([], ""),
     },
   });
 
+  const fileReader = new FileReader();
+
+  effect(() => {
+    if (lessorSignature.value) {
+      fileReader.onload = (e) => {
+        const result = e.target?.result;
+        if (result) {
+          lessorSignatureUrl.value = result as string | undefined;
+        }
+      };
+      fileReader.readAsDataURL(lessorSignature.value);
+    }
+  });
+
   const onSubmit = (values: z.infer<typeof lessorAgreeementSchema>) => {
+    if (!lessorSignature.value || lessorSignature.value.size === 0) {
+      setError("Please upload signature");
+      return;
+    }
     setError("");
     setSuccess("");
     startTransition(() => {
-      formValues.value = values;
-      localStorage.setItem("formValues", JSON.stringify(formValues.value));
-      // console.log(effectiveStartDate);
-      console.log(formValues.value);
+      lessorFormValues.value = values;
 
-      navigate("/leaseAgreementPg1");
+      localStorage.setItem(
+        "lessorFormValues",
+        JSON.stringify(lessorFormValues.value)
+      );
+      localStorage.setItem(
+        "lessorSignature",
+        JSON.stringify(lessorSignature.value)
+      );
+      localStorage.setItem(
+        "lessorSignatureUrl",
+        JSON.stringify(lessorSignatureUrl.value)
+      );
+      console.log(JSON.parse(localStorage.getItem("lessorFormValues") || ""));
+
+      console.log(JSON.parse(localStorage.getItem("lessorSignatureUrl") || ""));
+
+      navigate("/landlordLeaseAgreementPg1");
     });
   };
 
@@ -185,7 +224,7 @@ export const AgreementForm = () => {
                 ></FormField>
                 <FormField
                   control={form.control}
-                  name="lesseIc"
+                  name="lesseeIc"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Lessee IC</FormLabel>
@@ -458,7 +497,66 @@ export const AgreementForm = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                ></FormField>
+                />
+                <FormField
+                  control={form.control}
+                  name="lessorDesignation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Lessor Designation</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isPending}
+                          {...field}
+                          placeholder="Mr."
+                          type="text"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lesseeDesignation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Lessee Designation</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isPending}
+                          {...field}
+                          placeholder="Ms."
+                          type="text"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lessorSignature"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Signature file</FormLabel>
+                      <FormControl>
+                        <Input
+                          accept=".jpg, .jpeg, .png"
+                          type="file"
+                          onChange={(e) =>
+                            field.onChange(
+                              (lessorSignature.value = e.target.files
+                                ? e.target.files[0]
+                                : null)
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <FormError message={error} />
               <FormSuccess message={success} />
@@ -476,4 +574,4 @@ export const AgreementForm = () => {
     </>
   );
 };
-export { formValues };
+export { lessorFormValues };

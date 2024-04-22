@@ -41,10 +41,16 @@ import LandlordArrangePhoto from "./LandlordPOV/ArrangePhoto";
 import LandlordEditPhoto from "./LandlordPOV/EditPhoto";
 import LandlordApplicant from "./LandlordPOV/LandlordApplicant";
 import LandlordApplicantFeedback from "./LandlordPOV/LandlordApplicantFeedback";
-import AgreementPage1 from "./LeaseAgreement/AgreementPage1";
-import AgreementPage2 from "./LeaseAgreement/AgreementPage2";
-import AgreementPage3 from "./LeaseAgreement/AgreementPage3";
-import AgreementFormPage from "LeaseAgreement/AgreementFormPage";
+import AgreementFullView from "./LeaseAgreement/AgreementFullView";
+import AgreementFull from "./LeaseAgreement/AgreementFull";
+import TenantAgreementFormPage from "./LeaseAgreement/tenant/TenantAgreementFormPage";
+import TenantAgreementPage1 from "./LeaseAgreement/landlord/LandlordAgreementPage1";
+import TenantAgreementPage2 from "./LeaseAgreement/tenant/TenantAgreementPage2";
+import TenantAgreementPage3 from "./LeaseAgreement/tenant/TenantAgreementPage3";
+import LandlordAgreementFormPage from "./LeaseAgreement/landlord/LandlordAgreementFormPage";
+import LandlordAgreementPage1 from "./LeaseAgreement/tenant/TenantAgreementPage1";
+import LandlordAgreementPage2 from "./LeaseAgreement/landlord/LandlordAgreementPage2";
+import LandlordAgreementPage3 from "./LeaseAgreement/landlord/LandlordAgreementPage3";
 
 function App() {
   return (
@@ -119,17 +125,40 @@ function App() {
             element={<LandlordArrangePhoto />}
           />
           <Route
+            path="/landlordLeaseAgreementForm"
+            element={<LandlordAgreementFormPage />}
+          />
+
+          <Route
             path="/landlordLeaseAgreementPg1"
-            element={<AgreementPage1 />}
+            element={<LandlordAgreementPage1 />}
           />
           <Route
             path="/landlordLeaseAgreementPg2"
-            element={<AgreementPage2 />}
+            element={<LandlordAgreementPage2 />}
           />
           <Route
             path="/landlordLeaseAgreementPg3"
-            element={<AgreementPage3 />}
+            element={<LandlordAgreementPage3 />}
           />
+          <Route
+            path="/tenantLeaseAgreementForm"
+            element={<TenantAgreementFormPage />}
+          />
+          <Route
+            path="/tenantLeaseAgreementPg1"
+            element={<TenantAgreementPage1 />}
+          />
+          <Route
+            path="/tenantLeaseAgreementPg2"
+            element={<TenantAgreementPage2 />}
+          />
+          <Route
+            path="/tenantLeaseAgreementPg3"
+            element={<TenantAgreementPage3 />}
+          />
+          <Route path="/viewAgreement" element={<AgreementFullView />} />
+          <Route path="/fullAgreement" element={<AgreementFull />} />
         </Routes>
         <ShowFooter>
           <Footer />

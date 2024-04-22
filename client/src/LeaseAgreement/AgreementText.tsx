@@ -1,11 +1,16 @@
+import {
+  lessorSignature,
+  lessorSignatureUrl,
+} from "component/AgreementComponents/agreement-signals";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import { effect } from "@preact/signals";
 
 const PartToFillIn = (info: string) => {
-  return <p className="font-bold inline">{info}</p>;
+  return <span className="font-bold">{info}</span>;
 };
 
 const BoldText = (text: string) => {
-  return <p className="font-bold inline">{text}</p>;
+  return <span className="font-bold">{text}</span>;
 };
 
 export const LeaseIntro = (
@@ -20,9 +25,9 @@ export const LeaseIntro = (
   return (
     <p>
       {BoldText("THIS LEASE AGREEMENT")} (hereinafter referred to as the "
-      {BoldText("Agreement")}") is made and entered into this {""}
+      {BoldText("Agreement")}") is made and entered into this{" "}
       {PartToFillIn(day)} day of {PartToFillIn(month)}, 20{PartToFillIn(year)},
-      by and between {PartToFillIn(lessorName)} with NRIC No.{" "}
+      by and between {PartToFillIn(lessorName)} with NRIC No.
       {PartToFillIn(lessorIc)} (hereinafter referred to as the “
       {BoldText("Lessor")}”) and {lesseeName} with NRIC No.{" "}
       {PartToFillIn(lesseIc)} (hereinafter referred to as the “
@@ -443,7 +448,14 @@ export const TermSeventeen = () => {
 };
 
 // TODO: Add params for lessor and lessee signature
-export const TermEighteen = () => {
+export const TermEighteen = (
+  lessorSignatureUrl: string,
+  lessorDesignation: string,
+  lessorIc: string,
+  lesseeSignatureUrl?: string,
+  lesseeDesignation?: string,
+  lesseeIc?: string
+) => {
   return (
     <p>
       This Agreement shall bind the Parties hereto and their successors in
@@ -452,49 +464,72 @@ export const TermEighteen = () => {
       {BoldText("IN WITNESS WHEREOF")} the Parties have caused these presents to
       be duly executed: <br />
       <br />
-      <section className="flex">
-        <div className="font-bold">
-          <p>Signed by</p>
-          <p>For and on behalf of the Lessor</p>
-          <br />
-          <br />
-          <p>In the presence of </p>
-          <br />
-          <br />
-          <p>Designation</p>
-          <p>NRIC No</p>
-          <br />
-          <p>Signed by</p>
-          <p>For and on behalf of the Lessee </p>
-          <br />
-          <br />
-          <p>In the presence of</p>
-          <br />
-          <br />
-          <p>Designation</p>
-          <p>NRIC No</p>
+      <section className="my-4">
+        <div className=" flex items-center ">
+          <div className="w-[100px] sm:w-[300px] md:w-[500px]">
+            Signed by <br />
+            For and on behalf of the Lessor
+          </div>
+          <div>
+            <span>: </span>
+            <img
+              src={lessorSignatureUrl}
+              alt="sign"
+              className="object-cover max-w-32 max-h-28"
+            />
+          </div>
         </div>
-        <div className="ml-8">
-          <p>:</p>
-          <p>:</p>
-          <br />
-          <br />
-          <p>: </p>
-          <br />
-          <br />
-          <p>:</p>
-          <p>:</p>
-          <br />
-          <p>:</p>
-          <p>:</p>
-          <br />
-          <br />
-          <p>:</p>
-          <br />
-          <br />
-          <p>:</p>
-          <p>:</p>
+        <br />
+        <div className="flex items-center">
+          <div className="w-[100px] sm:w-[300px] md:w-[500px]">Designation</div>
+          <div>
+            <span>: </span>
+            <span>{lessorDesignation}</span>
+          </div>
         </div>
+        <div className="flex items-center">
+          <div className="w-[100px] sm:w-[300px] md:w-[500px]">NRIC No.</div>
+          <div>
+            <span>: </span>
+            <span>{lessorIc}</span>
+          </div>
+        </div>
+        <br />
+        <section>
+          <div className=" flex items-center ">
+            <div className="w-[100px] sm:w-[300px] md:w-[500px]">
+              Signed by <br />
+              For and on behalf of the Lessee
+            </div>
+            <div>
+              <span>: </span>
+              {lesseeSignatureUrl && (
+                <img
+                  src={lesseeSignatureUrl}
+                  alt="sign"
+                  className="object-cover max-w-32 max-h-28"
+                />
+              )}
+            </div>
+          </div>
+          <br />
+          <div className="flex items-center">
+            <div className="w-[100px] sm:w-[300px] md:w-[500px]">
+              Designation
+            </div>
+            <div>
+              <span>: </span>
+              <span>{lesseeDesignation ? lesseeDesignation : ""}</span>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="w-[100px] sm:w-[300px] md:w-[500px]">NRIC No.</div>
+            <div>
+              <span>: </span>
+              <span>{lesseeIc ? lesseeIc : ""}</span>
+            </div>
+          </div>
+        </section>
       </section>
     </p>
   );

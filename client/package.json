@@ -11,6 +11,8 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/resolvers": "^3.3.4",
     "@preact/signals": "^1.2.3",
+    "@progress/kendo-drawing": "^1.20.1",
+    "@progress/kendo-react-pdf": "^7.4.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
@@ -37,7 +39,11 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "sweetalert2": "^11.6.13",
-    "web-vitals": "^2.1.4"
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "usehooks-ts": "^3.1.0",
+    "web-vitals": "^2.1.4",
+    "zod": "^3.22.5"
   },
   "scripts": {
     "start": "react-scripts start",

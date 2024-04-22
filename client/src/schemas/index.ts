@@ -7,7 +7,7 @@ export const lessorAgreeementSchema = z.object({
   lessorName: z.string().min(1, { message: "Lessor name is required" }),
   lessorIc: z.string().min(1, { message: "Lessor IC is required" }),
   lesseeName: z.string().min(1, { message: "Lessee name is required" }),
-  lesseIc: z.string().min(1, { message: "Lessee IC is required" }),
+  lesseeIc: z.string().min(1, { message: "Lessee IC is required" }),
   address: z.string().min(1, { message: "Property address is required" }),
   effectiveDate: z.string().min(1, { message: "Effective date is required" }),
   expireDate: z.string().min(1, { message: "Expiry date is required" }),
@@ -30,4 +30,19 @@ export const lessorAgreeementSchema = z.object({
   lesseeAdd: z.string().min(1, { message: "Lessee address is required" }),
   lesseeTel: z.string().min(1, { message: "Lessee tel no is required" }),
   lesseeFax: z.string().min(1, { message: "Lessee fax no is required" }),
+  lessorDesignation: z
+    .string()
+    .min(1, { message: "Lessor designation no is required" }),
+  lesseeDesignation: z
+    .string()
+    .min(1, { message: "Lessee designation no is required" }),
+  lessorSignature: z.instanceof(File).optional(),
+});
+
+export const lesseeAgreeementSchema = z.object({
+  lesseeIc: z.string().min(1, { message: "Lessee IC is required" }),
+  lesseeDesignation: z
+    .string()
+    .min(1, { message: "Lessee designation no is required" }),
+  lesseeSignature: z.instanceof(File).optional(),
 });

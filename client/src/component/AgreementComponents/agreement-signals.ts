@@ -1,13 +1,13 @@
 import { signal } from "@preact/signals";
 
-export const formValues = signal({
+export const lessorFormValues = signal({
   day: "",
   month: "",
   year: "",
   lessorName: "",
   lessorIc: "",
   lesseeName: "",
-  lesseIc: "",
+  lesseeIc: "",
   address: "",
   effectiveDate: "",
   expireDate: "",
@@ -22,6 +22,21 @@ export const formValues = signal({
   lesseeAdd: "",
   lesseeTel: "",
   lesseeFax: "",
+  lessorDesignation: "",
+  lesseeDesignation: "",
 });
+
+export const lesseeFormValues = signal({
+  lesseeIc: "",
+  lesseeDesignation: "",
+});
+
+export const lessorSignature = signal<File | null>(new File([], ""));
+
+export const lessorSignatureUrl = signal<string | undefined>("");
+
+export const lesseeSignature = signal<File | null>(new File([], ""));
+
+export const lesseeSignatureUrl = signal<string | undefined>("");
 
 export const signalDate = signal(new Date());
