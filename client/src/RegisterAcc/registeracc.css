@@ -73,9 +73,10 @@
 
 .eye-icon {
     position: absolute;
-    top: 76%;
+    margin-left: 19em;
+    top: 27.6em;
     transform: translateY(-50%);
-    right: 0px; 
+    cursor: pointer;
 }
 
 #registerButtonLandlord{
