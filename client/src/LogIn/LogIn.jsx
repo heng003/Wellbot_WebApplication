@@ -31,7 +31,7 @@ const LogIn = () => {
                 <div className="left-section">
                     <h2 className="logIn_wlcTxt">Welcome Back To <br/>RentSpotter !</h2>
                     <p className="brief_txt">Direct Dialogue: Your Bridge-Free<br/> Connection to Home</p>
-                    <img src="Images/signIn_pic.svg" alt="signIn_pic" width='900' height='auto' style={{marginLeft:'-12em', marginTop:'-8em'}}/>
+                    <img src="Images/signIn_pic.svg" alt="signIn_pic" width='950' height='auto' style={{marginLeft:'-14em', marginTop:'-9em'}}/>
                 </div>
 
                 <div className="right-section">
@@ -46,15 +46,15 @@ const LogIn = () => {
                         <div className="form align-items-center mb-4">
                             <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"size="2x"/>
                             <input value={password} type={visible ? "text" : "password"} id="password" className="form-control" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required/>
-                                <div className="eye-icon" onClick={() => setVisible(!visible)}>
+                                <div className="login-eye-icon" onClick={() => setVisible(!visible)}>
                                     {visible ? <FontAwesomeIcon icon={faEye} className="fa-lg fa-fw"/> : <FontAwesomeIcon icon={faEyeSlash} className="fa-lg fa-fw"/>}
                                 </div>
                         </div>
 
                 <Link to="/forgotPassword" className="forgot-password-link">Forgot password?</Link>
-                <button id="login-button" type="button" onClick={handleLogin}>Log In</button>
+                <button id="loginbutton" type="button" onClick={handleLogin}>Log In</button>
                 <p className="account-option">
-                Don't have an account? <Link to="/signIn" className="sign-up-link">SIGN UP</Link>
+                Don't have an account ? <Link to="/signIn" className="sign-up-link">SIGN UP</Link>
                 </p>
                 </div>
             </div>

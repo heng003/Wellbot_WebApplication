@@ -108,22 +108,25 @@ const RegisterLandlordAcc = () => {
                             {errors.username && <span>{errors.username}</span>}
                         </div>
                     </div>
-                    <div class="form d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw" size="2x"/>
-                        <div class="form-outline flex-fill mb-0">
-                            <input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
-                                class="form-control" 
-                                placeholder="Email" 
-                                autoComplete="off"
-                                onChange={handleChange}/>
+
+
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw"size="2x"/>
+                        <div class="form-outline flex-fill mb-0" >
+                        <input 
+                            type="email" 
+                            name="register_email" 
+                            id="register_email" 
+                            class="form-control" 
+                            placeholder="Email" 
+                            autoComplete="off"
+                            onChange={handleChange}/>
                         </div>
                         <div className="displayErrorMessage">
-                            {errors.email && <span>{errors.email}</span>}
+                            {errors.phonenumber && <span>{errors.phonenumber}</span>}
                         </div>
                     </div>
+
 
                     <div class="form d-flex flex-row align-items-center mb-4" >
                         <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"size="2x"/>

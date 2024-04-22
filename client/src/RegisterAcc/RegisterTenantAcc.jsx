@@ -114,8 +114,8 @@ const Tenant = () => {
                             <div class="form-outline flex-fill mb-0">
                                 <input 
                                     type="email" 
-                                    name="email" 
-                                    id="email" 
+                                    name="register_email" 
+                                    id="register_email" 
                                     class="form-control" 
                                     placeholder="Email" 
                                     autoComplete="off"
