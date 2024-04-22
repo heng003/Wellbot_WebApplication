@@ -24,41 +24,45 @@ const RegisterLandlordAcc = () => {
             ...formData, [name] : value
         })
     }
-
     const handleRegisterClick = (e) =>{
         e.preventDefault();
         const validationErrors = {};
-
+    
+        // First, perform the validation
         if(!formData.username.trim()){
             validationErrors.username = "*username is required"
         }
         if(!formData.email.trim()){
             validationErrors.email = "*email is required"
-        }else if(!/\S+@\S+\.\S+/.test(formData.email)){   // "\S+ means one or more character"
+        }else if(!/\S+@\S+\.\S+/.test(formData.email)){
             validationErrors.email = "*email is invalid"
         }
-
         if(!formData.phonenumber.trim()){
             validationErrors.phonenumber = "*phone number is required"
-        }else if(!/^\d{10,11}$/.test(formData.phonenumber)){   // "\S+ means one or more character"
+        }else if(!/^\d{10,11}$/.test(formData.phonenumber)){
             validationErrors.phonenumber = "*phone number is invalid"
         }
-
         if(!formData.password.trim()){
             validationErrors.password = "*password is required"
-        }else if(formData.password.length < 6){   // "\S+ means one or more character"
-            validationErrors.password = "*password should be at least 6 character"
+        }else if(formData.password.length < 6){
+            validationErrors.password = "*password should be at least 6 characters"
         }
-
-        setErrors(validationErrors)
-
+    
+        setErrors(validationErrors);
+    
+        console.log("Form Data:", formData);
+        console.log("Validation Errors:", validationErrors);
+    
+        // Then, check for the absence of validation errors
         if (Object.keys(validationErrors).length === 0) {
-            // No validation errors, show success message
+            console.log("No validation errors, attempting to show alert.");
+            
+            // Show the SweetAlert
             Swal.fire({
                 title: "Check Your Email",
                 titleColor: "#FF5C00",
                 text: "We have sent an email to *****tian@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
-                imageUrl: "Images/check_email.gif",
+                imageUrl: "Images/checkEmail.gif",
                 imageHeight:200,
                 imageAlt: "email",
                 confirmButtonText: "OK",
@@ -78,8 +82,11 @@ const RegisterLandlordAcc = () => {
                     password: ''
                 });
             });
+        } else {
+            console.log("Validation errors exist, not showing alert.");
         }
     }
+    
 
     return(
         <div id="register">
@@ -115,18 +122,17 @@ const RegisterLandlordAcc = () => {
                         <div class="form-outline flex-fill mb-0" >
                         <input 
                             type="email" 
-                            name="register_email" 
+                            name="email" 
                             id="register_email" 
                             class="form-control" 
                             placeholder="Email" 
-                            autoComplete="off"
+                            autoComplete="on"
                             onChange={handleChange}/>
                         </div>
                         <div className="displayErrorMessage">
                             {errors.phonenumber && <span>{errors.phonenumber}</span>}
                         </div>
                     </div>
-
 
                     <div class="form d-flex flex-row align-items-center mb-4" >
                         <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"size="2x"/>
