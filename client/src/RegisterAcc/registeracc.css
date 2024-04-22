@@ -73,8 +73,7 @@
 
 .eye-icon {
     position: absolute;
-    margin-left: 19em;
-    top: 27.6em;
+    top: 4.15em;
     transform: translateY(-50%);
     cursor: pointer;
 }

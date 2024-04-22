@@ -8,14 +8,17 @@ const ForgotPassword = () => {
         Swal.fire({
             title: "Check Your Email",
             titleColor: "#FF5C00",
-            text: "We have sent an email to *****w455@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
-            imageUrl: "Images/email.png",
-            imageWidth: 280,
-            imageHeight: 200,
+            text: "We have sent an email to *****tian@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
+            imageUrl: "Images/checkEmail.gif",
+            imageHeight:200,
             imageAlt: "email",
-            confirmButtonText: "OK", 
-            confirmButtonColor: "#FF8C22"
-          });
+            confirmButtonText: "OK",
+            confirmButtonColor: "#FF8C22",
+            customClass: {
+                title: 'my-title-class',
+                confirmButton: 'my-confirm-button-class'
+              }
+        })
     }
 
     return(
