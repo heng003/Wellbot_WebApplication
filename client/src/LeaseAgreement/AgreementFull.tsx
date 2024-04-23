@@ -58,7 +58,7 @@ const AgreementFull = () => {
   const navigate = useNavigate();
   useTimeout(() => {
     exportPDFWithMethod();
-    navigate("/");
+    navigate("/tenantLeaseAgreementHome");
   }, 100);
   return (
     <>

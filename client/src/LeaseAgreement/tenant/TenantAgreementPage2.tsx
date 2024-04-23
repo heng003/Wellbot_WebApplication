@@ -25,7 +25,7 @@ const TenantAgreementPage2 = () => {
       <AgreementWrapper
         title="Lease Agreement"
         nextButtonText="Next"
-        nextButtonHref="/landlordLeaseAgreementPg3"
+        nextButtonHref="/tenantLeaseAgreementPg3"
       >
         <AgreementTerm number="5" title="ASSIGNMENT AND SUB-LETTING">
           {TermFive()}

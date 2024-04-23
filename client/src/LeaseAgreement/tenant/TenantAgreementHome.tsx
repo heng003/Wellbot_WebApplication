@@ -1,5 +1,4 @@
 import "TenantPOV/tenantapplication.css";
-import CardApplication from "TenantPOV/component/CardApplication";
 import PropertyCard, {
   PropertyCardProps,
 } from "component/AgreementComponents/property-card";
@@ -34,7 +33,7 @@ const TenantAgreementHome = () => {
   return (
     <main>
       <div className="pageMainContainer">
-        <h1 className="pageMainTitle">Lease Agreement</h1>
+        <h1 className="pageMainTitle">Lease Agreements</h1>
         <h2 className="applicationSubTitle">Action Needed</h2>
         {propertyActionListingInfo.map((property, index) => (
           <PropertyCard

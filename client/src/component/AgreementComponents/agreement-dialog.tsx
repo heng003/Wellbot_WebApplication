@@ -37,14 +37,14 @@ export function AgreementDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="my-4 px-4 py-2 font-semibold rounded-lg text-white bg-dark-orange">
+        <Button className="my-12 px-16 py-8 font-semibold rounded-lg text-2xl text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70">
           {triggerText}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           {aboveTitleChildren}
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="mb-2">{title}</DialogTitle>
           {landlordLastPage ? (
             <DialogDescription>
               <p>
@@ -76,15 +76,20 @@ export function AgreementDialog({
           ))}
 
         <DialogFooter>
-          <Button
-            onClick={() => {
-              closeHref && navigate(closeHref);
-            }}
-            className="my-4 px-4 py-2 font-semibold rounded-lg text-white bg-dark-orange"
-            type="submit"
-          >
-            {closeText}
-          </Button>
+          <div className="flex justify-center w-full">
+            <Button
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                landlordLastPage
+                  ? navigate("/landlordApplicant")
+                  : navigate("/tenantRent");
+              }}
+              className=" px-8 py-4 font-semibold text-xl rounded-lg text-white bg-dark-orange"
+              type="submit"
+            >
+              {closeText}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
