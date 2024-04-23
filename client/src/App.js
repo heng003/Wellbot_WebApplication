@@ -26,6 +26,7 @@ import LandlordHistory from './LandlordPOV/LandlordHistory';
 import LandlordComment from './LandlordPOV/LandlordComment';
 import TenantComment from './TenantPOV/TenantComment';
 import RentTenant from './TenantPOV/RentTenant';
+import ViewPropertyActive from './TenantPOV/ViewPropertyActive';
 import TenantViewPropertyPending from './TenantPOV/ViewPropertyPending';
 import TenantViewPropertyRejected from './TenantPOV/ViewPropertyRejected';
 import TenantViewPropertyLease from './TenantPOV/ViewPropertyLease';
@@ -70,6 +71,7 @@ function App() {
             <Route path="/tenantViewPropertyPending" element={<TenantViewPropertyPending/>}/>
             <Route path="/tenantViewPropertyRejected" element={<TenantViewPropertyRejected/>}/>
             <Route path="/tenantViewPropertyLease" element={<TenantViewPropertyLease/>}/>
+            <Route path="/tenantViewPropertyActive" element={<ViewPropertyActive/>}/>
             <Route path="/landlordViewProperty" element={<LandlordViewProperty/>}/>
             <Route path="/landlordUpdateProperty" element={<LandlordUpdateProperty/>}/>
             <Route path="/landlordUploadProperty" element={<LandlordUploadProperty/>}/>

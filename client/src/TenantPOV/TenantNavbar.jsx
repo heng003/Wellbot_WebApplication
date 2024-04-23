@@ -21,6 +21,7 @@ const TenantNavbar = () => {
                 break;
             case '/tenantRent':
             case '/tenantComment':
+            case'/tenantViewPropertyActive':
                 setActiveItem('Rental History');
                 break;
             case '/tenantProfileEdit':
