@@ -17,10 +17,6 @@ const AverageRating = ({ numOfReview, avg }) => {
             </div>
 
             <div className="col">
-                <span className="review-score">{avgRatingScore}</span>
-            </div>
-
-            <div className="col">
                 <span className="review-number">{reviewNumbers}</span>
             </div>
         </div>
