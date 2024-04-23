@@ -17,6 +17,8 @@ const TenantNavbar = () => {
       setActiveItem("Property");
     } else if (path === "/tenantApplyForm") {
       setActiveItem("Application");
+    } else if (path === "tenantLeaseAgreementHome") {
+      setActiveItem("Lease Agreement");
     }
   }, [location]);
 
@@ -82,7 +84,7 @@ const TenantNavbar = () => {
               >
                 <Link
                   className="nav-link"
-                  to="#"
+                  to="/tenantLeaseAgreementHome"
                   onClick={() => handleItemClick("Lease Agreement")}
                 >
                   Lease Agreement

@@ -101,7 +101,11 @@ const RegisterLandlordAcc = () => {
             />
           </div>
           <div className="col rightCol">
-            <form id="register-form" ref={formRef} onSubmit={handleRegisterClick}>
+            <form
+              id="register-form"
+              ref={formRef}
+              onSubmit={handleRegisterClick}
+            >
               <div className="form d-flex flex-row align-items-center mb-4">
                 <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
                 <div className="form-outline flex-fill mb-0">

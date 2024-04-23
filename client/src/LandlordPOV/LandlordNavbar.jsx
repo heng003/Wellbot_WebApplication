@@ -67,7 +67,7 @@ const LandlordNavbar = () => {
               >
                 <Link
                   className="nav-link"
-                  to="#"
+                  to="/landlordLeaseAgreementForm"
                   onClick={() => handleItemClick("Lease Agreement")}
                 >
                   Lease Agreement

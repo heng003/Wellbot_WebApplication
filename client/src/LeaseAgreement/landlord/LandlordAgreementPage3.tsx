@@ -23,9 +23,10 @@ const LandlordAgreementPage3 = () => {
       <AgreementWrapper
         title="Lease Agreement"
         dialogCloseText="OK"
-        dialogDescription="Your Lease Agreement had been submitted to the system and sent to your tenant, please be patient to wait for him/her to check and sign for this lease agreement, you might track your lease agreement status at applicant page."
+        dialogDescription={dialogLandlordText}
         dialogTitle="Submitted Successfully"
         dialogTriggerText="Save and Submit"
+        landlordLastPage={true}
       >
         <AgreementTerm number="17" title="no partnership">
           {TermSeventeen()}

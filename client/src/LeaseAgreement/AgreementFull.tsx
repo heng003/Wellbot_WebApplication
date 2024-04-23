@@ -41,11 +41,18 @@ const AgreementFull = () => {
       pdfExportComponent.current.save();
     }
   };
-  const localStorageValue = JSON.parse(
-    localStorage.getItem("formValues") || ""
+  const localStorageLessorFormValues = JSON.parse(
+    localStorage.getItem("lessorFormValues") || ""
   );
   const localStorageLessorSignUrl = JSON.parse(
     localStorage.getItem("lessorSignatureUrl") || ""
+  );
+
+  const localStorageLesseeFormValues = JSON.parse(
+    localStorage.getItem("lesseeFormValues") || ""
+  );
+  const localStorageLesseeSignUrl = JSON.parse(
+    localStorage.getItem("lesseeSignatureUrl") || ""
   );
 
   const navigate = useNavigate();
@@ -58,32 +65,32 @@ const AgreementFull = () => {
       <PDFExport ref={pdfExportComponent} paperSize="A4">
         <AgreementWrapper title="Lease Agreement">
           {LeaseIntro(
-            localStorageValue.day,
-            localStorageValue.month,
-            localStorageValue.year,
-            localStorageValue.lessorName,
-            localStorageValue.lessorIc,
-            localStorageValue.lesseeName,
-            localStorageValue.lesseIc
+            localStorageLessorFormValues.day,
+            localStorageLessorFormValues.month,
+            localStorageLessorFormValues.year,
+            localStorageLessorFormValues.lessorName,
+            localStorageLessorFormValues.lessorIc,
+            localStorageLessorFormValues.lesseeName,
+            localStorageLessorFormValues.lesseIc
           )}
-          {PropertyInfo(localStorageValue.address)}
+          {PropertyInfo(localStorageLessorFormValues.address)}
           <AgreementTerm number="1" title="term">
             {TermOne(
-              localStorageValue.effectiveDate,
-              localStorageValue.expireDate
+              localStorageLessorFormValues.effectiveDate,
+              localStorageLessorFormValues.expireDate
             )}
           </AgreementTerm>
           <AgreementTerm number="2" title="rent">
             {TermTwo(
-              localStorageValue.rentRmWord,
-              localStorageValue.rentRmNum,
-              localStorageValue.advanceDay
+              localStorageLessorFormValues.rentRmWord,
+              localStorageLessorFormValues.rentRmNum,
+              localStorageLessorFormValues.advanceDay
             )}
           </AgreementTerm>
           <AgreementTerm number="3" title="deposit">
             {TermThree(
-              localStorageValue.depositRmWord,
-              localStorageValue.depositRmNum
+              localStorageLessorFormValues.depositRmWord,
+              localStorageLessorFormValues.depositRmNum
             )}
           </AgreementTerm>
           <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
@@ -118,12 +125,12 @@ const AgreementFull = () => {
           </AgreementTerm>
           <AgreementTerm number="12" title="notice">
             {TermTwelve(
-              localStorageValue.lessorAdd,
-              localStorageValue.lessorTel,
-              localStorageValue.lessorFax,
-              localStorageValue.lesseeAdd,
-              localStorageValue.lesseeTel,
-              localStorageValue.lesseeFax
+              localStorageLessorFormValues.lessorAdd,
+              localStorageLessorFormValues.lessorTel,
+              localStorageLessorFormValues.lessorFax,
+              localStorageLessorFormValues.lesseeAdd,
+              localStorageLessorFormValues.lesseeTel,
+              localStorageLessorFormValues.lesseeFax
             )}
           </AgreementTerm>
           <AgreementTerm number="13" title="modification">
@@ -144,8 +151,11 @@ const AgreementFull = () => {
           <AgreementTerm number="18" title="SUCCESSORS BOUND ">
             {TermEighteen(
               localStorageLessorSignUrl,
-              localStorageValue.lessorDesignation,
-              localStorageValue.lessorIc
+              localStorageLessorFormValues.lessorDesignation,
+              localStorageLessorFormValues.lessorIc,
+              localStorageLesseeSignUrl,
+              localStorageLesseeFormValues.lesseeDesignation,
+              localStorageLesseeFormValues.lesseeIc
             )}
           </AgreementTerm>
         </AgreementWrapper>
