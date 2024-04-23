@@ -145,7 +145,7 @@ const AgreementFullView = () => {
           onClick={() => {
             navigate("/fullAgreement");
           }}
-          className="my-4 px-4 py-2 font-semibold rounded-lg text-white bg-dark-orange"
+          className="my-4 px-4 py-2 font-semibold rounded-lg text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
         >
           Download as PDF
         </Button>

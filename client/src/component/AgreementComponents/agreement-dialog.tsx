@@ -84,7 +84,7 @@ export function AgreementDialog({
                   ? navigate("/landlordApplicant")
                   : navigate("/tenantRent");
               }}
-              className=" px-8 py-4 font-semibold text-xl rounded-lg text-white bg-dark-orange"
+              className=" px-8 py-4 font-semibold text-xl rounded-lg text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
               type="submit"
             >
               {closeText}
