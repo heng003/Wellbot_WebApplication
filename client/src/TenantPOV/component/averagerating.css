@@ -10,7 +10,7 @@
     justify-content: center;
     align-items: center;
     width: fit-content;
-    margin-right: 2rem; /* Adjust the margin as needed */
+    margin-right: 1rem; /* Adjust the margin as needed */
     white-space: nowrap; /* Prevent text from wrapping */
 }
 
@@ -29,10 +29,12 @@
     font-weight: 480;
     font-size: 1.1em;
     color: #B3B3B3;
+    margin-top: 0.25em;
 }
 
 .review-score {
     font-weight: 580;
     font-size: 1.1em;
     color: #F28E19;
+    margin-top: 0.25em;
 }

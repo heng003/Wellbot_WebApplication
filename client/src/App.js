@@ -12,13 +12,14 @@ import RegisterLandlordAcc from './RegisterAcc/RegisterLandlordAcc';
 import RegisterTenantAcc from './RegisterAcc/RegisterTenantAcc';
 import LogIn from './LogIn/LogIn';
 import ForgotPassword from './LogIn/ForgotPassword';
+import ViewProperty from './GeneralPage/ViewProperty';
 import LandlordHome from './LandlordPOV/LandlordHome';
 import LandlordNavbar from './LandlordPOV/LandlordNavbar';
 import TenantNavbar from './TenantPOV/TenantNavbar';
 import TenantHome from './TenantPOV/TenantHome';
 import EditLandlordProfile from './LandlordPOV/EditLandlordProfile';
 import EditTenantProfile from './TenantPOV/EditTenantProfile';
-import TenantViewProperty from './TenantPOV/ViewProperty';
+import TenantViewProperty from './TenantPOV/TenantViewProperty';
 import TenantApplyForm from './TenantPOV/TenantApplyForm';
 import TenantApplication from './TenantPOV/TenantApplication';
 import LandlordHistory from './LandlordPOV/LandlordHistory';
@@ -53,6 +54,7 @@ function App() {
             <Route path="/registerLandlordAcc" element={<RegisterLandlordAcc />} />
             <Route path="/registerTenantAcc" element={<RegisterTenantAcc />} />
             <Route path="/logIn" element={<LogIn />} />
+            <Route path='/ViewProperty' element={<ViewProperty/>}/>
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/landlordHome" element={<LandlordHome />}/>
             <Route path="/tenantHome" element={<TenantHome />}/>
@@ -89,7 +91,7 @@ function CustomNavbar() {
   const location = useLocation();
 
   const isLandlordPage = location.pathname.startsWith('/landlord');
-  const isTenantPage = location.pathname.startsWith('/tenant') && location.pathname !== "/tenantViewProperty";
+  const isTenantPage = location.pathname.startsWith('/tenant');
 
   if (isLandlordPage) {
     return <LandlordNavbar />;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from "react-router-dom";
 import { faUser, faLock, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ const LogIn = () => {
     
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
+
 
     //frontend demo purpose
     const handleLogin = () => {        

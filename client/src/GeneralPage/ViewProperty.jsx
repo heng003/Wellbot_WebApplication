@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import './viewproperty.css';
-import DetailsPanel from "./component/DetailsPanel";
-import CommentBox from "./component/CommentBox";
-import AverageRating from "./component/AverageRating";
+import '../TenantPOV/viewproperty.css';
+import DetailsPanel from "../TenantPOV/component/DetailsPanel";
+import CommentBox from "../TenantPOV/component/CommentBox";
+import AverageRating from "../TenantPOV/component/AverageRating";
 import Swal from 'sweetalert2';
 
 const ViewProperty = () => {
@@ -47,12 +47,14 @@ const ViewProperty = () => {
                 text: 'You need to register or log in to your account before performing this action.',
                 icon: 'warning',
                 confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'my-confirm-button-class'
+                  }
             }).then((result) => {
-                if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+               
                     nav("/logIn");
-                }
+
             });
             return;
         } else {

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import './landlordviewproperty.css';
+import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
+import CommentBox from "./component/CommentBox";
+import AverageRating from "./component/AverageRating";
 import Swal from 'sweetalert2';
 
-const LandlordViewProperty = () => {
+const TenantViewProperty = () => {
     
     const propertyImageSrc = [
         "Images/propertyImg3.png",
@@ -38,6 +40,30 @@ const LandlordViewProperty = () => {
         });
     };
     
+    const handleApplyPropertyPageButton = () => {
+        if (localStorage.getItem("previousPath") !== "/tenantHome") {
+            Swal.fire({
+                title: 'Warning!',
+                text: 'You need to register or log in to your account before performing this action.',
+                icon: 'warning',
+                confirmButtonColor: "#FF8C22",
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'my-confirm-button-class'
+                  }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    nav("/logIn");
+                }
+            });
+            return;
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            nav("/tenantApplyForm");
+        }
+    }
+    
     return (
         <div>
             <main>
@@ -68,9 +94,29 @@ const LandlordViewProperty = () => {
                     <div className="container"><DetailsPanel/></div>
                 </section>
 
+                <div className="applyButton"> 
+                    <button className="applyNowButton" type="button" onClick={handleApplyPropertyPageButton}>Apply Now</button>
+                </div>
+
+                <section id="Comment">
+                    <header className="commentTitle">Comment And Rating</header>
+
+                    <section className="comment-avg">
+                        <div className="comment-grid">
+                            <AverageRating numOfReview="2" avg="4.0" />
+                        </div>
+                    </section>
+                    
+                    <section className="comments">
+                        <div className="comment-grid">
+                            <CommentBox username="Joyce Lim" date="2 days ago" />
+                            <CommentBox username="Ali bin Abu" date="12/3/2021"/>
+                        </div>
+                    </section>
+                </section>
             </main>
         </div>
     );
 }
 
-export default LandlordViewProperty;
+export default TenantViewProperty;

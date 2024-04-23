@@ -9,10 +9,10 @@ const TenantNavbar = () => {
     // Set activeItem based on current path
     useEffect(() => {
         const path = location.pathname;
-            if (path === '/tenantViewPropertyLease' || path === '/tenantViewPropertyPending' || path === '/tenantViewPropertyRejected') {
-                setActiveItem('Property');
-            } else if (path === '/tenantApplyForm'){
+            if (path === '/tenantViewPropertyLease' || path === '/tenantViewPropertyPending' || path === '/tenantViewPropertyRejected'||path === '/tenantApplyForm') {
                 setActiveItem('Application');
+            } else if (path === '/tenantViewProperty'){
+                setActiveItem('Property');
             }
         }, [location]);
 

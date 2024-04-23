@@ -34,7 +34,7 @@ const TenantApplication = () => {
         {
             title: "Sekeyen 17, Unit 775",
             locationOwner: "PETALING JAYA | Landed House by Rosli",
-            imageUrl: "Images/condo2.jpg",
+            imageUrl: "Images/bungalow.jpg",
             isViewLease: false,
             isPending: false,
             isRejected: true,

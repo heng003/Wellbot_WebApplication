@@ -23,7 +23,10 @@ const TenantApplyForm = () => {
         Swal.fire({
             text: "Saved and Submitted!",
             icon: "success",
-            confirmButtonColor: "#FF8C22"
+            confirmButtonColor: "#FF8C22",
+            customClass: {
+                confirmButton: 'my-confirm-button-class'
+              }
           }).then((result) => {
             if (result.isConfirmed) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
