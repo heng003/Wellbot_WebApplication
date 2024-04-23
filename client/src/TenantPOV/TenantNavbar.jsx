@@ -6,19 +6,35 @@ const TenantNavbar = () => {
     const location = useLocation();
     const [activeItem, setActiveItem] = useState('Property');
 
-    // Set activeItem based on current path
     useEffect(() => {
-        const path = location.pathname;
-            if (path === '/tenantViewPropertyLease' || path === '/tenantViewPropertyPending' || path === '/tenantViewPropertyRejected'||path === '/tenantApplyForm') {
-                setActiveItem('Application');
-            } else if (path === '/tenantViewProperty'){
+        switch (location.pathname) {
+            case '/tenantHome':
+            case '/tenantViewProperty':
                 setActiveItem('Property');
-            }
-        }, [location]);
+                break;
+            case '/tenantApplication':
+            case '/tenantViewPropertyLease':
+            case '/tenantViewPropertyPending':
+            case '/tenantViewPropertyRejected':
+            case '/tenantApplyForm':
+                setActiveItem('Application');
+                break;
+            case '/tenantRent':
+            case '/tenantComment':
+                setActiveItem('Rental History');
+                break;
+            case '/tenantProfileEdit':
+                setActiveItem('Edit Profile');
+                break;
+            default:
+                setActiveItem('');
+        }
+    }, [location]);
 
     const handleItemClick = (itemName) => {
         setActiveItem(itemName);
     };
+
 
     return (
         <div className="navbarContainer">

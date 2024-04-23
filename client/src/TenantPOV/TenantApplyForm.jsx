@@ -19,22 +19,24 @@ const TenantApplyForm = () => {
         setClicked(!clicked); 
     };
     
-    const handleSaveAndSubmit = (e) =>{
-        Swal.fire({
-            text: "Saved and Submitted!",
-            icon: "success",
-            confirmButtonColor: "#FF8C22",
-            customClass: {
-                confirmButton: 'my-confirm-button-class'
-              }
-          }).then((result) => {
-            if (result.isConfirmed) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                nav("/tenantApplication");
-            }    
-        });
+    const handleSaveAndSubmit = (e) => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            Swal.fire({
+                text: "Saved and Submitted!",
+                icon: "success",
+                confirmButtonColor: "#FF8C22",
+                customClass: {
+                    confirmButton: 'my-confirm-button-class'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    nav("/tenantApplication");
+                }
+            });
+        }, 500); // Delay to allow scroll to finish
     }
-
+    
     return(
     
         <>

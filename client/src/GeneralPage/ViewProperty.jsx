@@ -39,7 +39,8 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
-    
+
+
     const handleApplyPropertyPageButton = () => {
         if (localStorage.getItem("previousPath") !== "/tenantHome") {
             Swal.fire({
@@ -50,18 +51,33 @@ const ViewProperty = () => {
                 confirmButtonText: 'OK',
                 customClass: {
                     confirmButton: 'my-confirm-button-class'
-                  }
+                }
             }).then((result) => {
-               
-                    nav("/logIn");
-
+                nav("/logIn");
             });
             return;
+        
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            nav("/tenantApplyForm");
+            setTimeout(() => {
+                Swal.fire({
+                    title: 'Notice',
+                    text: 'You are being navigated to the application form.',
+                    icon: 'info',
+                    confirmButtonColor: "#FF8C22",
+                    confirmButtonText: 'Continue',
+                    customClass: {
+                        confirmButton: 'my-confirm-button-class'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        nav("/tenantApplyForm");
+                    }
+                });
+            }, 500); // Delay to ensure the scroll completes before showing the dialog
         }
     }
+    
     
     return (
         <div>
