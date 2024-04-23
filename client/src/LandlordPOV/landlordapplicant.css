@@ -54,9 +54,9 @@
 }
 
 .property-selectors-group {
-  display: flex;
-  column-gap: 2.5em;
-  margin-bottom: 5em;
+    display: flex;
+    column-gap: 2.5em;
+    margin-bottom: 3em;
 }
 
 .applicant-list-table .signedDownloadText {
