@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import CardProperty from "../component/CardProperty";
+import CardGeneral from "../component/CardGeneral";
 
 const Home = () => {
 
@@ -214,7 +214,7 @@ const Home = () => {
                     <div className="row row-cols-1 row-cols-md-3 g-5">
                         {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
                         <div key={index} className="col">
-                            <CardProperty
+                            <CardGeneral
                                 imgSrc={card.imgSrc}
                                 cardTitle={card.cardTitle1}
                                 propertyTitle={card.cardTitle2}

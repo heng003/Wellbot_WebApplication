@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import CommentBox from "./component/CommentBox";
 import AverageRating from "./component/AverageRating";
+import Swal from 'sweetalert2';
 
-const ViewPropertyLease = () => {
+const TenantViewProperty = () => {
     
     const propertyImageSrc = [
         "Images/propertyImg3.png",
@@ -15,6 +16,7 @@ const ViewPropertyLease = () => {
     ];
 
     const nav = useNavigate();
+    const location = useLocation();
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -37,10 +39,29 @@ const ViewPropertyLease = () => {
             return newIndex;
         });
     };
-
-    const handleViewLeaseButton = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        nav("#");
+    
+    const handleApplyPropertyPageButton = () => {
+        if (localStorage.getItem("previousPath") !== "/tenantHome") {
+            Swal.fire({
+                title: 'Warning!',
+                text: 'You need to register or log in to your account before performing this action.',
+                icon: 'warning',
+                confirmButtonColor: "#FF8C22",
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'my-confirm-button-class'
+                  }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    nav("/logIn");
+                }
+            });
+            return;
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            nav("/tenantApplyForm");
+        }
     }
     
     return (
@@ -66,7 +87,6 @@ const ViewPropertyLease = () => {
                                 </svg>
                             </button>
                         </div>
-
                         <div className="imgPageIconContainer">
                             <div className="imgPageText">{propertyImageSrc.length}</div>
                             <svg className="imgPageIcon" width="27" height="21" viewBox="0 0 27 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,8 +100,8 @@ const ViewPropertyLease = () => {
                     <div className="container"><DetailsPanel/></div>
                 </section>
 
-                <div style={{ textAlign: "center" }}> 
-                    <button className="applyNowButton" type="button" onClick={handleViewLeaseButton}>View Lease Agreement</button>
+                <div className="applyButton"> 
+                    <button className="applyNowButton" type="button" onClick={handleApplyPropertyPageButton}>Apply Now</button>
                 </div>
 
                 <section id="Comment">
@@ -105,4 +125,4 @@ const ViewPropertyLease = () => {
     );
 }
 
-export default ViewPropertyLease;
+export default TenantViewProperty;

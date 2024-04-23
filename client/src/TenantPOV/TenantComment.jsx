@@ -103,19 +103,14 @@ const TenantComment = () => {
             </div>
           </div>
 
-          <div className="centreButton">
-            <button
-              id="submitEdirProfileInfoBtn"
-              onClick={handleSaveAndSubmit}
-              type="submit"
-            >
-              Save & Submit
-            </button>
-          </div>
+                <div className="mainCentreButton">
+                    <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
+                </div>
+
+           </div>      
         </div>
-      </div>
-    </>
-  );
-};
+        </>
+    )
+}
 
 export default TenantComment;

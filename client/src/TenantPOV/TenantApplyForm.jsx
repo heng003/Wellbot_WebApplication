@@ -14,27 +14,34 @@ const TenantApplyForm = () => {
     setSelectedGender(event.target.value);
   };
 
-  const handleCheckboxChange = () => {
-    setClicked(!clicked);
-  };
+    const handleCheckboxChange = () => {
+        setClicked(!clicked); 
+    };
+    
+    const handleSaveAndSubmit = (e) => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            Swal.fire({
+                text: "Saved and Submitted!",
+                icon: "success",
+                confirmButtonColor: "#FF8C22",
+                customClass: {
+                    confirmButton: 'my-confirm-button-class'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    nav("/tenantApplication");
+                }
+            });
+        }, 500); // Delay to allow scroll to finish
+    }
+    
+    return(
+    
+        <>
+        <div className="pageMainContainer">
 
-  const handleSaveAndSubmit = (e) => {
-    Swal.fire({
-      text: "Saved and Submitted!",
-      icon: "success",
-      confirmButtonColor: "#FF8C22",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        nav("/tenantApplication");
-      }
-    });
-  };
-
-  return (
-    <>
-      <div className="pageMainContainer">
-        <h1 className="pageMainTitle">Edit Personal Details</h1>
+            <h1 className="pageMainTitle">Edit Personal Details</h1>
 
         <h3 className="pageMainSubTitle">
           Please make sure personal details are correct before proceed.

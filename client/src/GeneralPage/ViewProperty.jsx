@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import './viewproperty.css';
-import DetailsPanel from "./component/DetailsPanel";
-import CommentBox from "./component/CommentBox";
-import AverageRating from "./component/AverageRating";
+import { useNavigate, useLocation } from "react-router-dom";
+import '../TenantPOV/viewproperty.css';
+import DetailsPanel from "../TenantPOV/component/DetailsPanel";
+import CommentBox from "../TenantPOV/component/CommentBox";
+import AverageRating from "../TenantPOV/component/AverageRating";
+import Swal from 'sweetalert2';
 
-const ViewPropertyLease = () => {
+const ViewProperty = () => {
     
     const propertyImageSrc = [
         "Images/propertyImg3.png",
@@ -15,6 +16,7 @@ const ViewPropertyLease = () => {
     ];
 
     const nav = useNavigate();
+    const location = useLocation();
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,20 +40,55 @@ const ViewPropertyLease = () => {
         });
     };
 
-    const handleViewLeaseButton = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        nav("#");
+
+    const handleApplyPropertyPageButton = () => {
+        if (localStorage.getItem("previousPath") !== "/tenantHome") {
+            Swal.fire({
+                title: 'Warning!',
+                text: 'You need to register or log in to your account before performing this action.',
+                icon: 'warning',
+                confirmButtonColor: "#FF8C22",
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'my-confirm-button-class'
+                }
+            }).then((result) => {
+                nav("/logIn");
+            });
+            return;
+        
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                Swal.fire({
+                    title: 'Notice',
+                    text: 'You are being navigated to the application form.',
+                    icon: 'info',
+                    confirmButtonColor: "#FF8C22",
+                    confirmButtonText: 'Continue',
+                    customClass: {
+                        confirmButton: 'my-confirm-button-class'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        nav("/tenantApplyForm");
+                    }
+                });
+            }, 500); // Delay to ensure the scroll completes before showing the dialog
+        }
     }
+    
     
     return (
         <div>
             <main>
                 <section id="PropertyImage">
-                <div className="container">
-                    <div className="imageContainer">
-                            <img src={propertyImageSrc[currentIndex]} alt='propertyImages' className='propertyImage'/>
-                            <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2'/>
+                    <div className="container">
+                        <div className="imageContainer">
+                                <img src={propertyImageSrc[currentIndex]} alt='propertyImages' className='propertyImage'/>
+                                <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2'/>
                         </div>
+
                         <div className="buttonContainer">
                             <button className="previousButton" onClick={handlePrevious}>
                                 <svg width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,6 +110,7 @@ const ViewPropertyLease = () => {
                                 <path d="M23.6252 0H1.12481C0.503551 0 0 0.522316 0 1.16679V17.5H1.68751V1.74998H23.6252V0ZM6.21418 8.74992C6.21418 10.1996 7.34722 11.3749 8.74565 11.3749C10.1437 11.3749 11.2767 10.1996 11.2767 8.74992C11.2767 7.30046 10.1437 6.12494 8.74565 6.12494C7.34722 6.12494 6.21418 7.30046 6.21418 8.74992ZM25.3127 12.3087L21.9565 8.74992L16.4462 14.1285L13.497 11.6028L5.06254 19.2498V5.24995H25.3127V12.3087ZM3.37502 4.66655V19.8332C3.37502 20.4777 3.87858 21 4.50003 21H15.1876H25.8752C26.4964 21 27 20.4777 27 19.8332V4.66655C27 4.02228 26.4964 3.49997 25.8752 3.49997H4.50003C3.87858 3.49997 3.37502 4.02228 3.37502 4.66655Z" fill="white"/>
                             </svg>
                         </div>
+
                     </div>
                 </section>
 
@@ -80,8 +118,8 @@ const ViewPropertyLease = () => {
                     <div className="container"><DetailsPanel/></div>
                 </section>
 
-                <div style={{ textAlign: "center" }}> 
-                    <button className="applyNowButton" type="button" onClick={handleViewLeaseButton}>View Lease Agreement</button>
+                <div className="applyButton"> 
+                    <button className="applyNowButton" type="button" onClick={handleApplyPropertyPageButton}>Apply Now</button>
                 </div>
 
                 <section id="Comment">
@@ -105,4 +143,4 @@ const ViewPropertyLease = () => {
     );
 }
 
-export default ViewPropertyLease;
+export default ViewProperty;

@@ -12,10 +12,11 @@
 }
 
 .applicationSubTitle,
-.pageMainSubTitle {
-  font-size: 31px;
-  color: black;
-  font-weight: 600;
-  margin-left: 1.8em;
-  padding-bottom: 0.8em;
+.pageMainSubTitle{
+    font-size: 31px; 
+    color: black; 
+    font-weight: 600; 
+    margin-left: 1.8em; 
+    padding-bottom: 0.8em; 
+    margin-top: -0.8em;
 }

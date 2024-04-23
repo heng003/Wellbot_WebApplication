@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./home.css";
-import CardProperty from "../component/CardProperty";
-import "bootstrap/dist/js/bootstrap.bundle";
+import React, { useState, useEffect, useRef } from 'react';
+import './home.css';
+import CardGeneral from "../component/CardGeneral";
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 const Commercial = () => {
   const [selectedOption2, setSelectedOption2] = useState("");
@@ -194,34 +194,27 @@ const Commercial = () => {
         </div>
       </section>
 
-      <section id="recommendation">
-        <header
-          className="recommendationTitle text-left fs-2 fw-bolder mt-4"
-          style={{ marginBottom: "0.4em" }}
-        >
-          {isSearchClicked ? "Filter Result/s" : "Recommendations"}
-        </header>
-        <div className="row row-cols-1 row-cols-md-3 g-5">
-          {(isSearchClicked ? filteredResults : cardData).map((card, index) => (
-            <div key={index} className="col">
-              <CardProperty
-                imgSrc={card.imgSrc}
-                cardTitle={card.cardTitle1}
-                propertyTitle={card.cardTitle2}
-                propertyAdd={card.cardText}
-                roomDetails={card.roomDetails}
-              />
-            </div>
-          ))}
+            <section id="recommendation">
+                <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
+                    {isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                </header>
+                <div className="row row-cols-1 row-cols-md-3 g-5">
+                {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
+                    <div key={index} className="col">
+                        <CardGeneral
+                            imgSrc={card.imgSrc}
+                            cardTitle={card.cardTitle1}
+                            propertyTitle={card.cardTitle2}
+                            propertyAdd={card.cardText}
+                            roomDetails={card.roomDetails}
+                        />
+                    </div>
+                    ))}
+                </div>
+                <br /><br /><br /><br /><br />
+            </section>
         </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-      </section>
-    </div>
-  );
-};
+    );
+}
 
 export default Commercial;

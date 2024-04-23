@@ -11,9 +11,9 @@
 .imageContainer {
     position: relative; /* Required for absolute positioning */
     left: 0;
-    right: 0;
     display: flex;
     justify-content: space-between;
+    transition: transform 2s ase;
 }
 
 .propertyImage {
@@ -30,6 +30,32 @@
     justify-content: space-between;
     transform: translateY(-50%);
     padding-inline: 0.5em;
+}
+
+.imgPageIconContainer {
+    position: absolute;
+    top: 94.5%;
+    right: -14.5%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    transform: translateY(-50%);
+    column-gap: 0.45em;
+    padding-inline: 0.35em;
+    padding-block: 0.35em;
+    background-color: rgba(0, 0, 0, 0.64);
+} 
+
+.imgPageText {
+    color: white;
+    font-size: 1.35em;
+    font-weight: 300;
+}
+
+.imgPageIcon {
+    color: #FFFFFF;
+    width: auto;
+    height: 1.2em;
 }
 
 .previousButton,

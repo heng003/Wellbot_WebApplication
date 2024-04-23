@@ -102,9 +102,9 @@
   resize: none;
 }
 
-.mainCentreButton {
-  text-align: center;
-  margin-right: 25em;
+.mainCentreButton{
+    text-align: center;
+    margin-right: 23em;
 }
 
 #submitEdirProfileInfoBtn {
