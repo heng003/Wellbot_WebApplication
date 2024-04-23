@@ -2,9 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "TenantPOV/component/cardHistory.css";
 import "TenantPOV/tenantapplication.css";
-// import bedroomIcon from "../../TenantPOV/component";
-// import bathroomIcon from "../../TenantPOV/component/Rental_Icon/bathroom.png";
-// import sqftIcon from "../../TenantPOV/component/Rental_Icon/sqft.png";
+import "../../TenantPOV/component/cardApplication.css";
 
 export interface PropertyCardProps {
   imageUrl: string;
@@ -52,29 +50,31 @@ const PropertyCard = ({
           <div className="facilities-icons">
             <div className="facilities-per-icon">
               <img
-                src={"Images/bathroom.png"}
+                src={"Images/bedroomGrey.png"}
                 className="bedroomIcon"
-                alt="Bedroom Icon"
-              />
-              <p className="icon-text">{bedroom}</p>
-            </div>
-
-            <div className="facilities-per-icon">
-              <img
-                src={"Images/bedroom.png"}
-                className="bathroomIcon"
                 alt="Bedroom Icon"
               />
               <p className="icon-text">{bathroom}</p>
             </div>
 
             <div className="facilities-per-icon">
-              <img src="Images/sqrt.png" className="sqftIcon" alt="Sqft Icon" />
+              <img
+                src={"Images/bathroomGrey.png"}
+                className="bathroomIcon"
+                alt="Bathroom Icon"
+              />
+              <p className="icon-text">{bedroom}</p>
+            </div>
+
+
+            <div className="facilities-per-icon">
+              <img src="Images/sqftGrey.png" className="sqftIcon" alt="Sqft Icon" />
               <p className="icon-text">{sqft}</p>
             </div>
           </div>
         </div>
-        <div className="propertyStatusApplication">
+
+        <div className="propertyStatusLease">
           {status == "viewLease" && (
             <button className="view-lease-btn">View Lease</button>
           )}

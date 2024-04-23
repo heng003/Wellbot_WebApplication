@@ -34,7 +34,7 @@ const TenantAgreementHome = () => {
   return (
     <main>
       <div className="pageMainContainer">
-        <h1 className="pageMainTitle">Application History</h1>
+        <h1 className="pageMainTitle">Lease Agreement</h1>
         <h2 className="applicationSubTitle">Action Needed</h2>
         {propertyActionListingInfo.map((property, index) => (
           <PropertyCard

@@ -49,11 +49,6 @@ const CardRent = ({ listing }) => {
           <p className="descript_rental">{locationOwner}</p>
           <p className="descript_duration">Duration: {duration}</p>
         </div>
-        <div className="rentalHistory-details">
-          <h2 className="rental_historyTitle">{title}</h2>
-          <p className="descript_rental">{locationOwner}</p>
-          <p className="descript_duration">Duration: {duration}</p>
-        </div>
 
         <div className="property-actions">
           {isActive ? (
