@@ -101,7 +101,8 @@ padding-bottom: 3em;
 
 .property-details{ 
   padding-left: 3.3em; 
-  background-color: F0F0F0; 
+  background-color: F0F0F0;
+  margin-top: 3em; 
 } 
 
 .propertyName{ 
@@ -121,9 +122,9 @@ padding-bottom: 3em;
  
 .history-table th,  
 .history-table td { 
-  padding: 0.5em; 
+  padding: 3em; 
   text-align: center; 
-  border: 0;  
+  border: 0; 
 } 
  
 .history-table tr { 
@@ -163,8 +164,8 @@ padding-bottom: 3em;
   color: black; 
   font-size: 16px; 
   font-weight: 400;  
-  padding-top: 1em; 
-  padding-bottom: 1em; 
+  padding-top: 1.8em; 
+  padding-bottom: 1.8em; 
   padding-left: 2em; 
   padding-right: 2em; 
   transition: background-color 0.3s;  
