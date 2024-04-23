@@ -3,7 +3,7 @@ import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
 
-const TenantAgreementPage3 = () => {
+const TenantAgreementLastPage = () => {
   const localStorageLessorSignUrl = JSON.parse(
     localStorage.getItem("lessorSignatureUrl") || ""
   );
@@ -22,8 +22,10 @@ const TenantAgreementPage3 = () => {
     <>
       <AgreementWrapper
         title="Lease Agreement"
-        nextButtonText="Sign Now"
-        nextButtonHref="/tenantLeaseAgreementForm"
+        dialogCloseText="OK"
+        dialogDescription="You have agreed and submitted the lease agreement to the landlord."
+        dialogTitle="Submitted Successfully"
+        dialogTriggerText="Save and Submit"
       >
         <AgreementTerm number="17" title="no partnership">
           {TermSeventeen()}
@@ -32,7 +34,10 @@ const TenantAgreementPage3 = () => {
           {TermEighteen(
             localStorageLessorSignUrl,
             localStorageLessorValue.lessorDesignation,
-            localStorageLessorValue.lessorIc
+            localStorageLessorValue.lessorIc,
+            localStorageLesseeSignUrl,
+            localStorageLesseeValue.lesseeDesignation,
+            localStorageLesseeValue.lesseeIc
           )}
         </AgreementTerm>
       </AgreementWrapper>
@@ -40,4 +45,4 @@ const TenantAgreementPage3 = () => {
   );
 };
 
-export default TenantAgreementPage3;
+export default TenantAgreementLastPage;

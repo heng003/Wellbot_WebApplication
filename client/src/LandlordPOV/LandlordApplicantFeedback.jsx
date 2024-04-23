@@ -10,7 +10,7 @@ const LandlordApplicantFeedback = () => {
   const nav = useNavigate();
 
   const handleSendLease = () => {
-    nav("#");
+    nav("/landlordLeaseAgreementForm");
   };
 
   const handleRejectApplicant = () => {

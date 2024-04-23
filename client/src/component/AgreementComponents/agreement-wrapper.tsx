@@ -29,16 +29,17 @@ export const AgreementWrapper = ({
   const navigate = useNavigate();
   return (
     <>
-      <main className="m-6 p-4">
-        <h1 className="underline text-center mb-4">{title}</h1>
+      <main className="m-6 px-24 py-4 text-xl leading-10">
+        <h1 className="underline text-center mb-12">{title}</h1>
         {children}
         <div className="flex justify-end">
           {nextButtonText && nextButtonHref && (
             <Button
               onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
                 navigate(nextButtonHref);
               }}
-              className="my-4 px-4 py-2 font-semibold rounded-lg text-white bg-dark-orange"
+              className="my-12 px-16 py-8 font-semibold rounded-lg text-2xl text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
             >
               {nextButtonText}
             </Button>
@@ -47,7 +48,7 @@ export const AgreementWrapper = ({
             <AgreementDialog
               aboveTitleChildren={
                 <div className="w-full flex justify-center my-4">
-                  <img src="Images/tick.png" alt="tick" className="w-20 h-20" />
+                  <img src="Images/tick.png" alt="tick" className="w-20 " />
                 </div>
               }
               title={dialogTitle}

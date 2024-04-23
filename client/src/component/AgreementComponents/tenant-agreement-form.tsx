@@ -83,9 +83,8 @@ export const TenantAgreementForm = () => {
 
       // console.log(JSON.parse(localStorage.getItem("lesseeSignatureUrl") || ""));
       // console.log(localStorage.getItem("lesseeSignatureUrl"));
-
-      navigate("/tenantLeaseAgreementPg1");
     });
+    navigate("/tenantLeaseAgreementLastPg");
   };
 
   return (
@@ -96,7 +95,7 @@ export const TenantAgreementForm = () => {
           subheaderLabel="Fill in all details"
         >
           <Form {...form}>
-            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -160,9 +159,10 @@ export const TenantAgreementForm = () => {
               </div>
               <FormError message={error} />
               <FormSuccess message={success} />
+              <br />
               <Button
                 type="submit"
-                className="w-full rounded-lg bg-dark-orange"
+                className="w-full rounded-lg bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
                 disabled={isPending}
               >
                 Submit

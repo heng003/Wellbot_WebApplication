@@ -30,7 +30,7 @@ const PropertyCard = ({
   const handleViewPropertyStatus = () => {
     if (status == "viewLease") {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      nav("/tenantLeaseAgreementForm");
+      nav("/tenantLeaseAgreementPg1");
     } else if (status == "active") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       nav("/viewAgreement");

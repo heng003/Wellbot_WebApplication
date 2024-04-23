@@ -99,9 +99,9 @@ export const LandlordAgreementForm = () => {
       console.log(JSON.parse(localStorage.getItem("lessorFormValues") || ""));
 
       console.log(JSON.parse(localStorage.getItem("lessorSignatureUrl") || ""));
-
-      navigate("/landlordLeaseAgreementPg1");
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigate("/landlordLeaseAgreementPg1");
   };
 
   return (
@@ -112,7 +112,7 @@ export const LandlordAgreementForm = () => {
           subheaderLabel="Fill in all details"
         >
           <Form {...form}>
-            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className="" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -560,9 +560,10 @@ export const LandlordAgreementForm = () => {
               </div>
               <FormError message={error} />
               <FormSuccess message={success} />
+              <br className="" />
               <Button
                 type="submit"
-                className="w-full rounded-lg bg-dark-orange"
+                className="w-full rounded-lg bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
                 disabled={isPending}
               >
                 Submit
