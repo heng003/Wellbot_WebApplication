@@ -105,7 +105,9 @@ const LandlordComment = () => {
           </div>
 
           <div className="mainCentreButton">
-            <button onClick={handleSaveAndSubmit} type="submit">
+            <button 
+             id="submitEdirProfileInfoBtn"
+            onClick={handleSaveAndSubmit} type="submit">
               Save & Submit
             </button>
           </div>
