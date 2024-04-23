@@ -6,7 +6,7 @@ import { text } from "@fortawesome/fontawesome-svg-core";
 import { effect } from "@preact/signals";
 
 const PartToFillIn = (info: string) => {
-  return <span className="font-bold">{info}</span>;
+  return <span className="font-bold underline">{info}</span>;
 };
 
 const BoldText = (text: string) => {

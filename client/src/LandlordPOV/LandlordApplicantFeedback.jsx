@@ -10,20 +10,26 @@ const LandlordApplicantFeedback = () => {
   const nav = useNavigate();
 
   const handleSendLease = () => {
-    nav("#");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    nav("/landlordLeaseAgreementForm");
   };
 
   const handleRejectApplicant = () => {
-    Swal.fire({
-      text: "Reject Successfully",
-      icon: "success",
-      confirmButtonColor: "#FF8C22",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        nav("/landlordHome");
-      }
-    });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+          Swal.fire({
+              text: "Reject Successfully",
+              icon: "success",
+              confirmButtonColor: "#FF8C22",
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  nav("/landlordApplicant");
+              }
+          });
+      }, 500); // Delay to ensure the scroll completes before showing the dialog
   };
+
 
   return (
     <>

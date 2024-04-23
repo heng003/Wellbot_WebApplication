@@ -4,7 +4,7 @@ import "../GeneralPage/navbar.css";
 
 const LandlordNavbar = () => {
   const [activeItem, setActiveItem] = useState("YourProperty");
-
+  
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
   };
@@ -58,19 +58,6 @@ const LandlordNavbar = () => {
                   onClick={() => handleItemClick("Applicant")}
                 >
                   Applicant
-                </Link>
-              </li>
-              <li
-                className={`nav-item ${
-                  activeItem === "Lease Agreement" ? "active" : ""
-                }`}
-              >
-                <Link
-                  className="nav-link"
-                  to="/landlordLeaseAgreementForm"
-                  onClick={() => handleItemClick("Lease Agreement")}
-                >
-                  Lease Agreement
                 </Link>
               </li>
 
