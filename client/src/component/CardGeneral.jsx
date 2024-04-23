@@ -27,12 +27,19 @@ const CardGeneral = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetail
                     <p className="card-text">{propertyAdd}</p>
                 </div>
 
-                <ul className="room">
-                    {roomDetails.map((detail, index) => (
-                        <li key={index} className="roomDetails">
-                            <img src={roomImgSrc[index]} alt="details" width="35" height="35" style={{ marginRight: '0.5em' }}/> {detail}
-                        </li>
-                    ))}
+                <ul className="roomIconsGroup">
+                {roomDetails.map((detail, index) => (
+                    <li key={index} className="roomDetailsOneIconGroup">
+                    <img
+                        src={roomImgSrc[index]}
+                        alt="details"
+                        width="35"
+                        height="35"
+                        style={{ marginRight: "0.5em" }}
+                    />{" "}
+                    {detail}
+                    </li>
+                ))}
                 </ul>
 
                 <div className="viewButton">

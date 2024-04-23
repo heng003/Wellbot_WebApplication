@@ -40,7 +40,7 @@ const ViewPropertyLease = () => {
 
     const handleViewLeaseButton = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        nav("#");
+        nav("/tenantLeaseAgreementPg1");
     }
     
     return (

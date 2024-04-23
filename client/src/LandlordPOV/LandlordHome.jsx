@@ -277,7 +277,7 @@ const LandlordHome = () => {
                 </section>
         
                 <section id="recommendation">
-                    <header className="propertyTitle text-left fs-2 fw-bolder mt-4">
+                    <header className="propertyTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
                     {filteredProperties.length > 0 ? 'Filter Result/s' : 'Your Properties'}
                     </header>
                     <div class="row row-cols-1 row-cols-md-3 g-5">
