@@ -11,6 +11,7 @@ interface AgreementWrapperProps {
   dialogTitle?: string;
   dialogCloseText?: string;
   dialogDescription?: string;
+  landlordLastPage?: boolean;
   children: React.ReactNode;
 }
 
@@ -22,7 +23,7 @@ export const AgreementWrapper = ({
   dialogTitle,
   dialogCloseText,
   dialogDescription,
-
+  landlordLastPage,
   children,
 }: AgreementWrapperProps) => {
   const navigate = useNavigate();
@@ -45,17 +46,16 @@ export const AgreementWrapper = ({
           {dialogTitle && dialogTriggerText && dialogCloseText && (
             <AgreementDialog
               aboveTitleChildren={
-                <img
-                  className=" bg-cover max-h-12 max-w-12"
-                  src="Images/logoText.png"
-                  alt="Tick"
-                />
+                <div className="w-full flex justify-center my-4">
+                  <img src="Images/tick.png" alt="tick" className="w-20 h-20" />
+                </div>
               }
               title={dialogTitle}
               triggerText={dialogTriggerText}
               closeText={dialogCloseText}
               description={dialogDescription}
               closeHref="/"
+              landlordLastPage={landlordLastPage}
             ></AgreementDialog>
           )}
         </div>

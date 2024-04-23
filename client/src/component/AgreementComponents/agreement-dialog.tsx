@@ -20,6 +20,7 @@ interface AgreementDialogProps {
   labelTextArr?: string[];
   closeText: string;
   closeHref?: string;
+  landlordLastPage?: boolean;
 }
 
 export function AgreementDialog({
@@ -30,6 +31,7 @@ export function AgreementDialog({
   closeText,
   closeHref,
   aboveTitleChildren,
+  landlordLastPage,
 }: AgreementDialogProps) {
   const navigate = useNavigate();
   return (
@@ -43,7 +45,19 @@ export function AgreementDialog({
         <DialogHeader>
           {aboveTitleChildren}
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          {landlordLastPage ? (
+            <DialogDescription>
+              <p>
+                Your Lease Agreement had been submitted to the system and sent
+                to your tenant, please be patient to wait for him/her to check
+                and sign for this lease agreement, you might track your lease
+                agreement status at{" "}
+                <a href="/landlordApplicant">applicant page</a>
+              </p>
+            </DialogDescription>
+          ) : (
+            <DialogDescription>{description}</DialogDescription>
+          )}
         </DialogHeader>
         {labelTextArr &&
           labelTextArr.map((labelText, index) => (

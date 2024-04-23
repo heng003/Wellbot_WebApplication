@@ -94,7 +94,7 @@ const TenantNavbar = () => {
               >
                 <Link
                   className="nav-link"
-                  to="#"
+                  to="/tenantLeaseAgreementHome"
                   onClick={() => handleItemClick("Lease Agreement")}
                 >
                   Lease Agreement
