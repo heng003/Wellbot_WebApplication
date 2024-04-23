@@ -37,6 +37,11 @@ const LandlordViewProperty = () => {
             return newIndex;
         });
     };
+
+    const handleEditButton = () => {
+        nav("/landlordUpdateProperty");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
     
     return (
         <div>
@@ -61,12 +66,22 @@ const LandlordViewProperty = () => {
                                 </svg>
                             </button>
                         </div>
+                        <div className="imgPageIconContainer">
+                            <div className="imgPageText">{propertyImageSrc.length}</div>
+                            <svg className="imgPageIcon" width="27" height="21" viewBox="0 0 27 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.6252 0H1.12481C0.503551 0 0 0.522316 0 1.16679V17.5H1.68751V1.74998H23.6252V0ZM6.21418 8.74992C6.21418 10.1996 7.34722 11.3749 8.74565 11.3749C10.1437 11.3749 11.2767 10.1996 11.2767 8.74992C11.2767 7.30046 10.1437 6.12494 8.74565 6.12494C7.34722 6.12494 6.21418 7.30046 6.21418 8.74992ZM25.3127 12.3087L21.9565 8.74992L16.4462 14.1285L13.497 11.6028L5.06254 19.2498V5.24995H25.3127V12.3087ZM3.37502 4.66655V19.8332C3.37502 20.4777 3.87858 21 4.50003 21H15.1876H25.8752C26.4964 21 27 20.4777 27 19.8332V4.66655C27 4.02228 26.4964 3.49997 25.8752 3.49997H4.50003C3.87858 3.49997 3.37502 4.02228 3.37502 4.66655Z" fill="white"/>
+                            </svg>
+                        </div>
                     </div>
                 </section>
 
                 <section id="PropertyDetails">
                     <div className="container"><DetailsPanel/></div>
                 </section>
+
+                <div className="applyButton"> 
+                    <button className="applyNowButton" type="button" onClick={handleEditButton}>Edit Information</button>
+                </div>
 
             </main>
         </div>

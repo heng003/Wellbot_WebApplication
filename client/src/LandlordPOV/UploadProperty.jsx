@@ -67,6 +67,8 @@ const handleChange = (e) => {
 const handleNext = (e) => {
     e.preventDefault();
     const validationErrors = {};
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+        nav("/landlordUploadPropertyPhoto");
 
     // if (formData.editPropertyName.length < 4 || formData.editPropertyName.length > 100) {
     //     validationErrors.editPropertyName = "*Property name must be between 4 and 100 characters.";
@@ -80,20 +82,20 @@ const handleNext = (e) => {
     //     validationErrors.editAddress = "*Address is required.";
     // }
 
-    if (formData.editPostcode.length !== 5 || !/^\d+$/.test(formData.editPostcode)) {
-        validationErrors.editPostcode = "*Postcode must be 5 digits.";
-    }
+    // if (formData.editPostcode.length !== 5 || !/^\d+$/.test(formData.editPostcode)) {
+    //     validationErrors.editPostcode = "*Postcode must be 5 digits.";
+    // }
 
-    setErrors(validationErrors);
+    // setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
-        // No validation errors, proceed to the next step
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        nav("/landlordUploadPropertyPhoto");
-    }else{
-        // Scroll to top to show error messages
-        window.scrollTo({ top: 500, behavior: 'smooth' });
-    }
+    // if (Object.keys(validationErrors).length === 0) {
+    //     // No validation errors, proceed to the next step
+    //     window.scrollTo({ top: 0, behavior: 'smooth' });
+    //     nav("/landlordUploadPropertyPhoto");
+    // }else{
+    //     // Scroll to top to show error messages
+    //     window.scrollTo({ top: 500, behavior: 'smooth' });
+    // }
 };
 
 
@@ -189,9 +191,9 @@ const handleNext = (e) => {
                         <h6>Postcode</h6>
                         <input type="text" name="editPostcode" id="editPostcode" placeholder="Enter Postcode" required pattern="[0-9]{5}}" onChange={handleChange} />
                     </div>
-                    <div className="displayErrorMessage">
+                    {/* <div className="displayErrorMessage">
                         {errors.editPostcode && <span>{errors.editPostcode}</span>}
-                    </div>
+                    </div> */}
                     <div class="col">
                         <h6>Location</h6>
                         <input type="text" name="editLocation" id="editLocation" placeholder="Eg: Petaling Jaya" onChange={handleChange} />
