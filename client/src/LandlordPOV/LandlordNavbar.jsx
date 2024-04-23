@@ -60,19 +60,6 @@ const LandlordNavbar = () => {
                   Applicant
                 </Link>
               </li>
-              <li
-                className={`nav-item ${
-                  activeItem === "Lease Agreement" ? "active" : ""
-                }`}
-              >
-                <Link
-                  className="nav-link"
-                  to="/landlordLeaseAgreementForm"
-                  onClick={() => handleItemClick("Lease Agreement")}
-                >
-                  Lease Agreement
-                </Link>
-              </li>
 
               <li
                 className={`nav-item ${
