@@ -27,20 +27,16 @@ const TenantNavbar = () => {
             case '/tenantProfileEdit':
                 setActiveItem('Edit Profile');
                 break;
+            case '/tenantLeaseAgreementHome':
             case '/tenantLeaseAgreementForm':
-                setActiveItem('Lease Agreement');
-                break;
             case '/tenantLeaseAgreementPg1':
-                setActiveItem('Lease Agreement');
-                break;
             case '/tenantLeaseAgreementPg2':
-                setActiveItem('Lease Agreement');
-                break;
             case '/tenantLeaseAgreementPg3':
-                setActiveItem('Lease Agreement');
-                break;
             case '/tenantLeaseAgreementLastPg':
                 setActiveItem('Lease Agreement');
+                break;
+            case '/tenantProfileEdit':
+                setActiveItem('Edit Profile');
                 break;
             default:
                 setActiveItem('');
@@ -50,7 +46,6 @@ const TenantNavbar = () => {
     const handleItemClick = (itemName) => {
         setActiveItem(itemName);
     };
-
 
   return (
     <div className="navbarContainer">
@@ -131,8 +126,14 @@ const TenantNavbar = () => {
               </li>
             </ul>
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/tenantProfileEdit">
+              <li 
+                className={`nav-item ${
+                    activeItem === "Edit Profile" ? "active" : ""
+                }`}>
+                <Link 
+                  className="nav-link"
+                  to="/tenantProfileEdit" 
+                  onClick={() => handleItemClick("Edit Profile")}>
                   Edit Profile
                 </Link>
               </li>

@@ -26,6 +26,7 @@ const LandlordNavbar = () => {
             setActiveItem('Edit Profile');
             break;
         case '/landlordApplicant':
+        case '/landlordApplicantFeedback':
         case '/landlordLeaseAgreementForm':
         case '/landlordLeaseAgreementPg1':
         case '/landlordLeaseAgreementPg2':
@@ -108,8 +109,14 @@ const LandlordNavbar = () => {
               </li>
             </ul>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <Link className="nav-link" to="/landlordProfileEdit">
+              <li 
+                className={`nav-item ${
+                    activeItem === "Edit Profile" ? "active" : ""
+                }`}>
+                <Link 
+                  className="nav-link"
+                  to="/landlordProfileEdit" 
+                  onClick={() => handleItemClick("Edit Profile")}>
                   Edit Profile
                 </Link>
               </li>
@@ -120,7 +127,7 @@ const LandlordNavbar = () => {
               </li>
             </ul>
           </div>
-          <a href="#">
+          <a href="/landlordProfileEdit">
             <img
               src="Images/landlord_Profile.svg"
               alt="Avatar"
