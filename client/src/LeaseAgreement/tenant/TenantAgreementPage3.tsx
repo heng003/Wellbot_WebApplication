@@ -1,22 +1,20 @@
-import { lessorSignatureUrl } from "@/component/AgreementComponents/agreement-signals";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
 
+const parseLocalStorage = (key: string): any => {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch (err) {
+    console.error(`Error parsing ${key} from localStorage:`, err);
+    return null;
+  }
+};
+
 const TenantAgreementPage3 = () => {
-  const localStorageLessorSignUrl = JSON.parse(
-    localStorage.getItem("lessorSignatureUrl") || ""
-  );
-  const localStorageLesseeSignUrl = JSON.parse(
-    localStorage.getItem("lesseeSignatureUrl") || ""
-  );
-  console.log(localStorageLesseeSignUrl);
-  const localStorageLessorValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
-  );
-  const localStorageLesseeValue = JSON.parse(
-    localStorage.getItem("lesseeFormValues") || ""
-  );
+  const localStorageLessorSignUrl = parseLocalStorage("lessorSignatureUrl");
+  const localStorageLessorValue = parseLocalStorage("lessorFormValues");
 
   return (
     <>
@@ -28,11 +26,11 @@ const TenantAgreementPage3 = () => {
         <AgreementTerm number="17" title="no partnership">
           {TermSeventeen()}
         </AgreementTerm>
-        <AgreementTerm number="18" title="SUCCESSORS BOUND ">
+        <AgreementTerm number="18" title="SUCCESSORS BOUND">
           {TermEighteen(
             localStorageLessorSignUrl,
-            localStorageLessorValue.lessorDesignation,
-            localStorageLessorValue.lessorIc
+            localStorageLessorValue?.lessorDesignation,
+            localStorageLessorValue?.lessorIc
           )}
         </AgreementTerm>
       </AgreementWrapper>

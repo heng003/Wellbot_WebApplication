@@ -1,9 +1,41 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../GeneralPage/navbar.css";
 
 const LandlordNavbar = () => {
+
+  const location = useLocation();
   const [activeItem, setActiveItem] = useState("YourProperty");
+
+  useEffect(() => {
+    switch (location.pathname) {
+        case '/landlordHome':
+        case '/landlordViewProperty':
+        case '/landlordUpdateProperty':
+        case '/landlordEditPhoto':
+        case '/landlordUploadProperty':
+        case '/landlordUploadPropertyPhoto':
+        case '/landlordArrangePhoto':
+            setActiveItem('YourProperty');
+            break;
+        case '/landlordComment':
+        case'/landlordhistory':
+            setActiveItem('RentalHistory');
+            break;
+        case '/landlordProfileEdit':
+            setActiveItem('Edit Profile');
+            break;
+        case '/landlordApplicant':
+        case '/landlordLeaseAgreementForm':
+        case '/landlordLeaseAgreementPg1':
+        case '/landlordLeaseAgreementPg2':
+        case '/landlordLeaseAgreementPg3':
+            setActiveItem('Applicant');
+            break;
+        default:
+            setActiveItem('');
+    }
+}, [location]);
   
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);

@@ -54,34 +54,38 @@ const ArrangePhoto = () => {
         }
     };
 
-    const handleUploadButton = () => {
+    const handleUploadButton = (e) => {
         if (location.pathname !== "/landlordArrangePhoto") {
-            Swal.fire({
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+              Swal.fire({
                 title: 'Warning!',
                 text: 'You need to register or log in to your account before performing this action.',
                 icon: 'warning',
                 confirmButtonColor: "#FF8C22",
                 confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
+              }).then((result) => {
+                  if (result.isConfirmed) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-            return;
+                  }
+              });
+          }, 500); // Delay to allow scroll to finish
         } else {
-            Swal.fire({
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+              Swal.fire({
                 text: "Uploaded successfully!",
                 icon: "success",
                 confirmButtonColor: "#FF8C22",
                 confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+              }).then((result) => {
+                  if (result.isConfirmed) {
                     navigate("/landlordHome");
-                }
-            });
+                  }
+              });
+          }, 100); // Delay to allow scroll to finish
         }
-    };
+      }
 
     return (
         <div className="pageMainContainer">

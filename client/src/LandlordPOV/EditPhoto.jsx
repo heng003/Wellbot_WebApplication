@@ -65,33 +65,37 @@ const EditPhoto = () => {
         }
       };
 
-      const handleUploadButton = () => {
-        if (location.pathname !== "/landlordEditPhoto") {
+    const handleUploadButton = (e) => {
+      if (location.pathname !== "/landlordEditPhoto") {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
             Swal.fire({
-                title: 'Warning!',
-                text: "You need to upload at least 1 property's photo.",
-                icon: 'warning',
-                confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK'
+              title: 'Warning!',
+              text: "You need to upload at least 1 property's photo.",
+              icon: 'warning',
+              confirmButtonColor: "#FF8C22",
+              confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
-            return;
-        } else {
-          Swal.fire({
+        }, 500); // Delay to allow scroll to finish
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            Swal.fire({
               text: "Uploaded succesfully!",
               icon: "success",
               confirmButtonColor: "#FF8C22",
               confirmButtonText: 'OK'
             }).then((result) => {
-              if (result.isConfirmed) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                navigate("/landlordHome");
-              }
-          });
-        }
+                if (result.isConfirmed) {
+                  navigate("/landlordHome");
+                }
+            });
+        }, 100); // Delay to allow scroll to finish
+      }
     }
   
     return (

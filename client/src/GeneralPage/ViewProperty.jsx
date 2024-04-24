@@ -74,7 +74,7 @@ const ViewProperty = () => {
                         nav("/tenantApplyForm");
                     }
                 });
-            }, 500); // Delay to ensure the scroll completes before showing the dialog
+            }, 100); // Delay to ensure the scroll completes before showing the dialog
         }
     }
     

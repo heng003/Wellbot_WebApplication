@@ -33,7 +33,7 @@ const TenantApplyForm = () => {
                     nav("/tenantApplication");
                 }
             });
-        }, 500); // Delay to allow scroll to finish
+        }, 100); // Delay to allow scroll to finish
     }
     
     return(
