@@ -27,6 +27,21 @@ const TenantNavbar = () => {
             case '/tenantProfileEdit':
                 setActiveItem('Edit Profile');
                 break;
+            case '/tenantLeaseAgreementForm':
+                setActiveItem('Lease Agreement');
+                break;
+            case '/tenantLeaseAgreementPg1':
+                setActiveItem('Lease Agreement');
+                break;
+            case '/tenantLeaseAgreementPg2':
+                setActiveItem('Lease Agreement');
+                break;
+            case '/tenantLeaseAgreementPg3':
+                setActiveItem('Lease Agreement');
+                break;
+            case '/tenantLeaseAgreementLastPg':
+                setActiveItem('Lease Agreement');
+                break;
             default:
                 setActiveItem('');
         }
