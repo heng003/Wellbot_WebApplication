@@ -7,6 +7,7 @@ const LandlordNavbar = () => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState("YourProperty");
 
+  console.log('Current Path:', location.pathname); 
   useEffect(() => {
     switch (location.pathname) {
         case '/landlordHome':
@@ -19,7 +20,7 @@ const LandlordNavbar = () => {
             setActiveItem('YourProperty');
             break;
         case '/landlordComment':
-        case'/landlordhistory':
+        case'/landlordHistory':
             setActiveItem('RentalHistory');
             break;
         case '/landlordProfileEdit':
@@ -36,7 +37,7 @@ const LandlordNavbar = () => {
         default:
             setActiveItem('');
     }
-}, [location]);
+}, [location.pathname]);
   
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);

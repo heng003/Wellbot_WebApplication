@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../LandlordPOV/editlandlordprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import Swal from "sweetalert2";
@@ -6,6 +7,8 @@ import starDefault from "../LandlordPOV/Rental_Icon/rating_star_default.svg";
 import starOnClick from "../LandlordPOV/Rental_Icon/rating_star_onClick.svg";
 
 const TenantComment = () => {
+
+  const nav = useNavigate();
   const [ratings, setRatings] = useState(Array(5).fill(false));
 
   const handleStarClick = (index) => {
@@ -25,18 +28,25 @@ const TenantComment = () => {
 
   const handleStarHover = (index, value) => {};
 
+  
   const handleSaveAndSubmit = (e) => {
-    Swal.fire({
-      text: "Saved and Submitted!",
-      icon: "success",
-      confirmButtonColor: "#FF8C22",
-
-      customClass: {
-        confirmButton: "my-confirm-button-class",
-        image: "my-custom-image-class",
-      },
-    });
-  };
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+        Swal.fire({
+            text: "Saved and Submitted!",
+            icon: "success",
+            confirmButtonColor: "#FF8C22",
+            customClass: {
+                confirmButton: 'my-confirm-button-class',
+                image: "my-custom-image-class"
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                nav("/tenantRent");
+            }
+        });
+    }, 100); 
+}
 
   return (
     <>
