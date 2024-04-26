@@ -1,33 +1,35 @@
-#landlordHome{
-    width: 99vw; 
+#landlordHome {
+    width: 100%; 
     height: 80vh;
     background-image: url('/public/Images/bungalow.jpg');
     background-size: cover;
     background-position: 0em;
+    padding-top: 0.1em;
 }
 
-#landlordMain{
+#landlordMain {
     padding-top: 5em;
 }
 
 #landlordHome #homeTitle{
     background-color: rgba(0, 0, 0, 0.6);
-    height: 40vh;
-    margin-top: 5em;
+    height: 45vh;
+    margin-top: 3.2em;
     border-radius: 1em;
+    padding-inline: 2em;
 }
 
-#landlordHome p{
+#landlordHome p {
     color: white;
     font-size: 2em;
     margin-left: 0.5em;
 }
 
-#landlordHome #text{
+#landlordHome #text {
     color: #FF8A00;
 }
 
-#state_search_find #stateType{
+#state_search_find #stateType {
     width: 10em;
     height: 3em;
     margin-left: 1em;
@@ -79,66 +81,6 @@
     margin-top: 1em;
 }
 
-#property{
-    width: 100%;
-    background-color: #F0F0F0;
-    overflow-x: hidden;
-}
-
-.propertyTitle{
-    color: #FF5C00;;
-    padding-top: 30px;
-    margin-left: 100px;
-}
-
-#property .row{
-    margin:-25px 70px;
-}
-
-#property .card-img-top{
-    padding: 20px;
-    object-fit:cover;
-    background-repeat: no-repeat;
-}
-
-#property .room {
-    margin-bottom: -8px;
-    display: flex;
-    justify-content: space-around;
-    box-sizing: content-box;
-    border: 1.5px solid black;
-    border-left: white;
-    border-right: white;
-    
-}
-
-#property .room .roomDetails {
-    list-style: none;
-    margin: 10px;
-}
-
-#property .card:hover{
-    opacity: 0.7;
-    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
-}
-
-#property .card-title1{
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-#property .card-text{
-    color: rgba(23, 22, 22, 0.6);
-    font-weight:500;
-    padding-top: 10px;
-}
-
-#property .manageButton,
-#property .uploadButton{
-    display: flex;
-    justify-content: center;
-}
-
 #manage, #upload{
     background-color: #FF8C22;
     font-weight: bold;
@@ -156,10 +98,6 @@
     opacity: 0.7;
 }
 
-#property h4{
-    font-size: 1.3em;
-}
-
 #hoverText{
     color: #FF5C00;
 }
@@ -168,3 +106,63 @@
     margin-top: 12.5em;
 }
 
+#recommendation .uploadButton {
+    margin-top: -3em;
+}
+
+#filter_location {
+    position: relative; 
+}
+
+.custom-options-landlordhome { 
+    position: absolute; 
+    margin-top: 0.3em; 
+    width: 100%;
+    top: 100%;
+    left: 0; 
+    right: 0; 
+    border: 2px solid #8A8A8A; 
+    color: #000; 
+    font-weight: 500; 
+    font-size: 15px; 
+    border-radius:  12px; 
+    background-color: white; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    z-index : 2;  
+  }
+
+  .form-select-landlordhome {
+    position: relative; 
+    font-size: 14px; 
+    font-weight:450; 
+    color: #000; 
+    padding: 0.7em 0.1em 0.7em 1.4em; 
+    cursor: pointer; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;  
+    margin-left: 1.2em;
+    -webkit-appearance: none; /* Remove the native arrow for Webkit browsers */ 
+    -moz-appearance: none; /* Remove the native arrow for Firefox */ 
+    appearance: none; /* Remove the native arrow */ 
+    background: url('/public/Images/drop_down_arrow.png') no-repeat right 2em center; /* Adjust the right position as needed */ 
+    background-color: white; 
+    background-size: 0.9em; /* Adjust the size of the arrow as needed */ 
+  } 
+  
+  .form-select-landlordhome:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #FFFBF4;
+    }
+
+    .col-landlordhome{
+        align-items: center; 
+        justify-content: space-between;
+        margin-left:1em;
+    }
+
+    .row-landlordhome {
+        padding: 1em 1em;
+        justify-content: start;
+    }

@@ -1,20 +1,26 @@
 import React, { useState, useRef } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { faUser, faEnvelope, faPhone, faLock, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
-import Swal from 'sweetalert2'
+import {
+  faUser,
+  faEnvelope,
+  faPhone,
+  faLock,
+  faEyeSlash,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 import axios from 'axios';
-import '../RegisterAcc/registeracc.css'
-// import useSignup from "../Hooks/useSignup";
+import "../RegisterAcc/registeracc.css";
 
 const RegisterLandlordAcc = ({role}) => {
 
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email:'',
         phonenumber:'',
-        password:'',
+        password:''
     })
     formData.role = role;
     const [errors, setErrors] = useState({})
@@ -26,56 +32,60 @@ const RegisterLandlordAcc = ({role}) => {
             ...formData, [name] : value
         })
     }
-
-    // const {loading,error,registerUser} = useSignup();
-
-    const handleRegisterClick = async (e) =>{   
-
+    const handleRegisterClick = async (e) =>{
         e.preventDefault();
         const validationErrors = {};
-
+    
+        // First, perform the validation
         if(!formData.username.trim()){
             validationErrors.username = "*username is required"
         }
         if(!formData.email.trim()){
             validationErrors.email = "*email is required"
-        }else if(!/\S+@\S+\.\S+/.test(formData.email)){   // "\S+ means one or more character"
+        }else if(!/\S+@\S+\.\S+/.test(formData.email)){
             validationErrors.email = "*email is invalid"
         }
-
         if(!formData.phonenumber.trim()){
             validationErrors.phonenumber = "*phone number is required"
-        }else if(!/^\d{10,11}$/.test(formData.phonenumber)){   // "\S+ means one or more character"
+        }else if(!/^\d{10,11}$/.test(formData.phonenumber)){
             validationErrors.phonenumber = "*phone number is invalid"
         }
-
         if(!formData.password.trim()){
             validationErrors.password = "*password is required"
-        }else if(formData.password.length < 6){   // "\S+ means one or more character"
-            validationErrors.password = "*password should be at least 6 character"
+        }else if(formData.password.length < 6){
+            validationErrors.password = "*password should be at least 6 characters"
         }
-
-        setErrors(validationErrors)
-        
+    
+        setErrors(validationErrors);
+    
+        console.log("Form Data:", formData);
+        console.log("Validation Errors:", validationErrors);
+    
+        // Then, check for the absence of validation errors
         if (Object.keys(validationErrors).length === 0) {
+            console.log("No validation errors, attempting to show alert.");
+            
             try {
                 const response = await axios.post('/api/auth/registerLandlordAcc', formData);
                 // Handle successful registration
                 console.log(response.data); // Log response from the server
-                // Show success message using Swal or any other method
+                
                 // No validation errors, show success message
+                // Show the SweetAlert
                 Swal.fire({
                     title: "Check Your Email",
                     titleColor: "#FF5C00",
-                    text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 24 hours.",
-                    imageUrl: "/Images/email.png",
-                    imageWidth: 280,
-                    imageHeight: 200,
+                    text: "We have sent an email to *****tian@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
+                    imageUrl: "Images/checkEmail.gif",
+                    imageHeight:200,
                     imageAlt: "email",
                     confirmButtonText: "OK",
-                    confirmButtonColor: "#FF8C22"
-                })
-                .then(() => {
+                    confirmButtonColor: "#FF8C22",
+                    customClass: {
+                        title: 'my-title-class',
+                        confirmButton: 'my-confirm-button-class'
+                    }
+                }).then(() => {
                     // Clear the form fields
                     formRef.current.reset();
                     // Clear the form data
@@ -87,6 +97,7 @@ const RegisterLandlordAcc = ({role}) => {
                     });
                 });
             } catch (error) {
+                console.log("Validation errors exist, not showing alert.");
                 // Handle registration error
                 console.error(error); // Log error message
                 console.error("Registration Error:", error.response.data);
@@ -99,22 +110,24 @@ const RegisterLandlordAcc = ({role}) => {
                     confirmButtonText: "OK"
                 });
             }
+            
         }
     }
+    
 
     return(
         <div id="register">
-            <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
+            <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
             <div class="container text-center">
             <div class="row">
                 <div class="col">
                     <h2 className="registerTitleLandlord fs-2 fw-bolder mt-4">Register As Landlord</h2>
-                    <img src="/Images/landlord.png" class="landlord" alt="landlord" width="350" height="300"/>
+                    <img src="Images/landlord.png" class="landlord" alt="landlord" width="350" />
                 </div>
-                <div class="col">
-                <form id="register-form" ref={formRef} onSubmit={handleRegisterClick} method="post"> {/* method="post" */}
-                    <div class="form-group d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" />
+                <div class="col rightCol">
+                <form id="register-form" ref={formRef} onSubmit={handleRegisterClick} method="post">
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" size="2x"/>
                         <div class="form-outline flex-fill mb-0">
                             <input 
                                 type="text" 
@@ -123,49 +136,49 @@ const RegisterLandlordAcc = ({role}) => {
                                 class="form-control" 
                                 placeholder="Username" 
                                 autoComplete="off" 
-                                onChange={handleChange}
-                                required/>
+                                onChange={handleChange}/>
                         </div>
                         <div className="displayErrorMessage">
                             {errors.username && <span>{errors.username}</span>}
                         </div>
                     </div>
-                    <div class="form d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw" />
-                        <div class="form-outline flex-fill mb-0">
-                            <input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
-                                class="form-control" 
-                                placeholder="Email" 
-                                autoComplete="off"
-                                onChange={handleChange}
-                                required/>
+
+
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw"size="2x"/>
+                        <div class="form-outline flex-fill mb-0" >
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="register_email" 
+                            class="form-control" 
+                            placeholder="Email" 
+                            autoComplete="on"
+                            onChange={handleChange}/>
                         </div>
                         <div className="displayErrorMessage">
-                            {errors.email && <span>{errors.email}</span>}
+                            {errors.phonenumber && <span>{errors.phonenumber}</span>}
                         </div>
                     </div>
-                    <div class="form d-flex flex-row align-items-center mb-4">
-                        <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"/>
-                        <div class="form-outline flex-fill mb-0">
+
+                    <div class="form d-flex flex-row align-items-center mb-4" >
+                        <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"size="2x"/>
+                        <div class="form-outline flex-fill mb-0" >
                         <input 
                             type="tel" 
                             name="phonenumber" 
                             id="phonenumber" 
                             class="form-control" 
-                            placeholder="Phone Number" 
+                            placeholder="Phone Number ( Eg: 0113456789 )" 
                             autoComplete="off"
-                            onChange={handleChange}
-                            required/>
+                            onChange={handleChange}/>
                         </div>
                         <div className="displayErrorMessage">
                             {errors.phonenumber && <span>{errors.phonenumber}</span>}
                         </div>
                     </div>
                     <div class="form d-flex flex-row position-relative align-items-center mb-4">
-                        <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"/>
+                        <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"size="2x"/>
                         <div class="form-outline flex-fill mb-0 position-relative">
                             <input 
                                 value={formData.password} 
@@ -175,7 +188,6 @@ const RegisterLandlordAcc = ({role}) => {
                                 class="form-control" 
                                 placeholder="Password" 
                                 onChange={handleChange} 
-                                required
                                 />  
                         </div>
                         <div className="displayErrorMessage">
@@ -186,7 +198,7 @@ const RegisterLandlordAcc = ({role}) => {
 
                     <div id="bottomDetails">
                         <button id="registerButtonLandlord" type="submit">Register</button>
-                        <div id="haveAcc">Already have an account? <Link className="link" to="/logIn">LOG IN</Link></div>
+                        <div id="haveAcc">Already have an account ? <Link className="link" to="/logIn">LOG IN</Link></div>
                     </div>
                 </form>
             </div>

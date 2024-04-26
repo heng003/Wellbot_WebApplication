@@ -6,7 +6,7 @@ const SignIn = () => {
     return(
         <>
         <div id="signincontainer">
-            <img src="Images/logoText.png" alt="Logo" width='150' height='150'/>
+            <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
             <h1 className="signinsubTitle text-left fs-2 fw-bolder mt-2">Register Account</h1>
             <h6 className="subTitleDesc">Choose Your Account Type</h6>
             <div class="row row-cols-1 row-cols-md-2 g-5">
@@ -15,7 +15,7 @@ const SignIn = () => {
                             <img src="Images/landlord.png" class="landlord" alt="landlord" width="200" height="180"/>
                             <h5 class = "cardtitle text-center">Landlord Account</h5>
                             <div className="contextDetails">
-                                <p>Simplify Your Property Management With Our Easy-To-Use Landlord Portal. Register Now To Start Streamlining Your Rentals, Tracking, Applicants, And Connecting With Tenants Effortlessly. Join Us And Make Property Management A Breeze!</p>  
+                                <p className="signinContext">Simplify Your Property Management With Our Easy-To-Use Landlord Portal. Register Now To Start Streamlining Your Rentals, Tracking, Applicants, And Connecting With Tenants Effortlessly. Join Us And Make Property Management A Breeze!</p>  
                             </div> 
                             <Link className="nav-link" to="/registerLandlordAcc"><button className="buttonLandlord" type="button">Register</button></Link>
                                 
@@ -27,7 +27,7 @@ const SignIn = () => {
                         <img src="Images/tenant.png" class="tenant" alt="landlord" width="200" height="180"/>
                             <h5 class = "cardtitle text-center">Tenant Account</h5>
                             <div className="contextDetails">
-                                <p>Get Ready To Find Your Perfect Rental With Ease. Register Your Tenant Account To Search Listings, Communicate With Landlords, And Manage Your Lease Docuemnts All In One Place. Quick, Simple, And Secure - Your Home Journey Starts Here!</p>
+                                <p className="signinContext">Get Ready To Find Your Perfect Rental With Ease. Register Your Tenant Account To Search Listings, Communicate With Landlords, And Manage Your Lease Docuemnts All In One Place. Quick, Simple, And Secure - Your Home Journey Starts Here!</p>
                             </div>
                             <Link className="nav-link" to="/registerTenantAcc"><button className="buttonTenant" type="button">Register</button></Link>
                             <br />
