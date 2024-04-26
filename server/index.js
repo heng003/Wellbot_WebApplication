@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-// const path = require('path');
 const authRouter = require('./routes/authRoute');
 
 const app = express();
@@ -22,7 +21,7 @@ mongoose
 
 // 4. GLOBAL ERROR HANDLER
 app.use((err,req,res ,next)=>{
-    err.statuCode = err.statuCode || 500;
+    err.statuCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
     res.status(err.statuCode).json({

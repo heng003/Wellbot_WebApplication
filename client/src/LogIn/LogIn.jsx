@@ -34,7 +34,7 @@ const LogIn = () => {
                         <Link className="link" id="forgotpasswwordlink" to="/forgotPassword"><h6 className="forgotPassword">Forgot password?</h6></Link>
                     </div>
                     <div id="bottomDetails">
-                        <Link className="link" to="/tenantHome"><button id="loginbutton" type="button">Log In</button></Link>
+                        <Link className="link" to="/landlordHome"><button id="loginbutton" type="button">Log In</button></Link>
                         <div id="haveAcc">Don't have an account? <Link className="link" id="signuplink" to="/signIn">SIGN UP</Link></div>
                     </div>
                 </div>

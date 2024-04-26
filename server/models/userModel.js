@@ -6,7 +6,10 @@ const userSchema = new mongoose.Schema({
     phonenumber: {type:String, required: true},
     password: { type: String, required:true},
     role: { type: String, enum: ['landlord', 'tenant'], required: true},
+    verified: {type: Boolean, default:false},
+    verificationToken: { type: String },
+    tokenExpires: { type: Date, required: false } 
 });
 
-const LandlordAcc = mongoose.model('LandlordAcc', userSchema);
+const LandlordAcc = mongoose.model('user', userSchema);
 module.exports = LandlordAcc;
