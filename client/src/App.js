@@ -71,9 +71,9 @@ function App() {
           <Route path="/signIn" element={<SignIn />} />
           <Route
             path="/registerLandlordAcc"
-            element={<RegisterLandlordAcc />}
+            element={<RegisterLandlordAcc role="landlord"/>}
           />
-          <Route path="/registerTenantAcc" element={<RegisterTenantAcc />} />
+          <Route path="/registerTenantAcc" element={<RegisterTenantAcc role="tenant"/>} />
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/ViewProperty" element={<ViewProperty />} />
