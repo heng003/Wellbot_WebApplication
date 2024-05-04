@@ -75,7 +75,7 @@ const RegisterLandlordAcc = ({role}) => {
                 Swal.fire({
                     title: "Check Your Email",
                     titleColor: "#FF5C00",
-                    text: "We have sent an email to " + formData.email+ " to verify your email address and activate your account. Link in email will expire within 24 hours.",
+                    text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 5 minutes.",
                     imageUrl: "Images/checkEmail.gif",
                     imageHeight:200,
                     imageAlt: "email",
@@ -107,14 +107,18 @@ const RegisterLandlordAcc = ({role}) => {
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
                     confirmButtonColor: "#d33",
-                    confirmButtonText: "OK"
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#FF8C22",
+                    customClass: {
+                        title: 'my-title-class',
+                        confirmButton: 'my-confirm-button-class'
+                    } 
                 });
             }
             
         }
     }
     
-
     return(
         <div id="register">
             <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>

@@ -17,6 +17,7 @@ import RegisterLandlordAcc from "./RegisterAcc/RegisterLandlordAcc";
 import RegisterTenantAcc from "./RegisterAcc/RegisterTenantAcc";
 import LogIn from "./LogIn/LogIn";
 import ForgotPassword from "./LogIn/ForgotPassword";
+import VerifyEmail from "./RegisterAcc/VerifyEmailMessage";
 import ViewProperty from "./GeneralPage/ViewProperty";
 import LandlordHome from "./LandlordPOV/LandlordHome";
 import LandlordNavbar from "./LandlordPOV/LandlordNavbar";
@@ -55,6 +56,7 @@ import LandlordAgreementPage2 from "./LeaseAgreement/landlord/LandlordAgreementP
 import LandlordAgreementPage3 from "./LeaseAgreement/landlord/LandlordAgreementPage3";
 import TenantAgreementHome from "./LeaseAgreement/tenant/TenantAgreementHome";
 import TenantAgreementLastPage from "./LeaseAgreement/tenant/TenantAgreementLastPage";
+import ResetPassword from "./LogIn/ResetPassword";
 
 function App() {
   return (
@@ -76,6 +78,8 @@ function App() {
           <Route path="/registerTenantAcc" element={<RegisterTenantAcc role="tenant"/>} />
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
+          <Route path="/verifyEmailEmssage/:token" element={<VerifyEmail />} />
           <Route path="/ViewProperty" element={<ViewProperty />} />
           <Route path="/landlordHome" element={<LandlordHome />} />
           <Route path="/tenantHome" element={<TenantHome />} />

@@ -12,9 +12,10 @@ const ShowNavBar = ({ children }) => {
       location.pathname === "/registerLandlordAcc" ||
       location.pathname === "/registerTenantAcc" ||
       location.pathname === "/logIn" ||
+      location.pathname.startsWith("/resetPassword") || 
       location.pathname === "/forgotPassword" ||
       location.pathname === "/verifyEmail" ||
-      location.pathname === "/fullAgreement"
+      location.pathname === "/fullAgreement" 
     ) {
       setShowNavbar(false);
     } else {

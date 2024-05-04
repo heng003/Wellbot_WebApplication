@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require('path');
 const authRouter = require('./routes/authRoute');
 
 const app = express();
@@ -8,11 +9,17 @@ const app = express();
 // 1. MIDDLEWARES
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
 
+// Handle React routing, return all requests to React app
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+  
 // 3. MONGO DB CONNECTION
 mongoose
 .connect('mongodb://localhost:27017/RentSpotter')

@@ -85,7 +85,6 @@
     position: relative;
     color: #A4A4A4;
     margin-left: 12em;
-    margin-bottom: 12em;
 }
 
 #loginbutton{
@@ -123,7 +122,17 @@
 .login-eye-icon {
     position: absolute;
     margin-left: 19em;
-    top: 27.5em; 
+    top: 27.6em; 
     transform: translateY(-50%);
     cursor: pointer;
+}
+
+.errorMessage span {
+    color: red;
+    font-size: 13px;
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 4em;
+    margin-top: -1.5em;
 }

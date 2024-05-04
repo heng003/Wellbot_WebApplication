@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import "./editlandlordprofile.css";
 import "./landlord_history.css";
 import Swal from "sweetalert2";
+import axios from 'axios';
 
 const EditLandlordProfile = () => {
+  const [userData, setUserData] = useState({
+      username: '',
+      email: '',
+      phonenumber: '',
+      fullname: '', 
+      ic: '', 
+  });
+
+
+
   const handleSaveAndSubmit = (e) => {
     Swal.fire({
       text: "Saved and Submitted!",

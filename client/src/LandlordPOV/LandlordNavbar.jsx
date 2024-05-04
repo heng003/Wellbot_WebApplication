@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../GeneralPage/navbar.css";
 
 const LandlordNavbar = () => {
 
   const location = useLocation();
   const [activeItem, setActiveItem] = useState("YourProperty");
+  const [isLogOut, setIsLogOut] = useState(false);
+  const navigate = useNavigate();
 
   console.log('Current Path:', location.pathname); 
   useEffect(() => {
@@ -39,8 +41,23 @@ const LandlordNavbar = () => {
     }
 }, [location.pathname]);
   
+  useEffect(() => {
+    if (isLogOut) {
+      console.log("Navigating to home...");
+      navigate('/');
+    }
+  }, [isLogOut, navigate]);
+
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
+  };
+
+  const handleLogout = (event) => {
+    event.preventDefault();
+    console.log("Token before removal:", localStorage.getItem('token'));
+    localStorage.removeItem('token');
+    console.log("Token after removal:", localStorage.getItem('token'));
+    setIsLogOut(true); // Set the logout flag to trigger redirection
   };
 
   return (
@@ -122,9 +139,7 @@ const LandlordNavbar = () => {
                 </Link>
               </li>
               <li class="nav-item">
-                <Link className="nav-link" to="/">
-                  Log Out
-                </Link>
+                <button className="nav-link" onClick={handleLogout}>Log Out</button>
               </li>
             </ul>
           </div>

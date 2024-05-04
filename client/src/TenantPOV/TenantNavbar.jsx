@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation ,useNavigate } from "react-router-dom";
 import "../GeneralPage/navbar.css";
 
 const TenantNavbar = () => {
   const location = useLocation();
   const [activeItem, setActiveItem] = useState("Property");
+  const [isLogOut, setIsLogOut] = useState(false);
+  const navigate = useNavigate();
 
+  console.log('Current Path:', location.pathname); 
     useEffect(() => {
         switch (location.pathname) {
             case '/tenantHome':
@@ -41,10 +44,25 @@ const TenantNavbar = () => {
             default:
                 setActiveItem('');
         }
-    }, [location]);
+    }, [location.pathname]);
+
+    useEffect(() => {
+      if (isLogOut) {
+        console.log("Navigating to home...");
+        navigate('/');
+      }
+    }, [isLogOut, navigate]);
 
     const handleItemClick = (itemName) => {
         setActiveItem(itemName);
+    };
+
+    const handleLogout = (event) => {
+      event.preventDefault();
+      console.log("Token before removal:", localStorage.getItem('token'));
+      localStorage.removeItem('token');
+      console.log("Token after removal:", localStorage.getItem('token'));
+      setIsLogOut(true); // Set the logout flag to trigger redirection
     };
 
   return (
@@ -138,13 +156,7 @@ const TenantNavbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  to="/"
-                  style={{ marginRight: "1.9em" }}
-                >
-                  Log Out
-                </Link>
+                <button className="nav-link" style={{ marginRight: "1.9em" }} onClick={handleLogout}>Log Out</button>
               </li>
             </ul>
           </div>

@@ -1,24 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import Swal from 'sweetalert2'
+import axios from 'axios';
 import '../LogIn/forgotpassword.css'
 
 const ForgotPassword = () => {
 
-    const handleResetPasswordButton = () => {
-        Swal.fire({
-            title: "Check Your Email",
-            titleColor: "#FF5C00",
-            text: "We have sent an email to *****tian@gmail.com to verify your email address and activate your account. Link in email will expire within 24 hours.",
-            imageUrl: "Images/checkEmail.gif",
-            imageHeight:200,
-            imageAlt: "email",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#FF8C22",
-            customClass: {
-                title: 'my-title-class',
-                confirmButton: 'my-confirm-button-class'
-              }
-        })
+    const [email, setEmail] = useState("");
+    const [errors, setErrors] = useState({});
+    axios.defaults.withCredentials = true;
+
+    const handleResetPasswordButton = async (e) => {
+        console.log("Click Reset Password Button");
+        e.preventDefault();
+        const validationErrors = {};
+
+        if(!email.trim()){
+            validationErrors.email = "*Please enter your email"
+        }else if(!/\S+@\S+\.\S+/.test(email)){
+            validationErrors.email = "*email is invalid"
+        }
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+
+            try {
+                await axios.post('api/auth/forgotPassword', {email})
+                Swal.fire({
+                    title: "Check Your Email",
+                    titleColor: "#FF5C00",
+                    text: "We have sent an email to " + email + " to reset your password. Link in email will expire within 5 minutes.",
+                    imageUrl: "Images/checkEmail.gif",
+                    imageHeight:200,
+                    imageAlt: "email",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#FF8C22",
+                    customClass: {
+                        title: 'my-title-class',
+                        confirmButton: 'my-confirm-button-class'
+                    }   
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setEmail(""); // Clear the email input after successful operation
+                    }
+                });
+            }catch(error){
+                console.error(error);
+                console.error("Reset Password Error:", error.response.data);
+                // Handle showing the error message from the backend
+                Swal.fire({
+                    title: "Error!",
+                    text: error.response?.data?.message || "An unknown error occurred",
+                    icon: "error",
+                    confirmButtonColor: "#d33",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#FF8C22",
+                    customClass: {
+                        title: 'my-title-class',
+                        confirmButton: 'my-confirm-button-class'
+                    } 
+                });
+            }
+        }
     }
 
     return(
@@ -30,8 +72,9 @@ const ForgotPassword = () => {
                     <p className="forgotPasswordDescTitle">Enter the email address associated with your account.</p>
                     <div class="form d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                            <input type="email" id="email" class="form-control" placeholder="Email" required/>
+                            <input type="email" id="email" class="form-control" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)}/>
                         </div>
+                        <div className="errorMessageResetPassword"> {errors.email && <span>{errors.email}</span>} </div>
                     </div>
                     <button id="resetPasswordButton" onClick={handleResetPasswordButton} type="button">Reset Password</button>
             </div>
