@@ -232,7 +232,7 @@ exports.confirmEmail = async (req, res) => {
 // RESET VERIFICATION TOKEN
 exports.resetVerificationToken = async (user) => {
     const newToken = crypto.randomBytes(16).toString("hex");
-    const newTokenExpiration = new Date(Date.now() + 5 * 60 * 1000); // 30 seconds from now
+    const newTokenExpiration = new Date(Date.now() + 5 * 60 * 1000); // 5 mins from now
     
     user.verificationToken = newToken;
     user.tokenExpires = newTokenExpiration;
@@ -252,7 +252,7 @@ exports.forgotPassword = async (req, res, next) => {
         }
 
         // const tokenEmail = jwt.sign({ id: userExists._id }, process.env.JWT_SECRET, { expiresIn: "5m" });
-        const tokenEmail = jwt.sign({ id: userExists._id }, process.env.JWT_SECRET, { expiresIn: "30s" });
+        const tokenEmail = jwt.sign({ id: userExists._id }, process.env.JWT_SECRET, { expiresIn: "5m" });
         userExists.tokenEmail = tokenEmail;
         await userExists.save();
         
@@ -321,74 +321,4 @@ exports.resetPassword = async(req,res) => {
             res.status(500).json({ Status: "Error", message: "Failed to reset password" });
         }
     }
-}
-
-// GET user profile
-exports.getUserProfile = async (req, res, next) => {
-    try {
-        const {email} = req.body; 
-        const user = await User.findOne({email})
-        if (!user) {
-            return res.status(404).json({ status: 'error', message: 'User not found' });
-        }
-        res.status(200).json({
-            status: 'success',
-            data: user
-        });
-    } catch (error) {
-        console.error("Error fetching user profile:", error);
-        next(new createError("Internal Server Error", 500)); // Proper error handling
-    }
-};
-
-
-
-// // POST update user profile
-// exports.updateUserProfile = async (req, res, next) => {
-//     try {
-//         const userId = req.user.id;
-//         const { username, phonenumber, email } = req.body;
-//         const user = await User.findById(userId);
-
-//         if (!user) {
-//             return next(new createError("User not found", 404));
-//         }
-
-//         if (user.email !== email) { // Check if the email has been changed
-//             user.verified = false; // Require re-verification
-//             user.email = email;
-//             // Send verification email
-//             const verificationToken = crypto.randomBytes(16).toString("hex");
-//             user.verificationToken = verificationToken;
-//             user.tokenExpires = new Date(Date.now() + 3600000); // 1 hour from now
-//             const link = `http://localhost:3000/api/auth/confirmEmail/${verificationToken}`;
-//             await verifyEmail(email, link);
-//         }
-
-//         user.username = username;
-//         user.phonenumber = phonenumber;
-//         await user.save();
-
-//         res.status(200).json({
-//             status: 'success',
-//             message: 'Profile updated successfully',
-//             data: {
-//                 user
-//             }
-//         });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
-
-// Middleware to authenticate and extract user info
-function authenticateToken(req, res, next) {
-    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
-    if (!token) return res.sendStatus(401); // No token, unauthorized
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403); // Invalid token
-        req.user = user;
-        next();
-    });
 }
