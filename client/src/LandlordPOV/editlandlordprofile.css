@@ -179,3 +179,8 @@
 .editLandlordForm span {
   font-weight: bold;
 }
+
+.displayErrorEditMessage{
+  color: red;
+  font-weight:lighter
+}

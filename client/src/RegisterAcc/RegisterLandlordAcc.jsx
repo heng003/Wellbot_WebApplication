@@ -106,7 +106,6 @@ const RegisterLandlordAcc = ({role}) => {
                     title: "Error!",
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
-                    confirmButtonColor: "#d33",
                     confirmButtonText: "OK",
                     confirmButtonColor: "#FF8C22",
                     customClass: {

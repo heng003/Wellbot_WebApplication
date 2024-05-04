@@ -6,22 +6,115 @@ import axios from 'axios';
 
 const EditLandlordProfile = () => {
   const [userData, setUserData] = useState({
-      username: '',
-      email: '',
-      phonenumber: '',
-      fullname: '', 
-      ic: '', 
+      editFullname: '',
+      editUsername: '',
+      editPhoneno: '',
+      editEmail: '', 
+      editIC: '', 
   });
 
+  const [errors, setErrors] = useState({})
 
-
-  const handleSaveAndSubmit = (e) => {
-    Swal.fire({
-      text: "Saved and Submitted!",
-      icon: "success",
-      confirmButtonColor: "#FF8C22",
+  const fetchUserData = () => {
+    const token = localStorage.getItem('token');  // Ensure the token is stored in localStorage after login
+    axios.get('/api/auth/landlordProfileEdit', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(response => {
+      const { username, email, phonenumber, fullname, ic } = response.data.data;
+      localStorage.setItem('username', username);
+            setUserData({
+                editUsername: username,
+                editEmail: email,
+                editPhoneno: phonenumber,
+                editFullname: fullname,
+                editIC: ic,
+      });
+      localStorage.setItem('username', username);
+    })
+    .catch(error => {
+      console.error("Failed to fetch profile:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Failed to load profile data!',
+      });
     });
   };
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUserData.editUsername(storedUsername);
+    }
+    console.log("Updated userData:", userData)
+    fetchUserData();
+  }, []);
+
+  const handleSaveAndSubmit = (e) => {
+    e.preventDefault();
+    console.log("Check input");
+    const validationErrors = {};
+
+    // Validate each field
+    if (!userData.editUsername?.trim()) {
+        validationErrors.editUsername = "*username is required";
+    }
+    if (!userData.editEmail?.trim()) {
+        validationErrors.editEmail = "*email is required";
+    } else if (!/\S+@\S+\.\S+/.test(userData.editEmail)) {
+        validationErrors.editEmail = "*email is invalid";
+    }
+    if (!userData.editPhoneno?.trim()) {
+        validationErrors.editPhoneno = "*Phone number is required";
+    } else if (!/^\d{10,11}$/.test(userData.editPhoneno)) {
+        validationErrors.editPhoneno = "*Phone number is invalid";
+    }
+    if (!userData.editFullname?.trim()) {
+        validationErrors.editFullname = "*Fullname is required";
+    }
+    if (!userData.editIC?.trim()) {
+        validationErrors.editIC = "*IC is required";
+    }
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      const token = localStorage.getItem('token');  // Ensure the token is stored in localStorage after login
+      console.log(userData);
+      axios.put('/api/auth/landlordProfileEdit', userData, {
+          headers: {
+            'Authorization': `Bearer ${token}`  // Correctly use the token
+        }
+      })
+      .then(response => {
+          Swal.fire({
+              text: "Profile Updated Successfully!",
+              icon: "success",
+              confirmButtonColor: "#FF8C22",
+          });
+      })
+      .catch(error => {
+          console.error("Failed to update profile:", error);
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+          });
+      });
+  }  
+};
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   return (
     <>
       <div className="rental-history">
@@ -38,7 +131,7 @@ const EditLandlordProfile = () => {
           </div>
 
           <div className="accountRight_Section">
-            <h5 className="usernameText">UseHtt54@</h5>
+            <h5 className="usernameText">{localStorage.getItem('username')}</h5>
             <p className="accountDetail" id="uploadproperty">
               Uploaded Properties: <span id="countProperty">2</span>
             </p>
@@ -55,8 +148,14 @@ const EditLandlordProfile = () => {
                 id="editFullname"
                 placeholder="Enter Your FullName Stated in MyKad"
                 required
+                value={userData.editFullname}
+                onChange={handleChange}
               />
+               <div className="displayErrorEditMessage">
+                  {errors.editFullname && <span>{errors.editFullname}</span>}
+              </div>
             </div>
+
             <div class="col">
               <h6>UserName *</h6>
               <input
@@ -65,7 +164,12 @@ const EditLandlordProfile = () => {
                 id="editUsername"
                 placeholder="Enter Your Username"
                 required
+                value={userData.editUsername}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editUsername && <span>{errors.editUsername}</span>}
+            </div>
             </div>
           </div>
 
@@ -78,9 +182,15 @@ const EditLandlordProfile = () => {
                 id="editIC"
                 placeholder="Enter Your IC Number"
                 required
-                pattern="[0-9]{12}}"
+                pattern="[0-9]{12}"
+                value={userData.editIC}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editIC && <span>{errors.editIC}</span>}
             </div>
+            </div>
+
             <div class="col">
               <h6>Phone Number *</h6>
               <input
@@ -90,8 +200,14 @@ const EditLandlordProfile = () => {
                 placeholder="Enter Your Phone Number"
                 required
                 pattern="[0-9]{3}-[0-9]{7,8}"
+                value={userData.editPhoneno}
+                onChange={handleChange}
               />
+               <div className="displayErrorEditMessage">
+                {errors.editPhoneno && <span>{errors.editPhoneno}</span>}
             </div>
+            </div>
+           
           </div>
 
           <div className="row">
@@ -103,8 +219,14 @@ const EditLandlordProfile = () => {
                 id="editEmail"
                 placeholder="Enter Your Email Address"
                 required
+                value={userData.editEmail}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editEmail && <span>{errors.editEmail}</span>}
             </div>
+            </div>
+
             <div className="col"></div>
           </div>
           <p id="alertMessage">

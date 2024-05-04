@@ -322,3 +322,72 @@ exports.resetPassword = async(req,res) => {
         }
     }
 }
+
+// GET user profile
+exports.getUserProfile = async (req, res, next) => {
+    try {
+        // Extract token from the request headers
+        const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the "Authorization" header
+        console.log("Received token:", token);
+
+        // Verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Retrieve user data using the user ID from the decoded token
+        const user = await User.findById(decoded.userId);
+        console.log("User data:", user);
+
+        if (!user) {
+            return res.status(404).json({ status: 'error', message: 'User not found' });
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: user
+        });
+    } catch (error) {
+        console.error("Error fetching user profile:", error);
+        // Handle token verification errors
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({ status: 'error', message: 'Invalid token' });
+        } else if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ status: 'error', message: 'Token expired' });
+        } else {
+            next(new createError("Internal Server Error", 500)); // Proper error handling
+        }
+    }
+};
+
+// UPDATE user profile
+exports.updateUserProfile = async (req, res) => {
+    console.log("Received data:", req.body);
+
+    try {
+        const token = req.headers.authorization.split(' ')[1]; // Get the token from header
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Decode the token
+       
+        const user = await User.findById(decoded.userId);
+
+        const { editFullname, editUsername, editPhoneno, editEmail, editIC } = req.body;
+
+        if (!user) {
+            return res.status(404).json({ status: 'error', message: 'User not found' });
+        }
+
+        user.fullname = editFullname;
+        user.username = editUsername;
+        user.email = editEmail;
+        user.phonenumber = editPhoneno;
+        user.ic = editIC;
+
+        await user.save();
+        res.status(200).json({
+            status: 'success',
+            message: 'Profile updated successfully',
+            data: user
+        });
+    } catch (error) {
+        console.error("Error updating user profile:", error);
+        res.status(500).json({ status: 'error', message: 'Failed to update profile' });
+    }
+};
