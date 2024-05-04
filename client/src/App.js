@@ -17,7 +17,6 @@ import RegisterLandlordAcc from "./RegisterAcc/RegisterLandlordAcc";
 import RegisterTenantAcc from "./RegisterAcc/RegisterTenantAcc";
 import LogIn from "./LogIn/LogIn";
 import ForgotPassword from "./LogIn/ForgotPassword";
-import VerifyEmail from "./RegisterAcc/VerifyEmailMessage";
 import ViewProperty from "./GeneralPage/ViewProperty";
 import LandlordHome from "./LandlordPOV/LandlordHome";
 import LandlordNavbar from "./LandlordPOV/LandlordNavbar";
@@ -79,7 +78,6 @@ function App() {
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
-          <Route path="/verifyEmailEmssage/:token" element={<VerifyEmail />} />
           <Route path="/ViewProperty" element={<ViewProperty />} />
           <Route path="/landlordHome" element={<LandlordHome />} />
           <Route path="/tenantHome" element={<TenantHome />} />
