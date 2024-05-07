@@ -14,10 +14,11 @@ const EditTenantProfile = () => {
         editIC: '', 
     });
 
+    const [username, setUsername] = useState(localStorage.getItem('username') || '');
     const [errors, setErrors] = useState({})
 
     const fetchUserData = () => {
-      const token = localStorage.getItem('token');  // Ensure the token is stored in localStorage after login
+      const token = localStorage.getItem('token');  
       axios.get('/api/auth/landlordProfileEdit', {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -25,14 +26,15 @@ const EditTenantProfile = () => {
       })
       .then(response => {
         const { username, email, phonenumber, fullname, ic } = response.data.data;
-              setUserData({
-                  editUsername: username,
-                  editEmail: email,
-                  editPhoneno: phonenumber,
-                  editFullname: fullname,
-                  editIC: ic,
+        localStorage.setItem('username', username);
+        setUsername(username);
+        setUserData({
+            editUsername: username,
+            editEmail: email,
+            editPhoneno: phonenumber,
+            editFullname: fullname,
+            editIC: ic,
         });
-      
       })
       .catch(error => {
         console.error("Failed to fetch profile:", error);
@@ -45,7 +47,6 @@ const EditTenantProfile = () => {
     };
 
     useEffect(() => {
-      console.log("Updated userData:", userData)
       fetchUserData();
     }, []);
 
@@ -78,14 +79,16 @@ const EditTenantProfile = () => {
       setErrors(validationErrors);
 
       if (Object.keys(validationErrors).length === 0) {
-        const token = localStorage.getItem('token');  // Ensure the token is stored in localStorage after login
+        const token = localStorage.getItem('token');  
         console.log(userData);
         axios.put('/api/auth/landlordProfileEdit', userData, {
             headers: {
-              'Authorization': `Bearer ${token}`  // Correctly use the token
+              'Authorization': `Bearer ${token}` 
           }
         })
         .then(response => {
+          localStorage.setItem('username', userData.editUsername);
+          setUsername(userData.editUsername);
             Swal.fire({
                 text: "Profile Updated Successfully!",
                 icon: "success",
@@ -127,9 +130,9 @@ const EditTenantProfile = () => {
           </div>
 
           <div className="accountRight_Section">
-            <h5 className="usernameText">{userData.editUsername}</h5>
+            <h5 className="usernameText">{username}</h5>  
             <p className="accountDetail" id="uploadproperty">
-              Account has created <span id="day">one</span> day before
+              Applied <span id="day">4</span> properties
             </p>
           </div>
         </div>

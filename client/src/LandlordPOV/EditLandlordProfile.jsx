@@ -13,10 +13,11 @@ const EditLandlordProfile = () => {
       editIC: '', 
   });
 
+  const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [errors, setErrors] = useState({})
 
   const fetchUserData = () => {
-    const token = localStorage.getItem('token');  // Ensure the token is stored in localStorage after login
+    const token = localStorage.getItem('token');  
     axios.get('/api/auth/landlordProfileEdit', {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -25,6 +26,7 @@ const EditLandlordProfile = () => {
     .then(response => {
       const { username, email, phonenumber, fullname, ic } = response.data.data;
       localStorage.setItem('username', username);
+      setUsername(username);
       setUserData({
           editUsername: username,
           editEmail: email,
@@ -76,17 +78,16 @@ const EditLandlordProfile = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      const token = localStorage.getItem('token');  // Ensure the token is stored in localStorage after login
+      const token = localStorage.getItem('token');  
       console.log(userData);
       axios.put('/api/auth/landlordProfileEdit', userData, {
           headers: {
-            'Authorization': `Bearer ${token}`  // Correctly use the token
+            'Authorization': `Bearer ${token}`  
         }
       })
       .then(response => {
         localStorage.setItem('username', userData.editUsername);
-        console.log('Latest username:', userData.editUsername);
-        console.log("Update latest username to local storage");
+        setUsername(userData.editUsername);
           Swal.fire({
               text: "Profile Updated Successfully!",
               icon: "success",
@@ -129,7 +130,7 @@ const EditLandlordProfile = () => {
           </div>
 
           <div className="accountRight_Section">
-            <h5 className="usernameText">{localStorage.getItem('username')}</h5>
+            <h5 className="usernameText">{username}</h5>     
             <p className="accountDetail" id="uploadproperty">
               Uploaded Properties: <span id="countProperty">2</span>
             </p>
