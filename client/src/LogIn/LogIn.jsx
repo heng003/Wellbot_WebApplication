@@ -38,6 +38,8 @@ const LogIn = () => {
                 console.log("Login response:", response);
                 localStorage.setItem('token', response.data.token);
                 console.log("Token stored:", response.data.token);
+                localStorage.setItem('username', response.data.user.username);
+                console.log("Username stored:", response.data.user.username);
 
                 const userRole = response.data.user.role; 
                 if (userRole === 'tenant') {

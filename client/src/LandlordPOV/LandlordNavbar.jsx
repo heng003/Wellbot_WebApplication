@@ -54,9 +54,13 @@ const LandlordNavbar = () => {
 
   const handleLogout = (event) => {
     event.preventDefault();
-    console.log("Token before removal:", localStorage.getItem('token'));
+    localStorage.removeItem('username');
     localStorage.removeItem('token');
-    console.log("Token after removal:", localStorage.getItem('token'));
+
+    setTimeout(() => {
+      console.log("Username and token have been removed");
+    }, 1000);
+
     setIsLogOut(true); // Set the logout flag to trigger redirection
   };
 

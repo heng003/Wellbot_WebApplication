@@ -6,7 +6,7 @@ const ShowFooter = ({ children }) => {
   const [showFooter, setShowFooter] = useState(false);
 
   useEffect(() => {
-    console.log("this is location", location);
+    console.log("Footer: This is location", location);
     if (
       location.pathname === "/signIn" ||
       location.pathname === "/registerLandlordAcc" ||

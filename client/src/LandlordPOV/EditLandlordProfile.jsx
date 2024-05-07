@@ -25,14 +25,13 @@ const EditLandlordProfile = () => {
     .then(response => {
       const { username, email, phonenumber, fullname, ic } = response.data.data;
       localStorage.setItem('username', username);
-            setUserData({
-                editUsername: username,
-                editEmail: email,
-                editPhoneno: phonenumber,
-                editFullname: fullname,
-                editIC: ic,
+      setUserData({
+          editUsername: username,
+          editEmail: email,
+          editPhoneno: phonenumber,
+          editFullname: fullname,
+          editIC: ic,
       });
-      localStorage.setItem('username', username);
     })
     .catch(error => {
       console.error("Failed to fetch profile:", error);
@@ -45,11 +44,6 @@ const EditLandlordProfile = () => {
   };
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUserData.editUsername(storedUsername);
-    }
-    console.log("Updated userData:", userData)
     fetchUserData();
   }, []);
 
@@ -90,11 +84,15 @@ const EditLandlordProfile = () => {
         }
       })
       .then(response => {
+        localStorage.setItem('username', userData.editUsername);
+        console.log('Latest username:', userData.editUsername);
+        console.log("Update latest username to local storage");
           Swal.fire({
               text: "Profile Updated Successfully!",
               icon: "success",
               confirmButtonColor: "#FF8C22",
           });
+
       })
       .catch(error => {
           console.error("Failed to update profile:", error);
