@@ -121,15 +121,15 @@ const RegisterLandlordAcc = ({role}) => {
     return(
         <div id="register">
             <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
-            <div class="container text-center">
-            <div class="row">
-                <div class="col">
+            <div className="container text-center">
+            <div className="row">
+                <div className="col">
                     <h2 className="registerTitleLandlord fs-2 fw-bolder mt-4">Register As Landlord</h2>
                     <img src="Images/landlord.png" class="landlord" alt="landlord" width="350" />
                 </div>
-                <div class="col rightCol">
+                <div className="col rightCol">
                 <form id="register-form" ref={formRef} onSubmit={handleRegisterClick} method="post">
-                    <div class="form d-flex flex-row align-items-center mb-4" >
+                    <div className="form d-flex flex-row align-items-center mb-4" >
                         <FontAwesomeIcon icon={faUser} className="fa-lg me-3 fa-fw" size="2x"/>
                         <div class="form-outline flex-fill mb-0">
                             <input 
@@ -147,9 +147,9 @@ const RegisterLandlordAcc = ({role}) => {
                     </div>
 
 
-                    <div class="form d-flex flex-row align-items-center mb-4" >
+                    <div className="form d-flex flex-row align-items-center mb-4" >
                         <FontAwesomeIcon icon={faEnvelope} className="fa-lg me-3 fa-fw"size="2x"/>
-                        <div class="form-outline flex-fill mb-0" >
+                        <div className="form-outline flex-fill mb-0" >
                         <input 
                             type="email" 
                             name="email" 
@@ -164,9 +164,9 @@ const RegisterLandlordAcc = ({role}) => {
                         </div>
                     </div>
 
-                    <div class="form d-flex flex-row align-items-center mb-4" >
+                    <div className="form d-flex flex-row align-items-center mb-4" >
                         <FontAwesomeIcon icon={faPhone} className="fa-lg me-3 fa-fw"size="2x"/>
-                        <div class="form-outline flex-fill mb-0" >
+                        <div className="form-outline flex-fill mb-0" >
                         <input 
                             type="tel" 
                             name="phonenumber" 
@@ -180,9 +180,9 @@ const RegisterLandlordAcc = ({role}) => {
                             {errors.phonenumber && <span>{errors.phonenumber}</span>}
                         </div>
                     </div>
-                    <div class="form d-flex flex-row position-relative align-items-center mb-4">
+                    <div className="form d-flex flex-row position-relative align-items-center mb-4">
                         <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"size="2x"/>
-                        <div class="form-outline flex-fill mb-0 position-relative">
+                        <div className="form-outline flex-fill mb-0 position-relative">
                             <input 
                                 value={formData.password} 
                                 type={visible ? "text" : "password"} 

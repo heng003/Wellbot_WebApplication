@@ -30,7 +30,7 @@ exports.registerLandlordAcc = async(req,res,next) => {
             verified: false
         });
 
-        const link = `http://localhost:3000/api/auth/confirmEmail/${verificationToken}`;
+        const link = `http://localhost:5000/api/auth/confirmEmail/${verificationToken}`;
         console.log("Verification link: " + link);
 
         // Send email
@@ -77,7 +77,7 @@ exports.registerTenantAcc = async(req,res,next) => {
             verified: false
         });
 
-        const link = `http://localhost:3000/api/auth/confirmEmail/${verificationToken}`;
+        const link = `http://localhost:5000/api/auth/confirmEmail/${verificationToken}`;
         console.log("Verification link: " + link);
 
         // Send email
@@ -238,7 +238,7 @@ exports.resetVerificationToken = async (user) => {
     user.tokenExpires = newTokenExpiration;
     await user.save();
 
-    const link = `http://localhost:3000/api/auth/confirmEmail/${newToken}`;
+    const link = `http://localhost:5000/api/auth/confirmEmail/${newToken}`;
     await verifyEmail(user.email, link);
 };
 
@@ -267,7 +267,7 @@ exports.forgotPassword = async (req, res, next) => {
             }
         });
         console.log("ID:", userExists._id, "Token:", tokenEmail);
-        const link = `http://localhost:3000/resetPassword/${userExists._id}/${tokenEmail}`;
+        const link = `http://localhost:5000/resetPassword/${userExists._id}/${tokenEmail}`;
         console.log("Reset Password link: " + link);
 
         // Send email

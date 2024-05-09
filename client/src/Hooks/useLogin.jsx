@@ -11,7 +11,7 @@ const useLogin = () => {
         try{
             setError(null);
             setLoading(false);
-            const res = await fetch('http://localhost:3000/api/auth/LogIn',{
+            const res = await fetch('http://localhost:5000/api/auth/LogIn',{
                 method:'POST',
                 body: JSON.stringify(values),
             });

@@ -11,7 +11,7 @@ const useSignup = () => {
         try{
             setError(null);
             setLoading(false);
-            const res = await fetch('http://localhost:3000/api/auth/RegisterLandlordAcc',{
+            const res = await fetch('http://localhost:5000/api/auth/RegisterLandlordAcc',{
                 method:'POST',
                 body: JSON.stringify(values),
             });
