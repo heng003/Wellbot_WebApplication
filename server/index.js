@@ -20,11 +20,11 @@ app.use(express.json());
 app.use('/api/auth',authRouter);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
   });
   
 // 3. MONGO DB CONNECTION
