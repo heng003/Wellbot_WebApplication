@@ -10,34 +10,36 @@
 // https://www.mongodb.com/docs/mongodb-vscode/playgrounds/
 
 // Select the database to use.
-use('mongodbVSCodePlaygroundDB');
+use('RentSpotter');
 
 // Insert a few documents into the sales collection.
-db.getCollection('sales').insertMany([
-  { 'item': 'abc', 'price': 10, 'quantity': 2, 'date': new Date('2014-03-01T08:00:00Z') },
-  { 'item': 'jkl', 'price': 20, 'quantity': 1, 'date': new Date('2014-03-01T09:00:00Z') },
-  { 'item': 'xyz', 'price': 5, 'quantity': 10, 'date': new Date('2014-03-15T09:00:00Z') },
-  { 'item': 'xyz', 'price': 5, 'quantity': 20, 'date': new Date('2014-04-04T11:21:39.736Z') },
-  { 'item': 'abc', 'price': 10, 'quantity': 10, 'date': new Date('2014-04-04T21:23:13.331Z') },
-  { 'item': 'def', 'price': 7.5, 'quantity': 5, 'date': new Date('2015-06-04T05:08:13Z') },
-  { 'item': 'def', 'price': 7.5, 'quantity': 10, 'date': new Date('2015-09-10T08:43:00Z') },
-  { 'item': 'abc', 'price': 10, 'quantity': 5, 'date': new Date('2016-02-06T20:20:13Z') },
-]);
+db.getCollection('properties').insertOne({
+  "landlordId": ObjectId('664675d28718fb6fe7e7c251'),
+  "name": "Tiara Damansara Master Condominium",
+  "type": "Condo",
+  "address": "Tiara Damansara, Seksyen16, 46350 Petaling Jaya, Selangor",
+  "location": "Petaling Jaya",
+  "postcode": "46350",
+  "bedroom": 3,
+  "bathroom": 2,
+  "furnishing": "Partially Furnished",
+  "parking": 1,
+  "floorLevel": 2,
+  "buildUpSize": 2000,
+  "facilities": "Gym and Pool",
+  "accessibility": "Near Metro and Shopping Mall",
+  "price": 1800,
+  "description": "A beautiful apartment with all amenities.",
+  "coverPhoto": "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2023/7/19/3/DOTY2023_Dramatic-Before-And-Afters_Hidden-Hills-11.jpg.rend.hgtvcom.1280.720.suffix/1689786863909.jpeg",
+  "photos": [
+      "https://rnb.scene7.com/is/image/roomandboard/homepageHero_freshFinds_1920?size=2400,2400&scl=1",
+      "https://backyardpoolpatio.com/wp-content/uploads/2022/08/Leisure-Pools-Supreme-Graphite-Grey-leisure-pools-inside.webp.jpg",
+      "https://st.hzcdn.com/simgs/pictures/bathrooms/2013-spring-parade-of-homes-highmark-builders-img~9c91268602011d2d_14-6822-1-7255a26.jpg"
+  ]
+});
 
-// Run a find command to view items sold on April 4th, 2014.
-const salesOnApril4th = db.getCollection('sales').find({
-  date: { $gte: new Date('2014-04-04'), $lt: new Date('2014-04-05') }
-}).count();
-
-// Print a message to the output window.
-console.log(`${salesOnApril4th} sales occurred in 2014.`);
-
-// Here we run an aggregation and open a cursor to the results.
-// Use '.toArray()' to exhaust the cursor to return the whole result set.
-// You can use '.hasNext()/.next()' to iterate through the cursor page by page.
-db.getCollection('sales').aggregate([
-  // Find all of the sales that occurred in 2014.
-  { $match: { date: { $gte: new Date('2014-01-01'), $lt: new Date('2015-01-01') } } },
-  // Group the total sales for each product.
-  { $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
-]);
+db.getCollection('applications').insertOne({
+  "tenantId": ObjectId('663c7b00472233659b0e1a69'),
+  "propertyId": ObjectId('6647410873ae5b1e7c7123e2'),
+  "applicationStatus": "Pending"
+});

@@ -1,16 +1,16 @@
+// models/property.js
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 
-const propertySchema = new Schema({
-    landlordId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+const propertySchema = new mongoose.Schema({
+    landlordId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     name: { type: String, required: true },
-    type: { type: String, enum: ['Landed', 'Condo', 'Commercial', 'Room'], required: true},
+    type: { type: String, required: true },
     address: { type: String, required: true },
     location: { type: String, required: true },
     postcode: { type: String, required: true },
     bedroom: { type: Number, required: true },
     bathroom: { type: Number, required: true },
-    furnishing: { type: String, enum: ['Fully-furnished', 'Partially-furnished', 'Unfurnished'], required: true},
+    furnishing: { type: String, required: true },
     parking: { type: Number, required: true },
     floorLevel: { type: Number, required: true },
     buildUpSize: { type: Number, required: true },
@@ -22,5 +22,5 @@ const propertySchema = new Schema({
     photos: { type: [String], required: true }
 });
 
-module.exports = mongoose.model('property', propertySchema);
-
+const Property = mongoose.model('properties', propertySchema);
+module.exports = Property;

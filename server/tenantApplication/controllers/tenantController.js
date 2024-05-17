@@ -1,5 +1,5 @@
-const Application = require("../models/tenantApplicationModel");
-const Property = require("../models/property");
+const Application = require("../models/applicationModel");
+const Property = require("../models/propertyModel");
 
 // GET property list
 exports.getAllProperties = async (req, res, next) => {

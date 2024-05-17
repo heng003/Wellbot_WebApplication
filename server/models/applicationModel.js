@@ -7,4 +7,4 @@ const applicationSchema = new Schema({
     applicationStatus: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending', required: true }
 });
 
-module.exports = mongoose.model('application', applicationSchema);
+module.exports = mongoose.model('applications', applicationSchema);
