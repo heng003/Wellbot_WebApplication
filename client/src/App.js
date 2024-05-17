@@ -57,6 +57,7 @@ import TenantAgreementHome from "./LeaseAgreement/tenant/TenantAgreementHome";
 import TenantAgreementLastPage from "./LeaseAgreement/tenant/TenantAgreementLastPage";
 import ResetPassword from "./LogIn/ResetPassword";
 
+
 function App() {
   return (
     <>
@@ -70,111 +71,45 @@ function App() {
           <Route path="/condo" element={<Condo />} />
           <Route path="/commercial" element={<Commercial />} />
           <Route path="/signIn" element={<SignIn />} />
-          <Route
-            path="/registerLandlordAcc"
-            element={<RegisterLandlordAcc role="landlord"/>}
-          />
-          <Route path="/registerTenantAcc" element={<RegisterTenantAcc role="tenant"/>} />
+          <Route path="/registerLandlordAcc" element={<RegisterLandlordAcc role="landlord" />} />
+          <Route path="/registerTenantAcc" element={<RegisterTenantAcc role="tenant" />} />
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
           <Route path="/ViewProperty" element={<ViewProperty />} />
           <Route path="/landlordHome" element={<LandlordHome />} />
           <Route path="/tenantHome" element={<TenantHome />} />
-          <Route
-            path="/landlordProfileEdit"
-            element={<EditLandlordProfile />}
-          />
+          <Route path="/landlordProfileEdit" element={<EditLandlordProfile />} />
           <Route path="/tenantProfileEdit" element={<EditTenantProfile />} />
           <Route path="/tenantViewProperty" element={<TenantViewProperty />} />
           <Route path="/tenantApplyForm" element={<TenantApplyForm />} />
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
-          <Route path="/landlordComment" element={<LandlordComment />} />
+          <Route path="/landlordComment/:username" element={<LandlordComment />} />
           <Route path="/tenantComment" element={<TenantComment />} />
           <Route path="/tenantRent" element={<RentTenant />} />
-          <Route
-            path="/tenantViewPropertyPending"
-            element={<TenantViewPropertyPending />}
-          />
-          <Route
-            path="/tenantViewPropertyRejected"
-            element={<TenantViewPropertyRejected />}
-          />
-          <Route
-            path="/tenantViewPropertyLease"
-            element={<TenantViewPropertyLease />}
-          />
-          <Route
-            path="/tenantViewPropertyActive"
-            element={<ViewPropertyActive />}
-          />
-          <Route
-            path="/landlordViewProperty"
-            element={<LandlordViewProperty />}
-          />
-          <Route
-            path="/landlordUpdateProperty"
-            element={<LandlordUpdateProperty />}
-          />
-          <Route
-            path="/landlordUploadProperty"
-            element={<LandlordUploadProperty />}
-          />
-          <Route
-            path="/landlordUploadPropertyPhoto"
-            element={<LandlordUploadPropertyPhoto />}
-          />
-          <Route
-            path="/landlordArrangePhoto"
-            element={<LandlordArrangePhoto />}
-          />
+          <Route path="/tenantViewPropertyPending" element={<TenantViewPropertyPending />} />
+          <Route path="/tenantViewPropertyRejected" element={<TenantViewPropertyRejected />} />
+          <Route path="/tenantViewPropertyLease" element={<TenantViewPropertyLease />} />
+          <Route path="/tenantViewPropertyActive" element={<ViewPropertyActive />} />
+          <Route path="/landlordViewProperty" element={<LandlordViewProperty />} />
+          <Route path="/landlordUpdateProperty" element={<LandlordUpdateProperty />} />
+          <Route path="/landlordUploadProperty" element={<LandlordUploadProperty />} />
+          <Route path="/landlordUploadPropertyPhoto" element={<LandlordUploadPropertyPhoto />} />
+          <Route path="/landlordArrangePhoto" element={<LandlordArrangePhoto />} />
           <Route path="/landlordEditPhoto" element={<LandlordEditPhoto />} />
           <Route path="/landlordApplicant" element={<LandlordApplicant />} />
-          <Route
-            path="/landlordApplicantFeedback"
-            element={<LandlordApplicantFeedback />}
-          />
-          <Route
-            path="/landlordLeaseAgreementForm"
-            element={<LandlordAgreementFormPage />}
-          />
-          <Route
-            path="/landlordLeaseAgreementPg1"
-            element={<LandlordAgreementPage1 />}
-          />
-          <Route
-            path="/landlordLeaseAgreementPg2"
-            element={<LandlordAgreementPage2 />}
-          />
-          <Route
-            path="/landlordLeaseAgreementPg3"
-            element={<LandlordAgreementPage3 />}
-          />
-          <Route
-            path="/tenantLeaseAgreementHome"
-            element={<TenantAgreementHome />}
-          />
-          <Route
-            path="/tenantLeaseAgreementForm"
-            element={<TenantAgreementFormPage />}
-          />
-          <Route
-            path="/tenantLeaseAgreementPg1"
-            element={<TenantAgreementPage1 />}
-          />
-          <Route
-            path="/tenantLeaseAgreementPg2"
-            element={<TenantAgreementPage2 />}
-          />
-          <Route
-            path="/tenantLeaseAgreementPg3"
-            element={<TenantAgreementPage3 />}
-          />
-          <Route
-            path="/tenantLeaseAgreementLastPg"
-            element={<TenantAgreementLastPage />}
-          />
+          <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback />} />
+          <Route path="/landlordLeaseAgreementForm" element={<LandlordAgreementFormPage />} />
+          <Route path="/landlordLeaseAgreementPg1" element={<LandlordAgreementPage1 />} />
+          <Route path="/landlordLeaseAgreementPg2" element={<LandlordAgreementPage2 />} />
+          <Route path="/landlordLeaseAgreementPg3" element={<LandlordAgreementPage3 />} />
+          <Route path="/tenantLeaseAgreementHome" element={<TenantAgreementHome />} />
+          <Route path="/tenantLeaseAgreementForm" element={<TenantAgreementFormPage />} />
+          <Route path="/tenantLeaseAgreementPg1" element={<TenantAgreementPage1 />} />
+          <Route path="/tenantLeaseAgreementPg2" element={<TenantAgreementPage2 />} />
+          <Route path="/tenantLeaseAgreementPg3" element={<TenantAgreementPage3 />} />
+          <Route path="/tenantLeaseAgreementLastPg" element={<TenantAgreementLastPage />} />
           <Route path="/viewAgreement" element={<AgreementFullView />} />
           <Route path="/fullAgreement" element={<AgreementFull />} />
         </Routes>

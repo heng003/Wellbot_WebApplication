@@ -7,8 +7,11 @@ const path = require('path');
 
 const authRouter = require('./routes/authRoute');
 const propertiesRouter = require('./routes/propertiesRoute');
+const leasesRouter = require('./routes/leaseRoute');
+const commentByLandlordRoute =require('./routes/commentByLandlordRoute')
 
 const app = express();
+const port = 5000;
 
 console.log('Environment Variables:');
 console.log('PORT:', process.env.PORT);
@@ -21,7 +24,10 @@ app.use(express.json());
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
-app.use('/api', propertiesRouter);
+app.use('/api/properties', propertiesRouter);
+app.use('/api/leases', leasesRouter);
+app.use('/api/commentByLandlord', commentByLandlordRoute)
+
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, '../client/build');
