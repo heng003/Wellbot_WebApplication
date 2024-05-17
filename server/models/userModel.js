@@ -1,20 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const tenantSchema = new Schema({
-    name: String,
-    rating: Number,
-    leaseStatus : String
-  });
-  
-  const propertySchema = new Schema({
-    name: String,
-    price: Number,
-    type: String,
-    tenants: [tenantSchema]
-  });
-
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     username:{ type:String, required: true,},
     email:{ type:String, unique: true, required: true,},
     phonenumber: {type:String, required: true},
@@ -26,7 +12,7 @@ const userSchema = new mongoose.Schema({
     verificationToken: { type: String },
     tokenExpires: { type: Date, required: false },
     tokenEmail: { type: String },
-    properties: [propertySchema]
+    properties: [{ type: Schema.Types.ObjectId, ref: 'Property' }]
 });
 
 const User = mongoose.model('User', userSchema);

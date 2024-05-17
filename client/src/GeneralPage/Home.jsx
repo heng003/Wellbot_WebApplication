@@ -4,6 +4,10 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import CardGeneral from "../component/CardGeneral";
 
 const Home = () => {
+  const [cardData, setCardData] = useState([]);
+  const [locations, setLocations] = useState(["All Location"]);
+  const [priceRanges, setPriceRanges] = useState(["All Price Range"]);
+
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [selectedOption3, setSelectedOption3] = useState(null);
@@ -18,6 +22,41 @@ const Home = () => {
   const dropdownRef2 = useRef(null);
   const dropdownRef3 = useRef(null);
 
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const fetchProperties = () => {
+    fetch('/api/properties')
+      .then(response => response.json())
+      .then(data => {
+        const mappedCardData = data.map(property => ({
+          imgSrc: property.coverPhoto,
+          cardTitle1: `RM ${property.price} Per Month`,
+          cardTitle2: property.name,
+          cardText: property.address,
+          roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+          propertyType: property.type,
+          location: property.location,
+          priceRange: determinePriceRange(property.price)
+        }));
+        setCardData(mappedCardData);
+
+        const uniqueLocations = [...new Set(data.map(property => property.location))];
+        setLocations(prevLocations => [...prevLocations, ...uniqueLocations.filter(location => location !== "")]);
+
+        const minPrice = Math.min(...data.map(property => property.price));
+        const maxPrice = Math.max(...data.map(property => property.price));
+        setPriceRanges(prevPriceRanges => [
+          ...prevPriceRanges,
+          `RM ${minPrice} Below`,
+          `RM ${minPrice + 1} - RM ${maxPrice}`,
+          `RM ${maxPrice + 1} Above`
+        ]);
+      })
+      .catch(error => console.error('Error fetching property data:', error));
+  };
+
   const properties = [
     "All Properties Type",
     "Condo",
@@ -25,26 +64,7 @@ const Home = () => {
     "Landed",
     "Room",
   ];
-  const locations = [
-    "All Location",
-    "Petaling Jaya",
-    "Cheras",
-    "Kajang",
-    "Ampang",
-    "Bandar Sri Damansara",
-    "Bukit Bintang",
-    "Bandar Sunway",
-  ];
-  const priceRanges = [
-    "All Price Range",
-    "RM 500 Below",
-    "RM 500 - RM 1000",
-    "RM 1001 - RM 1500",
-    "RM 1501 - RM 2000",
-    "RM 2001 - RM 2500",
-    "RM 2500 Above",
-  ];
-
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -73,6 +93,22 @@ const Home = () => {
     };
   }, []);
 
+  const determinePriceRange = (price) => {
+    if (price <= 500) {
+      return "RM 500 Below";
+    } else if (price <= 1000) {
+      return "RM 500 - RM 1000";
+    } else if (price <= 1500) {
+      return "RM 1001 - RM 1500";
+    } else if (price <= 2000) {
+      return "RM 1501 - RM 2000";
+    } else if (price <= 2500) {
+      return "RM 2001 - RM 2500";
+    } else {
+      return "RM 2500 Above";
+    }
+  };
+
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
     const results = cardData.filter((card) => {
@@ -92,84 +128,11 @@ const Home = () => {
     });
     setFilteredResults(results);
   };
+
   const selectOption = (option, setter, refSetter) => {
     setter(option);
     refSetter(false);
   };
-
-  // Array of card data objects for frontend demo
-  const cardData = [
-    {
-      imgSrc: "Images/room.jpg",
-      cardTitle1: "RM 500 Per Month",
-      cardTitle2: "Tiara Damansara's Master Room",
-      cardText:
-        "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",
-      roomDetails: ["1", "2", "350sf"],
-      propertyType: "Room",
-      location: "Petaling Jaya",
-      priceRange: "RM 500 - RM 1000",
-    },
-
-    {
-      imgSrc: "Images/bungalow.jpg",
-      cardTitle1: "RM 2500 Per Month",
-      cardTitle2: "Sekysen 17 Landed House",
-      cardText:
-        "16, Jalan King 123/A, Seksyen 17, 46350 Petaling Jaya, Selangor",
-      roomDetails: ["7", "3", "2000sf"],
-      propertyType: "Landed",
-      location: "Petaling Jaya",
-      priceRange: "RM 2001 - RM 2500",
-    },
-
-    {
-      imgSrc: "Images/commercial.jpg",
-      cardTitle1: "RM 1500 Per Month",
-      cardTitle2: "8 Trium (Office)",
-      cardText:
-        "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur",
-      roomDetails: ["0", "3", "1000sf"],
-      propertyType: "Commercial",
-      location: "Bandar Sri Damansara",
-      priceRange: "RM 1001 - RM 1500",
-    },
-
-    {
-      imgSrc: "Images/commercial2.jpg",
-      cardTitle1: "RM 1800 Per Month",
-      cardTitle2: "Menara Yayasan Tun Razak",
-      cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",
-      roomDetails: ["7", "4", "1200sf"],
-      propertyType: "Commercial",
-      location: "Bukit Bintang",
-      priceRange: "RM 1501 - RM 2000",
-    },
-
-    {
-      imgSrc: "Images/condo_1.jpg",
-      cardTitle1: "RM 2300 Per Month",
-      cardTitle2: "Ryan & Miho",
-      cardText:
-        "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",
-      roomDetails: ["4", "3", "1200sf"],
-      propertyType: "Condo",
-      location: "Petaling Jaya",
-      priceRange: "RM 2001 - RM 2500",
-    },
-
-    {
-      imgSrc: "Images/condo_2.jpg",
-      cardTitle1: "RM 3500 Per Month",
-      cardTitle2: "D' Latour",
-      cardText:
-        "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",
-      roomDetails: ["5", "3", "1800sf"],
-      propertyType: "Condo",
-      location: "Bandar Sunway",
-      priceRange: "RM 2500 Above",
-    },
-  ];
 
   return (
     <div>
@@ -283,7 +246,7 @@ const Home = () => {
               </section>
                 <section id="recommendation">
                     <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                        {isSearchClicked ? "Filter Result/s" : "Recommendations"}
+                        {isSearchClicked ? ( cardData.length===0? "No Result Found" : "Filter Result/s" ) : "Recommendations"}
                     </header>
                     <div className="row row-cols-1 row-cols-md-3 g-5">
                         {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
