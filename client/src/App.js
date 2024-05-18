@@ -92,7 +92,10 @@ function App() {
             path="/tenantViewProperty/:propertyId"
             element={<TenantViewProperty />}
           />
-          <Route path="/tenantApplyForm" element={<TenantApplyForm />} />
+          <Route
+            path="/tenantApplyForm/:propertyId/:userId/:landlordId"
+            element={<TenantApplyForm />}
+          />
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
           <Route
