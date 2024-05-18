@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useNavigate, useParams } from "react-router-dom";
 import '../TenantPOV/viewproperty.css';
 import DetailsPanel from "../TenantPOV/component/DetailsPanel";
 import CommentBox from "../TenantPOV/component/CommentBox";
@@ -7,18 +8,26 @@ import AverageRating from "../TenantPOV/component/AverageRating";
 import Swal from 'sweetalert2';
 
 const ViewProperty = () => {
-    
-    const propertyImageSrc = [
-        "Images/propertyImg3.png",
-        "Images/propertyImg4.png",
-        "Images/propertyImg2.png",
-        "Images/propertyImg5.png"
-    ];
 
     const nav = useNavigate();
-    const location = useLocation();
+    const { cardId } = useParams();
 
+    const [property, setProperty] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [propertyImageSrc, setPropertyImageSrc] = useState([]);
+
+    useEffect(() => {
+        const fetchProperty = async () => {
+            try {
+                const response = await axios.get(`/api/applications/${cardId}`); // Adjust the endpoint if necessary
+                setProperty(response.data);
+                setPropertyImageSrc([response.data.coverPhoto, ...response.data.photos]);
+            } catch (error) {
+                console.error('Error fetching property data:', error);
+            }
+        };
+        fetchProperty();
+    }, [cardId]);
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => {
@@ -39,7 +48,6 @@ const ViewProperty = () => {
             return newIndex;
         });
     };
-
 
     const handleApplyPropertyPageButton = () => {
         if (localStorage.getItem("previousPath") !== "/tenantHome") {
@@ -78,7 +86,6 @@ const ViewProperty = () => {
         }
     }
     
-    
     return (
         <div>
             <main>
@@ -115,7 +122,7 @@ const ViewProperty = () => {
                 </section>
 
                 <section id="PropertyDetails">
-                    <div className="container"><DetailsPanel/></div>
+                    <div className="container"><DetailsPanel property={property} /></div>
                 </section>
 
                 <div className="applyButton"> 

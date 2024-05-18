@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import './home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import CardGeneral from "../component/CardGeneral";
+import axios from 'axios';
 
 const Home = () => {
+  const [propertyList, setPropertyList] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);
-  const [priceRanges, setPriceRanges] = useState(["All Price Range"]);
 
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -22,48 +23,44 @@ const Home = () => {
   const dropdownRef2 = useRef(null);
   const dropdownRef3 = useRef(null);
 
+  const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
+  const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+
   useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get('/api/applications'); // Adjust the endpoint if necessary
+        console.log("test")
+        setPropertyList(response.data);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    };
     fetchProperties();
   }, []);
 
-  const fetchProperties = () => {
-    fetch('/api/properties')
-      .then(response => response.json())
-      .then(data => {
-        const mappedCardData = data.map(property => ({
-          imgSrc: property.coverPhoto,
-          cardTitle1: `RM ${property.price} Per Month`,
-          cardTitle2: property.name,
-          cardText: property.address,
-          roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
-          propertyType: property.type,
-          location: property.location,
-          priceRange: determinePriceRange(property.price)
-        }));
-        setCardData(mappedCardData);
+  useEffect(() => {
+    // Call setPropertyToCardData only when propertyList is updated
+    setPropertyToCardData();
+  }, [propertyList]);
 
-        const uniqueLocations = [...new Set(data.map(property => property.location))];
-        setLocations(prevLocations => [...prevLocations, ...uniqueLocations.filter(location => location !== "")]);
+  const setPropertyToCardData = () => {
+    const mappedCardData = propertyList.map(property => ({
+      cardId: property._id,
+      imgSrc: property.coverPhoto,
+      cardTitle1: `RM ${property.price} Per Month`,
+      cardTitle2: property.name,
+      cardText: property.address,
+      roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+      propertyType: property.type,
+      location: property.location,
+      priceRange: determinePriceRange(property.price)
+    }));
+    setCardData(mappedCardData);
 
-        const minPrice = Math.min(...data.map(property => property.price));
-        const maxPrice = Math.max(...data.map(property => property.price));
-        setPriceRanges(prevPriceRanges => [
-          ...prevPriceRanges,
-          `RM ${minPrice} Below`,
-          `RM ${minPrice + 1} - RM ${maxPrice}`,
-          `RM ${maxPrice + 1} Above`
-        ]);
-      })
-      .catch(error => console.error('Error fetching property data:', error));
+    const uniqueLocations = [...new Set(propertyList.map(property => property.location))];
+    setLocations(["All Location", ...uniqueLocations]);
   };
-
-  const properties = [
-    "All Properties Type",
-    "Condo",
-    "Commercial",
-    "Landed",
-    "Room",
-  ];
   
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -250,8 +247,9 @@ const Home = () => {
                     </header>
                     <div className="row row-cols-1 row-cols-md-3 g-5">
                         {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
-                        <div key={index} className="col">
+                        <div className="col">
                             <CardGeneral
+                                cardId={card.cardId}
                                 imgSrc={card.imgSrc}
                                 cardTitle={card.cardTitle1}
                                 propertyTitle={card.cardTitle2}

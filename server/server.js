@@ -9,6 +9,7 @@ const mongoURI = process.env.MONGODB_URI;
 const cors = require("cors");
 const path = require('path');
 const authRouter = require('./routes/authRoute');
+const tenantApplicationRouter = require('./tenantApplication/routes/tenantApplicationRoute');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
+app.use('/api/applications', tenantApplicationRouter);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -25,8 +27,8 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-  });
-  
+});
+
 // 3. MONGO DB CONNECTION
 mongoose.connect(mongoURI)
   .then(() => console.log('Connected to MongoDB Atlas'))
@@ -48,9 +50,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server listen
-const PORT = process.env.PORT || 5000; // Use the PORT environment variable, default to 5000 if not set
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-

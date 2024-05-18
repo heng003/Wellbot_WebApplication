@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './detailspanel.css';
 
-const DetailsPanel = () => {
-    
+const DetailsPanel = ({ property }) => {
+    const [propertyLocation, setPropertyLocation] = useState();
+    const [propertyType, setPropertyType] = useState();
+    const [propertyPrice, setPropertyPrice] = useState(0);
+    const [propertyName, setPropertyName] = useState();
+    const [propertyAddress, setPropertyAddress] = useState();
+    const [facilitiesData, setFacilitiesData] = useState([]);
+    const [propertyDesc, setPropertyDesc] = useState();
+    const [propertyFac, setPropertyFac] = useState();
+    const [propertyAccess, setPropertyAccess] = useState();
+
+    useEffect(() => {
+        if (property) {
+            setPropertyLocation(property.location);
+            setPropertyType(property.type);
+            setPropertyPrice(property.price);
+            setPropertyName(property.name);
+            setPropertyAddress(property.address);
+            setFacilitiesData([
+                property.type,
+                `${property.buildUpSize} Sqft`,
+                `${property.bedroom} Bedroom`,
+                `${property.bathroom} Bathroom`,
+                `${property.parking} Carpark`,
+                property.furnishing
+            ]);
+            setPropertyDesc(property.description);
+            setPropertyFac(property.facilities);
+            setPropertyAccess(property.accessibility);
+        }
+    }, [property]);
+
     const propertyFacilitiesIcons = [
         "Images/propertyTypeIcon.png",
         "Images/sqrtIcon.png",
@@ -12,33 +42,28 @@ const DetailsPanel = () => {
         "Images/furnitureIcon.png"
     ];
 
-    const propertyFacilities = [
-        "High-Rise",
-        "350 Sqft",
-        "1 Bedroom",
-        "2 Bathrooms",
-        "None Carpark",
-        "Fully-furnished"
-    ];
+    if (!property) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <section className="details-panel">
             <div className="heading">
-                <h3 className="property-classfication">{`PROPERTY  |  PETALING JAYA | condo `}</h3>
+                <h3 className="property-classfication">{`PROPERTY  |  ${propertyLocation.toUpperCase()} | ${propertyType}`}</h3>
             </div>
 
             <div className="rental-details">
                 <div className="rent-price-unit-panel">
                     <div className="rent-breakdown">
-                        <h2 className="rent-price">RM 500 Per Month</h2>
-                        <h3 className="rent-unit">Rent one unit of Master room</h3>
+                        <h2 className="rent-price">{`RM ${propertyPrice} Per Month`}</h2>
+                        <h3 className="rent-unit">Minimum rental duration of six months</h3>
                     </div>
                 </div>
 
                 <div className="property-info">
                     <div className="property-info-breakdown">
-                        <h2 className="property-name">Tiara Damansara's Master Room Unit 315/3</h2>
-                        <h3 className="property-address">Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor</h3>
+                        <h2 className="property-name">{propertyName}</h2>
+                        <h3 className="property-address">{propertyAddress}</h3>
                         
                         <div className="property-facilities">
                             <div className="property-facilities-breakdown">
@@ -49,7 +74,7 @@ const DetailsPanel = () => {
                                                 <img className="icon-facility" alt='icon' src={icon}/>
                                             </div>
                                             <div className='facility-text'>
-                                                {propertyFacilities[index]}
+                                                {facilitiesData[index]}
                                             </div>
                                         </div>
                                     ))}
@@ -63,21 +88,18 @@ const DetailsPanel = () => {
 
                     <div className="description-block">
                         <h2 className="description-title">Description</h2>
-                        <h3 className="description-text">Let's grab this opportunity to have this cheap and nice room !</h3>
+                        <h3 className="description-text">{propertyDesc}</h3>
                     </div>
 
                     <div className="description-block">
                         <h2 className="description-title">Facilities</h2>
-                        <h3 className="description-text">Security 24 Hr, Swimming, BBQ Area, Gym
-                        </h3>
+                        <h3 className="description-text">{propertyFac}</h3>
                     </div>
                     
                     <div className="description-block">
                         <h2 className="description-title">Accessibility</h2>
                         <h3 className="description-text-wrap">
-                            <p className="description-text">T815 Bus Stop - 200m</p>
-                            <p className="description-text">Seventeen Mall - 600 m</p>
-                            <p className="description-text">MRT Tiara Damansara - 800m</p>
+                            <p className="description-text">{propertyAccess}</p>
                         </h3>
                     </div>
                 </div>

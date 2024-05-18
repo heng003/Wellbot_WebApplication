@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const tenantApplicationController = require("../controllers/tenantApplicationController");
+const tenantController = require("../controllers/tenantController");
 
-router.get('/', tenantApplicationController.getAllProperties);
+router.get('/', tenantController.getAllProperties);
+router.get('/ViewProperty/:userId', tenantController.getOneProperty);
 
 module.exports = router;
