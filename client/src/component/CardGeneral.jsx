@@ -3,7 +3,7 @@ import '../GeneralPage/home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import { useNavigate, useLocation } from "react-router-dom";
 
-const CardGeneral = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetails }) => {
+const CardGeneral = ({ cardId, imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetails }) => {
     const roomImgSrc = ["Images/bedroom.png", "Images/bathroom.png", "Images/sqrt.png"];
 
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ const CardGeneral = ({ imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetail
     const handleViewProperty = () => {
         localStorage.setItem("previousPath", location.pathname);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        navigate("/ViewProperty"); 
+        navigate(`/ViewProperty/${cardId}`);
     }
 
     return (

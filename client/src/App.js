@@ -66,7 +66,6 @@ function App() {
         </ShowNavbar>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/rent" element={<Home />} />
           <Route path="/condo" element={<Condo />} />
           <Route path="/commercial" element={<Commercial />} />
           <Route path="/signIn" element={<SignIn />} />
@@ -78,7 +77,7 @@ function App() {
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
-          <Route path="/ViewProperty" element={<ViewProperty />} />
+          <Route path="/ViewProperty/:cardId" element={<ViewProperty />} />
           <Route path="/landlordHome" element={<LandlordHome />} />
           <Route path="/tenantHome" element={<TenantHome />} />
           <Route
