@@ -11,35 +11,19 @@ const LandlordNavbar = () => {
 
   console.log('Current Path:', location.pathname); 
   useEffect(() => {
-    switch (location.pathname) {
-        case '/landlordHome':
-        case '/landlordViewProperty':
-        case '/landlordUpdateProperty':
-        case '/landlordEditPhoto':
-        case '/landlordUploadProperty':
-        case '/landlordUploadPropertyPhoto':
-        case '/landlordArrangePhoto':
-            setActiveItem('YourProperty');
-            break;
-        case '/landlordComment':
-        case'/landlordHistory':
-            setActiveItem('RentalHistory');
-            break;
-        case '/landlordProfileEdit':
-            setActiveItem('Edit Profile');
-            break;
-        case '/landlordApplicant':
-        case '/landlordApplicantFeedback':
-        case '/landlordLeaseAgreementForm':
-        case '/landlordLeaseAgreementPg1':
-        case '/landlordLeaseAgreementPg2':
-        case '/landlordLeaseAgreementPg3':
-            setActiveItem('Applicant');
-            break;
-        default:
-            setActiveItem('');
+    const path = location.pathname;
+    if (path.startsWith('/landlordHome') || path.startsWith('/landlordViewProperty') || path.startsWith('/landlordUpdateProperty') || path.startsWith('/landlordEditPhoto') || path.startsWith('/landlordUploadProperty') || path.startsWith('/landlordUploadPropertyPhoto') || path.startsWith('/landlordArrangePhoto')) {
+      setActiveItem('YourProperty');
+    } else if (path.startsWith('/landlordComment') || path.startsWith('/landlordHistory')) {
+      setActiveItem('RentalHistory');
+    } else if (path.startsWith('/landlordProfileEdit')) {
+      setActiveItem('Edit Profile');
+    } else if (path.startsWith('/landlordApplicant') || path.startsWith('/landlordApplicantFeedback') || path.startsWith('/landlordLeaseAgreementForm') || path.startsWith('/landlordLeaseAgreementPg1') || path.startsWith('/landlordLeaseAgreementPg2') || path.startsWith('/landlordLeaseAgreementPg3')) {
+      setActiveItem('Applicant');
+    } else {
+      setActiveItem('');
     }
-}, [location.pathname]);
+  }, [location.pathname]);
   
   useEffect(() => {
     if (isLogOut) {

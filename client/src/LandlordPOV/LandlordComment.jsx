@@ -1,15 +1,35 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import "./editlandlordprofile.css";
 import "./landlord_history.css";
 import Swal from "sweetalert2";
 import starDefault from "./Rental_Icon/rating_star_default.svg";
 import starOnClick from "./Rental_Icon//rating_star_onClick.svg";
+import axios from 'axios';
+
 
 const LandlordComment = () => {
 
+  const { username } = useParams();
   const nav = useNavigate();
   const [ratings, setRatings] = useState(Array(5).fill(false));
+  const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchLeases() {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`/api/leases/tenant/${username}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
+        setEffectiveLeasesCount(effectiveLeases.length);
+      } catch (err) {
+        console.error("Error fetching leases:", err);
+      }
+    }
+    fetchLeases();
+  }, [username]);
 
   const handleStarClick = (index) => {
     const newRatings = new Array(ratings.length).fill(false);
@@ -28,7 +48,6 @@ const LandlordComment = () => {
 
   const handleStarHover = (index, value) => {};
 
-  
   const handleSaveAndSubmit = (e) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
@@ -56,7 +75,7 @@ const LandlordComment = () => {
         <div className="profileSection">
           <div className="pictureLeft_Section">
             <img
-              src="Images/Edit_Property_TenantProfile.png"
+              src="/Images/Edit_Property_TenantProfile.png"
               alt="Logo"
               width="100"
               height="100"
@@ -64,9 +83,9 @@ const LandlordComment = () => {
           </div>
 
           <div className="accountRight_Section">
-            <h5 className="usernameText">Lye23356</h5>
+          <h5 className="usernameText">{username}</h5>
             <p className="accountDetail" id="accDetails">
-              Account had been created 3 year before.
+              Current Rent Properties: {effectiveLeasesCount}
             </p>
           </div>
         </div>

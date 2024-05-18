@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import "bootstrap/dist/js/bootstrap.bundle";
 import "./landlord_history.css";
 import DownloadIcon from "./Rental_Icon/download.png";
@@ -130,16 +131,17 @@ function LandlordHistory() {
                 height="29"
               />
               <a
-                href="/landlordComment"
                 className="comment_linkIcon"
                 onMouseEnter={() => handleCommentIconMouseEnter(index)}
                 onMouseLeave={() => handleCommentIconMouseLeave(index)}
-              >
+                >
+                <Link to={`/landlordComment/${lease.tenantId.username}`}>
                 <img
-                  src={hoveredCommentIcon[index] ? CommentHoverIcon : CommentIcon}
-                  alt="Comment Link"
-                  width="29"
+                src={hoveredCommentIcon[index] ? CommentHoverIcon : CommentIcon}
+                alt="Comment Link"
+                width="29"
                 />
+                </Link>
               </a>
             </td>
           </tr>
