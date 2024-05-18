@@ -1,10 +1,10 @@
 import React from "react";
 import "../GeneralPage/home.css";
 import "bootstrap/dist/js/bootstrap.bundle";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CardGeneral = ({
-  cardId,
+  propertyId,
   imgSrc,
   cardTitle,
   propertyTitle,
@@ -18,12 +18,10 @@ const CardGeneral = ({
   ];
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleViewProperty = () => {
-    localStorage.setItem("previousPath", location.pathname);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/ViewProperty/${cardId}`);
+    navigate(`/ViewProperty/${propertyId}`);
   };
 
   return (
