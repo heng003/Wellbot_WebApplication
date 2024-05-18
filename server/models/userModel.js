@@ -16,5 +16,6 @@ const userSchema = new Schema({
     properties: [{ type: Schema.Types.ObjectId, ref: 'Property' }]
 });
 
-const LandlordAcc = mongoose.model('user', userSchema);
-module.exports = LandlordAcc;
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
