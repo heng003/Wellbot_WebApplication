@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './home.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
+import React, { useState, useRef, useEffect } from "react";
+import "./home.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import CardGeneral from "../component/CardGeneral";
-import axios from 'axios';
+import axios from "axios";
 
 const Home = () => {
   const [propertyList, setPropertyList] = useState([]);
@@ -23,16 +23,30 @@ const Home = () => {
   const dropdownRef2 = useRef(null);
   const dropdownRef3 = useRef(null);
 
-  const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
-  const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+  const properties = [
+    "All Properties Type",
+    "Condo",
+    "Commercial",
+    "Landed",
+    "Room",
+  ];
+  const priceRanges = [
+    "All Price Range",
+    "RM 500 Below",
+    "RM 500 - RM 1000",
+    "RM 1001 - RM 1500",
+    "RM 1501 - RM 2000",
+    "RM 2001 - RM 2500",
+    "RM 2500 Above",
+  ];
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('/api/applications'); 
+        const response = await axios.get("/api/applications");
         setPropertyList(response.data);
       } catch (error) {
-        console.error('Error fetching properties:', error);
+        console.error("Error fetching properties:", error);
       }
     };
     fetchProperties();
@@ -44,23 +58,29 @@ const Home = () => {
   }, [propertyList]);
 
   const setPropertyToCardData = () => {
-    const mappedCardData = propertyList.map(property => ({
+    const mappedCardData = propertyList.map((property) => ({
       propertyId: property._id,
       imgSrc: property.coverPhoto,
       cardTitle1: `RM ${property.price} Per Month`,
       cardTitle2: property.name,
       cardText: property.address,
-      roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+      roomDetails: [
+        property.bedroom.toString(),
+        property.bathroom.toString(),
+        `${property.buildUpSize}sf`,
+      ],
       propertyType: property.type,
       location: property.location,
-      priceRange: determinePriceRange(property.price)
+      priceRange: determinePriceRange(property.price),
     }));
     setCardData(mappedCardData);
 
-    const uniqueLocations = [...new Set(propertyList.map(property => property.location))];
+    const uniqueLocations = [
+      ...new Set(propertyList.map((property) => property.location)),
+    ];
     setLocations(["All Location", ...uniqueLocations]);
   };
-  
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -216,50 +236,86 @@ const Home = () => {
                 </div>
               </div>
 
-                    {/* Price Range Dropdown */}
-                    <div className="property-selector">
-                      <label htmlFor="priceRange" className="filterTitle">Price Range</label>
-                      <div className="form-select" tabIndex={0} onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}>
-                        <div className="displayed-value">{selectedOption3 || 'Please Select'}</div>
-                        {isPriceRangeOpen && (
-                          <div className="custom-options" ref={dropdownRef3}>
-                            {priceRanges.map((priceRange, index) => (
-                              <div key={index}
-                                   className={`custom-option ${selectedOption3 === priceRange ? 'selected' : ''}`}
-                                   onClick={() => selectOption(priceRange, setSelectedOption3, setIsPriceRangeOpen)}>
-                                {priceRange}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
+              {/* Price Range Dropdown */}
+              <div className="property-selector">
+                <label htmlFor="priceRange" className="filterTitle">
+                  Price Range
+                </label>
+                <div
+                  className="form-select"
+                  tabIndex={0}
+                  onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}
+                >
+                  <div className="displayed-value">
+                    {selectedOption3 || "Please Select"}
                   </div>
-      
-                  <button className="searchButton" type="button" onClick={handleSearchButtonClick}>Search</button>
-                </div>
-                
-              </section>
-                <section id="recommendation">
-                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                        {isSearchClicked ? ( cardData.length===0? "No Result Found" : "Filter Result/s" ) : "Recommendations"}
-                    </header>
-                    <div className="row row-cols-1 row-cols-md-3 g-5">
-                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
-                        <div className="col">
-                            <CardGeneral
-                                propertyId={card.propertyId}
-                                imgSrc={card.imgSrc}
-                                cardTitle={card.cardTitle1}
-                                propertyTitle={card.cardTitle2}
-                                propertyAdd={card.cardText}
-                                roomDetails={card.roomDetails}
-                            />
+                  {isPriceRangeOpen && (
+                    <div className="custom-options" ref={dropdownRef3}>
+                      {priceRanges.map((priceRange, index) => (
+                        <div
+                          key={index}
+                          className={`custom-option ${
+                            selectedOption3 === priceRange ? "selected" : ""
+                          }`}
+                          onClick={() =>
+                            selectOption(
+                              priceRange,
+                              setSelectedOption3,
+                              setIsPriceRangeOpen
+                            )
+                          }
+                        >
+                          {priceRange}
                         </div>
-                        ))}
+                      ))}
                     </div>
-                    <br /><br /><br /><br /><br />
-                </section>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <button
+              className="searchButton"
+              type="button"
+              onClick={handleSearchButtonClick}
+            >
+              Search
+            </button>
+          </div>
+        </section>
+        <section id="recommendation">
+          <header
+            className="recommendationTitle text-left fs-2 fw-bolder mt-4"
+            style={{ marginBottom: "0.4em" }}
+          >
+            {isSearchClicked
+              ? cardData.length === 0
+                ? "No Result Found"
+                : "Filter Result/s"
+              : "Recommendations"}
+          </header>
+          <div className="row row-cols-1 row-cols-md-3 g-5">
+            {(isSearchClicked ? filteredResults : cardData).map(
+              (card, index) => (
+                <div className="col">
+                  <CardGeneral
+                    propertyId={card.propertyId}
+                    imgSrc={card.imgSrc}
+                    cardTitle={card.cardTitle1}
+                    propertyTitle={card.cardTitle2}
+                    propertyAdd={card.cardText}
+                    roomDetails={card.roomDetails}
+                  />
+                </div>
+              )
+            )}
+          </div>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </section>
 
         <section id="info">
           <div className="container">

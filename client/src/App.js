@@ -71,9 +71,12 @@ function App() {
           <Route path="/signIn" element={<SignIn />} />
           <Route
             path="/registerLandlordAcc"
-            element={<RegisterLandlordAcc role="landlord"/>}
+            element={<RegisterLandlordAcc role="landlord" />}
           />
-          <Route path="/registerTenantAcc" element={<RegisterTenantAcc role="tenant"/>} />
+          <Route
+            path="/registerTenantAcc"
+            element={<RegisterTenantAcc role="tenant" />}
+          />
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
@@ -85,11 +88,17 @@ function App() {
             element={<EditLandlordProfile />}
           />
           <Route path="/tenantProfileEdit" element={<EditTenantProfile />} />
-          <Route path="/tenantViewProperty/:propertyId" element={<TenantViewProperty />} />
+          <Route
+            path="/tenantViewProperty/:propertyId"
+            element={<TenantViewProperty />}
+          />
           <Route path="/tenantApplyForm" element={<TenantApplyForm />} />
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
-          <Route path="/landlordComment/:username" element={<LandlordComment />} />
+          <Route
+            path="/landlordComment/:username"
+            element={<LandlordComment />}
+          />
           <Route path="/tenantComment" element={<TenantComment />} />
           <Route path="/tenantRent" element={<RentTenant />} />
           <Route
