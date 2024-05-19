@@ -42,7 +42,6 @@ app.use("/api/reviewsTenant", reviewTenantRoute);
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, "../client/build");
 app.use(express.static(buildPath));
-app.use(express.static(ImagePath));
 
 // Handle React routing, return all requests to React app
 app.get("*", function (req, res) {
