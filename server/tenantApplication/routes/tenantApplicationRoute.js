@@ -3,6 +3,7 @@ const router = express.Router();
 const authenticate = require("../middlwares/userIdMiddleware");
 const tenantController = require("../controllers/tenantController");
 
+<<<<<<< HEAD
 router.get("/", tenantController.getAllProperties);
 router.get("/condo", tenantController.getAllCondoProperties);
 router.get("/commercial", tenantController.getAllComercialProperties);
@@ -21,5 +22,10 @@ router.get(
   "/tenantToLease/:applicationId",
   tenantController.getLeaseByApplicationId
 );
+=======
+router.get('/', tenantController.getAllProperties);
+router.get('/ViewProperty/:propertyId', tenantController.getOneProperty);
+router.get('/tenantViewProperty/:propertyId', tenantController.getOneProperty);
+>>>>>>> 314ff59 (jwt installed)
 
 module.exports = router;

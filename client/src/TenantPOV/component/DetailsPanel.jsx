@@ -48,9 +48,17 @@ const DetailsPanel = ({ property }) => {
     }
   }, [property]);
 
+<<<<<<< HEAD
   if (!property) {
     return <div>Loading...</div>;
   }
+=======
+    return (
+        <section className="details-panel">
+            <div className="heading">
+                <h3 className="property-classfication">{`PROPERTY  |  ${propertyLocation} | ${propertyType}`}</h3>
+            </div>
+>>>>>>> 314ff59 (jwt installed)
 
   return (
     <section className="details-panel">

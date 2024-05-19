@@ -16,6 +16,7 @@ const getAllProperties = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 //GET All Condo Properties
 const getAllCondoProperties = async (req, res) => {
   try {
@@ -46,6 +47,11 @@ const getAllComercialProperties = async (req, res) => {
 const getOneProperty = async (req, res) => {
   const { propertyId } = req.params;
 
+=======
+const getOneProperty = async (req, res) => {
+  const { propertyId } = req.params;
+
+>>>>>>> 314ff59 (jwt installed)
   console.log("Property Id: " + propertyId);
 
   try {

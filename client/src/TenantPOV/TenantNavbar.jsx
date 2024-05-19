@@ -8,6 +8,7 @@ const TenantNavbar = () => {
   const [isLogOut, setIsLogOut] = useState(false);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   console.log("Current Path:", location.pathname);
   useEffect(() => {
     switch (location.pathname) {
@@ -45,6 +46,45 @@ const TenantNavbar = () => {
         setActiveItem("");
     }
   }, [location.pathname]);
+=======
+  console.log('Current Path:', location.pathname); 
+    useEffect(() => {
+        switch (location.pathname) {
+            case '/tenantHome':
+            case '/tenantViewProperty/:propertyId':
+                setActiveItem('Property');
+                break;
+            case '/tenantApplication':
+            case '/tenantViewPropertyLease':
+            case '/tenantViewPropertyPending':
+            case '/tenantViewPropertyRejected':
+            case '/tenantApplyForm':
+                setActiveItem('Application');
+                break;
+            case '/tenantRent':
+            case '/tenantComment':
+            case'/tenantViewPropertyActive':
+                setActiveItem('Rental History');
+                break;
+            case '/tenantProfileEdit':
+                setActiveItem('Edit Profile');
+                break;
+            case '/tenantLeaseAgreementHome':
+            case '/tenantLeaseAgreementForm':
+            case '/tenantLeaseAgreementPg1':
+            case '/tenantLeaseAgreementPg2':
+            case '/tenantLeaseAgreementPg3':
+            case '/tenantLeaseAgreementLastPg':
+                setActiveItem('Lease Agreement');
+                break;
+            case '/tenantProfileEdit':
+                setActiveItem('Edit Profile');
+                break;
+            default:
+                setActiveItem('');
+        }
+    }, [location.pathname]);
+>>>>>>> 314ff59 (jwt installed)
 
   useEffect(() => {
     if (isLogOut) {
