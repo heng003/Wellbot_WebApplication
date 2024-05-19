@@ -19,20 +19,18 @@ const ViewProperty = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const response = await axios.get(
-          `/api/applications/ViewProperty/${propertyId}`
-        ); // Adjust the endpoint if necessary
-        const propertyData = response.data;
-        setProperty(propertyData);
-        setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
-        setLandlordId(propertyData.landlordId);
-        setIsFetched(true);
+        const response = await axios.get(`/api/applications/${cardId}`); // Adjust the endpoint if necessary
+        setProperty(response.data);
+        setPropertyImageSrc([
+          response.data.coverPhoto,
+          ...response.data.photos,
+        ]);
       } catch (error) {
         console.error("Error fetching property data:", error);
       }
     };
     fetchProperty();
-  }, [propertyId]);
+  }, [cardId]);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => {
@@ -55,8 +53,7 @@ const ViewProperty = () => {
   };
 
   const handleApplyPropertyPageButton = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
+    if (localStorage.getItem("previousPath") !== "/tenantHome") {
       Swal.fire({
         title: "Warning!",
         text: "You need to register or log in to your account before performing this action.",
@@ -69,12 +66,27 @@ const ViewProperty = () => {
       }).then((result) => {
         nav("/logIn");
       });
-    }, 100); // Delay to ensure the scroll completes before showing the dialog
+      return;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        Swal.fire({
+          title: "Notice",
+          text: "You are being navigated to the application form.",
+          icon: "info",
+          confirmButtonColor: "#FF8C22",
+          confirmButtonText: "Continue",
+          customClass: {
+            confirmButton: "my-confirm-button-class",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            nav("/tenantApplyForm");
+          }
+        });
+      }, 100); // Delay to ensure the scroll completes before showing the dialog
+    }
   };
-
-  if (!property) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <div>

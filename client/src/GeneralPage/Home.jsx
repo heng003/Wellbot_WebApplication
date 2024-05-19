@@ -299,7 +299,7 @@ const Home = () => {
               (card, index) => (
                 <div className="col">
                   <CardGeneral
-                    propertyId={card.propertyId}
+                    cardId={card.cardId}
                     imgSrc={card.imgSrc}
                     cardTitle={card.cardTitle1}
                     propertyTitle={card.cardTitle2}

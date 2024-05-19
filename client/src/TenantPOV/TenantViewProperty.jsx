@@ -43,27 +43,29 @@ const TenantViewProperty = () => {
     const nav = useNavigate();
     const { propertyId } = useParams();
 
-    const [property, setProperty] = useState(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [propertyImageSrc, setPropertyImageSrc] = useState([]);
-    const [isLandlordIdFetched, setIsFetched] = useState(false);
-    const [landlordId, setLandlordId] = useState(null);
+  const [property, setProperty] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [propertyImageSrc, setPropertyImageSrc] = useState([]);
+  const [isLandlordIdFetched, setIsFetched] = useState(false);
+  const [landlordId, setLandlordId] = useState(null);
 
-    useEffect(() => {
-        const fetchProperty = async () => {
-            try {
-                const response = await axios.get(`/api/applications/ViewProperty/${propertyId}`); // Adjust the endpoint if necessary
-                const propertyData = response.data;
-                setProperty(propertyData);
-                setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
-                setLandlordId(propertyData.landlordId);
-                setIsFetched(true);
-            } catch (error) {
-                console.error('Error fetching property data:', error);
-            }
-        };
-        fetchProperty();
-    }, [propertyId]);
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(
+          `/api/applications/ViewProperty/${propertyId}`
+        ); // Adjust the endpoint if necessary
+        const propertyData = response.data;
+        setProperty(propertyData);
+        setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
+        setLandlordId(propertyData.landlordId);
+        setIsFetched(true);
+      } catch (error) {
+        console.error("Error fetching property data:", error);
+      }
+    };
+    fetchProperty();
+  }, [propertyId]);
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => {
@@ -191,20 +193,54 @@ const TenantViewProperty = () => {
                             <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2' />
                         </div>
 
-                        <div className="buttonContainer">
-                            <button className="previousButton" onClick={handlePrevious}>
-                                <svg width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <ellipse cx="23" cy="22" rx="23" ry="22" fill="#D9D9D9" fillOpacity="0.66" />
-                                    <path d="M14 21.5L25.3514 11L28 13.45L19.2973 21.5L28 29.55L25.3514 32L14 21.5Z" fill="#171616" fillOpacity="0.58" />
-                                </svg>
-                            </button>
-                            <button className="nextButton" onClick={handleNext}>
-                                <svg width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <ellipse cx="23" cy="22" rx="23" ry="22" fill="#D9D9D9" fillOpacity="0.66" />
-                                    <path d="M30 21.5L18.6486 32L16 29.55L24.7027 21.5L16 13.45L18.6486 11L30 21.5Z" fill="#171616" fillOpacity="0.58" />
-                                </svg>
-                            </button>
-                        </div>
+            <div className="buttonContainer">
+              <button className="previousButton" onClick={handlePrevious}>
+                <svg
+                  width="46"
+                  height="44"
+                  viewBox="0 0 46 44"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <ellipse
+                    cx="23"
+                    cy="22"
+                    rx="23"
+                    ry="22"
+                    fill="#D9D9D9"
+                    fillOpacity="0.66"
+                  />
+                  <path
+                    d="M14 21.5L25.3514 11L28 13.45L19.2973 21.5L28 29.55L25.3514 32L14 21.5Z"
+                    fill="#171616"
+                    fillOpacity="0.58"
+                  />
+                </svg>
+              </button>
+              <button className="nextButton" onClick={handleNext}>
+                <svg
+                  width="46"
+                  height="44"
+                  viewBox="0 0 46 44"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <ellipse
+                    cx="23"
+                    cy="22"
+                    rx="23"
+                    ry="22"
+                    fill="#D9D9D9"
+                    fillOpacity="0.66"
+                  />
+                  <path
+                    d="M30 21.5L18.6486 32L16 29.55L24.7027 21.5L16 13.45L18.6486 11L30 21.5Z"
+                    fill="#171616"
+                    fillOpacity="0.58"
+                  />
+                </svg>
+              </button>
+            </div>
 
                         <div className="imgPageIconContainer">
                             <div className="imgPageText">{propertyImageSrc.length}</div>
