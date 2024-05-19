@@ -29,8 +29,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('/api/applications'); // Adjust the endpoint if necessary
-        console.log("test")
+        const response = await axios.get('/api/applications'); 
         setPropertyList(response.data);
       } catch (error) {
         console.error('Error fetching properties:', error);
@@ -46,7 +45,7 @@ const Home = () => {
 
   const setPropertyToCardData = () => {
     const mappedCardData = propertyList.map(property => ({
-      cardId: property._id,
+      propertyId: property._id,
       imgSrc: property.coverPhoto,
       cardTitle1: `RM ${property.price} Per Month`,
       cardTitle2: property.name,
@@ -249,7 +248,7 @@ const Home = () => {
                         {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
                         <div className="col">
                             <CardGeneral
-                                cardId={card.cardId}
+                                propertyId={card.propertyId}
                                 imgSrc={card.imgSrc}
                                 cardTitle={card.cardTitle1}
                                 propertyTitle={card.cardTitle2}

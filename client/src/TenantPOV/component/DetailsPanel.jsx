@@ -49,7 +49,7 @@ const DetailsPanel = ({ property }) => {
     return (
         <section className="details-panel">
             <div className="heading">
-                <h3 className="property-classfication">{`PROPERTY  |  ${propertyLocation.toUpperCase()} | ${propertyType}`}</h3>
+                <h3 className="property-classfication">{`PROPERTY  |  ${propertyLocation} | ${propertyType}`}</h3>
             </div>
 
             <div className="rental-details">

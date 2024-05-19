@@ -1,29 +1,67 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from 'axios';
 import "../GeneralPage/home.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import CardProperty from "../component/CardProperty";
 
 const TenantHome = () => {
 
-    const [selectedOption1, setSelectedOption1] = useState(null);
-    const [selectedOption2, setSelectedOption2] = useState(null);
-    const [selectedOption3, setSelectedOption3] = useState(null);
-    const [isSearchClicked, setIsSearchClicked] = useState(false);
-    const [filteredResults, setFilteredResults] = useState([]);
-      
-    const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
-    const [isLocationOpen, setIsLocationOpen] = useState(false);
-    const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
-      
-    const dropdownRef1 = useRef(null);
-    const dropdownRef2 = useRef(null);
-    const dropdownRef3 = useRef(null);
-      
-    const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
-    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
-    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
-      
+  const [propertyList, setPropertyList] = useState([]);
+  const [cardData, setCardData] = useState([]);
+  const [locations, setLocations] = useState(["All Location"]);
 
+  const [selectedOption1, setSelectedOption1] = useState(null);
+  const [selectedOption2, setSelectedOption2] = useState(null);
+  const [selectedOption3, setSelectedOption3] = useState(null);
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [filteredResults, setFilteredResults] = useState([]);
+
+  const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
+
+  const dropdownRef1 = useRef(null);
+  const dropdownRef2 = useRef(null);
+  const dropdownRef3 = useRef(null);
+
+  const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
+  const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get('/api/applications'); 
+        setPropertyList(response.data);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    };
+    fetchProperties();
+  }, []);
+
+  useEffect(() => {
+    // Call setPropertyToCardData only when propertyList is updated
+    setPropertyToCardData();
+  }, [propertyList]);
+
+  const setPropertyToCardData = () => {
+    const mappedCardData = propertyList.map(property => ({
+      propertyId: property._id,
+      imgSrc: property.coverPhoto,
+      cardTitle1: `RM ${property.price} Per Month`,
+      cardTitle2: property.name,
+      cardText: property.address,
+      roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+      propertyType: property.type,
+      location: property.location,
+      priceRange: determinePriceRange(property.price)
+    }));
+    setCardData(mappedCardData);
+
+    const uniqueLocations = [...new Set(propertyList.map(property => property.location))];
+    setLocations(["All Location", ...uniqueLocations]);
+  };
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -52,124 +90,95 @@ const TenantHome = () => {
     };
   }, []);
 
-  const handleSearchButtonClick = () => {
-    setIsSearchClicked(true);
-    const results = cardData.filter(card => {
-        const matchesType = selectedOption1 === "All Properties Type" || !selectedOption1 || card.propertyType === selectedOption1;
-        const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
-        const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
-        return matchesType && matchesLocation && matchesPriceRange;
-    });
-    setFilteredResults(results);
-};
-    const selectOption = (option, setter, refSetter) => {
-      setter(option);
-      refSetter(false);
+  const determinePriceRange = (price) => {
+    if (price <= 500) {
+      return "RM 500 Below";
+    } else if (price <= 1000) {
+      return "RM 500 - RM 1000";
+    } else if (price <= 1500) {
+      return "RM 1001 - RM 1500";
+    } else if (price <= 2000) {
+      return "RM 1501 - RM 2000";
+    } else if (price <= 2500) {
+      return "RM 2001 - RM 2500";
+    } else {
+      return "RM 2500 Above";
+    }
   };
 
-     // Array of card data objects for frontend demo
-     const cardData = [
-        {
-        imgSrc: "Images/room.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
-        roomDetails: ["1", "2", "350sf"],
-        propertyType: "Room", 
-        location: "Petaling Jaya", 
-        priceRange: "RM 500 - RM 1000"
-        },
+  const handleSearchButtonClick = () => {
+    setIsSearchClicked(true);
+    const results = cardData.filter((card) => {
+      const matchesType =
+        selectedOption1 === "All Properties Type" ||
+        !selectedOption1 ||
+        card.propertyType === selectedOption1;
+      const matchesLocation =
+        selectedOption2 === "All Location" ||
+        !selectedOption2 ||
+        card.location === selectedOption2;
+      const matchesPriceRange =
+        selectedOption3 === "All Price Range" ||
+        !selectedOption3 ||
+        card.priceRange === selectedOption3;
+      return matchesType && matchesLocation && matchesPriceRange;
+    });
+    setFilteredResults(results);
+  };
 
-        {
-        imgSrc: "Images/bungalow.jpg",
-        cardTitle1: "RM 2500 Per Month",
-        cardTitle2: "Sekysen 17 Landed House",
-        cardText: "16, Jalan King 123/A, Seksyen 17, 46350 Petaling Jaya, Selangor", 
-        roomDetails: ["7", "3", "2000sf"],
-        propertyType: "Landed", 
-        location: "Petaling Jaya", 
-        priceRange: "RM 2001 - RM 2500"
-        },
-        
-        {
-        imgSrc: "Images/commercial.jpg",
-        cardTitle1: "RM 1500 Per Month",
-        cardTitle2: "8 Trium (Office)",
-        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur", 
-        roomDetails: ["0", "3", "1000sf"],
-        propertyType: "Commercial", 
-        location: "Bandar Sri Damansara", 
-        priceRange: "RM 1001 - RM 1500"
-        },
+  const selectOption = (option, setter, refSetter) => {
+    setter(option);
+    refSetter(false);
+  };
 
-        {
-        imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 1800 Per Month",
-        cardTitle2: "Menara Yayasan Tun Razak",
-        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["7", "4", "1200sf"],
-        propertyType: "Commercial", 
-        location: "Bukit Bintang", 
-        priceRange: "RM 1501 - RM 2000"
-        },
+  return (
+    <div>
+      <main>
+        <section id="Home" />
 
-    {
-      imgSrc: "Images/condo_1.jpg",
-      cardTitle1: "RM 2300 Per Month",
-      cardTitle2: "Ryan & Miho",
-      cardText:
-        "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",
-      roomDetails: ["4", "3", "1200sf"],
-      propertyType: "Condo",
-      location: "Petaling Jaya",
-      priceRange: "RM 2001 - RM 2500",
-    },
+        <section id="filter">
+          <div className="container">
+            <header className="subTitle text-center fs-2 fw-bolder mt-4">
+              Find Your Dream Property
+            </header>
 
-          {
-            imgSrc: "Images/condo_2.jpg",
-            cardTitle1: "RM 3500 Per Month",
-            cardTitle2: "D' Latour",
-            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",  
-            roomDetails: ["5", "3", "1800sf"],
-            propertyType: "Condo", 
-            location: "Bandar Sunway", 
-            priceRange: "RM 2500 Above"
-            }
-    ];
+            <div className="row row-cols-1 row-cols-md-3 g-5">
+              <div className="property-selector">
+                <label htmlFor="propertyType" className="filterTitle">
+                  Property Type
+                </label>
 
-      
-    return (
-        <div>
-
-        <main>
-            <section id="Home"/>
-      
-             <section id="filter">
-                <div className="container">
-                  <header className="subTitle text-center fs-2 fw-bolder mt-4">
-                    Find Your Dream Property
-                  </header>
-      
-                  <div className="row row-cols-1 row-cols-md-3 g-5">
-
-                    <div className="property-selector">
-                      <label htmlFor="propertyType" className="filterTitle">Property Type</label>
-                     
-                      <div className="form-select" tabIndex={0} onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}>
-                        <div className="displayed-value">{selectedOption1 || 'Please Select'}</div>
-                        {isPropertyTypeOpen && (
-                          <div className="custom-options" ref={dropdownRef1}>
-                            {properties.map((property, index) => (
-                              <div key={index}
-                                   className={`custom-option ${selectedOption1 === property ? 'selected' : ''}`}
-                                   onClick={() => selectOption(property, setSelectedOption1, setIsPropertyTypeOpen)}>
-                                {property}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                <div
+                  className="form-select"
+                  tabIndex={0}
+                  onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}
+                >
+                  <div className="displayed-value">
+                    {selectedOption1 || "Please Select"}
+                  </div>
+                  {isPropertyTypeOpen && (
+                    <div className="custom-options" ref={dropdownRef1}>
+                      {properties.map((property, index) => (
+                        <div
+                          key={index}
+                          className={`custom-option ${
+                            selectedOption1 === property ? "selected" : ""
+                          }`}
+                          onClick={() =>
+                            selectOption(
+                              property,
+                              setSelectedOption1,
+                              setIsPropertyTypeOpen
+                            )
+                          }
+                        >
+                          {property}
+                        </div>
+                      ))}
                     </div>
+                  )}
+                </div>
+              </div>
 
               {/* Location Dropdown */}
               <div className="property-selector">
@@ -208,81 +217,50 @@ const TenantHome = () => {
                 </div>
               </div>
 
-              {/* Price Range Dropdown */}
-              <div className="property-selector">
-                <label htmlFor="priceRange" className="filterTitle">
-                  Price Range
-                </label>
-                <div
-                  className="form-select"
-                  tabIndex={0}
-                  onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}
-                >
-                  <div className="displayed-value">
-                    {selectedOption3 || "Please Select"}
-                  </div>
-                  {isPriceRangeOpen && (
-                    <div className="custom-options" ref={dropdownRef3}>
-                      {priceRanges.map((priceRange, index) => (
-                        <div
-                          key={index}
-                          className={`custom-option ${
-                            selectedOption3 === priceRange ? "selected" : ""
-                          }`}
-                          onClick={() =>
-                            selectOption(
-                              priceRange,
-                              setSelectedOption3,
-                              setIsPriceRangeOpen
-                            )
-                          }
-                        >
-                          {priceRange}
-                        </div>
-                      ))}
+                    {/* Price Range Dropdown */}
+                    <div className="property-selector">
+                      <label htmlFor="priceRange" className="filterTitle">Price Range</label>
+                      <div className="form-select" tabIndex={0} onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}>
+                        <div className="displayed-value">{selectedOption3 || 'Please Select'}</div>
+                        {isPriceRangeOpen && (
+                          <div className="custom-options" ref={dropdownRef3}>
+                            {priceRanges.map((priceRange, index) => (
+                              <div key={index}
+                                   className={`custom-option ${selectedOption3 === priceRange ? 'selected' : ''}`}
+                                   onClick={() => selectOption(priceRange, setSelectedOption3, setIsPriceRangeOpen)}>
+                                {priceRange}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
+      
+                  <button className="searchButton" type="button" onClick={handleSearchButtonClick}>Search</button>
                 </div>
-              </div>
-            </div>
-
-            <button
-              className="searchButton"
-              type="button"
-              onClick={handleSearchButtonClick}
-            >
-              Search
-            </button>
-          </div>
-        </section>
-        <section id="recommendation">
-          <header
-            className="recommendationTitle text-left fs-2 fw-bolder mt-4"
-            style={{ marginBottom: "0.4em" }}
-          >
-            {isSearchClicked ? "Filter Result/s" : "Recommendations"}
-          </header>
-          <div className="row row-cols-1 row-cols-md-3 g-5">
-            {(isSearchClicked ? filteredResults : cardData).map(
-              (card, index) => (
-                <div key={index} className="col">
-                  <CardProperty
-                    imgSrc={card.imgSrc}
-                    cardTitle={card.cardTitle1}
-                    propertyTitle={card.cardTitle2}
-                    propertyAdd={card.cardText}
-                    roomDetails={card.roomDetails}
-                  />
-                </div>
-              )
-            )}
-          </div>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-        </section>
+                
+              </section>
+                <section id="recommendation">
+                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
+                        {isSearchClicked ? ( cardData.length===0? "No Result Found" : "Filter Result/s" ) : "Recommendations"}
+                    </header>
+                    <div className="row row-cols-1 row-cols-md-3 g-5">
+                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
+                        <div className="col">
+                            <CardProperty
+                                propertyId={card.propertyId}
+                                imgSrc={card.imgSrc}
+                                cardTitle={card.cardTitle1}
+                                propertyTitle={card.cardTitle2}
+                                propertyAdd={card.cardText}
+                                roomDetails={card.roomDetails}
+                            />
+                        </div>
+                        ))}
+                    </div>
+                    <br /><br /><br /><br /><br />
+                </section>
 
         <section id="info">
           <div className="container">

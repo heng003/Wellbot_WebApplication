@@ -77,7 +77,7 @@ function App() {
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
-          <Route path="/ViewProperty/:cardId" element={<ViewProperty />} />
+          <Route path="/ViewProperty/:propertyId" element={<ViewProperty />} />
           <Route path="/landlordHome" element={<LandlordHome />} />
           <Route path="/tenantHome" element={<TenantHome />} />
           <Route

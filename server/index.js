@@ -6,6 +6,7 @@ const cors = require("cors");
 const path = require("path");
 
 const authRouter = require("./routes/authRoute");
+const tenantApplicationRouter = require("./tenantApplication/routes/tenantApplicationRoute");
 const propertiesRouter = require("./routes/propertiesRoute");
 const leasesRouter = require("./routes/leaseRoute");
 const commentByLandlordRoute = require("./routes/commentByLandlordRoute");
@@ -31,7 +32,9 @@ app.use("/api/leaseAgreement", leaseAgreementRoute);
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, "../client/build");
+const ImagePath = path.join(__dirname, "../client/public/Images");
 app.use(express.static(buildPath));
+app.use(express.static(ImagePath));
 
 // Handle React routing, return all requests to React app
 app.get("*", function (req, res) {
