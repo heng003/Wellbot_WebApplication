@@ -19,7 +19,6 @@ import leaseAgreementRoute from "./routes/leaseAgreementRoute";
 const reviewTenantRoute = require("./routes/reviewTenantRoute");
 
 const app = express();
-const port = 5000;
 
 console.log("Environment Variables:");
 console.log("PORT:", process.env.PORT);
@@ -41,7 +40,6 @@ app.use("/api/reviewsTenant", reviewTenantRoute);
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, "../client/build");
-const ImagePath = path.join(__dirname, "../client/public/Images");
 app.use(express.static(buildPath));
 
 // Handle React routing, return all requests to React app
