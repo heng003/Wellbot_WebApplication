@@ -15,21 +15,18 @@ console.log('Environment Variables:');
 console.log('PORT:', process.env.PORT);
 console.log('MONGO_URI:', process.env.MONGO_URI);
 
-
 // 1. MIDDLEWARES
 app.use(cors());
 app.use(express.json());
 
 // 2. ROUTE
-app.use('/api/auth',authRouter);
-app.use('/api/applications',tenantApplicationRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/applications', tenantApplicationRouter);
 app.use('/api', propertiesRouter);
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, '../client/build');
-const ImagePath = path.join(__dirname, '../client/public/Images');
 app.use(express.static(buildPath));
-app.use(express.static(ImagePath));
 
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {
@@ -37,9 +34,9 @@ app.get('*', function(req, res) {
 });
 
 // 3. MONGO DB CONNECTION
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGO_URI;
 
-mongoose.connect(mongoURI)
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Could not connect to MongoDB Atlas:', err));
 
@@ -63,5 +60,3 @@ const PORT = process.env.PORT || 5000; // Use the PORT environment variable, def
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-
