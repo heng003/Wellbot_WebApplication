@@ -5,11 +5,13 @@ import "./viewproperty.css";
 import DetailsPanel from "./component/DetailsPanel";
 import CommentSection from "./component/CommentSection";
 import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
 
 const TenantViewProperty = () => {
   const nav = useNavigate();
   const { propertyId } = useParams();
 
+  const [property, setProperty] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [propertyImageSrc, setPropertyImageSrc] = useState([]);
   const [isLandlordIdFetched, setIsFetched] = useState(false);
@@ -54,23 +56,42 @@ const TenantViewProperty = () => {
   };
 
   const handleApplyPropertyPageButton = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => {
+    if (!isLandlordIdFetched) {
       Swal.fire({
-        title: "Notice",
-        text: "You are being navigated to the application form.",
-        icon: "info",
+        title: "Error",
+        text: "Landlord information not available yet. Please try again later.",
+        icon: "error",
         confirmButtonColor: "#FF8C22",
-        confirmButtonText: "Continue",
-        customClass: {
-          confirmButton: "my-confirm-button-class",
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          nav("/tenantApplyForm");
-        }
+        confirmButtonText: "Ok",
       });
-    }, 100); // Delay to ensure the scroll completes before showing the dialog
+      return;
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        Swal.fire({
+          title: "Notice",
+          text: "You are being navigated to the application form.",
+          icon: "info",
+          confirmButtonColor: "#FF8C22",
+          confirmButtonText: "Continue",
+          customClass: {
+            confirmButton: "my-confirm-button-class",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const token = localStorage.getItem("token");
+            if (token) {
+              const decodedToken = jwtDecode(token);
+              const userId = decodedToken.userId;
+              nav(`/tenantApplyForm/${propertyId}/${userId}/${landlordId}`);
+            } else {
+              console.log("Token not found");
+              nav("./tenantApplyForm");
+            }
+          }
+        });
+      }, 100); // Delay to ensure the scroll completes before showing the dialog
+    }
   };
 
   return (
@@ -164,7 +185,7 @@ const TenantViewProperty = () => {
 
         <section id="PropertyDetails">
           <div className="container">
-            <DetailsPanel />
+            <DetailsPanel property={property} />
           </div>
         </section>
 
