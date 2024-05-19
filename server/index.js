@@ -34,7 +34,6 @@ app.use("/api/leaseAgreement", leaseAgreementRoute);
 const buildPath = path.join(__dirname, "../client/build");
 const ImagePath = path.join(__dirname, "../client/public/Images");
 app.use(express.static(buildPath));
-app.use(express.static(ImagePath));
 
 // Handle React routing, return all requests to React app
 app.get("*", function (req, res) {
@@ -42,10 +41,10 @@ app.get("*", function (req, res) {
 });
 
 // 3. MONGO DB CONNECTION
-const mongoURI = process.env.MONGODB_URI;
+const mongoURI = process.env.MONGO_URI;
 
 mongoose
-  .connect(mongoURI)
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
 

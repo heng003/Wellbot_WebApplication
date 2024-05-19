@@ -1,7 +1,7 @@
 const Application = require('../../models/applicationModel');
 const Property = require('../../models/propertyModel');
+const User = require('../../models/propertyModel');
 const createError = require('../../utils/appError');
-const mongoose = require('mongoose');
 
 const getAllProperties = async (req, res) => {
   try {
@@ -30,9 +30,45 @@ const getOneProperty = async (req, res) => {
   }
 };
 
+// GET user profile
+const getUserProfile = async (req, res, next) => {
+  try {
+      // Extract token from the request headers
+      const token = req.headers.authorization.split(' ')[1];
+      console.log("Received token:", token);
+
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      try {
+        const response = await User.findById(decoded.userId);
+        console.log("User: " + response);
+    
+        if (!response)
+          return res.status(404).json({ error: "The user is not found" });
+    
+        return res.status(200).json(response);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }   
+
+  } catch (error) {
+      console.error("Error fetching user profile:", error);
+      // Handle token verification errors
+      if (error.name === 'JsonWebTokenError') {
+          return res.status(401).json({ status: 'error', message: 'Invalid token' });
+      } else if (error.name === 'TokenExpiredError') {
+          return res.status(401).json({ status: 'error', message: 'Token expired' });
+      } else {
+          next(new createError("Internal Server Error", 500)); // Proper error handling
+      }
+  }
+};
+
 module.exports = {
   getAllProperties,
-  getOneProperty
+  getOneProperty,
+  getUserProfile
 };
 
 /*

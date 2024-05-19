@@ -19,7 +19,7 @@ const TenantViewProperty = () => {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const response = await axios.get(`/api/applications/TenantViewProperty/${propertyId}`); // Adjust the endpoint if necessary
+                const response = await axios.get(`/api/applications/tenantViewProperty/${propertyId}`);
                 setProperty(response.data);
                 setPropertyImageSrc([response.data.coverPhoto, ...response.data.photos]);
             } catch (error) {
