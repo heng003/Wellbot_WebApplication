@@ -30,38 +30,16 @@ const getOneProperty = async (req, res) => {
   }
 };
 
-// GET user profile
-const getUserProfile = async (req, res, next) => {
+
+//GET user
+const getUserProfile = async (req, res) => {
   try {
-      // Extract token from the request headers
-      const token = req.headers.authorization.split(' ')[1];
-      console.log("Received token:", token);
-
-      // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      try {
-        const response = await User.findById(decoded.userId);
-        console.log("User: " + response);
-    
-        if (!response)
-          return res.status(404).json({ error: "The user is not found" });
-    
-        return res.status(200).json(response);
-      } catch (error) {
-        return res.status(400).json({ error: error.message });
-      }   
-
-  } catch (error) {
-      console.error("Error fetching user profile:", error);
-      // Handle token verification errors
-      if (error.name === 'JsonWebTokenError') {
-          return res.status(401).json({ status: 'error', message: 'Invalid token' });
-      } else if (error.name === 'TokenExpiredError') {
-          return res.status(401).json({ status: 'error', message: 'Token expired' });
-      } else {
-          next(new createError("Internal Server Error", 500)); // Proper error handling
-      }
+      const userId = req.params.userId;
+      const user = await User.findById(userId);
+      res.json(user);
+  } catch (err) {
+      console.error("Error fetching user profile by user ID:", err);
+      res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

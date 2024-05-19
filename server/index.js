@@ -1,7 +1,11 @@
 require("dotenv").config();
+console.log("Environment Variables:");
+console.log("PORT:", process.env.PORT);
+console.log("MONGO_URI:", process.env.MONGO_URI);
 
 const express = require("express");
 const mongoose = require("mongoose");
+const mongoURI = process.env.MONGODB_URI;
 const cors = require("cors");
 const path = require("path");
 
@@ -13,7 +17,6 @@ const commentByLandlordRoute = require("./routes/commentByLandlordRoute");
 import leaseAgreementRoute from "./routes/leaseAgreementRoute";
 
 const app = express();
-const port = 5000;
 
 console.log("Environment Variables:");
 console.log("PORT:", process.env.PORT);
@@ -32,7 +35,6 @@ app.use("/api/leaseAgreement", leaseAgreementRoute);
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, "../client/build");
-const ImagePath = path.join(__dirname, "../client/public/Images");
 app.use(express.static(buildPath));
 
 // Handle React routing, return all requests to React app
@@ -64,7 +66,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server listen
-const PORT = process.env.PORT || 5000; // Use the PORT environment variable, default to 5000 if not set
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
