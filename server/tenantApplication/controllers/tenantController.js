@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const getAllProperties = async (req, res) => {
   try {
     const response = await Property.find().sort({ createdAt: -1 });
+    console.log("Property List:", response);
     return res.status(200).json(response);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -13,13 +14,12 @@ const getAllProperties = async (req, res) => {
 };
 
 const getOneProperty = async (req, res) => {
-  const { id } = req.params;
+  const { propertyId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(400).json({ error: "Invalid property id" });
+  console.log("Property Id: " + propertyId);
 
   try {
-    const response = await Property.findById(id);
+    const response = await Property.findById(propertyId);
 
     if (!response)
       return res.status(404).json({ error: "The post is not found" });

@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 const ViewProperty = () => {
 
     const nav = useNavigate();
-    const { cardId } = useParams();
+    const { propertyId } = useParams();
 
     const [property, setProperty] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,7 +19,7 @@ const ViewProperty = () => {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const response = await axios.get(`/api/applications/${cardId}`); // Adjust the endpoint if necessary
+                const response = await axios.get(`/api/applications/ViewProperty/${propertyId}`); // Adjust the endpoint if necessary
                 setProperty(response.data);
                 setPropertyImageSrc([response.data.coverPhoto, ...response.data.photos]);
             } catch (error) {
@@ -27,7 +27,7 @@ const ViewProperty = () => {
             }
         };
         fetchProperty();
-    }, [cardId]);
+    }, [propertyId]);
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => {
@@ -50,40 +50,21 @@ const ViewProperty = () => {
     };
 
     const handleApplyPropertyPageButton = () => {
-        if (localStorage.getItem("previousPath") !== "/tenantHome") {
-            Swal.fire({
-                title: 'Warning!',
-                text: 'You need to register or log in to your account before performing this action.',
-                icon: 'warning',
-                confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK',
-                customClass: {
-                    confirmButton: 'my-confirm-button-class'
-                }
-            }).then((result) => {
-                nav("/logIn");
-            });
-            return;
-        
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(() => {
                 Swal.fire({
-                    title: 'Notice',
-                    text: 'You are being navigated to the application form.',
-                    icon: 'info',
+                    title: 'Warning!',
+                    text: 'You need to register or log in to your account before performing this action.',
+                    icon: 'warning',
                     confirmButtonColor: "#FF8C22",
-                    confirmButtonText: 'Continue',
+                    confirmButtonText: 'OK',
                     customClass: {
                         confirmButton: 'my-confirm-button-class'
                     }
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        nav("/tenantApplyForm");
-                    }
+                    nav("/logIn");
                 });
             }, 100); // Delay to ensure the scroll completes before showing the dialog
-        }
     }
     
     return (
