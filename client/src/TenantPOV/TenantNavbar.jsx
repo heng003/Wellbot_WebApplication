@@ -51,7 +51,7 @@ const TenantNavbar = () => {
     useEffect(() => {
         switch (location.pathname) {
             case '/tenantHome':
-            case '/tenantViewProperty/:propertyId':
+            case '/tenantViewProperty':
                 setActiveItem('Property');
                 break;
             case '/tenantApplication':
