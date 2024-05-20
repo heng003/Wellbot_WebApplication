@@ -36,9 +36,15 @@ exports.createReview = async (req, res) => {
     }
 
     const newNumberReview = tenant.numberReview + 1;
-    const newOverallRating =
-      (tenant.overallRating * tenant.numberReview + tenantRating) /
-      newNumberReview;
+
+    let newOverallRating;
+    if (!tenant.overallRating) {
+      newOverallRating = tenantRating;
+    } else {
+      newOverallRating =
+        (tenant.overallRating * tenant.numberReview + tenantRating) /
+        newNumberReview;
+    }
 
     tenant.numberReview = newNumberReview;
     tenant.overallRating = newOverallRating;
@@ -72,9 +78,15 @@ exports.getTenantReviews = async (req, res) => {
       return res.status(404).json({ message: "Tenant not found" });
     }
 
+    let averageRating = "N/A";
+
+    if (tenant.numberReview !== 0 && tenant.overallRating !== null) {
+      averageRating = tenant.overallRating;
+    }
+
     res.status(200).json({
       totalReviews: tenant.numberReview,
-      averageRating: tenant.overallRating,
+      averageRating: averageRating,
       reviews,
     });
   } catch (err) {
