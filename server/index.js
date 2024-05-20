@@ -2,13 +2,14 @@ require('dotenv').config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
 
 const authRouter = require('./routes/authRoute');
 const propertiesRouter = require('./routes/propertiesRoute');
 const leasesRouter = require('./routes/leaseRoute');
-const commentByLandlordRoute =require('./routes/commentByLandlordRoute')
+const reviewTenantRoute = require('./routes/reviewTenantRoute');
 
 const app = express();
 const port = 5000;
@@ -21,12 +22,15 @@ console.log('MONGO_URI:', process.env.MONGO_URI);
 // 1. MIDDLEWARES
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
 app.use('/api/properties', propertiesRouter);
 app.use('/api/leases', leasesRouter);
-app.use('/api/commentByLandlord', commentByLandlordRoute)
+app.use('/api/reviewsTenant', reviewTenantRoute);
 
 
 // Serve static files from the React app build directory

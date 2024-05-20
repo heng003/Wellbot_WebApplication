@@ -9,11 +9,12 @@ const userSchema = new Schema({
     ic:{type:String},
     password: { type: String, required:true},
     role: { type: String, enum: ['landlord', 'tenant'], required: true},
+    overallRating: { type: Number, default: 0 },
+    numberReview: { type: Number, default: 0 },
     verified: {type: Boolean, default:false},
     verificationToken: { type: String },
     tokenExpires: { type: Date, required: false },
     tokenEmail: { type: String },
-    properties: [{ type: Schema.Types.ObjectId, ref: 'Property' }]
 });
 
 const User = mongoose.model('User', userSchema);
