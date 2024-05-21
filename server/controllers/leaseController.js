@@ -7,7 +7,7 @@ exports.getLeasesByPropertyId = async (req, res) => {
         if (!propertyId) {
             return res.status(400).json({ message: "Property ID is required" });
         }
-        const leases = await Lease.find({ propertyId }).populate('tenantId','username');
+        const leases = await Lease.find({ propertyId }).populate('tenantId','username overallRating');
         res.json(leases);
     } catch (err) {
         console.error("Error fetching leases:", err); 

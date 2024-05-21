@@ -1,0 +1,62 @@
+count = 0
+chamber_no = list(range(1, 26))
+
+# Define the edge of each chamber to other chamber (connection)
+floor_chamber_graph = {
+    1: {2, 6},
+    2: {1, 3},
+    3: {2, 8},
+    4: {5},
+    5: {4, 10},
+    6: {1, 11},
+    7: {8, 12},
+    8: {3, 7, 9, 13},
+    9: {8, 10}, 
+    10: {5, 9, 15},
+    11: {6, 12},
+    12: {7, 11, 17},
+    13: {8, 18},
+    14: {19},
+    15: {10, 20},
+    16: {17, 21},
+    17: {12, 16, 22},
+    18: {13, 23},
+    19: {14, 20},
+    20: {15, 19},
+    21: {16},
+    22: {17},
+    23: {18, 24},
+    24: {23, 25},
+    25: {24}
+}
+
+sequence = []
+
+def dls(graph, start, depth, visited=None):
+    global sequence
+    global count
+    if visited is None:
+        visited = set()
+    if start not in visited:
+        visited.add(start)
+        sequence.append(start)
+        count += 1
+        print(f"Visited Chamber: {start}, Total Count: {count}")
+        if depth > 0:
+            for next_chamber in sorted(graph[start] - visited):
+                if next_chamber not in visited:
+                    dls(graph, next_chamber, depth-1, visited)
+    return visited
+
+def iddfs(graph, start, max_depth):
+    for depth in range(max_depth + 1):
+        visited = set()
+        result = dls(graph, start, depth, visited)
+        if len(result) == len(graph):  # Early exit if all nodes are visited
+            break
+    return result
+
+# Main execution block
+max_depth = 25  # Set a reasonable maximum depth
+visited_chambers = iddfs(floor_chamber_graph, 1, max_depth)
+print(f"Finished Searching")

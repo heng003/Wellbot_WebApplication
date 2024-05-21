@@ -6,20 +6,31 @@ console.log('MONGO_URI:', process.env.MONGO_URI);
 const express = require("express");
 const mongoose = require("mongoose");
 const mongoURI = process.env.MONGODB_URI;
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
 const authRouter = require('./routes/authRoute');
 const tenantApplicationRouter = require('./tenantApplication/routes/tenantApplicationRoute');
+const propertiesRouter = require('./routes/propertiesRoute');
+const leasesRouter = require('./routes/leaseRoute');
+const reviewTenantRoute = require('./routes/reviewTenantRoute');
 
 const app = express();
 
 // 1. MIDDLEWARES
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
 app.use('/api/applications', tenantApplicationRouter);
+app.use('/api/properties', propertiesRouter);
+app.use('/api/leases', leasesRouter);
+app.use('/api/reviewsTenant', reviewTenantRoute);
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
