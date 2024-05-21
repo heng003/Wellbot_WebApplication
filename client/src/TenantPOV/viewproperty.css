@@ -151,3 +151,21 @@
   margin-bottom: 5em;
   margin-top: 1.2em;
 }
+
+.commentPromptTitle {
+  font-size: 25px;
+  color: #767676;
+  margin-left: 1em;
+  font-weight: 500;
+  padding-bottom: 5em;
+  margin-top: -0.6em;
+}
+
+#Comment .ratingStarsGroup {
+  margin-right: 1.3em;
+  margin-left: -0.8em;
+}
+
+#Comment .rating-star {
+  margin-right: -2.1em;
+}
