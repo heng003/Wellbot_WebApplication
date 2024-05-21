@@ -1,10 +1,12 @@
 use("RentSpotter");
 
-db.getCollection("reviewlandlords").insertOne({
-  landlordId: new ObjectId("664675d28718fb6fe7e7c251"),
-  tenantId: new ObjectId("663c7b00472233659b0e1a69"),
-  landlordRating: 4,
-  commentLandlord:
-    "Exceptional landlord! Always responsive to maintenance requests, kept the property well-maintained, and communicated effectively. Demonstrated professionalism and respect. I highly recommend this landlord.",
-  commentDate: new Date(Date.now()),
+db.getCollection("leases").insertOne({
+  tenantId: ObjectId("66476ac5b0038fdc720f973d"),
+  propertyId: ObjectId("6647463426c3fcb36876c1e4"),
+  leaseStatus: "Expired",
+  effectiveDateStart: new Date("21/1/2021"),
+  effectiveDateEnd: new Date("21/4/2022"),
+  PDF: null,
 });
+
+db.getCollection("leases").find().pretty();
