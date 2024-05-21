@@ -1,6 +1,7 @@
 const { response } = require('express');
 const Application = require('../../models/applicationModel');
 const Property = require('../../models/propertyModel');
+const LandlordReview = require('../../models/reviewLandlordModel');
 const User = require('../../models/userModel');
 const createError = require('../../utils/appError');
 
@@ -140,6 +141,43 @@ const getApplications = async (req, res) => {
   }
 };
 
+//GET Landlord by landlordId
+const getLandlord = async (req, res) => {
+  const { landlordId } = req.params;
+
+  try {
+    const response = await User.findById(landlordId);
+    console.log("Landlord data: ", response)
+
+    if (!response) {
+      console.log("Landlord not found")
+      return res.status(404).json({ error: "The landlord is not found" });
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+//GET Landlord Review by landlordId
+const getLandlordReview = async (req, res) => {
+  const { landlordId } = req.params;
+
+  try {
+    const response = await LandlordReview.find().sort({ createdAt: -1 });
+
+    console.log("Landlord Review: ", response)
+
+    if (!response)
+      return res.status(404).json({ error: "The landlord's review is not found" });
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllProperties,
   getAllCondoProperties,
@@ -148,7 +186,9 @@ module.exports = {
   getUserProfile,
   checkApplicationExists,
   createApplication,
-  getApplications
+  getApplications,
+  getLandlord,
+  getLandlordReview
 };
 
 /*
