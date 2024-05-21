@@ -8,14 +8,14 @@ import downloadHoverIcon from "./Rental_Icon/download_hover.png";
 import starOnClick from "./Rental_Icon//rating_star_onClick.svg";
 import starDefault from "./Rental_Icon/rating_star_default.svg";
 import Alert from "../LandlordPOV/Alert";
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function LandlordApplicant() {
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRating, setIsOpenRating] = useState(false);
-  const [selectedRatingSort, setSelectedRatingSort] = useState("Highest to Lowest");
+  const [selectedRatingSort, setSelectedRatingSort] =
+    useState("Highest to Lowest");
   const [isHovering, setIsHovering] = useState(false);
   const dropdownRef = useRef(null);
   const dropdownRatingRef = useRef(null);
@@ -40,7 +40,7 @@ function LandlordApplicant() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId;
@@ -48,7 +48,7 @@ function LandlordApplicant() {
       async function fetchProperties() {
         try {
           const response = await axios.get(`/api/properties/user/${userId}`, {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
           });
           setProperties(response.data);
         } catch (err) {
@@ -65,24 +65,38 @@ function LandlordApplicant() {
       if (selectedProperty && selectedProperty._id) {
         setLoading(true);
         try {
-          const token = localStorage.getItem('token');
-          const applicationsResponse = await axios.get(`/api/applications/property/${selectedProperty._id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
+          const token = localStorage.getItem("token");
+          const applicationsResponse = await axios.get(
+            `/api/applications/property/${selectedProperty._id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
 
-          const tenantIds = applicationsResponse.data.map(app => app.tenantId._id);
-          const leasesResponse = await axios.get(`/api/applications/leases/tenants`, {
-            headers: { Authorization: `Bearer ${token}` },
-            params: { tenantIds: tenantIds.join(',') }
-          });
+          const tenantIds = applicationsResponse.data.map(
+            (app) => app.tenantId._id
+          );
+          const leasesResponse = await axios.get(
+            `/api/applications/leases/tenants`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+              params: { tenantIds: tenantIds.join(",") },
+            }
+          );
 
           const leasesData = leasesResponse.data;
-          const combinedData = applicationsResponse.data.map(app => {
-            const lease = leasesData.find(l => l.tenantId === app.tenantId._id);
-            let leaseStatus = lease ? (lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus) : 'Not Applicable';
-            
-           if (lease && lease.leaseStatus === 'Expired') {
-              leaseStatus = 'Not Applicable';
+          const combinedData = applicationsResponse.data.map((app) => {
+            const lease = leasesData.find(
+              (l) => l.tenantId === app.tenantId._id
+            );
+            let leaseStatus = lease
+              ? lease.leaseStatus === "Effective"
+                ? "Signed"
+                : lease.leaseStatus
+              : "Not Applicable";
+
+            if (lease && lease.leaseStatus === "Expired") {
+              leaseStatus = "Not Applicable";
             }
 
             return { ...app, leaseStatus, leaseId: lease ? lease._id : null };
@@ -101,8 +115,11 @@ function LandlordApplicant() {
   }, [selectedProperty]);
 
   const handlePropertyChange = (propertyId) => {
-    const selected = properties.find(property => property._id === propertyId);
-    if (selected && (!selectedProperty || selected._id !== selectedProperty._id)) {
+    const selected = properties.find((property) => property._id === propertyId);
+    if (
+      selected &&
+      (!selectedProperty || selected._id !== selectedProperty._id)
+    ) {
       setSelectedProperty(selected);
       setLeases([]);
     } else {
@@ -111,12 +128,12 @@ function LandlordApplicant() {
   };
 
   const handleViewApplicantFeedback = (lease) => {
-    console.log('Navigating to applicationReview with:', {
+    console.log("Navigating to applicationReview with:", {
       username: lease.tenantId.username,
-      leaseId: lease.leaseId
+      leaseId: lease.leaseId,
     });
     nav("/landlordApplicantFeedback", {
-      state: { username: lease.tenantId.username, leaseId: lease.leaseId }
+      state: { username: lease.tenantId.username, leaseId: lease.leaseId },
     });
   };
 
@@ -285,14 +302,20 @@ function LandlordApplicant() {
             onBlur={() => setIsOpen(false)}
           >
             <div className="displayed-value">
-              {selectedProperty ? selectedProperty.name : "Please Select Your Property"}
+              {selectedProperty
+                ? selectedProperty.name
+                : "Please Select Your Property"}
             </div>
             {isOpen && (
               <div className="custom-options">
-                {properties.map(property => (
+                {properties.map((property) => (
                   <div
                     key={property._id}
-                    className={`custom-option ${selectedProperty && selectedProperty._id === property._id ? "selected" : ""}`}
+                    className={`custom-option ${
+                      selectedProperty && selectedProperty._id === property._id
+                        ? "selected"
+                        : ""
+                    }`}
                     onClick={() => {
                       handlePropertyChange(property._id);
                       setIsOpen(false);
@@ -318,13 +341,17 @@ function LandlordApplicant() {
             {isOpenRating && (
               <div className="custom-options">
                 <div
-                  className={`custom-option ${selectedRatingSort === "Highest to Lowest" ? "selected" : ""}`}
+                  className={`custom-option ${
+                    selectedRatingSort === "Highest to Lowest" ? "selected" : ""
+                  }`}
                   onClick={() => handleSortOptionClick("Highest to Lowest")}
                 >
                   Highest to Lowest
                 </div>
                 <div
-                  className={`custom-option ${selectedRatingSort === "Lowest to Highest" ? "selected" : ""}`}
+                  className={`custom-option ${
+                    selectedRatingSort === "Lowest to Highest" ? "selected" : ""
+                  }`}
                   onClick={() => handleSortOptionClick("Lowest to Highest")}
                 >
                   Lowest to Highest
