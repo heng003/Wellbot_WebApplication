@@ -12,20 +12,18 @@ const ViewPropertyActive = () => {
   const [property, setProperty] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [propertyImageSrc, setPropertyImageSrc] = useState([]);
-  const [isLandlordIdFetched, setIsFetched] = useState(false);
-  const [landlordId, setLandlordId] = useState(null);
 
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         const response = await axios.get(
-          `/api/applications/ViewProperty/${propertyId}`
-        ); // Adjust the endpoint if necessary
-        const propertyData = response.data;
-        setProperty(propertyData);
-        setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
-        setLandlordId(propertyData.landlordId);
-        setIsFetched(true);
+          `/api/applications/tenantViewProperty/${propertyId}`
+        );
+        setProperty(response.data);
+        setPropertyImageSrc([
+          response.data.coverPhoto,
+          ...response.data.photos,
+        ]);
       } catch (error) {
         console.error("Error fetching property data:", error);
       }
