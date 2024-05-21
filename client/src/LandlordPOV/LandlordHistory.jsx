@@ -43,13 +43,20 @@ function LandlordHistory() {
     }
   }, []);
 
-  useEffect(() => {
-    async function fetchLeases() {
-      if (selectedProperty && selectedProperty._id) {
-        setLoading(true);
+  const handlePropertyChange = (propertyId) => {
+    if (!propertyId) {
+      setSelectedProperty(null);
+      setLeases([]);
+    } else {
+      const property = properties.find(p => p._id === propertyId);
+      setSelectedProperty(property);
+      setLeases([]); 
+      setLoading(true); 
+
+      async function fetchLeases() {
         try {
           const token = localStorage.getItem('token');
-          const response = await axios.get(`/api/leases/${selectedProperty._id}`, {
+          const response = await axios.get(`/api/leases/${propertyId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           const filteredLeases = response.data
@@ -59,22 +66,11 @@ function LandlordHistory() {
         } catch (err) {
           console.error("Error fetching leases:", err);
           setError("Failed to fetch leases");
-        }finally{
-          setLoading(false);
+        } finally {
+          setLoading(false); 
         }
       }
-    }
-    fetchLeases();
-  }, [selectedProperty]);
-
-  const handlePropertyChange = (propertyId) => {
-    if (!propertyId) {
-      setSelectedProperty(null);
-      setLeases([]);
-    } else {
-      const property = properties.find(p => p._id === propertyId);
-      setSelectedProperty(property);
-      setLeases([]);
+      fetchLeases();
     }
   };
 

@@ -31,7 +31,13 @@ exports.createReview = async (req, res) => {
       }
 
       const newNumberReview = tenant.numberReview + 1;
-      const newOverallRating = ((tenant.overallRating * tenant.numberReview) + tenantRating) / newNumberReview;
+
+      let newOverallRating;
+      if (!tenant.overallRating) {
+        newOverallRating = tenantRating;
+      } else {
+        newOverallRating = ((tenant.overallRating * tenant.numberReview) + tenantRating) / newNumberReview;
+      }
 
       tenant.numberReview = newNumberReview;
       tenant.overallRating = newOverallRating;
@@ -47,27 +53,33 @@ exports.createReview = async (req, res) => {
 
 exports.getTenantReviews = async (req, res) => {
     try {
-      const { tenantId } = req.params;
-  
-      const reviews = await ReviewTenant.find({ tenantId });
-  
-      if (!reviews.length) {
-        return res.status(404).json({ message: 'No reviews found for this tenant.' });
-      }
-  
-      const tenant = await User.findOne({ _id: tenantId, role: 'tenant' });
-  
-      if (!tenant) {
-        return res.status(404).json({ message: 'Tenant not found' });
-      }
-  
-      res.status(200).json({
-        totalReviews: tenant.numberReview,
-        averageRating: tenant.overallRating,
-        reviews
-      });
+        const { tenantId } = req.params;
+
+        const reviews = await ReviewTenant.find({ tenantId });
+
+        if (!reviews.length) {
+            return res.status(404).json({ message: 'No reviews found for this tenant.' });
+        }
+
+        const tenant = await User.findOne({ _id: tenantId, role: 'tenant' });
+
+        if (!tenant) {
+            return res.status(404).json({ message: 'Tenant not found' });
+        }
+
+        let averageRating = "N/A"; 
+
+        if (tenant.numberReview !== 0 && tenant.overallRating !== null) {
+            averageRating = tenant.overallRating;
+        }
+
+        res.status(200).json({
+            totalReviews: tenant.numberReview,
+            averageRating: averageRating,
+            reviews
+        });
     } catch (err) {
-      console.error('Error fetching reviews:', err);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error('Error fetching reviews:', err);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  };
+};
