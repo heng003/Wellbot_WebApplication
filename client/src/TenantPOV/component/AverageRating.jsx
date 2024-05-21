@@ -1,15 +1,17 @@
 import React from "react";
+import StarsGroup from "./StarsGroup";
 import "./averagerating.css";
 
 const AverageRating = ({ numOfReview, avg }) => {
   
     const reviewNumbers = "(" + numOfReview + " Reviews)";
     const avgRatingScore = avg + "/5";
+    const rating = Math.floor(avg); 
 
     return (
         <div className="avg-rating-group">
             <div className="avg-col">
-                <img className="avg-stars-img" alt="" src="Images/commentStar.png" height={20}/>
+                <StarsGroup rating={rating}/>
             </div>
 
             <div className="avg-col">

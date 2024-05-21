@@ -1,8 +1,9 @@
 import React from "react";
 import "./commentbox.css";
+import StarsGroup from "./StarsGroup";
+import profilePic from "./Rental_Icon/commentProfilePic.png"
 
-const CommentBox = ({ username, date }) => {
-  const profilePic = "Images/commentProfilePic.png";
+const CommentBox = ({ username, date, comment, rating }) => {
 
   return (
     <div className="comment-card">
@@ -15,21 +16,11 @@ const CommentBox = ({ username, date }) => {
           </div>
         </div>
         <div className="comment-star">
-          <img
-            className="star"
-            loading="lazy"
-            alt=""
-            src="/Images/commentStar.png"
-          />
+          <StarsGroup rating={rating}/>
         </div>
       </div>
 
-      <div className="row-2">
-        Exceptional tenant! Always punctual with rent, maintained the property
-        immaculately, and communicated effectively. Demonstrated respect for
-        property rules and neighbors. I highly recommend this applicant for any
-        future tenancy without reservation.
-      </div>
+      <div className="row-2">{comment}</div>
     </div>
   );
 };
