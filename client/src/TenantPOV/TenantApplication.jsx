@@ -1,6 +1,9 @@
 import React from "react";
 import "./tenantapplication.css";
 import CardApplication from "./component/CardApplication";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const TenantApplication = () => {
   const [applicationList, setApplicationList] = useState([]);
@@ -117,28 +120,34 @@ const TenantApplication = () => {
     <main>
       <div className="pageMainContainer">
         <h1 className="pageMainTitle">Application History</h1>
-        {propertyActionListingInfo.length > 0 && (
+        {loading ? (
+          <p className="applicationPromptTitle">Loading...</p>
+        ) : (
           <>
-            <h2 className="applicationSubTitle">Action Needed</h2>
-            {propertyActionListingInfo.map((listing, index) => (
-              <CardApplication key={index} listing={listing} />
-            ))}
+            {propertyActionListingInfo.length > 0 && (
+              <>
+                <h2 className="applicationSubTitle">Action Needed</h2>
+                {propertyActionListingInfo.map((listing, index) => (
+                  <CardApplication key={index} listing={listing} />
+                ))}
+              </>
+            )}
+            {propertyOtherListingInfo.length > 0 && (
+              <>
+                <h2 className="applicationSubTitle">Other Application/s</h2>
+                {propertyOtherListingInfo.map((listing, index) => (
+                  <CardApplication key={index} listing={listing} />
+                ))}
+              </>
+            )}
+            {propertyActionListingInfo.length === 0 &&
+              propertyOtherListingInfo.length === 0 && (
+                <p className="applicationPromptTitle">
+                  You have not submitted any application yet! Grab one now!
+                </p>
+              )}
           </>
         )}
-        {propertyOtherListingInfo.length > 0 && (
-          <>
-            <h2 className="applicationSubTitle">Other Application/s</h2>
-            {propertyOtherListingInfo.map((listing, index) => (
-              <CardApplication key={index} listing={listing} />
-            ))}
-          </>
-        )}
-        {propertyActionListingInfo.length === 0 &&
-          propertyOtherListingInfo.length === 0 && (
-            <p className="applicationPromptTitle">
-              You have not submitted any application yet! Grab one now!
-            </p>
-          )}
       </div>
     </main>
   );

@@ -7,7 +7,7 @@ import CommentSection from "./component/CommentSection";
 
 const ViewPropertyLease = () => {
   const nav = useNavigate();
-  const { propertyId } = useParams();
+  const { propertyId, applicationId } = useParams();
 
   const [property, setProperty] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -53,9 +53,17 @@ const ViewPropertyLease = () => {
     });
   };
 
-  const handleViewLeaseButton = () => {
+  const handleViewLeaseButton = async () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    nav("/tenantLeaseAgreementPg1");
+    try {
+      const response = await axios.get(
+        `/api/applications/tenantToLease/${applicationId}`
+      );
+      const leaseId = response.data._id;
+      nav(`/tenantLeaseAgreementPg1/${leaseId}`);
+    } catch (error) {
+      console.error("Error fetching lease data:", error);
+    }
   };
 
   return (
