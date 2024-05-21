@@ -116,34 +116,28 @@ const TenantApplication = () => {
     <main>
       <div className="pageMainContainer">
         <h1 className="pageMainTitle">Application History</h1>
-        {loading ? (
-          <p className="applicationPromptTitle">Loading...</p>
-        ) : (
+        {propertyActionListingInfo.length > 0 && (
           <>
-            {propertyActionListingInfo.length > 0 && (
-              <>
-                <h2 className="applicationSubTitle">Action Needed</h2>
-                {propertyActionListingInfo.map((listing, index) => (
-                  <CardApplication key={index} listing={listing} />
-                ))}
-              </>
-            )}
-            {propertyOtherListingInfo.length > 0 && (
-              <>
-                <h2 className="applicationSubTitle">Other Application/s</h2>
-                {propertyOtherListingInfo.map((listing, index) => (
-                  <CardApplication key={index} listing={listing} />
-                ))}
-              </>
-            )}
-            {propertyActionListingInfo.length === 0 &&
-              propertyOtherListingInfo.length === 0 && (
-                <p className="applicationPromptTitle">
-                  You have not submitted any application yet! Grab one now!
-                </p>
-              )}
+            <h2 className="applicationSubTitle">Action Needed</h2>
+            {propertyActionListingInfo.map((listing, index) => (
+              <CardApplication key={index} listing={listing} />
+            ))}
           </>
         )}
+        {propertyOtherListingInfo.length > 0 && (
+          <>
+            <h2 className="applicationSubTitle">Other Application/s</h2>
+            {propertyOtherListingInfo.map((listing, index) => (
+              <CardApplication key={index} listing={listing} />
+            ))}
+          </>
+        )}
+        {propertyActionListingInfo.length === 0 &&
+          propertyOtherListingInfo.length === 0 && (
+            <p className="applicationPromptTitle">
+              You have not submitted any application yet! Grab one now!
+            </p>
+          )}
       </div>
     </main>
   );

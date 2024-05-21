@@ -25,8 +25,11 @@ const CardApplication = ({ listing }) => {
 
   const handleViewLease = () => {};
 
+<<<<<<< HEAD
   const handleViewLease = () => {};
 
+=======
+>>>>>>> c2e3d30 (comment part in the view property havent done)
   const handleViewPropertyStatus = () => {
     if (isPending) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -41,6 +44,7 @@ const CardApplication = ({ listing }) => {
   };
 
   // Check if any property data is missing
+<<<<<<< HEAD
   if (
     !title ||
     !locationOwner ||
@@ -50,6 +54,9 @@ const CardApplication = ({ listing }) => {
     !sqft ||
     !price
   ) {
+=======
+  if (!title || !locationOwner || !imageUrl || !bedroom || !bathroom || !sqft || !price) {
+>>>>>>> c2e3d30 (comment part in the view property havent done)
     alert("Error: Missing property data!");
   }
 
