@@ -219,8 +219,8 @@ const getLeasesByTenants = async (req, res) => {
 };
 
 //POST New Application Record
-const createApplication  = async (req, res) => {
-  const {userId, propertyId} = req.body;
+const createApplication = async (req, res) => {
+  const { userId, propertyId } = req.body;
 
   try {
     // Validate that the user and property exist
@@ -239,7 +239,7 @@ const createApplication  = async (req, res) => {
     const newApplication = new Application({
       tenantId: userId,
       propertyId: propertyId,
-      applicationStatus: 'Pending', // Default status
+      applicationStatus: "Pending", // Default status
     });
 
     // Save the application to the database
@@ -258,7 +258,10 @@ const checkApplicationExists = async (req, res) => {
   const { userId, propertyId } = req.params;
 
   try {
-    const existingApplication = await Application.findOne({ tenantId: userId, propertyId: propertyId });
+    const existingApplication = await Application.findOne({
+      tenantId: userId,
+      propertyId: propertyId,
+    });
 
     if (existingApplication) {
       console.log("Property Exist");
@@ -280,13 +283,55 @@ const getApplications = async (req, res) => {
     console.log("User id: " + userId);
 
     // Find applications by tenantId and exclude those with applicationStatus "Active"
-    const response = await Application.find({ tenantId: userId, applicationStatus: { $ne: "Active" } }).sort({ createdAt: -1 });
+    const response = await Application.find({
+      tenantId: userId,
+      applicationStatus: { $ne: "Active" },
+    }).sort({ createdAt: -1 });
     console.log("Application List: ", response);
 
     return res.status(200).json(response);
   } catch (err) {
     console.error("Error fetching user profile by user ID:", err);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+//GET Landlord by landlordId
+const getLandlord = async (req, res) => {
+  const { landlordId } = req.params;
+
+  try {
+    const response = await User.findById(landlordId);
+    console.log("Landlord data: ", response);
+
+    if (!response) {
+      console.log("Landlord not found");
+      return res.status(404).json({ error: "The landlord is not found" });
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+//GET Landlord Review by landlordId
+const getLandlordReview = async (req, res) => {
+  const { landlordId } = req.params;
+
+  try {
+    const response = await LandlordReview.find().sort({ createdAt: -1 });
+
+    console.log("Landlord Review: ", response);
+
+    if (!response)
+      return res
+        .status(404)
+        .json({ error: "The landlord's review is not found" });
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
 };
 
