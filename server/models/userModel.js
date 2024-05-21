@@ -9,7 +9,7 @@ const userSchema = new Schema({
     ic:{type:String},
     password: { type: String, required:true},
     role: { type: String, enum: ['landlord', 'tenant'], required: true},
-    overallRating: { type: Number, default: 0 },
+    overallRating: { type: Number, default: null },
     numberReview: { type: Number, default: 0 },
     verified: {type: Boolean, default:false},
     verificationToken: { type: String },
