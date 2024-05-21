@@ -6,7 +6,7 @@ const applicationSchema = new Schema({
   propertyId: { type: Schema.Types.ObjectId, ref: "Property", required: true },
   applicationStatus: {
     type: String,
-    enum: ["Pending", "Approved", "Rejected"],
+    enum: ["Pending", "Approved", "Rejected", "Active"],
     default: "Pending",
     required: true,
   },

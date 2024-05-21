@@ -34,6 +34,54 @@ const Condo = () => {
   const dropdownRef2 = useRef(null);
   const dropdownRef3 = useRef(null);
 
+  const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await axios.get('/api/applications/condo'); 
+        if (Array.isArray(response.data)) {
+          setPropertyList(response.data);
+        } else {
+          console.log("No an array: ", response.data)
+          console.error('Expected an array but got:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    };
+    fetchProperties();
+  }, []);
+
+  const setPropertyToCardData = useCallback(() => {
+    if (!Array.isArray(propertyList)) {
+      console.log("No an array", propertyList)
+      return;
+    }
+
+    const mappedCardData = propertyList.map(property => ({
+      propertyId: property._id,
+      imgSrc: property.coverPhoto,
+      cardTitle1: `RM ${property.price} Per Month`,
+      cardTitle2: property.name,
+      cardText: property.address,
+      roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+      propertyType: property.type,
+      location: property.location,
+      priceRange: determinePriceRange(property.price)
+    }));
+    setCardData(mappedCardData);
+
+    const uniqueLocations = [...new Set(propertyList.map(property => property.location))];
+    setLocations(["All Location", ...uniqueLocations]);
+  }, [propertyList]);
+
+  useEffect(() => {
+    if (Array.isArray(propertyList)) {
+      setPropertyToCardData();
+    }
+  }, [propertyList, setPropertyToCardData]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (

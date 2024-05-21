@@ -43,6 +43,78 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+//POST New Application Record
+const createApplication  = async (req, res) => {
+  const {userId, propertyId} = req.body;
+
+  try {
+    // Validate that the user and property exist
+    const user = await User.findById(userId);
+    const property = await Property.findById(propertyId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (!property) {
+      return res.status(404).json({ error: "Property not found" });
+    }
+
+    // Create a new application
+    const newApplication = new Application({
+      tenantId: userId,
+      propertyId: propertyId,
+      applicationStatus: 'Pending', // Default status
+    });
+
+    // Save the application to the database
+    const savedApplication = await newApplication.save();
+
+    console.log("New application created:", savedApplication);
+    return res.status(201).json(savedApplication);
+  } catch (error) {
+    console.error("Error creating application:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+//GET Application to check for existing application
+const checkApplicationExists = async (req, res) => {
+  const { userId, propertyId } = req.params;
+
+  try {
+    const existingApplication = await Application.findOne({ tenantId: userId, propertyId: propertyId });
+
+    if (existingApplication) {
+      console.log("Property Exist");
+      return res.status(200).json({ exists: true });
+    } else {
+      console.log("Property Not Exist");
+      return res.status(200).json({ exists: false });
+    }
+  } catch (error) {
+    console.error("Error checking application existence:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+//GET Applications by userId (exclue ACTIVE application)
+const getApplications = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    console.log("User id: " + userId);
+
+    // Find applications by tenantId and exclude those with applicationStatus "Active"
+    const response = await Application.find({ tenantId: userId, applicationStatus: { $ne: "Active" } }).sort({ createdAt: -1 });
+    console.log("Application List: ", response);
+
+    return res.status(200).json(response);
+  } catch (err) {
+    console.error("Error fetching user profile by user ID:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getAllProperties,
   getOneProperty,

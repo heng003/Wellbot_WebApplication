@@ -20,3 +20,12 @@
     padding-bottom: 0.8em; 
     margin-top: -0.8em;
 }
+
+.applicationPromptTitle {
+  font-size: 21px; 
+  color:#767676;
+  margin-left: 2.5em; 
+  font-weight: 500; 
+  padding-bottom: 5em; 
+  margin-top: -0.8em;
+}
