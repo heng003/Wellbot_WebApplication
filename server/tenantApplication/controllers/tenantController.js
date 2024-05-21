@@ -123,13 +123,14 @@ const checkApplicationExists = async (req, res) => {
   }
 };
 
-//GET Applications by userId
+//GET Applications by userId (exclue ACTIVE application)
 const getApplications = async (req, res) => {
   try {
     const userId = req.params.userId;
     console.log("User id: " + userId);
 
-    const response = await Application.find({ tenantId: userId }).sort({ createdAt: -1 });
+    // Find applications by tenantId and exclude those with applicationStatus "Active"
+    const response = await Application.find({ tenantId: userId, applicationStatus: { $ne: "Active" } }).sort({ createdAt: -1 });
     console.log("Application List: ", response);
 
     return res.status(200).json(response);

@@ -1,20 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useParams } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import CommentBox from "./component/CommentBox";
 import AverageRating from "./component/AverageRating";
 import PropertyStatus from "./component/PropertyStatus";
 
+
 const ViewPropertyRejected = () => {
     
-    const propertyImageSrc = [
-        "Images/propertyImg3.png",
-        "Images/propertyImg4.png",
-        "Images/propertyImg2.png",
-        "Images/propertyImg5.png"
-    ];
+    const { propertyId } = useParams();
 
+    const [property, setProperty] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [propertyImageSrc, setPropertyImageSrc] = useState([]);
+
+    useEffect(() => {
+        const fetchProperty = async () => {
+            try {
+                const response = await axios.get(`/api/applications/tenantViewProperty/${propertyId}`);
+                setProperty(response.data);
+                setPropertyImageSrc([response.data.coverPhoto, ...response.data.photos]);
+            } catch (error) {
+                console.error('Error fetching property data:', error);
+            }
+        };
+        fetchProperty();
+    }, [propertyId]);
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => {
@@ -69,7 +82,7 @@ const ViewPropertyRejected = () => {
                 </section>
 
                 <section id="PropertyDetails">
-                    <div className="container"><DetailsPanel/></div>
+                    <div className="container"><DetailsPanel property={property} /></div>
                 </section>
 
                 <div className="PropertyStatus">

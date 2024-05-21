@@ -9,6 +9,7 @@ const TenantApplication = () => {
   const [applicationList, setApplicationList] = useState([]);
   const [propertyActionListingInfo, setPropertyActionListingInfo] = useState([]);
   const [propertyOtherListingInfo, setPropertyOtherListingInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -21,6 +22,7 @@ const TenantApplication = () => {
           const response = await axios.get(`/api/applications/tenantApplication/${userId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
+          console.log("Applications fetched:", response.data); // Log the applications
           setApplicationList(response.data);
         } catch (err) {
           console.error("Error fetching applications data:", err);
@@ -32,7 +34,10 @@ const TenantApplication = () => {
           });
         }
       }
+
       fetchApplication();
+    } else {
+      setLoading(false); // If there's no token, stop loading
     }
   }, []);
 
@@ -40,30 +45,34 @@ const TenantApplication = () => {
     async function fetchPropertyInfo() {
       try {
         const promises = applicationList.map(async (application) => {
-          const response = await axios.get(`/api/ViewProperty/${application.propertyId}`);
+          const response = await axios.get(`/api/applications/ViewProperty/${application.propertyId}`);
+          console.log("Property fetched for application:", application, response.data);
           return { property: response.data, application };
         });
-        
+
         const propertyData = await Promise.all(promises);
-        
+        console.log("Property Data List:", propertyData);
         const actionListings = [];
         const otherListings = [];
 
         propertyData.forEach(({ property, application }) => {
           const listing = {
+            propertyId: application.propertyId,
             title: property.name,
-            locationOwner: `${property.location} | ${property.type} by ${property.owner}`,
+            locationOwner: `${property.location} | ${property.type}`,
             imageUrl: property.coverPhoto,
-            isViewLease: application.status === "Approved",
-            isPending: application.status === "Pending",
-            isRejected: application.status === "Rejected",
+            isViewLease: application.applicationStatus === "Approved",
+            isPending: application.applicationStatus === "Pending",
+            isRejected: application.applicationStatus === "Rejected",
             bedroom: property.bedroom,
             bathroom: property.bathroom,
             sqft: `${property.buildUpSize} Sqft`,
             price: `RM ${property.price}`
           };
 
-          if (application.status === "Approved") {
+          console.log("Card Data: ", property, application, listing);
+
+          if (application.applicationStatus === "Approved") {
             actionListings.push(listing);
           } else {
             otherListings.push(listing);
@@ -72,8 +81,9 @@ const TenantApplication = () => {
 
         setPropertyActionListingInfo(actionListings);
         setPropertyOtherListingInfo(otherListings);
-
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         console.error("Error fetching property data:", err);
         Swal.fire({
           icon: 'error',
@@ -89,6 +99,8 @@ const TenantApplication = () => {
 
     if (applicationList.length > 0) {
       fetchPropertyInfo();
+    } else {
+      setLoading(false); // End loading if there are no applications
     }
   }, [applicationList]);
 
@@ -96,24 +108,30 @@ const TenantApplication = () => {
     <main>
       <div className="pageMainContainer">
         <h1 className="pageMainTitle">Application History</h1>
-        {propertyActionListingInfo.length > 0 && (
+        {loading ? (
+          <p className="applicationPromptTitle">Loading...</p>
+        ) : (
           <>
-            <h2 className="applicationSubTitle">Action Needed</h2>
-            {propertyActionListingInfo.map((listing, index) => (
-              <CardApplication key={index} listing={listing} />
-            ))}
+            {propertyActionListingInfo.length > 0 && (
+              <>
+                <h2 className="applicationSubTitle">Action Needed</h2>
+                {propertyActionListingInfo.map((listing, index) => (
+                  <CardApplication key={index} listing={listing} />
+                ))}
+              </>
+            )}
+            {propertyOtherListingInfo.length > 0 && (
+              <>
+                <h2 className="applicationSubTitle">Other Application/s</h2>
+                {propertyOtherListingInfo.map((listing, index) => (
+                  <CardApplication key={index} listing={listing} />
+                ))}
+              </>
+            )}
+            {propertyActionListingInfo.length === 0 && propertyOtherListingInfo.length === 0 && (
+              <p className="applicationPromptTitle">You have not submitted any application yet! Grab one now!</p>
+            )}
           </>
-        )}
-        {propertyOtherListingInfo.length > 0 && (
-          <>
-            <h2 className="applicationSubTitle">Other Application/s</h2>
-            {propertyOtherListingInfo.map((listing, index) => (
-              <CardApplication key={index} listing={listing} />
-            ))}
-          </>
-        )}
-        {propertyActionListingInfo.length === 0 && propertyOtherListingInfo.length === 0 && (
-          <p className="applicationPromptTitle">You have not submitted any application yet! Grab one now!</p>
         )}
       </div>
     </main>

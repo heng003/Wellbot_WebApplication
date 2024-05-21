@@ -27,7 +27,6 @@ const Condo = () => {
       try {
         const response = await axios.get('/api/applications/condo'); 
         if (Array.isArray(response.data)) {
-          console.log("is an array: ", response.data)
           setPropertyList(response.data);
         } else {
           console.log("No an array: ", response.data)

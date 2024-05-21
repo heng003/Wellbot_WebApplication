@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import './detailspanel.css';
+import propertyTypeIcon from "./Rental_Icon/propertyTypeIcon.png";
+import sqrtIcon from "./Rental_Icon/sqrtIcon.png";
+import bedroomIcon from "./Rental_Icon/bedroomIcon.png";
+import bathroomIcon from "./Rental_Icon/bathroomIcon.png";
+import carparkIcon from "./Rental_Icon/carparkIcon.png";
+import furnitureIcon from "./Rental_Icon/furnitureIcon.png";
 
 const DetailsPanel = ({ property }) => {
+    const propertyFacilitiesIcons = [propertyTypeIcon, sqrtIcon, bedroomIcon, bathroomIcon, carparkIcon, furnitureIcon];
+
     const [propertyLocation, setPropertyLocation] = useState();
     const [propertyType, setPropertyType] = useState();
     const [propertyPrice, setPropertyPrice] = useState(0);
@@ -32,15 +40,6 @@ const DetailsPanel = ({ property }) => {
             setPropertyAccess(property.accessibility);
         }
     }, [property]);
-
-    const propertyFacilitiesIcons = [
-        "Images/propertyTypeIcon.png",
-        "Images/sqrtIcon.png",
-        "Images/bedroomIcon.png",
-        "Images/bathroomIcon.png",
-        "Images/carparkIcon.png",
-        "Images/furnitureIcon.png"
-    ];
 
     if (!property) {
         return <div>Loading...</div>;

@@ -8,6 +8,7 @@ import sqftIcon from "./Rental_Icon/sqft.png";
 
 const CardApplication = ({ listing }) => {
   const {
+    propertyId,
     title,
     locationOwner,
     imageUrl,
@@ -22,16 +23,25 @@ const CardApplication = ({ listing }) => {
 
   const nav = useNavigate();
 
+  const handleViewLease = () => {};
+
   const handleViewPropertyStatus = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     if (isPending) {
-      nav("/tenantViewPropertyPending");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      nav(`/tenantViewPropertyPending/${propertyId}`);
     } else if (isRejected) {
-      nav("/tenantViewPropertyRejected");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      nav(`/tenantViewPropertyRejected/${propertyId}`);
     } else if (isViewLease) {
-      nav("/tenantViewPropertyLease");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      nav(`/tenantViewPropertyLease/${propertyId}`);
     }
   };
+
+  // Check if any property data is missing
+  if (!title || !locationOwner || !imageUrl || !bedroom || !bathroom || !sqft || !price) {
+    alert("Error: Missing property data!");
+  }
 
   return (
     <div className="applicationList_card" onClick={handleViewPropertyStatus}>
@@ -42,15 +52,26 @@ const CardApplication = ({ listing }) => {
         <div className="rentalHistory-details">
           <h2 className="rental_historyTitle">{title}</h2>
           <p className="descript_rental">{locationOwner}</p>
+
           <div className="facilities-icons">
             <div className="facilities-per-icon">
-              <img src={bedroomIcon} className="bedroomIcon" alt="Bedroom Icon" />
+              <img
+                src={bedroomIcon}
+                className="bedroomIcon"
+                alt="Bedroom Icon"
+              />
               <p className="icon-text">{bedroom}</p>
             </div>
+
             <div className="facilities-per-icon">
-              <img src={bathroomIcon} className="bathroomIcon" alt="Bathroom Icon" />
+              <img
+                src={bathroomIcon}
+                className="bathroomIcon"
+                alt="Bedroom Icon"
+              />
               <p className="icon-text">{bathroom}</p>
             </div>
+
             <div className="facilities-per-icon">
               <img src={sqftIcon} className="sqftIcon" alt="Sqft Icon" />
               <p className="icon-text">{sqft}</p>
@@ -59,7 +80,7 @@ const CardApplication = ({ listing }) => {
         </div>
         <div className="propertyStatusApplication">
           {isViewLease && (
-            <button className="view-lease-btn" onClick={(e) => { e.stopPropagation(); nav("/tenantViewPropertyLease"); }}>
+            <button className="view-lease-btn" onClick={handleViewLease}>
               View Lease
             </button>
           )}
