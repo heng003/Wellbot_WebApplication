@@ -19,6 +19,7 @@ function LandlordHistory() {
   const [leases, setLeases] = useState([]);
   const [error, setError] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ function LandlordHistory() {
   useEffect(() => {
     async function fetchLeases() {
       if (selectedProperty && selectedProperty._id) {
+        setLoading(true);
         try {
           const token = localStorage.getItem('token');
           const response = await axios.get(`/api/leases/${selectedProperty._id}`, {
@@ -57,6 +59,8 @@ function LandlordHistory() {
         } catch (err) {
           console.error("Error fetching leases:", err);
           setError("Failed to fetch leases");
+        }finally{
+          setLoading(false);
         }
       }
     }
@@ -154,6 +158,7 @@ function LandlordHistory() {
     <div className="rental-history">
       <h1 className="rentalTitle">Rental History</h1>
       {error && <p className="error">{error}</p>}
+      
       <div className="property-selector" ref={dropdownRef}>
         <label htmlFor="property-select">Your Property</label>
         <div
@@ -186,14 +191,19 @@ function LandlordHistory() {
 
       <div className="property-details">
         {selectedProperty ? (
-          leases.length === 0 ? (
+          loading ? (
+            <h3 className="Brief_Text"></h3>
+          ) : leases.length === 0 ? (
             <h3 className="Brief_Text">
               Sorry, this property hasn't been rented out yet, so it{" "}
               <b>doesn't have any rental history</b>. You might review its
               applicants for renting purposes.
             </h3>
           ) : (
-            renderTable(leases)
+            <>
+              <h2 className="propertyName">{selectedProperty.name}</h2>
+              {renderTable(leases)}
+            </>
           )
         ) : null}
       </div>
