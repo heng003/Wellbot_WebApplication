@@ -154,7 +154,22 @@ const ViewPropertyActive = () => {
           />
         </div>
 
-        {isLandlordIdFetched && <CommentSection landlordId={landlordId} />}
+        <section id="Comment">
+          <header className="commentTitle">Comment And Rating</header>
+
+          <section className="comment-avg">
+            <div className="comment-grid">
+              <AverageRating numOfReview="2" avg="4.0" />
+            </div>
+          </section>
+
+          <section className="comments">
+            <div className="comment-grid">
+              <CommentBox username="Joyce Lim" date="2 days ago" />
+              <CommentBox username="Ali bin Abu" date="12/3/2021" />
+            </div>
+          </section>
+        </section>
       </main>
     </div>
   );
