@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const propertiesController = require('../controllers/propertiesController');
-const authMiddleware = require('../middleware/authMiddleware');
+const propertiesController = require('../controllers/propertyController');
 
-router.get('/properties', authMiddleware, propertiesController.getProperties);
+// Endpoint to fetch properties
+router.get('/', propertiesController.getProperties);
+
+// New route to get properties by user ID
+router.get('/user/:userId', propertiesController.getPropertiesByUserId);
 
 module.exports = router;

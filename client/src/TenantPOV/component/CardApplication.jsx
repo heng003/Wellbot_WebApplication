@@ -22,17 +22,13 @@ const CardApplication = ({ listing }) => {
 
   const nav = useNavigate();
 
-  const handleViewLease = () => {};
-
   const handleViewPropertyStatus = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (isPending) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
       nav("/tenantViewPropertyPending");
     } else if (isRejected) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
       nav("/tenantViewPropertyRejected");
     } else if (isViewLease) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
       nav("/tenantViewPropertyLease");
     }
   };
@@ -46,26 +42,15 @@ const CardApplication = ({ listing }) => {
         <div className="rentalHistory-details">
           <h2 className="rental_historyTitle">{title}</h2>
           <p className="descript_rental">{locationOwner}</p>
-
           <div className="facilities-icons">
             <div className="facilities-per-icon">
-              <img
-                src={bedroomIcon}
-                className="bedroomIcon"
-                alt="Bedroom Icon"
-              />
+              <img src={bedroomIcon} className="bedroomIcon" alt="Bedroom Icon" />
               <p className="icon-text">{bedroom}</p>
             </div>
-
             <div className="facilities-per-icon">
-              <img
-                src={bathroomIcon}
-                className="bathroomIcon"
-                alt="Bedroom Icon"
-              />
+              <img src={bathroomIcon} className="bathroomIcon" alt="Bathroom Icon" />
               <p className="icon-text">{bathroom}</p>
             </div>
-
             <div className="facilities-per-icon">
               <img src={sqftIcon} className="sqftIcon" alt="Sqft Icon" />
               <p className="icon-text">{sqft}</p>
@@ -74,7 +59,7 @@ const CardApplication = ({ listing }) => {
         </div>
         <div className="propertyStatusApplication">
           {isViewLease && (
-            <button className="view-lease-btn" onClick={handleViewLease}>
+            <button className="view-lease-btn" onClick={(e) => { e.stopPropagation(); nav("/tenantViewPropertyLease"); }}>
               View Lease
             </button>
           )}

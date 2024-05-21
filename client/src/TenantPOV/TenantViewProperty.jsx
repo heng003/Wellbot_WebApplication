@@ -6,6 +6,7 @@ import DetailsPanel from "./component/DetailsPanel";
 import CommentBox from "./component/CommentBox";
 import AverageRating from "./component/AverageRating";
 import Swal from 'sweetalert2';
+import { jwtDecode } from 'jwt-decode'; 
 
 const TenantViewProperty = () => {
     
@@ -63,7 +64,15 @@ const TenantViewProperty = () => {
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        nav("/tenantApplyForm");
+                        const token = localStorage.getItem('token');
+                        if (token) {
+                            const decodedToken = jwtDecode(token);
+                            const userId = decodedToken.userId;
+                            nav(`/tenantApplyForm/${propertyId}/${userId}`)
+                        } else {
+                            console.log("Token not found")
+                            nav('./tenantApplyForm')
+                        }
                     }
                 });
             }, 100); // Delay to ensure the scroll completes before showing the dialog

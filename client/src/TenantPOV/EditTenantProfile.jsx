@@ -187,7 +187,7 @@ const EditTenantProfile = () => {
               />
               <div className="displayErrorEditMessage">
                 {errors.editIC && <span>{errors.editIC}</span>}
-            </div>
+              </div>
             </div>
 
             <div class="col">
