@@ -2,11 +2,11 @@
 use('RentSpotter');
 
 db.getCollection('leases').insertOne({
-  tenantId: ObjectId('664769620ed78e6720cfbb50'),
-  propertyId: ObjectId('664770d50a1b773d78a1f9b6'),
+  tenantId: ObjectId('66476ac5b0038fdc720f973d'),
+  propertyId: ObjectId('6647463426c3fcb36876c1e4'),
   leaseStatus: "Expired",
-  effectiveDateStart: new Date("21/1/2024"),
-  effectiveDateEnd: new Date('21/4/2025'),
+  effectiveDateStart: new Date("21/1/2021"),
+  effectiveDateEnd: new Date('21/4/2022'),
   PDF: null 
 });
 

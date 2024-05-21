@@ -8,37 +8,24 @@ import downloadHoverIcon from "./Rental_Icon/download_hover.png";
 import starOnClick from "./Rental_Icon//rating_star_onClick.svg";
 import starDefault from "./Rental_Icon/rating_star_default.svg";
 import Alert from "../LandlordPOV/Alert";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; 
 
 function LandlordApplicant() {
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRating, setIsOpenRating] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(
-    "Please Select Your Property"
-  );
-  const [selectedRatingSort, setSelectedRatingSort] =
-    useState("Highest to Lowest");
+  const [selectedRatingSort, setSelectedRatingSort] = useState("Highest to Lowest");
   const [isHovering, setIsHovering] = useState(false);
   const dropdownRef = useRef(null);
   const dropdownRatingRef = useRef(null);
 
+  const [properties, setProperties] = useState([]);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [leases, setLeases] = useState([]);
+  const [error, setError] = useState(null);
+
   const nav = useNavigate();
-
-  const properties = [
-    "Tiara Damandasara's Master Room (Unit 315/3)",
-    "Ryan and Miho Condomium (Unit 215/2)",
-    "Sekyen 17, Landed House",
-    "8 Trium Office Room, Unit 15",
-  ];
-
-  const tenants = [
-    { id: "LeeHwa_01111", rating: 5, status: "Under Review By Tenant" },
-    { id: "lilian29", rating: 4, status: "Not Applicable" },
-  ];
-
-  const tenants2 = [
-    { id: "feegehasso", rating: 5, status: "Signed" },
-    { id: "david21", rating: 4, status: "Not Applicable" },
-  ];
 
   const toggleRatingSort = () => {
     setSelectedRatingSort((prevSort) =>
@@ -50,6 +37,52 @@ function LandlordApplicant() {
 
   const handleAlert = () => {
     Alert();
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+
+      async function fetchProperties() {
+        try {
+          const response = await axios.get(`/api/properties/user/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setProperties(response.data);
+        } catch (err) {
+          console.error("Error fetching properties:", err);
+          setError("Failed to fetch properties");
+        }
+      }    
+      fetchProperties();
+    }
+  }, []);
+
+  useEffect(() => {
+    async function fetchLeases() {
+      if (selectedProperty && selectedProperty._id) {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await axios.get(`/api/leases/${selectedProperty._id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          const filteredLeases = response.data
+            .filter(lease => lease.leaseStatus === 'Not Applicable' || lease.leaseStatus === 'Under Review By Tenant' || lease.leaseStatus === "Effective")
+          setLeases(filteredLeases);
+        } catch (err) {
+          console.error("Error fetching leases:", err);
+          setError("Failed to fetch leases");
+        }
+      }
+    }
+    fetchLeases();
+  }, [selectedProperty]);
+
+  const handlePropertyChange = (propertyId) => {
+    const selected = properties.find(property => property._id === propertyId);
+    setSelectedProperty(selected);
   };
 
   const handleViewApplicantFeedback = (event) => {
@@ -104,11 +137,11 @@ function LandlordApplicant() {
       </thead>
 
       <tbody onClick={handleViewApplicantFeedback}>
-        {data.map((tenant, index) => (
-          <tr key={tenant.id}>
-            <td>{tenant.id}</td>
-            <td>{renderRating(tenant.rating)}</td>
-            <td>{renderStatus(tenant.status)}</td>
+        {data.map((lease, index) => (
+          <tr key={lease.id}>
+            <td>{lease.tenantId.username}</td>
+            <td>{renderRating(lease.tenantId.overallRating)}</td>
+            <td>{renderStatus(lease.leaseStatus)}</td>
           </tr>
         ))}
       </tbody>
@@ -177,51 +210,21 @@ function LandlordApplicant() {
   };
 
   const renderTablesBasedOnSelection = () => {
-    if (
-      !selectedProperty ||
-      selectedProperty === "Please Select Your Property"
-    ) {
+    if (!selectedProperty) {
       return (
-        <>
-          <h2 className="propertyName">{properties[0]}</h2>
-          {renderTable(tenants)}
-          <h2 className="propertyName">{properties[1]}</h2>
-          {renderTable(tenants2)}
-        </>
+        <h3 className="notHistory_Text">
+           Sorry, this property hasn't been applied yet, so it{" "}
+              <b>doesn't have any applicant's info</b>.
+        </h3>
       );
     } else {
-      switch (selectedProperty) {
-        case properties[0]:
-          return (
-            <>
-              <h2 className="propertyName">{properties[0]}</h2>
-              {renderTable(sortTenantsByRating(tenants, selectedRatingSort))}
-            </>
-          );
-        case properties[1]:
-          return (
-            <>
-              <h2 className="propertyName">{properties[1]}</h2>
-              {renderTable(sortTenantsByRating(tenants2, selectedRatingSort))}
-            </>
-          );
-        case properties[2]:
-          return (
-            <>
-              <h3 className="notHistory_Text">
-                Sorry, this property hasn't been applied yet, so it{" "}
-                <b>doesn't have any applicant's info</b>.
-              </h3>
-            </>
-          );
-        default:
-          return (
-            <>
-              <h2 className="propertyName">{properties[0]}</h2>
-              {renderTable(sortTenantsByRating(tenants, selectedRatingSort))}
-            </>
-          );
-      }
+      const sortedLeases = sortTenantsByRating(leases, selectedRatingSort);
+      return (
+        <>
+          <h2 className="propertyName">{selectedProperty.name}</h2>
+          {renderTable(sortedLeases)}
+        </>
+      );
     }
   };
 
@@ -238,22 +241,20 @@ function LandlordApplicant() {
             onBlur={() => setIsOpen(false)}
           >
             <div className="displayed-value">
-              {selectedProperty || "Please Select Your Property"}
+              {selectedProperty ? selectedProperty.name : "Please Select Your Property"}
             </div>
             {isOpen && (
               <div className="custom-options">
-                {properties.map((property, index) => (
+                {properties.map(property => (
                   <div
-                    key={index}
-                    className={`custom-option ${
-                      selectedProperty === property ? "selected" : ""
-                    }`}
+                    key={property._id}
+                    className={`custom-option ${selectedProperty && selectedProperty._id === property._id ? "selected" : ""}`}
                     onClick={() => {
-                      setSelectedProperty(property);
+                      handlePropertyChange(property._id);
                       setIsOpen(false);
                     }}
                   >
-                    {property}
+                    {property.name}
                   </div>
                 ))}
               </div>

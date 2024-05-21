@@ -38,8 +38,12 @@ const LandlordComment = () => {
         const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
         setEffectiveLeasesCount(effectiveLeases.length);
 
-        if (effectiveLeases.length > 0) {
-          const tenantId = effectiveLeases[0].tenantId;
+        const relevantLeases = response.data.filter(lease => 
+          lease.leaseStatus === 'Effective' || lease.leaseStatus === 'Expired'
+        );
+
+        if (relevantLeases.length > 0) {
+          const tenantId = relevantLeases[0].tenantId;
           setTenantId(tenantId);
 
           const reviewResponse = await axios.get(`/api/reviewsTenant/${tenantId}`);
