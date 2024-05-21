@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./tenantapplication.css";
 import CardApplication from "./component/CardApplication";
 import { jwtDecode } from "jwt-decode";
@@ -28,7 +28,7 @@ const TenantApplication = () => {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
-          console.log("Applications fetched:", response.data); // Log the applications
+          console.log("Applications fetched:", response.data);
           setApplicationList(response.data);
         } catch (err) {
           console.error("Error fetching applications data:", err);
@@ -91,8 +91,7 @@ const TenantApplication = () => {
             (app) => app.propertyId === property._id
           );
           const listing = {
-            applicationId: application._id,
-            propertyId: application.propertyId,
+            propertyId: property._id,
             title: property.name,
             locationOwner: `${property.location} | ${property.type} rented out by ${property.landlordUsername}`,
             imageUrl: property.coverPhoto,
@@ -171,12 +170,6 @@ const TenantApplication = () => {
                 ))}
               </>
             )}
-            {propertyActionListingInfo.length === 0 &&
-              propertyOtherListingInfo.length === 0 && (
-                <p className="applicationPromptTitle">
-                  You have not submitted any application yet! Grab one now!
-                </p>
-              )}
           </>
         )}
       </div>

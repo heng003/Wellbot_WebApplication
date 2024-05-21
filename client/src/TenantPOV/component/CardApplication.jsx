@@ -8,7 +8,6 @@ import sqftIcon from "./Rental_Icon/sqft.png";
 
 const CardApplication = ({ listing }) => {
   const {
-    applicationId,
     propertyId,
     title,
     locationOwner,
@@ -26,11 +25,6 @@ const CardApplication = ({ listing }) => {
 
   const handleViewLease = () => {};
 
-<<<<<<< HEAD
-  const handleViewLease = () => {};
-
-=======
->>>>>>> c2e3d30 (comment part in the view property havent done)
   const handleViewPropertyStatus = () => {
     if (isPending) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -40,12 +34,11 @@ const CardApplication = ({ listing }) => {
       nav(`/tenantViewPropertyRejected/${propertyId}`);
     } else if (isViewLease) {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      nav(`/tenantViewPropertyLease/${propertyId}/${applicationId}`);
+      nav(`/tenantViewPropertyLease/${propertyId}`);
     }
   };
 
   // Check if any property data is missing
-<<<<<<< HEAD
   if (
     !title ||
     !locationOwner ||
@@ -55,9 +48,6 @@ const CardApplication = ({ listing }) => {
     !sqft ||
     !price
   ) {
-=======
-  if (!title || !locationOwner || !imageUrl || !bedroom || !bathroom || !sqft || !price) {
->>>>>>> c2e3d30 (comment part in the view property havent done)
     alert("Error: Missing property data!");
   }
 

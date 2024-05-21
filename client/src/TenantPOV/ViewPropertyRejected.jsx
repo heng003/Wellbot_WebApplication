@@ -12,18 +12,20 @@ const ViewPropertyRejected = () => {
   const [property, setProperty] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [propertyImageSrc, setPropertyImageSrc] = useState([]);
+  const [isLandlordIdFetched, setIsFetched] = useState(false);
+  const [landlordId, setLandlordId] = useState(null);
 
   useEffect(() => {
     const fetchProperty = async () => {
       try {
         const response = await axios.get(
-          `/api/applications/tenantViewProperty/${propertyId}`
-        );
-        setProperty(response.data);
-        setPropertyImageSrc([
-          response.data.coverPhoto,
-          ...response.data.photos,
-        ]);
+          `/api/applications/ViewProperty/${propertyId}`
+        ); // Adjust the endpoint if necessary
+        const propertyData = response.data;
+        setProperty(propertyData);
+        setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
+        setLandlordId(propertyData.landlordId);
+        setIsFetched(true);
       } catch (error) {
         console.error("Error fetching property data:", error);
       }
@@ -152,22 +154,7 @@ const ViewPropertyRejected = () => {
           />
         </div>
 
-        <section id="Comment">
-          <header className="commentTitle">Comment And Rating</header>
-
-          <section className="comment-avg">
-            <div className="comment-grid">
-              <AverageRating numOfReview="2" avg="4.0" />
-            </div>
-          </section>
-
-          <section className="comments">
-            <div className="comment-grid">
-              <CommentBox username="Joyce Lim" date="2 days ago" />
-              <CommentBox username="Ali bin Abu" date="12/3/2021" />
-            </div>
-          </section>
-        </section>
+        {isLandlordIdFetched && <CommentSection landlordId={landlordId} />}
       </main>
     </div>
   );
