@@ -27,10 +27,6 @@ const propertiesRouter = require('./routes/propertiesRoute');
 const app = express();
 const port = 5000;
 
-console.log("Environment Variables:");
-console.log("PORT:", process.env.PORT);
-console.log("MONGO_URI:", process.env.MONGO_URI);
-
 // 1. MIDDLEWARES
 app.use(cors());
 app.use(express.json());
@@ -66,10 +62,8 @@ app.get("*", function (req, res) {
 });
 
 // 3. MONGO DB CONNECTION
-const mongoURI = process.env.MONGO_URI;
-
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
 
