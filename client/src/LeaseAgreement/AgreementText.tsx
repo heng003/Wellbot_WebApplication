@@ -447,7 +447,6 @@ export const TermSeventeen = () => {
   );
 };
 
-// TODO: Add params for lessor and lessee signature
 export const TermEighteen = (
   lessorSignatureUrl: string,
   lessorDesignation: string,
