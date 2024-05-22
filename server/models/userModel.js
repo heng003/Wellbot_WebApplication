@@ -29,6 +29,7 @@ const userSchema = new Schema({
   verificationToken: { type: String },
   tokenExpires: { type: Date, required: false },
   tokenEmail: { type: String },
+  properties: [{ type: Schema.Types.ObjectId, ref: "Property" }],
 });
 
 const User = mongoose.model("User", userSchema);

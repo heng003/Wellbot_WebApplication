@@ -67,7 +67,7 @@ app.get("*", function (req, res) {
 
 // 3. MONGO DB CONNECTION
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
 
