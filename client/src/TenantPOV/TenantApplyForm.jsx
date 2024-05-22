@@ -13,35 +13,182 @@ const TenantApplyForm = () => {
   const handleDropdownGenderChange = (event) => {
     setSelectedGender(event.target.value);
   };
+  const nav = useNavigate();
+  const { propertyId, userId, landlordId } = useParams();
 
-    const handleCheckboxChange = () => {
-        setClicked(!clicked); 
+  const [userData, setUserData] = useState({
+    editFullname: "",
+    editUsername: "",
+    editPhoneno: "",
+    editEmail: "",
+    editIC: "",
+  });
+
+  const [clicked, setClicked] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get(
+          `/api/applications/tenantApplyForm/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const { username, email, phonenumber, fullname, ic } = response.data;
+        setUserData({
+          editUsername: username,
+          editEmail: email,
+          editPhoneno: phonenumber,
+          editFullname: fullname,
+          editIC: ic,
+        });
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to load profile data!",
+          confirmButtonColor: "#FF8C22",
+          customClass: {
+            confirmButton: "my-confirm-button-class",
+          },
+        });
+      }
     };
-    
-    const handleSaveAndSubmit = (e) => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => {
-            Swal.fire({
-                text: "Saved and Submitted!",
-                icon: "success",
-                confirmButtonColor: "#FF8C22",
-                customClass: {
-                    confirmButton: 'my-confirm-button-class'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    nav("/tenantApplication");
-                }
-            });
-        }, 100); // Delay to allow scroll to finish
-    }
-    
-    return(
-    
-        <>
-        <div className="pageMainContainer">
+    fetchUserData();
+  }, [userId]);
 
-            <h1 className="pageMainTitle">Edit Personal Details</h1>
+  const handleCheckboxChange = () => {
+    setClicked(!clicked);
+  };
+
+  const handleSaveAndSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+
+    // Validate each field
+    if (!userData.editUsername?.trim()) {
+      validationErrors.editUsername = "*username is required";
+    }
+    if (!userData.editEmail?.trim()) {
+      validationErrors.editEmail = "*email is required";
+    } else if (!/\S+@\S+\.\S+/.test(userData.editEmail)) {
+      validationErrors.editEmail = "*email is invalid";
+    }
+    if (!userData.editPhoneno?.trim()) {
+      validationErrors.editPhoneno = "*Phone number is required";
+    } else if (!/^\d{10,11}$/.test(userData.editPhoneno)) {
+      validationErrors.editPhoneno = "*Phone number is invalid";
+    }
+    if (!userData.editFullname?.trim()) {
+      validationErrors.editFullname = "*Fullname is required";
+    }
+    if (!userData.editIC?.trim()) {
+      validationErrors.editIC = "*IC is required";
+    }
+    if (!clicked) {
+      validationErrors.editCheckBox = "*Confirmation is required";
+      Swal.fire({
+        text: "Confirmation is required!",
+        icon: "warning",
+        confirmButtonColor: "#FF8C22",
+        customClass: {
+          confirmButton: "my-confirm-button-class",
+        },
+      });
+    }
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      const token = localStorage.getItem("token");
+      try {
+        // Check if the application already exists
+        const checkResponse = await axios.get(
+          `/api/applications/tenantApplyForm/${userId}/${propertyId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (checkResponse.data.exists) {
+          Swal.fire({
+            text: "You have already applied for this property.",
+            icon: "warning",
+            confirmButtonColor: "#FF8C22",
+            customClass: {
+              confirmButton: "my-confirm-button-class",
+            },
+          }).then((result) => {
+            if (result.isConfirmed) {
+              nav("/tenantApplication");
+            }
+          });
+          return;
+        } else {
+          // Update profile
+          await axios.put("/api/auth/landlordProfileEdit", userData, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          // Create application
+          await axios.post(
+            `/api/applications/tenantApplyForm`,
+            {
+              userId: userId,
+              propertyId: propertyId,
+              landlordId: landlordId,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(() => {
+            Swal.fire({
+              text: "Saved and Submitted!",
+              icon: "success",
+              confirmButtonColor: "#FF8C22",
+              customClass: {
+                confirmButton: "my-confirm-button-class",
+              },
+            }).then((result) => {
+              if (result.isConfirmed) {
+                nav("/tenantApplication");
+              }
+            });
+          }, 100);
+        }
+      } catch (error) {
+        console.error("Failed to update profile or create application:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          confirmButtonColor: "#FF8C22",
+        });
+      }
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log("Edit value: ", name, value);
+    setUserData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <>
+      <div className="pageMainContainer">
+        <h1 className="pageMainTitle">Edit Personal Details</h1>
 
         <h3 className="pageMainSubTitle">
           Please make sure personal details are correct before proceed.

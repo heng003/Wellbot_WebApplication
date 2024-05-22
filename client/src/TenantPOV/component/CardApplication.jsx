@@ -8,6 +8,7 @@ import sqftIcon from "./Rental_Icon/sqft.png";
 
 const CardApplication = ({ listing }) => {
   const {
+    applicationId,
     propertyId,
     title,
     locationOwner,
@@ -39,7 +40,7 @@ const CardApplication = ({ listing }) => {
       nav(`/tenantViewPropertyRejected/${propertyId}`);
     } else if (isViewLease) {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      nav(`/tenantViewPropertyLease/${propertyId}`);
+      nav(`/tenantViewPropertyLease/${propertyId}/${applicationId}`);
     }
   };
 

@@ -51,6 +51,7 @@ const createApplication = async (req, res) => {
     // Validate that the user and property exist
     const user = await User.findById(userId);
     const property = await Property.findById(propertyId);
+    const landlord = await User.findById(landlordId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -58,6 +59,10 @@ const createApplication = async (req, res) => {
 
     if (!property) {
       return res.status(404).json({ error: "Property not found" });
+    }
+
+    if (!landlord) {
+      return res.status(404).json({ error: "Landlord not found" });
     }
 
     // Create a new application

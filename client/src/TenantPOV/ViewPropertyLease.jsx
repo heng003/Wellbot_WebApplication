@@ -5,41 +5,33 @@ import "./viewproperty.css";
 import DetailsPanel from "./component/DetailsPanel";
 import CommentSection from "./component/CommentSection";
 
-
 const ViewPropertyLease = () => {
   const nav = useNavigate();
   const { propertyId } = useParams();
 
-    const [property, setProperty] = useState(0);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [propertyImageSrc, setPropertyImageSrc] = useState([]);
-<<<<<<< HEAD
-    const [isLandlordIdFetched, setIsFetched] = useState(false);
-    const [landlordId, setLandlordId] = useState(null);
-=======
->>>>>>> c2e3d30 (comment part in the view property havent done)
+  const [property, setProperty] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [propertyImageSrc, setPropertyImageSrc] = useState([]);
+  const [isLandlordIdFetched, setIsFetched] = useState(false);
+  const [landlordId, setLandlordId] = useState(null);
 
-    useEffect(() => {
-        const fetchProperty = async () => {
-            try {
-<<<<<<< HEAD
-                const response = await axios.get(`/api/applications/ViewProperty/${propertyId}`); // Adjust the endpoint if necessary
-                const propertyData = response.data;
-                setProperty(propertyData);
-                setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
-                setLandlordId(propertyData.landlordId);
-                setIsFetched(true);
-=======
-                const response = await axios.get(`/api/applications/tenantViewProperty/${propertyId}`);
-                setProperty(response.data);
-                setPropertyImageSrc([response.data.coverPhoto, ...response.data.photos]);
->>>>>>> c2e3d30 (comment part in the view property havent done)
-            } catch (error) {
-                console.error('Error fetching property data:', error);
-            }
-        };
-        fetchProperty();
-    }, [propertyId]);
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(
+          `/api/applications/ViewProperty/${propertyId}`
+        ); // Adjust the endpoint if necessary
+        const propertyData = response.data;
+        setProperty(propertyData);
+        setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
+        setLandlordId(propertyData.landlordId);
+        setIsFetched(true);
+      } catch (error) {
+        console.error("Error fetching property data:", error);
+      }
+    };
+    fetchProperty();
+  }, [propertyId]);
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) => {
@@ -170,10 +162,10 @@ const ViewPropertyLease = () => {
           </button>
         </div>
 
-                {isLandlordIdFetched && <CommentSection landlordId={landlordId} />}
-            </main>
-        </div>
-    );
-}
+        {isLandlordIdFetched && <CommentSection landlordId={landlordId} />}
+      </main>
+    </div>
+  );
+};
 
 export default ViewPropertyLease;

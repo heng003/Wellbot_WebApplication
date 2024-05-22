@@ -110,7 +110,7 @@ function App() {
             element={<TenantViewPropertyRejected />}
           />
           <Route
-            path="/tenantViewPropertyLease/:propertyId"
+            path="/tenantViewPropertyLease/:propertyId/:applicationId"
             element={<TenantViewPropertyLease />}
           />
           <Route

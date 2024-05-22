@@ -65,6 +65,7 @@ const TenantApplication = () => {
 
         propertyData.forEach(({ property, application }) => {
           const listing = {
+            applicationId: application._id,
             propertyId: application.propertyId,
             title: property.name,
             locationOwner: `${property.location} | ${property.type}`,
