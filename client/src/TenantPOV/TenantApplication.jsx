@@ -91,6 +91,7 @@ const TenantApplication = () => {
             (app) => app.propertyId === property._id
           );
           const listing = {
+            applicationId: application._id,
             propertyId: property._id,
             title: property.name,
             locationOwner: `${property.location} | ${property.type} rented out by ${property.landlordUsername}`,

@@ -1,20 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../TenantPOV/edittenantprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const TenantApplyForm = () => {
   const nav = useNavigate();
-
-  const [selectedGender, setSelectedGender] = useState("");
-  const [clicked, setClicked] = useState(false);
-
-  const handleDropdownGenderChange = (event) => {
-    setSelectedGender(event.target.value);
-  };
-  const nav = useNavigate();
-  const { propertyId, userId, landlordId } = useParams();
+  const { propertyId, userId } = useParams();
 
   const [userData, setUserData] = useState({
     editFullname: "",
@@ -141,7 +134,6 @@ const TenantApplyForm = () => {
             {
               userId: userId,
               propertyId: propertyId,
-              landlordId: landlordId,
             },
             {
               headers: { Authorization: `Bearer ${token}` },
@@ -196,7 +188,7 @@ const TenantApplyForm = () => {
 
         <div className="editLandlordForm">
           <div className="row" id="row2">
-            <div class="col">
+            <div className="col">
               <h6>FullName *</h6>
               <input
                 type="text"
@@ -204,9 +196,14 @@ const TenantApplyForm = () => {
                 id="editFullname"
                 placeholder="Enter Your FullName Stated in MyKad"
                 required
+                value={userData.editFullname}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editFullname && <span>{errors.editFullname}</span>}
+              </div>
             </div>
-            <div class="col">
+            <div className="col">
               <h6>UserName *</h6>
               <input
                 type="text"
@@ -214,12 +211,17 @@ const TenantApplyForm = () => {
                 id="editUsername"
                 placeholder="Enter Your Username"
                 required
+                value={userData.editUsername}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editUsername && <span>{errors.editUsername}</span>}
+              </div>
             </div>
           </div>
 
           <div className="row">
-            <div class="col">
+            <div className="col">
               <h6>NRIC *</h6>
               <input
                 type="text"
@@ -227,10 +229,15 @@ const TenantApplyForm = () => {
                 id="editIC"
                 placeholder="Enter Your IC Number"
                 required
-                pattern="[0-9]{12}}"
+                pattern="[0-9]{12}"
+                value={userData.editIC}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editIC && <span>{errors.editIC}</span>}
+              </div>
             </div>
-            <div class="col">
+            <div className="col">
               <h6>Phone Number *</h6>
               <input
                 type="tel"
@@ -239,12 +246,17 @@ const TenantApplyForm = () => {
                 placeholder="Enter Your Phone Number"
                 required
                 pattern="[0-9]{3}-[0-9]{7,8}"
+                value={userData.editPhoneno}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editPhoneno && <span>{errors.editPhoneno}</span>}
+              </div>
             </div>
           </div>
 
           <div className="row">
-            <div class="col">
+            <div className="col">
               <h6>Email Address *</h6>
               <input
                 type="email"
@@ -252,7 +264,12 @@ const TenantApplyForm = () => {
                 id="editEmail"
                 placeholder="Enter Your Email Address"
                 required
+                value={userData.editEmail}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editEmail && <span>{errors.editEmail}</span>}
+              </div>
             </div>
 
             <div className="col">
@@ -260,22 +277,31 @@ const TenantApplyForm = () => {
             </div>
           </div>
 
-          <div className="row-checkbox">
-            <input
-              type="checkbox"
-              id="confirmCheckbox"
-              checked={clicked}
-              onChange={handleCheckboxChange}
-              className="checkbox"
-            />
-            <label htmlFor="confirmCheckbox">
-              I hereby confirm the information is true and allow my information
-              to be shared with this property's landlord.
-            </label>
+          <div className="row">
+            <div className="row-checkbox">
+              <input
+                type="checkbox"
+                id="confirmCheckbox"
+                checked={clicked}
+                onChange={handleCheckboxChange}
+                className="checkbox"
+              />
+              <label htmlFor="confirmCheckbox">
+                I hereby confirm the information is true and allow my
+                information to be shared with this property's landlord.
+              </label>
+            </div>
+
+            <div
+              className="displayErrorEditMessage"
+              style={{ marginTop: -20 + "px" }}
+            >
+              {errors.editCheckBox && <span>{errors.editCheckBox}</span>}
+            </div>
           </div>
         </div>
 
-        <div className="mainCentreButton">
+        <div className="mainCentreButton" style={{ marginTop: -50 + "px" }}>
           <button
             id="submitEdirProfileInfoBtn"
             onClick={handleSaveAndSubmit}
@@ -288,4 +314,5 @@ const TenantApplyForm = () => {
     </>
   );
 };
+
 export default TenantApplyForm;
