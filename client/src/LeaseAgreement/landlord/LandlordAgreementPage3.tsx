@@ -1,18 +1,14 @@
 import { lessorSignatureUrl } from "@/component/AgreementComponents/agreement-signals";
+import axios from "axios";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
 
-// const localStorageLessorSignUrl = localStorage.getItem("lessorSignatureUrl");
-
-const LandlordAgreementPage3 = () => {
-  const localStorageLessorSignUrl = JSON.parse(
-    localStorage.getItem("lessorSignatureUrl") || ""
+const LandlordAgreementPage3 = async () => {
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
   );
-  console.log(localStorageLessorSignUrl);
-  const localStorageLessorValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
-  );
+  const data = response.data;
 
   const dialogLandlordText = `Your Lease Agreement had been submitted to the system and sent to your tenant, please be patient to wait for him/her to check and sign for this lease agreement, you might track your lease agreement status at ${(
     <a href="/landlordApplicant">applicant page</a>
@@ -33,9 +29,9 @@ const LandlordAgreementPage3 = () => {
         </AgreementTerm>
         <AgreementTerm number="18" title="SUCCESSORS BOUND ">
           {TermEighteen(
-            localStorageLessorSignUrl,
-            localStorageLessorValue.lessorDesignation,
-            localStorageLessorValue.lessorIc
+            data.lessorSignature,
+            data.lessorDesignation,
+            data.lessorIc
           )}
         </AgreementTerm>
       </AgreementWrapper>

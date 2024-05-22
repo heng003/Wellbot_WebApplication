@@ -25,54 +25,36 @@ import {
 } from "./AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const AgreementFullView = () => {
+const AgreementFullView = async () => {
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
+  );
+  const data = response.data;
   const navigate = useNavigate();
-  const localStorageLessorFormValues = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
-  );
-  const localStorageLessorSignUrl = JSON.parse(
-    localStorage.getItem("lessorSignatureUrl") || ""
-  );
-
-  const localStorageLesseeFormValues = JSON.parse(
-    localStorage.getItem("lesseeFormValues") || ""
-  );
-  const localStorageLesseeSignUrl = JSON.parse(
-    localStorage.getItem("lesseeSignatureUrl") || ""
-  );
 
   return (
     <>
       <AgreementWrapper title="Lease Agreement">
         {LeaseIntro(
-          localStorageLessorFormValues.day,
-          localStorageLessorFormValues.month,
-          localStorageLessorFormValues.year,
-          localStorageLessorFormValues.lessorName,
-          localStorageLessorFormValues.lessorIc,
-          localStorageLessorFormValues.lesseeName,
-          localStorageLessorFormValues.lesseIc
+          data.day,
+          data.month,
+          data.year,
+          data.lessorName,
+          data.lessorIc,
+          data.lesseeName,
+          data.lesseIc
         )}
-        {PropertyInfo(localStorageLessorFormValues.address)}
+        {PropertyInfo(data.address)}
         <AgreementTerm number="1" title="term">
-          {TermOne(
-            localStorageLessorFormValues.effectiveDate,
-            localStorageLessorFormValues.expireDate
-          )}
+          {TermOne(data.effectiveDate, data.expireDate)}
         </AgreementTerm>
         <AgreementTerm number="2" title="rent">
-          {TermTwo(
-            localStorageLessorFormValues.rentRmWord,
-            localStorageLessorFormValues.rentRmNum,
-            localStorageLessorFormValues.advanceDay
-          )}
+          {TermTwo(data.rentRmWord, data.rentRmNum, data.advanceDay)}
         </AgreementTerm>
         <AgreementTerm number="3" title="deposit">
-          {TermThree(
-            localStorageLessorFormValues.depositRmWord,
-            localStorageLessorFormValues.depositRmNum
-          )}
+          {TermThree(data.depositRmWord, data.depositRmNum)}
         </AgreementTerm>
         <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
           {TermFour()}
@@ -106,12 +88,12 @@ const AgreementFullView = () => {
         </AgreementTerm>
         <AgreementTerm number="12" title="notice">
           {TermTwelve(
-            localStorageLessorFormValues.lessorAdd,
-            localStorageLessorFormValues.lessorTel,
-            localStorageLessorFormValues.lessorFax,
-            localStorageLessorFormValues.lesseeAdd,
-            localStorageLessorFormValues.lesseeTel,
-            localStorageLessorFormValues.lesseeFax
+            data.lessorAdd,
+            data.lessorTel,
+            data.lessorFax,
+            data.lesseeAdd,
+            data.lesseeTel,
+            data.lesseeFax
           )}
         </AgreementTerm>
         <AgreementTerm number="13" title="modification">
@@ -131,12 +113,12 @@ const AgreementFullView = () => {
         </AgreementTerm>
         <AgreementTerm number="18" title="SUCCESSORS BOUND ">
           {TermEighteen(
-            localStorageLessorSignUrl,
-            localStorageLessorFormValues.lessorDesignation,
-            localStorageLessorFormValues.lessorIc,
-            localStorageLesseeSignUrl,
-            localStorageLesseeFormValues.lesseeDesignation,
-            localStorageLesseeFormValues.lesseeIc
+            data.lessorSignature,
+            data.lessorDesignation,
+            data.lessorIc,
+            data.lesseeSignature,
+            data.lesseeDesignation,
+            data.lesseeIc
           )}
         </AgreementTerm>
       </AgreementWrapper>

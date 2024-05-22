@@ -23,6 +23,7 @@ import {
   lesseeSignatureUrl,
 } from "./agreement-signals";
 import { effect } from "@preact/signals";
+import axios from "axios";
 
 export const TenantAgreementForm = () => {
   const navigate = useNavigate();
@@ -55,35 +56,40 @@ export const TenantAgreementForm = () => {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof lesseeAgreeementSchema>) => {
+  const onSubmit = async (values: z.infer<typeof lesseeAgreeementSchema>) => {
     if (!lesseeSignature.value || lesseeSignature.value.size === 0) {
       setError("Please upload signature");
       return;
     }
     setError("");
     setSuccess("");
-    startTransition(() => {
-      lesseeFormValues.value = values;
-
-      localStorage.setItem(
-        "lesseeFormValues",
-        JSON.stringify(lesseeFormValues.value)
-      );
-      localStorage.setItem(
-        "lesseeSignature",
-        JSON.stringify(lesseeSignature.value)
-      );
-      localStorage.setItem(
-        "lesseeSignatureUrl",
-        JSON.stringify(lesseeSignatureUrl.value)
-      );
-      // console.log(JSON.parse(localStorage.getItem("lesseeFormValues") || ""));
-
-      // console.log(JSON.parse(localStorage.getItem("lesseeSignature") || ""));
-
-      // console.log(JSON.parse(localStorage.getItem("lesseeSignatureUrl") || ""));
-      // console.log(localStorage.getItem("lesseeSignatureUrl"));
+    lesseeFormValues.value = values;
+    const response = await axios.post("/api/submitTenantLeaseAgreement", {
+      lesseeIc: values.lesseeIc,
+      lesseeDesignation: values.lesseeDesignation,
+      lesseeSignature: lesseeSignatureUrl.value,
     });
+
+    console.log(response.status);
+
+    localStorage.setItem(
+      "lesseeFormValues",
+      JSON.stringify(lesseeFormValues.value)
+    );
+    localStorage.setItem(
+      "lesseeSignature",
+      JSON.stringify(lesseeSignature.value)
+    );
+    localStorage.setItem(
+      "lesseeSignatureUrl",
+      JSON.stringify(lesseeSignatureUrl.value)
+    );
+    // startTransition(() => {
+    // console.log(JSON.parse(localStorage.getItem("lesseeFormValues") || ""));
+    // console.log(JSON.parse(localStorage.getItem("lesseeSignature") || ""));
+    // console.log(JSON.parse(localStorage.getItem("lesseeSignatureUrl") || ""));
+    // console.log(localStorage.getItem("lesseeSignatureUrl"));
+    // });
     navigate("/tenantLeaseAgreementLastPg");
   };
 

@@ -471,11 +471,13 @@ export const TermEighteen = (
           </div>
           <div>
             <span>: </span>
-            <img
-              src={lessorSignatureUrl}
-              alt="sign"
-              className="object-cover max-w-32 max-h-28"
-            />
+            {lessorSignatureUrl && (
+              <img
+                src={lessorSignatureUrl}
+                alt="sign"
+                className="object-cover max-w-32 max-h-28"
+              />
+            )}
           </div>
         </div>
         <br />

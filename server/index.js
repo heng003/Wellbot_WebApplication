@@ -38,6 +38,7 @@ app.use("/api/applications", tenantApplicationRouter);
 app.use("/api/properties", propertiesRouter);
 app.use("/api/leases", leasesRouter);
 app.use("/api/reviewsTenant", reviewTenantRoute);
+app.use("/api/leaseAgreement", leaseAgreementRoute);
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, "../client/build");

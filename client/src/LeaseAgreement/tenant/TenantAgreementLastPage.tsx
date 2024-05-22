@@ -1,22 +1,14 @@
 import { lessorSignatureUrl } from "@/component/AgreementComponents/agreement-signals";
+import axios from "axios";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
 
-const TenantAgreementLastPage = () => {
-  const localStorageLessorSignUrl = JSON.parse(
-    localStorage.getItem("lessorSignatureUrl") || ""
+const TenantAgreementLastPage = async () => {
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
   );
-  const localStorageLesseeSignUrl = JSON.parse(
-    localStorage.getItem("lesseeSignatureUrl") || ""
-  );
-  console.log(localStorageLesseeSignUrl);
-  const localStorageLessorValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
-  );
-  const localStorageLesseeValue = JSON.parse(
-    localStorage.getItem("lesseeFormValues") || ""
-  );
+  const data = response.data;
 
   return (
     <>
@@ -32,12 +24,12 @@ const TenantAgreementLastPage = () => {
         </AgreementTerm>
         <AgreementTerm number="18" title="SUCCESSORS BOUND ">
           {TermEighteen(
-            localStorageLessorSignUrl,
-            localStorageLessorValue.lessorDesignation,
-            localStorageLessorValue.lessorIc,
-            localStorageLesseeSignUrl,
-            localStorageLesseeValue.lesseeDesignation,
-            localStorageLesseeValue.lesseeIc
+            data.lessorSignature,
+            data.lessorDesignation,
+            data.lessorIc,
+            data.lesseeSignature,
+            data.lesseeDesignation,
+            data.lesseeIc
           )}
         </AgreementTerm>
       </AgreementWrapper>

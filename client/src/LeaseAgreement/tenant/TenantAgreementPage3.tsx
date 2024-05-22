@@ -1,3 +1,4 @@
+import axios from "axios";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
@@ -12,9 +13,11 @@ const parseLocalStorage = (key: string): any => {
   }
 };
 
-const TenantAgreementPage3 = () => {
-  const localStorageLessorSignUrl = parseLocalStorage("lessorSignatureUrl");
-  const localStorageLessorValue = parseLocalStorage("lessorFormValues");
+const TenantAgreementPage3 = async () => {
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
+  );
+  const data = response.data;
 
   return (
     <>
@@ -28,9 +31,9 @@ const TenantAgreementPage3 = () => {
         </AgreementTerm>
         <AgreementTerm number="18" title="SUCCESSORS BOUND">
           {TermEighteen(
-            localStorageLessorSignUrl,
-            localStorageLessorValue?.lessorDesignation,
-            localStorageLessorValue?.lessorIc
+            data.lessorSignature,
+            data.lessorDesignation,
+            data.lessorIc
           )}
         </AgreementTerm>
       </AgreementWrapper>

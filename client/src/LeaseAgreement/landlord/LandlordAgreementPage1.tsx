@@ -9,11 +9,13 @@ import {
   TermTwo,
 } from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+import axios from "axios";
 
-const LandlordAgreementPage1 = () => {
-  const localStorageValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
+const LandlordAgreementPage1 = async () => {
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
   );
+  const data = response.data;
 
   return (
     <>
@@ -23,33 +25,23 @@ const LandlordAgreementPage1 = () => {
         nextButtonHref="/landlordLeaseAgreementPg2"
       >
         {LeaseIntro(
-          localStorageValue.day,
-          localStorageValue.month,
-          localStorageValue.year,
-          localStorageValue.lessorName,
-          localStorageValue.lessorIc,
-          localStorageValue.lesseeName,
-          localStorageValue.lesseIc
+          data.day,
+          data.month,
+          data.year,
+          data.lessorName,
+          data.lessorIc,
+          data.lesseeName,
+          data.lesseeIc
         )}
-        {PropertyInfo(localStorageValue.address)}
+        {PropertyInfo(data.address)}
         <AgreementTerm number="1" title="term">
-          {TermOne(
-            localStorageValue.effectiveDate,
-            localStorageValue.expireDate
-          )}
+          {TermOne(data.effectiveDate, data.expireDate)}
         </AgreementTerm>
         <AgreementTerm number="2" title="rent">
-          {TermTwo(
-            localStorageValue.rentRmWord,
-            localStorageValue.rentRmNum,
-            localStorageValue.advanceDay
-          )}
+          {TermTwo(data.rentRmWord, data.rentRmNum, data.advanceDay)}
         </AgreementTerm>
         <AgreementTerm number="3" title="deposit">
-          {TermThree(
-            localStorageValue.depositRmWord,
-            localStorageValue.depositRmNum
-          )}
+          {TermThree(data.depositRmWord, data.depositRmNum)}
         </AgreementTerm>
         <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
           {TermFour()}

@@ -147,7 +147,7 @@ function App() {
             element={<LandlordApplicantFeedback />}
           />
           <Route
-            path="/landlordLeaseAgreementForm"
+            path="/landlordLeaseAgreementForm/:applicationId"
             element={<LandlordAgreementFormPage />}
           />
           <Route
@@ -167,7 +167,7 @@ function App() {
             element={<TenantAgreementHome />}
           />
           <Route
-            path="/tenantLeaseAgreementForm"
+            path="/tenantLeaseAgreementForm/:aprrovedApplicationId"
             element={<TenantAgreementFormPage />}
           />
           <Route

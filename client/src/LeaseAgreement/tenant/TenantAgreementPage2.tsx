@@ -15,11 +15,13 @@ import {
   TermTwelve,
 } from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+import axios from "axios";
 
-const TenantAgreementPage2 = () => {
-  const localStorageValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
+const TenantAgreementPage2 = async () => {
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
   );
+  const data = response.data;
   return (
     <>
       <AgreementWrapper
@@ -56,12 +58,12 @@ const TenantAgreementPage2 = () => {
         </AgreementTerm>
         <AgreementTerm number="12" title="notice">
           {TermTwelve(
-            localStorageValue.lessorAdd,
-            localStorageValue.lessorTel,
-            localStorageValue.lessorFax,
-            localStorageValue.lesseeAdd,
-            localStorageValue.lesseeTel,
-            localStorageValue.lesseeFax
+            data.lessorAdd,
+            data.lessorTel,
+            data.lessorFax,
+            data.lesseeAdd,
+            data.lesseeTel,
+            data.lesseeFax
           )}
         </AgreementTerm>
         <AgreementTerm number="13" title="modification">

@@ -9,16 +9,18 @@ import {
   TermTwo,
 } from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+import axios from "axios";
 
-const TenantAgreementPage1 = () => {
+const TenantAgreementPage1 = async () => {
   // Retrieve data from localStorage
-  const localStorageValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || "{}"
+  const response = await axios.get(
+    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
   );
+  const data = response.data;
 
-  // Check if localStorageValue is empty or invalid
-  if (!localStorageValue || Object.keys(localStorageValue).length === 0) {
-    // Handle the case when localStorageValue is empty or invalid
+  // Check if data is empty or invalid
+  if (!data) {
+    // Handle the case when data is empty or invalid
     return <div>No data available.</div>;
   }
 
@@ -30,33 +32,23 @@ const TenantAgreementPage1 = () => {
         nextButtonHref="/tenantLeaseAgreementPg2"
       >
         {LeaseIntro(
-          localStorageValue.day,
-          localStorageValue.month,
-          localStorageValue.year,
-          localStorageValue.lessorName,
-          localStorageValue.lessorIc,
-          localStorageValue.lesseeName,
-          localStorageValue.lesseIc
+          data.day,
+          data.month,
+          data.year,
+          data.lessorName,
+          data.lessorIc,
+          data.lesseeName,
+          data.lesseIc
         )}
-        {PropertyInfo(localStorageValue.address)}
+        {PropertyInfo(data.address)}
         <AgreementTerm number="1" title="term">
-          {TermOne(
-            localStorageValue.effectiveDate,
-            localStorageValue.expireDate
-          )}
+          {TermOne(data.effectiveDate, data.expireDate)}
         </AgreementTerm>
         <AgreementTerm number="2" title="rent">
-          {TermTwo(
-            localStorageValue.rentRmWord,
-            localStorageValue.rentRmNum,
-            localStorageValue.advanceDay
-          )}
+          {TermTwo(data.rentRmWord, data.rentRmNum, data.advanceDay)}
         </AgreementTerm>
         <AgreementTerm number="3" title="deposit">
-          {TermThree(
-            localStorageValue.depositRmWord,
-            localStorageValue.depositRmNum
-          )}
+          {TermThree(data.depositRmWord, data.depositRmNum)}
         </AgreementTerm>
         <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
           {TermFour()}

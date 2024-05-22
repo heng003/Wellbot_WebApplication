@@ -35,16 +35,6 @@ const Commercial = () => {
   const dropdownRef2 = useRef(null);
   const dropdownRef3 = useRef(null);
 
-  const priceRanges = [
-    "All Price Range",
-    "RM 500 Below",
-    "RM 500 - RM 1000",
-    "RM 1001 - RM 1500",
-    "RM 1501 - RM 2000",
-    "RM 2001 - RM 2500",
-    "RM 2500 Above",
-  ];
-
   useEffect(() => {
     const fetchProperties = async () => {
       try {
