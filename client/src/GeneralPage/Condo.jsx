@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./home.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import CardGeneral from "../component/CardGeneral";
 import axios from "axios";
 
 const Condo = () => {
+  const [propertyList, setPropertyList] = useState([]);
+  const [cardData, setCardData] = useState([]);
+  const [locations, setLocations] = useState(["All Location"]);
+
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [selectedOption3, setSelectedOption3] = useState(null);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
@@ -12,16 +17,9 @@ const Condo = () => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
 
-  const locations = [
-    "All Location",
-    "Petaling Jaya",
-    "Cheras",
-    "Kajang",
-    "Ampang",
-    "Bandar Sri Damansara",
-    "Bukit Bintang",
-    "Bandar Sunway",
-  ];
+  const dropdownRef2 = useRef(null);
+  const dropdownRef3 = useRef(null);
+
   const priceRanges = [
     "All Price Range",
     "RM 500 Below",
@@ -31,8 +29,6 @@ const Condo = () => {
     "RM 2001 - RM 2500",
     "RM 2500 Above",
   ];
-  const dropdownRef2 = useRef(null);
-  const dropdownRef3 = useRef(null);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -108,6 +104,22 @@ const Condo = () => {
     };
   }, []);
 
+  const determinePriceRange = (price) => {
+    if (price <= 500) {
+      return "RM 500 Below";
+    } else if (price <= 1000) {
+      return "RM 500 - RM 1000";
+    } else if (price <= 1500) {
+      return "RM 1001 - RM 1500";
+    } else if (price <= 2000) {
+      return "RM 1501 - RM 2000";
+    } else if (price <= 2500) {
+      return "RM 2001 - RM 2500";
+    } else {
+      return "RM 2500 Above";
+    }
+  };
+
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
     const results = cardData.filter((card) => {
@@ -128,33 +140,6 @@ const Condo = () => {
     setter(option);
     refSetter(false);
   };
-
-  // Array of card data objects for frontend demo
-  const cardData = [
-    {
-      imgSrc: "Images/condo_1.jpg",
-      cardTitle1: "RM 2300 Per Month",
-      cardTitle2: "Ryan & Miho",
-      cardText:
-        "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",
-      roomDetails: ["4", "3", "1200sf"],
-      propertyType: "Condo",
-      location: "Petaling Jaya",
-      priceRange: "RM 2001 - RM 2500",
-    },
-
-    {
-      imgSrc: "Images/condo_2.jpg",
-      cardTitle1: "RM 3500 Per Month",
-      cardTitle2: "D' Latour",
-      cardText:
-        "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",
-      roomDetails: ["5", "3", "1800sf"],
-      propertyType: "Condo",
-      location: "Bandar Sunway",
-      priceRange: "RM 2500 Above",
-    },
-  ];
 
   return (
     <div>
