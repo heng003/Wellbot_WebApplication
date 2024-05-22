@@ -19,6 +19,7 @@ import leaseAgreementRoute from "./routes/leaseAgreementRoute";
 const reviewTenantRoute = require("./routes/reviewTenantRoute");
 
 const app = express();
+const port = 5000;
 
 console.log("Environment Variables:");
 console.log("PORT:", process.env.PORT);
@@ -33,10 +34,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use("/api/auth", authRouter);
+app.use("/api/applications", tenantApplicationRouter);
 app.use("/api/properties", propertiesRouter);
 app.use("/api/leases", leasesRouter);
 app.use("/api/reviewsTenant", reviewTenantRoute);
-app.use("/api/leaseAgreement", leaseAgreementRoute);
 
 // Serve static files from the React app build directory
 const buildPath = path.join(__dirname, "../client/build");
@@ -48,10 +49,8 @@ app.get("*", function (req, res) {
 });
 
 // 3. MONGO DB CONNECTION
-const mongoURI = process.env.MONGO_URI;
-
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
 
