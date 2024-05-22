@@ -14,6 +14,8 @@ const tenantApplicationRouter = require('./tenantApplication/routes/tenantApplic
 const propertiesRouter = require('./routes/propertiesRoute');
 const leasesRouter = require('./routes/leaseRoute');
 const reviewTenantRoute = require('./routes/reviewTenantRoute');
+const userRoute = require('./routes/userRoute')
+const reviewLandlordRoute = require('./routes/reviewLandlordRoute')
 
 const app = express();
 
@@ -26,11 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
+app.use('/api', userRoute);
 app.use('/api/applications', tenantApplicationRouter);
 app.use('/api/properties', propertiesRouter);
 app.use('/api/leases', leasesRouter);
 app.use('/api/reviewsTenant', reviewTenantRoute);
-
+app.use('/api/reviewsLandlord', reviewLandlordRoute);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));

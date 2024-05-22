@@ -8,12 +8,16 @@ import Comment_Hover_Icon from '../component/Rental_Icon/comment_hover.png';
 import Alert from '../../LandlordPOV/Alert';
 
 const CardRent = ({ listing }) => {
-    const { title, locationOwner, duration, imageUrl, isActive } = listing;
-    const subtitle = isActive ? "Active" : "Expired";
+
+    const { property, leaseStatus, effectiveDateStart, effectiveDateEnd } = listing;
+    const { name, type, location, landlordUsername, coverPhoto } = property;
+    const isActive = leaseStatus === 'Active';
     const navigate = useNavigate();
 
-  const [hoveredDownloadIcon, setHoveredDownloadIcon] = useState(false);
-  const [hoveredCommentIcon, setHoveredCommentIcon] = useState(false);
+    const [hoveredDownloadIcon, setHoveredDownloadIcon] = useState(false);
+    const [hoveredCommentIcon, setHoveredCommentIcon] = useState(false);
+
+    console.log('CardRent Listing:', listing);
 
     const handleDownloadIconMouseEnter = () => setHoveredDownloadIcon(true);
     const handleDownloadIconMouseLeave = () => setHoveredDownloadIcon(false);
@@ -22,12 +26,12 @@ const CardRent = ({ listing }) => {
 
     const handleCardClick = () => {
         if (isActive) {
-            navigate("/tenantViewPropertyActive");  
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            navigate(`/tenantViewPropertyActive/${property._id}`);  
         } else {
-            navigate("/tenantViewProperty"); 
+            navigate(`/tenantViewProperty/${property._id}`);
         }
     };
-    
 
     const triggerDownload = (event) => {
         event.stopPropagation(); 
@@ -38,18 +42,29 @@ const CardRent = ({ listing }) => {
         link.click();
         document.body.removeChild(link);
     };
+    
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString)).replace(/\//g, '/');
+    };
+
+    const handleCommentClick = (event) => {
+        event.stopPropagation(); // Prevent triggering the card click event
+        navigate('/tenantComment', { state: { landlordUsername } });
+    };
+
+
 
     return (
         <div className={`rentalList_statusCard ${isActive ? 'active' : 'expired'}`} onClick={handleCardClick}>
-            <h2 className="cardRental_subtitle">{subtitle}</h2>
             <div className="history-listing">
                 <div className="rentalHistory-image">
-                    <img src={imageUrl} alt="Rental Property" />
+                    <img src={coverPhoto} alt="Rental Property" />
                 </div>
                 <div className="rentalHistory-details">
-                    <h2 className="rental_historyTitle">{title}</h2>
-                    <p className="descript_rental">{locationOwner}</p>
-                    <p className="descript_duration">Duration: {duration}</p>
+                    <h2 className="rental_historyTitle">{name}</h2>
+                    <p className="descript_rental">{location} | {type} rented out by {landlordUsername}</p>
+                    <p className="descript_duration">Duration: {formatDate(effectiveDateStart)} - {formatDate(effectiveDateEnd)}</p>
                 </div>
                 <div className="property-actions">
                     {isActive ? (
