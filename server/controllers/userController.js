@@ -13,3 +13,20 @@ exports.getUserById = async (req, res, next) => {
     }
 };
 
+exports.getLandlordIdByUsername = async (req, res) => {
+    try {
+        const { username } = req.params;
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ landlordId: user._id });
+    } catch (err) {
+        console.error('Error fetching landlord ID:', err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+

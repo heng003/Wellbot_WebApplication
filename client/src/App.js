@@ -84,7 +84,7 @@ function App() {
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
           <Route path="/landlordComment/:username" element={<LandlordComment />} />
-          <Route path="/tenantComment" element={<TenantComment />} />
+          <Route path="/tenantComment/:landlordUsername" element={<TenantComment />} />
           <Route path="/tenantRent" element={<RentTenant />} />
           <Route path="/tenantViewPropertyPending/:propertyId" element={<TenantViewPropertyPending />}/>
           <Route path="/tenantViewPropertyRejected/:propertyId"  element={<TenantViewPropertyRejected />}/>    

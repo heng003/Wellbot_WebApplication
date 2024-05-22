@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './cardHistory.css';
 import downLoad_Icon from '../component/Rental_Icon/download.png';
 import downLoad_HoverIcon from '../component/Rental_Icon/download_hover.png';
@@ -16,8 +17,6 @@ const CardRent = ({ listing }) => {
 
     const [hoveredDownloadIcon, setHoveredDownloadIcon] = useState(false);
     const [hoveredCommentIcon, setHoveredCommentIcon] = useState(false);
-
-    console.log('CardRent Listing:', listing);
 
     const handleDownloadIconMouseEnter = () => setHoveredDownloadIcon(true);
     const handleDownloadIconMouseLeave = () => setHoveredDownloadIcon(false);
@@ -49,11 +48,10 @@ const CardRent = ({ listing }) => {
     };
 
     const handleCommentClick = (event) => {
-        event.stopPropagation(); // Prevent triggering the card click event
-        navigate('/tenantComment', { state: { landlordUsername } });
+        event.stopPropagation();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        navigate(`/tenantComment/${landlordUsername}`);
     };
-
-
 
     return (
         <div className={`rentalList_statusCard ${isActive ? 'active' : 'expired'}`} onClick={handleCardClick}>
@@ -82,15 +80,18 @@ const CardRent = ({ listing }) => {
                         onClick={triggerDownload}
                         alt="Download"
                     />
-                    <a href="/tenantComment" className="rentalTenant-link" onClick={(event) => event.stopPropagation()}>
-                        <img 
+                    <div
+                        className="rentalTenant-link"
+                        onClick={handleCommentClick}
+                    >
+                        <img
                             className="rentalTenant-comment"
                             src={hoveredCommentIcon ? Comment_Hover_Icon : Comment_Icon}
                             onMouseEnter={handleCommentIconMouseEnter}
                             onMouseLeave={handleCommentIconMouseLeave}
                             alt="Comment"
                         />
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
