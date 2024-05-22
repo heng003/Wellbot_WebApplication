@@ -1,12 +1,8 @@
 use("RentSpotter");
 
-db.getCollection("leases").insertOne({
-  tenantId: ObjectId("66476ac5b0038fdc720f973d"),
-  propertyId: ObjectId("6647463426c3fcb36876c1e4"),
-  leaseStatus: "Expired",
-  effectiveDateStart: new Date("21/1/2021"),
-  effectiveDateEnd: new Date("21/4/2022"),
-  PDF: null,
+db.getCollection("applications").insertOne({
+  tenantId: new ObjectId("664efa491ff11b5274cfe440"),
+  propertyId: new ObjectId("664770d50a1b773d78a1f9b7"),
+  applicationStatus: "Pending",
+  __v: 0,
 });
-
-db.getCollection("leases").find().pretty();

@@ -117,7 +117,7 @@ function LandlordHistory() {
         {data.map((lease, index) => (
           <tr key={lease._id}>
             <td>{lease.tenantId.username}</td>
-            <td>{new Date(lease.effectiveDateEnd).toLocaleDateString()} - {new Date(lease.effectiveDateStart).toLocaleDateString()}</td>
+            <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
             <td>{lease.leaseStatus}</td>
             <td>
               <img
