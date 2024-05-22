@@ -3,6 +3,7 @@ const Application = require('../../models/applicationModel');
 const Property = require('../../models/propertyModel');
 const LandlordReview = require('../../models/reviewLandlordModel');
 const User = require('../../models/userModel');
+const Lease = require('../../models/leaseModel')
 const createError = require('../../utils/appError');
 
 //GET All Properties
@@ -71,12 +72,13 @@ const getUserProfile = async (req, res) => {
 
 //POST New Application Record
 const createApplication  = async (req, res) => {
-  const {userId, propertyId} = req.body;
+  const {userId, propertyId, landlordId} = req.body;
 
   try {
     // Validate that the user and property exist
     const user = await User.findById(userId);
     const property = await Property.findById(propertyId);
+    const landlord = await User.findById(landlordId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -86,10 +88,15 @@ const createApplication  = async (req, res) => {
       return res.status(404).json({ error: "Property not found" });
     }
 
+    if (!landlord) {
+      return res.status(404).json({ error: "Landlord not found" });
+    }
+
     // Create a new application
     const newApplication = new Application({
       tenantId: userId,
       propertyId: propertyId,
+      landlordId: landlordId,
       applicationStatus: 'Pending', // Default status
     });
 
@@ -178,6 +185,25 @@ const getLandlordReview = async (req, res) => {
   }
 };
 
+//GET lease by applicationId
+const getLeaseByApplicationId = async (req, res) => {
+  const { applicationId } = req.params;
+
+  try {
+    const response = await Lease.findOne({ applicationId: applicationId });
+    console.log("Lease data: ", response)
+
+    if (!response) {
+      console.log("Lease not found")
+      return res.status(404).json({ error: "The lease is not found" });
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllProperties,
   getAllCondoProperties,
@@ -188,7 +214,8 @@ module.exports = {
   createApplication,
   getApplications,
   getLandlord,
-  getLandlordReview
+  getLandlordReview,
+  getLeaseByApplicationId
 };
 
 /*

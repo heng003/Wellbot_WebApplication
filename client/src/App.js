@@ -86,7 +86,7 @@ function App() {
           />
           <Route path="/tenantProfileEdit" element={<EditTenantProfile />} />
           <Route path="/tenantViewProperty/:propertyId" element={<TenantViewProperty />} />
-          <Route path="/tenantApplyForm/:propertyId/:userId" element={<TenantApplyForm />} />
+          <Route path="/tenantApplyForm/:propertyId/:userId/:landlordId" element={<TenantApplyForm />} />
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
           <Route path="/landlordComment/:username" element={<LandlordComment />} />
@@ -101,7 +101,7 @@ function App() {
             element={<TenantViewPropertyRejected />}
           />
           <Route
-            path="/tenantViewPropertyLease/:propertyId"
+            path="/tenantViewPropertyLease/:propertyId/:applicationId"
             element={<TenantViewPropertyLease />}
           />
           <Route
