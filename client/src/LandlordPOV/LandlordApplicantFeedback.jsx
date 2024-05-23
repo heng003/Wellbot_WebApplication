@@ -1,13 +1,47 @@
-import React from "react";
 import Swal from "sweetalert2";
 import contactIcon from "./Rental_Icon/contact.png";
 import CardComment from "./CardComment";
 import AverageRating from "../TenantPOV/component/AverageRating";
 import "./landlordApplicantFeedback.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const LandlordApplicantFeedback = () => {
+
+  const location = useLocation();
   const nav = useNavigate();
+  const { username, leaseId } = location.state || {};
+  const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
+
+  console.log('Received in LandlordApplicantFeedback:', { username, leaseId });
+  
+  useEffect(() => {
+    async function fetchLeases() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error("No token found");
+        }
+
+        const response = await axios.get(`/api/leases/tenant/${username}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
+        setEffectiveLeasesCount(effectiveLeases.length);
+      } catch (err) {
+        console.error("Error fetching leases:", err);
+        Swal.fire({
+          text: "Error fetching leases. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#FF8C22",
+        });
+      }
+    }
+    fetchLeases();
+  }, [username]);
 
   const handleSendLease = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -48,9 +82,9 @@ const LandlordApplicantFeedback = () => {
               </div>
 
               <div className="accountRight_Section">
-                <h5 className="usernameText">lilian29</h5>
+                <h5 className="usernameText">{username}</h5>
                 <p className="accountDetail" id="accDetails">
-                  Account had been created 3 year before.
+                  Current Rent Properties: {effectiveLeasesCount}
                 </p>
               </div>
             </div>
