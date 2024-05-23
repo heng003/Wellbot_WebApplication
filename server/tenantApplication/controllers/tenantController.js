@@ -1,6 +1,7 @@
 const { response } = require('express');
 const Application = require('../../models/applicationModel');
 const Property = require('../../models/propertyModel');
+const Lease = require('../../models/leaseModel');
 const LandlordReview = require('../../models/reviewLandlordModel');
 const User = require('../../models/userModel');
 const createError = require('../../utils/appError');
@@ -178,6 +179,31 @@ const getLandlordReview = async (req, res) => {
   }
 };
 
+// GET Applications by Property ID
+const getApplicationsByProperty = async (req, res) => {
+  const { propertyId } = req.params;
+  try {
+    const applications = await Application.find({ propertyId }).populate('tenantId');
+    return res.status(200).json(applications);
+  } catch (error) {
+    console.error("Error fetching applications by property ID:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// GET Leases by Tenant IDs
+const getLeasesByTenants = async (req, res) => {
+  const { tenantIds } = req.query;
+  try {
+    const tenantIdArray = tenantIds.split(','); // Split the comma-separated string into an array
+    const leases = await Lease.find({ tenantId: { $in: tenantIdArray } });
+    return res.status(200).json(leases);
+  } catch (error) {
+    console.error("Error fetching leases by tenant IDs:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllProperties,
   getAllCondoProperties,
@@ -188,7 +214,9 @@ module.exports = {
   createApplication,
   getApplications,
   getLandlord,
-  getLandlordReview
+  getLandlordReview,
+  getApplicationsByProperty,
+  getLeasesByTenants
 };
 
 /*

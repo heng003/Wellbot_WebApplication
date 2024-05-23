@@ -9,7 +9,7 @@ import starOnClick from "./Rental_Icon//rating_star_onClick.svg";
 import starDefault from "./Rental_Icon/rating_star_default.svg";
 import Alert from "../LandlordPOV/Alert";
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 
 function LandlordApplicant() {
 
@@ -32,7 +32,7 @@ function LandlordApplicant() {
     if (selectedRatingSort !== option) {
       setSelectedRatingSort(option);
     }
-    setIsOpenRating(false);  
+    setIsOpenRating(false);
   };
 
   const handleAlert = () => {
@@ -55,7 +55,7 @@ function LandlordApplicant() {
           console.error("Error fetching properties:", err);
           setError("Failed to fetch properties");
         }
-      }    
+      }
       fetchProperties();
     }
   }, []);
@@ -63,23 +63,36 @@ function LandlordApplicant() {
   useEffect(() => {
     async function fetchLeases() {
       if (selectedProperty && selectedProperty._id) {
-        setLoading(true); 
+        setLoading(true);
         try {
           const token = localStorage.getItem('token');
-          const response = await axios.get(`/api/leases/${selectedProperty._id}`, {
+          const applicationsResponse = await axios.get(`/api/applications/property/${selectedProperty._id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          const filteredLeases = response.data
-            .filter(lease => lease.leaseStatus === 'Not Applicable' || lease.leaseStatus === 'Under Review By Tenant' || lease.leaseStatus === "Effective")
-            .map(lease => ({
-              ...lease,
-              leaseStatus: lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus
-            }));
-          setLeases(filteredLeases);
+
+          const tenantIds = applicationsResponse.data.map(app => app.tenantId._id);
+          const leasesResponse = await axios.get(`/api/applications/leases/tenants`, {
+            headers: { Authorization: `Bearer ${token}` },
+            params: { tenantIds: tenantIds.join(',') }
+          });
+
+          const leasesData = leasesResponse.data;
+          const combinedData = applicationsResponse.data.map(app => {
+            const lease = leasesData.find(l => l.tenantId === app.tenantId._id);
+            let leaseStatus = lease ? (lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus) : 'Not Applicable';
+            
+           if (lease && lease.leaseStatus === 'Expired') {
+              leaseStatus = 'Not Applicable';
+            }
+
+            return { ...app, leaseStatus };
+          });
+
+          setLeases(combinedData);
         } catch (err) {
           console.error("Error fetching leases:", err);
           setError("Failed to fetch leases");
-        }finally{
+        } finally {
           setLoading(false);
         }
       }
@@ -91,7 +104,7 @@ function LandlordApplicant() {
     const selected = properties.find(property => property._id === propertyId);
     if (selected && (!selectedProperty || selected._id !== selectedProperty._id)) {
       setSelectedProperty(selected);
-      setLeases([]); 
+      setLeases([]);
     } else {
       setSelectedProperty(selected);
     }
@@ -108,10 +121,10 @@ function LandlordApplicant() {
   };
 
   const handleDownloadSigned = (event) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
     const link = document.createElement("a");
     link.href =
-      "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp"; 
+      "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
     link.download = "LeaseAgreement.pdf";
     document.body.appendChild(link);
     link.click();
@@ -224,7 +237,7 @@ function LandlordApplicant() {
 
   const sortTenantsByRating = (tenants, sortOption) => {
     return tenants.slice().sort((a, b) => {
-      const ratingA = a.tenantId.overallRating ?? 0; 
+      const ratingA = a.tenantId.overallRating ?? 0;
       const ratingB = b.tenantId.overallRating ?? 0;
       if (sortOption === "Highest to Lowest") {
         return ratingB - ratingA;
@@ -237,7 +250,7 @@ function LandlordApplicant() {
   const renderTablesBasedOnSelection = () => {
     if (selectedProperty) {
       if (loading) {
-        return <h3 className="Brief_Text"></h3>;
+        return <h3 className="Brief_Text">Loading...</h3>;
       }
       if (leases.length === 0) {
         return (
