@@ -16,7 +16,7 @@ import { Input } from "components/ui/input";
 import { FormError } from "./form-error";
 import { FormSuccess } from "./form-success";
 import { Button } from "components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   lesseeFormValues,
   lesseeSignature,
@@ -26,6 +26,7 @@ import { effect } from "@preact/signals";
 import axios from "axios";
 
 export const TenantAgreementForm = () => {
+  const { leaseAgreementId } = useParams();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -64,11 +65,14 @@ export const TenantAgreementForm = () => {
     setError("");
     setSuccess("");
     lesseeFormValues.value = values;
-    const response = await axios.post("/api/submitTenantLeaseAgreement", {
-      lesseeIc: values.lesseeIc,
-      lesseeDesignation: values.lesseeDesignation,
-      lesseeSignature: lesseeSignatureUrl.value,
-    });
+    const response = await axios.post(
+      `/api/leaseAgreement/submitTenantLeaseAgreement/${leaseAgreementId}`,
+      {
+        lesseeIc: values.lesseeIc,
+        lesseeDesignation: values.lesseeDesignation,
+        lesseeSignature: lesseeSignatureUrl.value,
+      }
+    );
 
     console.log(response.status);
 

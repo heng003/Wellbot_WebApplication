@@ -25,7 +25,6 @@ const propertiesRouter = require('./routes/propertiesRoute');
 >>>>>>> 314ff59 (jwt installed)
 
 const app = express();
-const port = 5000;
 
 // 1. MIDDLEWARES
 app.use(cors());

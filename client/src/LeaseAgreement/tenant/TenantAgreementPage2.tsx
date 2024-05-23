@@ -16,10 +16,12 @@ import {
 } from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const TenantAgreementPage2 = async () => {
+  const { leaseAgreementId } = useParams();
   const response = await axios.get(
-    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
+    `http://localhost:5000/api/leaseAgreement/getLeaseAgreement/${leaseAgreementId}`
   );
   const data = response.data;
   return (
@@ -27,7 +29,7 @@ const TenantAgreementPage2 = async () => {
       <AgreementWrapper
         title="Lease Agreement"
         nextButtonText="Next"
-        nextButtonHref="/tenantLeaseAgreementPg3"
+        nextButtonHref={`/tenantLeaseAgreementPg3/${leaseAgreementId}`}
       >
         <AgreementTerm number="5" title="ASSIGNMENT AND SUB-LETTING">
           {TermFive()}

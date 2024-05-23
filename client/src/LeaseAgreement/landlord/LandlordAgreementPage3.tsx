@@ -3,10 +3,12 @@ import axios from "axios";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
+import { useParams } from "react-router-dom";
 
 const LandlordAgreementPage3 = async () => {
+  const { leaseAgreementId } = useParams();
   const response = await axios.get(
-    "http://localhost:5000/api/leaseAgreement/getLeaseAgreement"
+    `http://localhost:5000/api/leaseAgreement/getLeaseAgreement/${leaseAgreementId}`
   );
   const data = response.data;
 

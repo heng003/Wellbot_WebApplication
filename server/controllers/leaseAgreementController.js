@@ -112,6 +112,7 @@ exports.submitLandlordLeaseAgreement = async (req, res, next) => {
       res.status(200).json({
         status: "success",
         message: "Lease Agreement sent successfully",
+        data: { leaseAgreement: existingLeaseAgreement },
       });
     }
   } catch (error) {

@@ -113,7 +113,7 @@ export const LandlordAgreementForm = () => {
         lessorSignature: lessorSignatureUrl.value,
       }
     );
-    console.log(response.status);
+    const leaseAgreementId = response.data.leaseAgreement._id;
 
     localStorage.setItem(
       "lessorFormValues",
@@ -127,12 +127,9 @@ export const LandlordAgreementForm = () => {
       "lessorSignatureUrl",
       JSON.stringify(lessorSignatureUrl.value)
     );
-    console.log(JSON.parse(localStorage.getItem("lessorFormValues") || ""));
-
-    console.log(JSON.parse(localStorage.getItem("lessorSignatureUrl") || ""));
     // startTransition(() => {});
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/landlordLeaseAgreementPg1");
+    navigate(`/landlordLeaseAgreementPg1/${leaseAgreementId}`);
   };
 
   return (

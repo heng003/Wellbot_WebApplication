@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const authenticate = require("../middlwares/userIdMiddleware");
 const tenantController = require("../controllers/tenantController");
 
 router.get("/", tenantController.getAllProperties);
