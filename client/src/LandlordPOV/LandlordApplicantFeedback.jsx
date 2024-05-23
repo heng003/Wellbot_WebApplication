@@ -12,10 +12,10 @@ const LandlordApplicantFeedback = () => {
 
   const location = useLocation();
   const nav = useNavigate();
-  const { username, leaseId } = location.state || {};
+  const { username, leaseId, applicationId } = location.state || {};
   const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
 
-  console.log('Received in LandlordApplicantFeedback:', { username, leaseId });
+  console.log('Received in LandlordApplicantFeedback:', { username, leaseId, applicationId });
   
   useEffect(() => {
     async function fetchLeases() {

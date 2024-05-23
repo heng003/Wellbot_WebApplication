@@ -22,6 +22,7 @@ function LandlordApplicant() {
 
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [applications, setApplications] = useState([]);
   const [leases, setLeases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -61,7 +62,7 @@ function LandlordApplicant() {
   }, []);
 
   useEffect(() => {
-    async function fetchLeases() {
+    async function fetchApplicationsAndLeases() {
       if (selectedProperty && selectedProperty._id) {
         setLoading(true);
         try {
@@ -69,6 +70,7 @@ function LandlordApplicant() {
           const applicationsResponse = await axios.get(`/api/applications/property/${selectedProperty._id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
+          setApplications(applicationsResponse.data);
 
           const tenantIds = applicationsResponse.data.map(app => app.tenantId._id);
           const leasesResponse = await axios.get(`/api/applications/leases/tenants`, {
@@ -81,7 +83,7 @@ function LandlordApplicant() {
             const lease = leasesData.find(l => l.tenantId === app.tenantId._id);
             let leaseStatus = lease ? (lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus) : 'Not Applicable';
             
-           if (lease && lease.leaseStatus === 'Expired') {
+            if (lease && lease.leaseStatus === 'Expired') {
               leaseStatus = 'Not Applicable';
             }
 
@@ -90,20 +92,21 @@ function LandlordApplicant() {
 
           setLeases(combinedData);
         } catch (err) {
-          console.error("Error fetching leases:", err);
-          setError("Failed to fetch leases");
+          console.error("Error fetching applications and leases:", err);
+          setError("Failed to fetch applications and leases");
         } finally {
           setLoading(false);
         }
       }
     }
-    fetchLeases();
+    fetchApplicationsAndLeases();
   }, [selectedProperty]);
 
   const handlePropertyChange = (propertyId) => {
     const selected = properties.find(property => property._id === propertyId);
     if (selected && (!selectedProperty || selected._id !== selectedProperty._id)) {
       setSelectedProperty(selected);
+      setApplications([]);
       setLeases([]);
     } else {
       setSelectedProperty(selected);
@@ -111,13 +114,17 @@ function LandlordApplicant() {
   };
 
   const handleViewApplicantFeedback = (lease) => {
-    console.log('Navigating to applicationReview with:', {
-      username: lease.tenantId.username,
-      leaseId: lease.leaseId
-    });
-    nav("/landlordApplicantFeedback", {
-      state: { username: lease.tenantId.username, leaseId: lease.leaseId }
-    });
+    const application = applications.find(app => app.tenantId._id === lease.tenantId._id);
+    if (application) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      nav("/landlordApplicantFeedback", {
+        state: { 
+          username: lease.tenantId.username, 
+          leaseId: lease.leaseId,
+          applicationId: application._id 
+        }
+      });
+    }
   };
 
   const handleDownloadSigned = (event) => {
