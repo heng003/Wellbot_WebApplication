@@ -1,11 +1,12 @@
 const { response } = require("express");
 const Application = require("../../models/applicationModel");
 const Property = require("../../models/propertyModel");
+const Lease = require("../../models/leaseModel");
 const LandlordReview = require("../../models/reviewLandlordModel");
 const User = require("../../models/userModel");
-const Lease = require("../../models/leaseModel");
 const createError = require("../../utils/appError");
 
+//GET All Properties
 const getAllProperties = async (req, res) => {
   try {
     const response = await Property.find().sort({ createdAt: -1 });
@@ -16,7 +17,6 @@ const getAllProperties = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 //GET All Condo Properties
 const getAllCondoProperties = async (req, res) => {
   try {
@@ -47,11 +47,6 @@ const getAllComercialProperties = async (req, res) => {
 const getOneProperty = async (req, res) => {
   const { propertyId } = req.params;
 
-=======
-const getOneProperty = async (req, res) => {
-  const { propertyId } = req.params;
-
->>>>>>> 314ff59 (jwt installed)
   console.log("Property Id: " + propertyId);
 
   try {
@@ -66,10 +61,11 @@ const getOneProperty = async (req, res) => {
   }
 };
 
-//GET user
+//GET user by userId
 const getUserProfile = async (req, res) => {
   try {
     const userId = req.params.userId;
+    console.log("User id: " + userId);
     const user = await User.findById(userId);
     res.json(user);
   } catch (err) {
@@ -195,10 +191,46 @@ const getLandlordReview = async (req, res) => {
   }
 };
 
+// GET Applications by Property ID
+const getApplicationsByProperty = async (req, res) => {
+  const { propertyId } = req.params;
+  try {
+    const applications = await Application.find({ propertyId }).populate(
+      "tenantId"
+    );
+    return res.status(200).json(applications);
+  } catch (error) {
+    console.error("Error fetching applications by property ID:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// GET Leases by Tenant IDs
+const getLeasesByTenants = async (req, res) => {
+  const { tenantIds } = req.query;
+  try {
+    const tenantIdArray = tenantIds.split(","); // Split the comma-separated string into an array
+    const leases = await Lease.find({ tenantId: { $in: tenantIdArray } });
+    return res.status(200).json(leases);
+  } catch (error) {
+    console.error("Error fetching leases by tenant IDs:", error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllProperties,
+  getAllCondoProperties,
+  getAllComercialProperties,
   getOneProperty,
   getUserProfile,
+  checkApplicationExists,
+  createApplication,
+  getApplications,
+  getLandlord,
+  getLandlordReview,
+  getApplicationsByProperty,
+  getLeasesByTenants,
 };
 
 /*
