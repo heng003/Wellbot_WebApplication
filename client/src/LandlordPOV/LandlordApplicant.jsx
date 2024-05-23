@@ -85,7 +85,7 @@ function LandlordApplicant() {
               leaseStatus = 'Not Applicable';
             }
 
-            return { ...app, leaseStatus };
+            return { ...app, leaseStatus, leaseId: lease ? lease._id : null };
           });
 
           setLeases(combinedData);
@@ -110,14 +110,14 @@ function LandlordApplicant() {
     }
   };
 
-  const handleViewApplicantFeedback = (event) => {
-    if (
-      !event.target.classList.contains("signedStatusData") &&
-      !event.target.classList.contains("tenantReviewing")
-    ) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      nav("/landlordApplicantFeedback");
-    }
+  const handleViewApplicantFeedback = (lease) => {
+    console.log('Navigating to applicationReview with:', {
+      username: lease.tenantId.username,
+      leaseId: lease.leaseId
+    });
+    nav("/landlordApplicantFeedback", {
+      state: { username: lease.tenantId.username, leaseId: lease.leaseId }
+    });
   };
 
   const handleDownloadSigned = (event) => {
@@ -161,9 +161,9 @@ function LandlordApplicant() {
         </tr>
       </thead>
 
-      <tbody onClick={handleViewApplicantFeedback}>
+      <tbody>
         {data.map((lease, index) => (
-          <tr key={lease.id}>
+          <tr key={lease.id} onClick={() => handleViewApplicantFeedback(lease)}>
             <td>{lease.tenantId.username}</td>
             <td>{renderRatingOrCommentText(lease)}</td>
             <td>{renderStatus(lease.leaseStatus)}</td>
