@@ -73,7 +73,8 @@ const TenantApplication = () => {
         enrichedPropertyData.forEach((property) => {
           const application = applicationList.find(app => app.propertyId === property._id);
           const listing = {
-            propertyId: property._id,
+            applicationId: application._id,
+            propertyId: application.propertyId,
             title: property.name,
             locationOwner: `${property.location} | ${property.type} rented out by ${property.landlordUsername}`,
             imageUrl: property.coverPhoto,

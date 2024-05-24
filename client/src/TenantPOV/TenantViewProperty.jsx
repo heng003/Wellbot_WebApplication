@@ -55,7 +55,17 @@ const TenantViewProperty = () => {
     };
 
     const handleApplyPropertyPageButton = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (!isLandlordIdFetched) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Landlord information not available yet. Please try again later.',
+                icon: 'error',
+                confirmButtonColor: "#FF8C22",
+                confirmButtonText: 'Ok',
+            });
+            return;
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(() => {
                 Swal.fire({
                     title: 'Notice',
@@ -72,14 +82,15 @@ const TenantViewProperty = () => {
                         if (token) {
                             const decodedToken = jwtDecode(token);
                             const userId = decodedToken.userId;
-                            nav(`/tenantApplyForm/${propertyId}/${userId}`)
+                            nav(`/tenantApplyForm/${propertyId}/${userId}/${landlordId}`)
                         } else {
-                            console.log("Token not found")
-                            nav('./tenantApplyForm')
+                            console.log("Token not found");
+                            nav('./tenantApplyForm');
                         }
                     }
                 });
             }, 100); // Delay to ensure the scroll completes before showing the dialog
+        }
     }
     
     return (
