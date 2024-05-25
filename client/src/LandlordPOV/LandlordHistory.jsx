@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/js/bootstrap.bundle";
 import "./landlord_history.css";
 import DownloadIcon from "./Rental_Icon/download.png";
@@ -21,6 +21,7 @@ function LandlordHistory() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate(); // Updated to use useNavigate
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -103,6 +104,11 @@ function LandlordHistory() {
     document.body.removeChild(link);
   };
 
+  const handleCommentClick = (username) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(`/landlordComment/${username}`); // Updated to use navigate
+  };
+
   const renderTable = (data) => (
     <table className="history-table">
       <thead>
@@ -130,19 +136,18 @@ function LandlordHistory() {
                 width="29"
                 height="29"
               />
-              <a
+              <span
                 className="comment_linkIcon"
                 onMouseEnter={() => handleCommentIconMouseEnter(index)}
                 onMouseLeave={() => handleCommentIconMouseLeave(index)}
-                >
-                <Link to={`/landlordComment/${lease.tenantId.username}`}>
+                onClick={() => handleCommentClick(lease.tenantId.username)}
+              >
                 <img
-                src={hoveredCommentIcon[index] ? CommentHoverIcon : CommentIcon}
-                alt="Comment Link"
-                width="29"
+                  src={hoveredCommentIcon[index] ? CommentHoverIcon : CommentIcon}
+                  alt="Comment Link"
+                  width="29"
                 />
-                </Link>
-              </a>
+              </span>
             </td>
           </tr>
         ))}
