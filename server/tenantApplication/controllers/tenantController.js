@@ -4,7 +4,6 @@ const Property = require('../../models/propertyModel');
 const Lease = require('../../models/leaseModel');
 const LandlordReview = require('../../models/reviewLandlordModel');
 const User = require('../../models/userModel');
-const Lease = require('../../models/leaseModel')
 const createError = require('../../utils/appError');
 
 //GET All Properties
