@@ -80,21 +80,48 @@ function App() {
           <Route path="/landlordProfileEdit" element={<EditLandlordProfile />}/>
           <Route path="/tenantProfileEdit" element={<EditTenantProfile />} />
           <Route path="/tenantViewProperty/:propertyId" element={<TenantViewProperty />} />
-          <Route path="/tenantApplyForm/:propertyId/:userId" element={<TenantApplyForm />} />
+          <Route path="/tenantApplyForm/:propertyId/:userId/:landlordId" element={<TenantApplyForm />} />
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
           <Route path="/landlordComment/:username" element={<LandlordComment />} />
           <Route path="/tenantComment/:landlordUsername" element={<TenantComment />} />
           <Route path="/tenantRent" element={<RentTenant />} />
-          <Route path="/tenantViewPropertyPending/:propertyId" element={<TenantViewPropertyPending />}/>
-          <Route path="/tenantViewPropertyRejected/:propertyId"  element={<TenantViewPropertyRejected />}/>    
-          <Route path="/tenantViewPropertyLease/:propertyId" element={<TenantViewPropertyLease />}/>  
-          <Route path="/tenantViewPropertyActive/:propertyId" element={<ViewPropertyActive />}/>
-          <Route path="/landlordViewProperty" element={<LandlordViewProperty />}/>
-          <Route path="/landlordUpdateProperty"element={<LandlordUpdateProperty />}/>
-          <Route path="/landlordUploadProperty" element={<LandlordUploadProperty />}/>
-          <Route path="/landlordUploadPropertyPhoto" element={<LandlordUploadPropertyPhoto />}/>
-          <Route path="/landlordArrangePhoto" element={<LandlordArrangePhoto />}/>
+          <Route
+            path="/tenantViewPropertyPending/:propertyId"
+            element={<TenantViewPropertyPending />}
+          />
+          <Route
+            path="/tenantViewPropertyRejected/:propertyId"
+            element={<TenantViewPropertyRejected />}
+          />
+          <Route
+            path="/tenantViewPropertyLease/:propertyId/:applicationId"
+            element={<TenantViewPropertyLease />}
+          />
+          <Route
+            path="/tenantViewPropertyActive/:propertyId"
+            element={<ViewPropertyActive />}
+          />
+          <Route
+            path="/landlordViewProperty"
+            element={<LandlordViewProperty />}
+          />
+          <Route
+            path="/landlordUpdateProperty"
+            element={<LandlordUpdateProperty />}
+          />
+          <Route
+            path="/landlordUploadProperty"
+            element={<LandlordUploadProperty />}
+          />
+          <Route
+            path="/landlordUploadPropertyPhoto"
+            element={<LandlordUploadPropertyPhoto />}
+          />
+          <Route
+            path="/landlordArrangePhoto"
+            element={<LandlordArrangePhoto />}
+          />
           <Route path="/landlordEditPhoto" element={<LandlordEditPhoto />} />
           <Route path="/landlordApplicant" element={<LandlordApplicant />} />
           <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback />}/>
