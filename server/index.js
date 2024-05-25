@@ -1,11 +1,10 @@
 require('dotenv').config(); 
 console.log('Environment Variables:');
 console.log('PORT:', process.env.PORT);
-console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('MONGODB_URI:', process.env.MONGODB_URI); 
 
 const express = require("express");
 const mongoose = require("mongoose");
-const mongoURI = process.env.MONGODB_URI;
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
@@ -46,6 +45,8 @@ app.get('*', function(req, res) {
 });
 
 // 3. MONGO DB CONNECTION
+const mongoURI = process.env.MONGODB_URI;
+
 mongoose.connect(mongoURI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Could not connect to MongoDB Atlas:', err));
@@ -70,3 +71,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+console.log('This is a test change to check Nodemon restart');
