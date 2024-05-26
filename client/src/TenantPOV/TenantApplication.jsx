@@ -60,7 +60,7 @@ const TenantApplication = () => {
             applicationId: application._id,
             propertyId: application.propertyId,
             title: property.name,
-            locationOwner: `${property.location} | ${property.type}`,
+            locationOwner: `${property.location} | ${property.type}`.toUpperCase(),
             imageUrl: property.coverPhoto,
             isViewLease: application.applicationStatus === "Approved",
             isPending: application.applicationStatus === "Pending",
