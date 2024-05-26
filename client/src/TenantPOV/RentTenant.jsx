@@ -72,7 +72,7 @@ const RentTenant = () => {
       <div className="rental-history">
         <h1 className="rentalTitle">Rental History</h1>
         {loading ? (
-          <></> 
+           <h3 className="applicationPromptTitle">Loading...</h3>
         ) : (
           <>
             {propertyActionListingInfo.length === 0 && propertyExpiredListingInfo.length === 0 ? (

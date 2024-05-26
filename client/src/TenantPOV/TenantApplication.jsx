@@ -6,7 +6,7 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 
 const TenantApplication = () => {
-
+  
   const [applicationList, setApplicationList] = useState([]);
   const [propertyActionListingInfo, setPropertyActionListingInfo] = useState([]);
   const [propertyOtherListingInfo, setPropertyOtherListingInfo] = useState([]);
@@ -119,39 +119,43 @@ const TenantApplication = () => {
     } else {
       setPropertyActionListingInfo([]);
       setPropertyOtherListingInfo([]);
-      setLoading(false);
     }
   }, [applicationList]);
+
+  const renderContent = () => {
+    if (loading) {
+      return <h3 className="applicationPromptTitle">Loading...</h3>;
+    }
+    if (propertyActionListingInfo.length === 0 && propertyOtherListingInfo.length === 0) {
+      return <p className="applicationPromptTitle">You have not submitted any application yet! Grab one now!</p>;
+    }
+    return (
+      <>
+        {propertyActionListingInfo.length > 0 && (
+          <>
+            <h2 className="applicationSubTitle">Action Needed</h2>
+            {propertyActionListingInfo.map((listing, index) => (
+              <CardApplication key={index} listing={listing} />
+            ))}
+          </>
+        )}
+        {propertyOtherListingInfo.length > 0 && (
+          <>
+            <h2 className="applicationSubTitle">Other Application/s</h2>
+            {propertyOtherListingInfo.map((listing, index) => (
+              <CardApplication key={index} listing={listing} />
+            ))}
+          </>
+        )}
+      </>
+    );
+  };
 
   return (
     <main>
       <div className="pageMainContainer">
         <h1 className="pageMainTitle">Application History</h1>
-        {loading ? (
-          <></> 
-        ) : (
-          <>
-            {propertyActionListingInfo.length === 0 && propertyOtherListingInfo.length === 0 && (
-              <p className="applicationPromptTitle">You have not submitted any application yet! Grab one now!</p>
-            )}
-            {propertyActionListingInfo.length > 0 && (
-              <>
-                <h2 className="applicationSubTitle">Action Needed</h2>
-                {propertyActionListingInfo.map((listing, index) => (
-                  <CardApplication key={index} listing={listing} />
-                ))}
-              </>
-            )}
-            {propertyOtherListingInfo.length > 0 && (
-              <>
-                <h2 className="applicationSubTitle">Other Application/s</h2>
-                {propertyOtherListingInfo.map((listing, index) => (
-                  <CardApplication key={index} listing={listing} />
-                ))}
-              </>
-            )}
-          </>
-        )}
+        {renderContent()}
       </div>
     </main>
   );

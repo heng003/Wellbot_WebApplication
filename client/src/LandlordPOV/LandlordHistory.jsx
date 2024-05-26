@@ -21,7 +21,7 @@ function LandlordHistory() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
-  const navigate = useNavigate(); // Updated to use useNavigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -106,7 +106,7 @@ function LandlordHistory() {
 
   const handleCommentClick = (username) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    navigate(`/landlordComment/${username}`); // Updated to use navigate
+    navigate(`/landlordComment/${username}`); 
   };
 
   const renderTable = (data) => (
@@ -193,7 +193,7 @@ function LandlordHistory() {
       <div className="property-details">
         {selectedProperty ? (
           loading ? (
-            <h3 className="Brief_Text"></h3>
+            <h3 className="Brief_Text">Loading...</h3>
           ) : leases.length === 0 ? (
             <h3 className="Brief_Text">
               Sorry, this property hasn't been rented out yet, so it{" "}
