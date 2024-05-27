@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios"; // Make sure to install axios if you haven't already
-import "../TenantPOV/edittenantprofile.css";
+import "../LandlordPOV/editlandlordprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import greyCircle from "./Images/greyCircle.png";
 import orangeCircle from "./Images/orangeCircle.png";
@@ -163,7 +163,9 @@ const UploadProperty = () => {
               placeholder="Eg : Tiara Damansara Condomium Unit 315/2, Pandah Indah "
               onChange={handleChange}
             />
-            {errors.editPropertyName && <span className="error">{errors.editPropertyName}</span>}
+            <div className="displayErrorEditMessage">
+                {errors.editPropertyName && <span>{errors.editPropertyName}</span>}
+              </div>
           </div>
           <div className="col">
             <h6>Address</h6>
@@ -174,7 +176,9 @@ const UploadProperty = () => {
               placeholder="Eg :Jalan Perdana 2/8, Pandan Perdana, 55300 Kuala Lumput"
               onChange={handleChange}
             />
-            {errors.editAddress && <span className="error">{errors.editAddress}</span>}
+            <div className="displayErrorEditMessage">
+                {errors.editAddress && <span>{errors.editAddress}</span>}
+              </div>
           </div>
         </div>
         <div className="row">
@@ -187,7 +191,9 @@ const UploadProperty = () => {
               placeholder="Enter Postcode"
               onChange={handleChange}
             />
-            {errors.editPostcode && <span className="error">{errors.editPostcode}</span>}
+            <div className="displayErrorEditMessage">
+                {errors.editPostcode && <span>{errors.editPostcode}</span>}
+              </div>
           </div>
           <div className="col">
             <h6>Location</h6>
@@ -198,11 +204,14 @@ const UploadProperty = () => {
               placeholder="Eg: Petaling Jaya"
               onChange={handleChange}
             />
-            {errors.editLocation && <span className="error">{errors.editLocation}</span>}
+            <div className="displayErrorEditMessage">
+                {errors.editLocation && <span>{errors.editLocation}</span>}
+              </div>
           </div>
         </div>
       </div>
-      <h3 className="pageSubTitle">Tell us more about your property</h3>
+      <h3 className="pageSubTitle">Share some details about your property</h3>
+      <div className="editLandlordForm">
       <div className="row" id="row2">
         <div className="col">
           <h6>Bedroom</h6>
@@ -215,7 +224,9 @@ const UploadProperty = () => {
             <option value="5 Bedrooms">5 Bedrooms</option>
             <option value="More than 5">More than 5</option>
           </select>
-          {errors.editBedroom && <span className="error">{errors.editBedroom}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editBedroom && <span>{errors.editBedroom}</span>}
+              </div>
         </div>
         <div className="col">
           <h6>Bathroom</h6>
@@ -227,7 +238,9 @@ const UploadProperty = () => {
             <option value="4 Bathrooms">4 Bathrooms</option>
             <option value="More than 4">More than 4</option>
           </select>
-          {errors.editBathroom && <span className="error">{errors.editBathroom}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editBathroom && <span>{errors.editBathroom}</span>}
+              </div>
         </div>
       </div>
       <div className="row" id="row2">
@@ -239,7 +252,9 @@ const UploadProperty = () => {
             <option value="Partially Furnished">Partially Furnished</option>
             <option value="Fully Furnished">Fully Furnished</option>
           </select>
-          {errors.editFurnish && <span className="error">{errors.editFurnish}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editFurnish && <span>{errors.editFurnish}</span>}
+              </div>
         </div>
         <div className="col">
           <h6>Parking</h6>
@@ -250,7 +265,9 @@ const UploadProperty = () => {
             <option value="3">3</option>
             <option value="More than 3">More than 3</option>
           </select>
-          {errors.editParking && <span className="error">{errors.editParking}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editParking && <span>{errors.editParking}</span>}
+              </div>
         </div>
       </div>
       <div className="row" id="row2">
@@ -267,7 +284,9 @@ const UploadProperty = () => {
             <option value="26-30 Floors">26-30 Floors</option>
             <option value="More than 30 Floors">More than 30 Floors</option>
           </select>
-          {errors.editFloor && <span className="error">{errors.editFloor}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editFloor && <span>{errors.editFloor}</span>}
+              </div>
         </div>
         <div className="col">
           <h6>Build-up Size (sq.ft)</h6>
@@ -278,33 +297,40 @@ const UploadProperty = () => {
             placeholder="Eg: 1200"
             onChange={handleChange}
           />
-          {errors.editSize && <span className="error">{errors.editSize}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editSize && <span>{errors.editSize}</span>}
+              </div>
         </div>
+      </div>
       </div>
       <h3 className="pageSubTitle">Accessibility & Facilities</h3>
       <div className="editLandlordForm">
         <div className="row" id="row2">
           <div className="col">
             <h6>Facilities</h6>
-            <textarea
+            <input
+              type="text"
               name="editFac"
               id="editFac"
-              rows="3"
               placeholder="Eg: Swimming pool, Gym, Playground"
               onChange={handleChange}
-            ></textarea>
-            {errors.editFac && <span className="error">{errors.editFac}</span>}
+            />
+            <div className="displayErrorEditMessage">
+                {errors.editFac && <span>{errors.editFac}</span>}
+              </div>
           </div>
           <div className="col">
             <h6>Accessibility</h6>
-            <textarea
+            <input
+              type="text"
               name="editAccesibility"
               id="editAccesibility"
-              rows="3"
               placeholder="Eg: Near LRT, MRT, Bus Stop"
               onChange={handleChange}
-            ></textarea>
-            {errors.editAccesibility && <span className="error">{errors.editAccesibility}</span>}
+            />
+            <div className="displayErrorEditMessage">
+                {errors.editAccesibility && <span>{errors.editAccesibility}</span>}
+              </div>
           </div>
         </div>
       </div>
@@ -313,18 +339,21 @@ const UploadProperty = () => {
         <div className="row" id="row2">
           <div className="col">
             <h6>Description</h6>
-            <textarea
+            <input
+              type="text"
               name="editDesc"
               id="editDesc"
-              rows="3"
               placeholder="Eg: Spacious 3-bedroom condo with modern amenities and a beautiful view"
               onChange={handleChange}
-            ></textarea>
-            {errors.editDesc && <span className="error">{errors.editDesc}</span>}
+            />
+            <div className="displayErrorEditMessage">
+                {errors.editDesc && <span>{errors.editDesc}</span>}
+              </div>
           </div>
         </div>
       </div>
       <h3 className="pageSubTitle">Price</h3>
+      <div className="editLandlordForm">
       <div className="row" id="row2">
         <div className="col">
           <h6>Price (RM)</h6>
@@ -335,12 +364,15 @@ const UploadProperty = () => {
             placeholder="Eg: 1500"
             onChange={handleChange}
           />
-          {errors.editPrice && <span className="error">{errors.editPrice}</span>}
+          <div className="displayErrorEditMessage">
+                {errors.editPrice && <span>{errors.editPrice}</span>}
+              </div>
         </div>
       </div>
-      <button className="btn" id="btnNext" onClick={handleNext}>
-        Next
-      </button>
+      <button className="applyNowButton" type="button" onClick={handleNext}>
+            Continue
+          </button>
+      </div>
     </div>
   );
 };
