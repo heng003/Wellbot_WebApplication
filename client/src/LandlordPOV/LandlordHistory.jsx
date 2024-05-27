@@ -96,6 +96,7 @@ function LandlordHistory() {
   }, []);
 
   const triggerDownload = () => {
+    Alert("Download started!");
     const link = document.createElement('a');
     link.href = "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
     link.download = "LeaseAgreement.pdf";

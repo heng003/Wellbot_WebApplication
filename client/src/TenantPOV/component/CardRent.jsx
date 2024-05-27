@@ -6,7 +6,7 @@ import downLoad_Icon from '../component/Rental_Icon/download.png';
 import downLoad_HoverIcon from '../component/Rental_Icon/download_hover.png';
 import Comment_Icon from '../component/Rental_Icon/comment.png';
 import Comment_Hover_Icon from '../component/Rental_Icon/comment_hover.png';
-import Alert from '../../LandlordPOV/Alert';
+import Alert from '../../LandlordPOV/Alert'; 
 
 const CardRent = ({ listing }) => {
 
@@ -23,6 +23,10 @@ const CardRent = ({ listing }) => {
     const handleCommentIconMouseEnter = () => setHoveredCommentIcon(true);
     const handleCommentIconMouseLeave = () => setHoveredCommentIcon(false);
 
+    const handleAlert = () => {
+        Alert();
+      };
+    
     const handleCardClick = () => {
         if (isActive) {
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -34,6 +38,8 @@ const CardRent = ({ listing }) => {
 
     const triggerDownload = (event) => {
         event.stopPropagation(); 
+        console.log("Alert function called");  
+        Alert("Download started!");
         const link = document.createElement('a');
         link.href = 'https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp';
         link.download = 'LeaseAgreement.pdf';  
