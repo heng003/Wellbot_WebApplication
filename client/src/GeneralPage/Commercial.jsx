@@ -51,7 +51,7 @@ const Commercial = () => {
       cardTitle1: `RM ${property.price} Per Month`,
       cardTitle2: property.name,
       cardText: property.address,
-      roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+      roomDetails: [property.bedroom, property.bathroom, `${property.buildUpSize}sf`],
       propertyType: property.type,
       location: property.location,
       priceRange: determinePriceRange(property.price)
