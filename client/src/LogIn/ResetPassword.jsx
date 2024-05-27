@@ -34,15 +34,15 @@ const ResetPassword = () => {
                 const response = await axios.post(`/api/auth/resetPassword/${id}/${token}`, { password });
                 if (response.data) {
                     Swal.fire({
-                        title: "Success!",
+                        title: "Success !",
                         text: "Your password has been reset successfully.",
                         icon: "success",
                         confirmButtonText: "OK",
                         confirmButtonColor: "#FF8C22",
                         customClass: {
-                            title: 'my-title-class',
+                            title: 'my-title-class-success',
                             confirmButton: 'my-confirm-button-class'
-                        } 
+                        }
                     }).then((result) => {
                         if (result.isConfirmed) {
                             navigate('/logIn'); // Navigate to login page
