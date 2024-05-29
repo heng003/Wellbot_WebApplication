@@ -172,7 +172,7 @@ const getLandlordReview = async (req, res) => {
   const { landlordId } = req.params;
 
   try {
-    const response = await LandlordReview.find().sort({ createdAt: -1 });
+    const response = await LandlordReview.find({ landlordId: landlordId }).sort({ createdAt: -1 });
 
     console.log("Landlord Review: ", response)
 
