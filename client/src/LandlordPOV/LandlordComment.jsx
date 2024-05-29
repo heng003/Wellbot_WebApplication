@@ -110,6 +110,7 @@ const LandlordComment = () => {
         }
       }).then((result) => {
         if (result.isConfirmed) {
+          window.scrollTo({ top: 0, behavior: 'smooth'});
           navigate("/landlordHistory");
         }
       });
