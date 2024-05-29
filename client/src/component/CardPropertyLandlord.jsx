@@ -1,14 +1,13 @@
 import React from "react";
 import '../GeneralPage/home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetails }) => {
     
     const roomImgSrc = ["Images/bedroom.png", "Images/bathroom.png", "Images/sqrt.png"];
 
     const navigate = useNavigate();
-    const location = useLocation();
 
     const handleViewProperty = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios"; // Make sure to install axios if you haven't already
+import axios from "axios"; 
 import "../LandlordPOV/editlandlordprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import greyCircle from "./Images/greyCircle.png";
@@ -12,6 +12,8 @@ import room from "./Images/room.png";
 import "./updateproperty.css";
 
 const UploadProperty = () => {
+
+  console.log("UploadProperty component rendered");
   const [selectedBedroom, setSelectedBedroom] = useState("");
   const [selectedBathroom, setSelectedBathroom] = useState("");
   const [selectedFurnish, setSelectedFurnish] = useState("");
@@ -82,7 +84,11 @@ const UploadProperty = () => {
     if (!selectedFurnish) validationErrors.editFurnish = "*Furnishing type is required.";
     if (!selectedParking) validationErrors.editParking = "*Number of parking spaces is required.";
     if (!selectedFloor) validationErrors.editFloor = "*Floor level is required.";
-    if (!formData.editSize) validationErrors.editSize = "*Build-up size is required.";
+    if (!formData.editSize) {
+      validationErrors.editSize = "*Build-up size is required.";
+    } else if (!Number.isInteger(Number(formData.editSize))) {
+      validationErrors.editSize = "*Build-up size in integer number only.";
+    }
     if (!formData.editFac) validationErrors.editFac = "*Facilities are required.";
     if (!formData.editAccesibility) validationErrors.editAccesibility = "*Accessibility is required.";
     if (!formData.editDesc) validationErrors.editDesc = "*Description is required.";
@@ -91,9 +97,11 @@ const UploadProperty = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      const token = localStorage.getItem('token');
+      console.log("FormData:", formData);
+      console.log("Token:", token);
       try {
-        const response = await axios.post('/api/properties/newproperty', {
-          landlordId: landlordId, 
+        const response = await axios.post(`/api/landlord/properties/upload/${landlordId}`, {
           name: formData.editPropertyName,
           type: selected, 
           address: formData.editAddress,
@@ -109,11 +117,18 @@ const UploadProperty = () => {
           accessibility: formData.editAccesibility,
           price: formData.editPrice,
           description: formData.editDesc,
+          coverPhoto: null,
+          photo: null,
+        }, {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (response.status === 201) {
+          const propertyId = response.data._id;
           // Navigate to the next step or show success message
-          nav("/landlordUploadPropertyPhoto");
+          console.log("Saved property info successfully.")
+          nav(`/landlordUploadPropertyPhoto/${propertyId}`);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } catch (error) {
         console.error("Error uploading property:", error);
@@ -173,7 +188,7 @@ const UploadProperty = () => {
               type="text"
               name="editAddress"
               id="editAddress"
-              placeholder="Eg :Jalan Perdana 2/8, Pandan Perdana, 55300 Kuala Lumput"
+              placeholder="Eg :Jalan Perdana 2/8, Pandan Perdana, 55300 Kuala Lumpur"
               onChange={handleChange}
             />
             <div className="displayErrorEditMessage">
@@ -217,11 +232,11 @@ const UploadProperty = () => {
           <h6>Bedroom</h6>
           <select value={selectedBedroom} onChange={handleDropdownBedroomChange}>
             <option value="">-- Please Select --</option>
-            <option value="1 Bedroom">1 Bedroom</option>
-            <option value="2 Bedrooms">2 Bedrooms</option>
-            <option value="3 Bedrooms">3 Bedrooms</option>
-            <option value="4 Bedrooms">4 Bedrooms</option>
-            <option value="5 Bedrooms">5 Bedrooms</option>
+            <option value="1">1 Bedroom</option>
+            <option value="2">2 Bedrooms</option>
+            <option value="3">3 Bedrooms</option>
+            <option value="4">4 Bedrooms</option>
+            <option value="5">5 Bedrooms</option>
             <option value="More than 5">More than 5</option>
           </select>
           <div className="displayErrorEditMessage">
@@ -232,10 +247,10 @@ const UploadProperty = () => {
           <h6>Bathroom</h6>
           <select value={selectedBathroom} onChange={handleDropdownBathroomChange}>
             <option value="">-- Please Select --</option>
-            <option value="1 Bathroom">1 Bathroom</option>
-            <option value="2 Bathrooms">2 Bathrooms</option>
-            <option value="3 Bathrooms">3 Bathrooms</option>
-            <option value="4 Bathrooms">4 Bathrooms</option>
+            <option value="1">1 Bathroom</option>
+            <option value="2">2 Bathrooms</option>
+            <option value="3">3 Bathrooms</option>
+            <option value="4">4 Bathrooms</option>
             <option value="More than 4">More than 4</option>
           </select>
           <div className="displayErrorEditMessage">
@@ -260,6 +275,7 @@ const UploadProperty = () => {
           <h6>Parking</h6>
           <select value={selectedParking} onChange={handleDropdownParkingChange}>
             <option value="">-- Please Select --</option>
+            <option value="1">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -276,12 +292,12 @@ const UploadProperty = () => {
           <select value={selectedFloor} onChange={handleDropdownFloorChange}>
             <option value="">-- Please Select --</option>
             <option value="Ground Floor">Ground Floor</option>
-            <option value="1-5 Floors">1-5 Floors</option>
-            <option value="6-10 Floors">6-10 Floors</option>
-            <option value="11-15 Floors">11-15 Floors</option>
-            <option value="16-20 Floors">16-20 Floors</option>
-            <option value="21-25 Floors">21-25 Floors</option>
-            <option value="26-30 Floors">26-30 Floors</option>
+            <option value="1-5">1-5 Floors</option>
+            <option value="6-10">6-10 Floors</option>
+            <option value="11-15">11-15 Floors</option>
+            <option value="16-20">16-20 Floors</option>
+            <option value="21-25">21-25 Floors</option>
+            <option value="26-30">26-30 Floors</option>
             <option value="More than 30 Floors">More than 30 Floors</option>
           </select>
           <div className="displayErrorEditMessage">
@@ -369,9 +385,9 @@ const UploadProperty = () => {
               </div>
         </div>
       </div>
-      <button className="applyNowButton" type="button" onClick={handleNext}>
-            Continue
-          </button>
+      <div className="applyButton"> 
+                    <button className="applyNowButton" type="submit" onClick={handleNext}>Continue</button>
+                </div>
       </div>
     </div>
   );

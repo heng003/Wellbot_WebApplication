@@ -80,6 +80,9 @@ function App() {
           <Route path="/landlordProfileEdit" element={<EditLandlordProfile />}/>
           <Route path="/tenantProfileEdit" element={<EditTenantProfile />} />
           <Route path="/tenantViewProperty/:propertyId" element={<TenantViewProperty />} />
+          <Route path="/landlordViewProperty/:propertyId" element={<LandlordViewProperty />} />
+          <Route path="/landlordUpdateProperty/:propertyId" element={<LandlordUpdateProperty />} />
+          <Route path="/landlordUploadProperty/:landlordId" element={<LandlordUploadProperty />} />
           <Route path="/tenantApplyForm/:propertyId/:userId/:landlordId" element={<TenantApplyForm />} />
           <Route path="/tenantApplication" element={<TenantApplication />} />
           <Route path="/landlordHistory" element={<LandlordHistory />} />
@@ -111,6 +114,10 @@ function App() {
             element={<LandlordUpdateProperty />}
           />
           <Route
+            path="/landlordUpdateProperty/:propertyId"
+            element={<LandlordUpdateProperty />}
+          />
+          <Route
             path="/landlordUploadProperty"
             element={<LandlordUploadProperty />}
           />
@@ -119,10 +126,19 @@ function App() {
             element={<LandlordUploadPropertyPhoto />}
           />
           <Route
+            path="/landlordUploadPropertyPhoto/:propertyId"
+            element={<LandlordUploadPropertyPhoto />}
+          />
+          <Route
             path="/landlordArrangePhoto"
             element={<LandlordArrangePhoto />}
           />
+          <Route
+            path="/landlordArrangePhoto/:propertyId"
+            element={<LandlordArrangePhoto />}
+          />
           <Route path="/landlordEditPhoto" element={<LandlordEditPhoto />} />
+          <Route path="/landlordEditPhoto/:propertyId" element={<LandlordEditPhoto />} />
           <Route path="/landlordApplicant" element={<LandlordApplicant />} />
           <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback />}/>
           <Route path="/landlordLeaseAgreementForm" element={<LandlordAgreementFormPage />}/>

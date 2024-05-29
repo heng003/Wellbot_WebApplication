@@ -1,110 +1,143 @@
-import React, { useState } from "react";
-import { useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import axios from "axios";
 import "./updateproperty.css";
 import "./uploadpropertyphoto.css";
 import "./arrangephoto.css";
 import addFileImage from "./Images/ADDfile.png";
-import Image1 from "./Images/Image1.png";
-import Image2 from "./Images/Image2.png";
 import Swal from "sweetalert2";
 
 const ArrangePhoto = () => {
-    const [photoItems, setPhotoItems] = useState([
-        { id: 1, image: Image1, isCover: true },
-        { id: 2, image: Image2, isCover: false }
-    ]);
-
+    const [coverPhoto, setCoverPhoto] = useState(null);
+    const [photoItems, setPhotoItems] = useState([]);
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
+    const { propertyId } = useParams();
 
-    const handleDelete = (id) => {
-        setPhotoItems(prevItems => prevItems.filter(item => item.id !== id));
+    const getPropertyPhotos = useCallback(async () => {
+        try {
+            const response = await axios.get(`/api/landlord/properties/uploadPhoto/getPhoto/${propertyId}`);
+            const { coverPhoto, photos } = response.data;
+            console.log('Response data:', response.data);
+            console.log('Cover photo:', coverPhoto);
+            console.log('photos:', photos)
+            setCoverPhoto(coverPhoto);
+            setPhotoItems(photos || []);
+        } catch (error) {
+            console.error("Error fetching photos:", error);
+            setPhotoItems([]);
+        }
+    }, [propertyId]);
+
+    useEffect(() => {
+        getPropertyPhotos(); // to fetch photos when component mounts
+    }, [getPropertyPhotos]);
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/api/landlord/properties/${propertyId}/deletePhoto/${id}`);
+            setPhotoItems(prevItems => prevItems.filter(item => item._id !== id));
+        } catch (error) {
+            console.error("Error deleting photo:", error);
+        }
     };
 
-    const handleMakeCover = (id) => {
-        setPhotoItems(prevItems => {
-            const newItems = [...prevItems];
-            const index1 = newItems.findIndex(item => item.id === 1);
-            const index2 = newItems.findIndex(item => item.id === 2);
-            if (index1 !== -1 && index2 !== -1) {
-                // Swap the positions of the images
-                const temp = newItems[index1].image;
-                newItems[index1].image = newItems[index2].image;
-                newItems[index2].image = temp;
-            }
-            return newItems;
-        });
+    const handleMakeCover = async (id) => {
+        try {
+            const response = await axios.put(`/api/landlord/properties/makeCoverPhoto/${propertyId}/${id}`);
+            console.log('Id photo:', response.data)
+            getPropertyPhotos(); 
+        } catch (error) {
+            console.error("Error making cover photo:", error);
+        }
     };
+
 
     const handleImageClick = () => {
-        fileInputRef.current.click(); // Trigger file input click
+        fileInputRef.current.click(); 
     };
 
-    const handleFileChange = (e) => {
-        // Handle file change logic here
+    const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
-            navigate('/landlordArrangePhoto');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            console.log('Selected file:', file);
+            try {
+                const formData = new FormData();
+                formData.append("photo", file);
+                const response = await axios.put(`/api/landlord/properties/uploadPhotoNext/${propertyId}`, formData, {
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  });
+                getPropertyPhotos(); 
+            } catch (error) {
+                console.error("Error uploading photo:", error);
+            }
         } else {
             console.log('Please select a valid image file (jpeg or png)');
         }
     };
 
     const handleUploadButton = (e) => {
-        if (location.pathname !== "/landlordArrangePhoto") {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setTimeout(() => {
-              Swal.fire({
-                title: 'Warning!',
-                text: 'You need to register or log in to your account before performing this action.',
-                icon: 'warning',
-                confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK'
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-              });
-          }, 500); // Delay to allow scroll to finish
+        if (location.pathname !== `/landlordArrangePhoto/${propertyId}`) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'You need to register or log in to your account before performing this action.',
+                    icon: 'warning',
+                    confirmButtonColor: "#FF8C22",
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            }, 500); // Delay to allow scroll to finish
         } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setTimeout(() => {
-              Swal.fire({
-                text: "Uploaded successfully!",
-                icon: "success",
-                confirmButtonColor: "#FF8C22",
-                confirmButtonText: 'OK'
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                    navigate("/landlordHome");
-                  }
-              });
-          }, 100); // Delay to allow scroll to finish
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                Swal.fire({
+                    text: "Uploaded successfully!",
+                    icon: "success",
+                    confirmButtonColor: "#FF8C22",
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate("/landlordHome");
+                    }
+                });
+            }, 100); // Delay to allow scroll to finish
         }
-      }
+    }
 
     return (
         <div className="pageMainContainer">
             <h1 className="pageMainTitle">Upload Your Properties</h1>
             <h2 className="pageMainSubTitle">STEP 2: UPLOAD YOUR PROPERTY'S PHOTO</h2>
             <div>
-                {photoItems.map(({ id, image, isCover }) => (
-                    <div key={id} className="frame">
-                        <img className="photo" src={image} alt="Property" />
+            {coverPhoto && (
+                    <div className="frame">
+                        <img className="photo" src={`./component/ImagesUpload/${coverPhoto.image}`} alt="Cover Photo" />
                         <div className="overlay">
-                            {isCover ? (
-                                <div className="text">Cover photo</div>
-                            ) : (
-                                <div className="text2" onClick={() => handleMakeCover(id)}>Make cover photo</div>
-                            )}
-                            <div className="icon" onClick={() => handleDelete(id)}>x</div>
+                            <div className="text">Cover photo</div>
+                            <div className="icon" onClick={() => handleDelete(coverPhoto._id)}>x</div>
                         </div>
                     </div>
-                ))}
+                )}
+            {photoItems.length > 0 ? (
+                    photoItems.map((photo, index) => (
+                        <div key={photo._id} className="frame">
+                            <img className="photo" src={`./component/ImagesUpload/${photo.image}`} alt="Property" />
+                            <div className="overlay">
+                                <div className="text2" onClick={() => handleMakeCover(photo._id)}>Make cover photo</div>
+                                <div className="icon" onClick={() => handleDelete(photo._id)}>x</div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p></p>
+                )}
                 <div className="rectangleArrangePhoto">
                     <input
                         ref={fileInputRef}

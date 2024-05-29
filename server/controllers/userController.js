@@ -29,4 +29,20 @@ exports.getLandlordIdByUsername = async (req, res) => {
     }
 };
 
+exports.getTenantIdByUsername = async (req, res) => {
+    try {
+        const { username } = req.params;
+        const user = await User.findOne({ username });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ tenantId: user._id });
+    } catch (err) {
+        console.error('Error fetching tenant ID:', err);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
 

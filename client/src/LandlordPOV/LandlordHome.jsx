@@ -1,22 +1,18 @@
-import React, {useState, useEffect, useRef} from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
-import '../LandlordPOV/landlordhome.css'
-import '../GeneralPage/home.css'
+import '../LandlordPOV/landlordhome.css';
+import '../GeneralPage/home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import CardPropertyLandlord from "../component/CardPropertyLandlord";
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 
 const LandlordHome = () => {
-
   const [propertyList, setPropertyList] = useState([]);
-  
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);
-  const { landlordId } = useParams();
 
   const navigate = useNavigate();
 
@@ -26,6 +22,7 @@ const LandlordHome = () => {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [filteredResults, setFilteredResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [landlordId, setLandlordId] = useState("");
 
   const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -33,28 +30,32 @@ const LandlordHome = () => {
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
-};
+  };
 
   const dropdownRef1 = useRef(null);
   const dropdownRef2 = useRef(null);
   const dropdownRef3 = useRef(null);
 
-  const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
-  const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
+  const properties = ["All Properties Type", "Condo", "Commercial", "Landed", "Room"];
+  const priceRanges = ["All Price Range", "RM 500 Below", "RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000", "RM 2001 - RM 2500", "RM 2500 Above"];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwtDecode(token);
-      const landlordId = decodedToken.userId;
-      console.log(landlordId)
+      setLandlordId(decodedToken.userId);
+      console.log(decodedToken.userId);
 
       async function fetchProperties() {
         try {
-          const response = await axios.get(`/api/properties/user/${landlordId}`, {
+          const response = await axios.get(`/api/properties/user/${decodedToken.userId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          setPropertyList(response.data);
+          if (Array.isArray(response.data)) {
+            setPropertyList(response.data);
+          } else {
+            console.error("Fetched data is not an array:", response.data);
+          }
         } catch (err) {
           console.error("Error fetching properties:", err);
         }
@@ -85,22 +86,13 @@ const LandlordHome = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef1.current &&
-        !dropdownRef1.current.contains(event.target)
-      ) {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
         setIsPropertyTypeOpen(false);
       }
-      if (
-        dropdownRef2.current &&
-        !dropdownRef2.current.contains(event.target)
-      ) {
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
         setIsLocationOpen(false);
       }
-      if (
-        dropdownRef3.current &&
-        !dropdownRef3.current.contains(event.target)
-      ) {
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) {
         setIsPriceRangeOpen(false);
       }
     };
@@ -130,19 +122,11 @@ const LandlordHome = () => {
   const handleSearchButtonClick = () => {
     setIsSearchClicked(true);
     const results = cardData.filter((card) => {
-      const matchesType =
-        selectedOption1 === "All Properties Type" ||
-        !selectedOption1 ||
-        card.propertyType === selectedOption1;
-      const matchesLocation =
-        selectedOption2 === "All Location" ||
-        !selectedOption2 ||
-        card.location === selectedOption2;
-      const matchesPriceRange =
-        selectedOption3 === "All Price Range" ||
-        !selectedOption3 ||
-        card.priceRange === selectedOption3;
-      return matchesType && matchesLocation && matchesPriceRange;
+      const matchesType = selectedOption1 === "All Properties Type" || !selectedOption1 || card.propertyType === selectedOption1;
+      const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+      const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
+      const matchesSearchQuery = !searchQuery || card.cardTitle2.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesType && matchesLocation && matchesPriceRange && matchesSearchQuery;
     });
     setFilteredResults(results);
   };
@@ -254,7 +238,7 @@ const LandlordHome = () => {
                         </div>
                         ))}
                         <div class="col" onClick={() => {
-                            navigate('/landlordUploadProperty');
+                            navigate(`/landlordUploadProperty/${landlordId}`);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}>
                             <div class="card h-100">

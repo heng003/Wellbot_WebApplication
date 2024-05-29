@@ -20,7 +20,7 @@ const LandlordViewProperty = () => {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const response = await axios.get(`/api/landlordUpload//landlordViewProperty/${propertyId}`); // Adjust the endpoint if necessary
+                const response = await axios.get(`/api/landlord/landlordViewProperty/${propertyId}`); 
                 const propertyData = response.data;
                 setProperty(propertyData);
                 setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
@@ -53,7 +53,7 @@ const LandlordViewProperty = () => {
         });
     };
 
-    const handleEditPropertyPageButton = () => {
+    const handleApplyPropertyPageButton = () => {
         if (!isLandlordIdFetched) {
             Swal.fire({
                 title: 'Error',
@@ -68,7 +68,7 @@ const LandlordViewProperty = () => {
             setTimeout(() => {
                 Swal.fire({
                     title: 'Notice',
-                    text: 'You are being navigated to the edit information form.',
+                    text: 'You are being navigated to edit property information.',
                     icon: 'info',
                     confirmButtonColor: "#FF8C22",
                     confirmButtonText: 'Continue',
@@ -81,10 +81,10 @@ const LandlordViewProperty = () => {
                         if (token) {
                             const decodedToken = jwtDecode(token);
                             const userId = decodedToken.userId;
-                            nav(`/landlordProperties/${propertyId}/${userId}/${landlordId}`)
+                            nav(`/landlordUpdateProperty/${propertyId}`)
                         } else {
                             console.log("Token not found");
-                            nav('./landlordUploadProperty');
+                            nav('./landlordEditProperty');
                         }
                     }
                 });
@@ -133,8 +133,10 @@ const LandlordViewProperty = () => {
                 </section>
 
                 <div className="applyButton">
-                    <button className="applyNowButton" type="button" onClick={handleEditPropertyPageButton}>Edit Information</button>
+                    <button className="applyNowButton" type="button" onClick={handleApplyPropertyPageButton}>Edit Information</button>
                 </div>
+
+                {isLandlordIdFetched}
             </main>
         </div>
     );
