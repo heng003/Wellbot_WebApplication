@@ -44,7 +44,6 @@ const LandlordHome = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
       setLandlordId(decodedToken.userId);
-      console.log(decodedToken.userId);
 
       async function fetchProperties() {
         try {
@@ -68,7 +67,7 @@ const LandlordHome = () => {
     if (propertyList.length > 0) {
       const mappedCardData = propertyList.map((property) => ({
         propertyId: property._id,
-        imgSrc: property.coverPhoto,
+        imgSrc: `http://localhost:5000/uploads/${property.coverPhoto}`,
         cardTitle1: `RM ${property.price} Per Month`,
         cardTitle2: property.name,
         cardText: property.address,
@@ -136,127 +135,122 @@ const LandlordHome = () => {
     refSetter(false);
   };
 
-  
-    return(
-        <div>
-            <main>
-                <section id="landlordHome">
-                    <div className="container">
-                        <div className="row" id="landlordMain">
-                            <div className="col">
-                                <div className="container" id="homeTitle">
-                                    <div className="row">
-                                        <p className="display-4 fw-bolder mt-5">Find Your Uploaded Property<span id="text"> In Just A Moment</span></p>
-                                    </div>
-                                    <div className="row" id="filter_location">
-                                    <div className="col" id="state_search_find">
-                                        <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsLocationOpen(!isLocationOpen)}>
-                                        <div className="displayed-value">{selectedOption2 || 'All Location'}</div>
-                                        {isLocationOpen && (
-                                        <div className="custom-options-landlordhome" ref={dropdownRef2}>
-                                            {locations.map((location, index) => (
-                                            <div key={index}
-                                                className={`custom-option ${selectedOption2 === location ? 'selected' : ''}`}
-                                                onClick={() => selectOption(location, setSelectedOption2, setIsLocationOpen)}>
-                                                {location}
-                                            </div>
-                                            ))}
-                                        </div>
-                                        )}
-                                    </div>
-                                    <br></br>
-                                    
-                                    </div>
-                                    <div className="col" id="filter_residential">
-                                    <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}>
-                                        <div className="displayed-value">{selectedOption1 || 'All Properties Type'}</div>
-                                        {isPropertyTypeOpen && (
-                                        <div className="custom-options-landlordhome" ref={dropdownRef1}>
-                                            {properties.map((property, index) => (
-                                            <div key={index}
-                                                className={`custom-option ${selectedOption1 === property ? 'selected' : ''}`}
-                                                onClick={() => selectOption(property, setSelectedOption1, setIsPropertyTypeOpen)}>
-                                                {property}
-                                            </div>
-                                            ))}
-                                        </div>
-                                        )}
-                                    </div>
-                                    <br></br>
-                                    </div>
-                                    
-                                    <div className="col" id="filter_pricerange">
-                                    <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}>
-                                        <div className="displayed-value">{selectedOption3 || 'All Price Range'}</div>
-                                        {isPriceRangeOpen && (
-                                        <div className="custom-options-landlordhome" ref={dropdownRef3}>
-                                            {priceRanges.map((priceRange, index) => (
-                                            <div key={index}
-                                                className={`custom-option ${selectedOption3 === priceRange ? 'selected' : ''}`}
-                                                onClick={() => selectOption(priceRange, setSelectedOption3, setIsPriceRangeOpen)}>
-                                                {priceRange}
-                                            </div>
-                                            ))}
-                                        </div>
-                                        )}
-                                    </div>
-                                    <br></br>
-                                    </div>
-                                </div>
-                                        <div className="col-landlordhome" id="searchFilter">
-                                            <div id="searchIcon">
-                                                <FontAwesomeIcon icon={faSearch} />
-                                            </div>
-                                            <input type="search" name="searchProperty" id="searchProperty" placeholder="Search By Your Property Name" value={searchQuery} onChange={handleSearchInputChange} />
-                                        </div>
-                                        <br></br>
-                                        <div className="col-landlordhome" id="find">
-                                        <button id="findButton" type="button" onClick={handleSearchButtonClick}>Find</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    
-                </section>
-        
-                <section id="recommendation">
-                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                        {isSearchClicked ? ( cardData.length===0? "No Result Found" : "Filter Result/s" ) : "Recommendations"}
-                    </header>
-                    <div className="row row-cols-1 row-cols-md-3 g-5">
-                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
-                        <div className="col">
-                            <CardPropertyLandlord
-                                propertyId={card.propertyId}
-                                imgSrc={card.imgSrc}
-                                cardTitle={card.cardTitle1}
-                                propertyTitle={card.cardTitle2}
-                                propertyAdd={card.cardText}
-                                roomDetails={card.roomDetails}
-                            />
-                        </div>
-                        ))}
-                        <div class="col" onClick={() => {
-                            navigate(`/landlordUploadProperty/${landlordId}`);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}>
-                            <div class="card h-100">
-                            <img src="Images/plus.png" class="card-img-top" alt="upload" height={295}/>
-                            <div class="card-body">
-                                <h4 class="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
-                                <div className="uploadButton"> 
-                                    <a href="#"><button id="upload" type="button">Upload</button></a>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        </section>
-                        <br /><br /><br />
-             </main>
-        </div>
-    );
+  return (
+    <div>
+      <main>
+        <section id="landlordHome">
+          <div className="container">
+            <div className="row" id="landlordMain">
+              <div className="col">
+                <div className="container" id="homeTitle">
+                  <div className="row">
+                    <p className="display-4 fw-bolder mt-5">Find Your Uploaded Property<span id="text"> In Just A Moment</span></p>
+                  </div>
+                  <div className="row" id="filter_location">
+                    <div className="col" id="state_search_find">
+                      <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsLocationOpen(!isLocationOpen)}>
+                        <div className="displayed-value">{selectedOption2 || 'All Location'}</div>
+                        {isLocationOpen && (
+                          <div className="custom-options-landlordhome" ref={dropdownRef2}>
+                            {locations.map((location, index) => (
+                              <div key={index}
+                                className={`custom-option ${selectedOption2 === location ? 'selected' : ''}`}
+                                onClick={() => selectOption(location, setSelectedOption2, setIsLocationOpen)}>
+                                {location}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <br></br>
+                    </div>
+                    <div className="col" id="filter_residential">
+                      <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}>
+                        <div className="displayed-value">{selectedOption1 || 'All Properties Type'}</div>
+                        {isPropertyTypeOpen && (
+                          <div className="custom-options-landlordhome" ref={dropdownRef1}>
+                            {properties.map((property, index) => (
+                              <div key={index}
+                                className={`custom-option ${selectedOption1 === property ? 'selected' : ''}`}
+                                onClick={() => selectOption(property, setSelectedOption1, setIsPropertyTypeOpen)}>
+                                {property}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <br></br>
+                    </div>
+                    <div className="col" id="filter_pricerange">
+                      <div className="form-select-landlordhome" tabIndex={0} onClick={() => setIsPriceRangeOpen(!isPriceRangeOpen)}>
+                        <div className="displayed-value">{selectedOption3 || 'All Price Range'}</div>
+                        {isPriceRangeOpen && (
+                          <div className="custom-options-landlordhome" ref={dropdownRef3}>
+                            {priceRanges.map((priceRange, index) => (
+                              <div key={index}
+                                className={`custom-option ${selectedOption3 === priceRange ? 'selected' : ''}`}
+                                onClick={() => selectOption(priceRange, setSelectedOption3, setIsPriceRangeOpen)}>
+                                {priceRange}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <br></br>
+                    </div>
+                  </div>
+                  <div className="col-landlordhome" id="searchFilter">
+                    <div id="searchIcon">
+                      <FontAwesomeIcon icon={faSearch} />
+                    </div>
+                    <input type="search" name="searchProperty" id="searchProperty" placeholder="Search By Your Property Name" value={searchQuery} onChange={handleSearchInputChange} />
+                  </div>
+                  <br></br>
+                  <div className="col-landlordhome" id="find">
+                    <button id="findButton" type="button" onClick={handleSearchButtonClick}>Find</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="recommendation">
+          <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{ marginBottom: '0.4em' }}>
+            {isSearchClicked ? (filteredResults.length === 0 ? "No Result Found" : "Filter Result/s") : "Recommendations"}
+          </header>
+          <div className="row row-cols-1 row-cols-md-3 g-5">
+            {(isSearchClicked ? filteredResults : cardData).map((card, index) => (
+              <div className="col" key={index}>
+                <CardPropertyLandlord
+                  propertyId={card.propertyId}
+                  imgSrc={card.imgSrc}
+                  cardTitle={card.cardTitle1}
+                  propertyTitle={card.cardTitle2}
+                  propertyAdd={card.cardText}
+                  roomDetails={card.roomDetails}
+                />
+              </div>
+            ))}
+            <div className="col" onClick={() => {
+              navigate(`/landlordUploadProperty/${landlordId}`);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}>
+              <div className="card h-100">
+                <img src="Images/plus.png" className="card-img-top" alt="upload" height={295} />
+                <div className="card-body">
+                  <h4 className="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
+                  <div className="uploadButton">
+                    <a href="#"><button id="upload" type="button">Upload</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <br /><br /><br />
+      </main>
+    </div>
+  );
 };
 
 export default LandlordHome;

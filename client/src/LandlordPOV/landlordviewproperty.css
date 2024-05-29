@@ -13,12 +13,22 @@
     left: 0;
     display: flex;
     justify-content: space-between;
-    transition: transform 2s ase;
+    transition: transform 2s ease;
+}
+
+.propertyImageContainer {
+    position: relative;
+    flex: 1 0 auto;
+    width: 48em; /* Adjust max-width if necessary */
+    height: 30em; 
+    overflow: hidden;
 }
 
 .propertyImage {
-    width: 57.5%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This will crop the images to fit the container */
+    display: block;
 }
 
 .buttonContainer {

@@ -40,7 +40,7 @@ app.use('/api/reviewsLandlord', reviewLandlordRoute);
 app.use('/api/landlord',landlordRouter);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {

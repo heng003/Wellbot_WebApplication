@@ -7,8 +7,8 @@ const TenantReview = require('../models/reviewTenantModel');
 // Multer setup
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadPath = path.join(__dirname, '../client/src/LandlordPOV/component/ImagesUpload/');
-    cb(null, uploadPath);
+    console.log('Setting destination for file upload');
+    cb(null, '../uploads');
   },
   filename: function (req, file, cb) {
     const filename = Date.now() + '-' + file.originalname;
@@ -16,8 +16,8 @@ const storage = multer.diskStorage({
     cb(null, filename);
   }
 });
-
 const upload = multer({ storage: storage });
+
 const uploadPhotoMiddleware = upload.single('photo');
 
 // Upload photo 1st page
@@ -115,32 +115,31 @@ const getPropertyPhotos = async (req, res) => {
   }
 };
 
-// Make cover photo
 const makeCoverPhoto = async (req, res) => {
   const { propertyId, photoId } = req.params;
 
   try {
-      // Find the property by ID
       const property = await Property.findById(propertyId);
       if (!property) {
           return res.status(404).json({ message: 'Property not found' });
       }
 
-      // Check if the photoId is a valid index in the photos array
-    const photoIndex = parseInt(photoId);
-    if (isNaN(photoIndex) || photoIndex < 0 || photoIndex >= property.photos.length) {
-      return res.status(400).json({ message: 'Invalid photo ID' });
-    }
+      // Ensure the photoId is valid and exists in the photos array
+      if (!property.photos.includes(photoId)) {
+          return res.status(400).json({ message: 'Invalid photo ID' });
+      }
 
+      // Swap the cover photo with the selected photo
+      const selectedPhotoIndex = property.photos.indexOf(photoId);
+      const selectedPhoto = property.photos.splice(selectedPhotoIndex, 1)[0];
 
-      // Swap the coverPhoto with the selected photo
-    const selectedPhoto = property.photos[photoIndex];
-    property.photos.splice(photoIndex, 1); // Remove the selected photo from the array
-    if (property.coverPhoto) {
-      property.photos.push(property.coverPhoto); // Add the current cover photo to the end of the array
-    }
-    property.coverPhoto = selectedPhoto;
-      // Save the property with the updated photos array and coverPhoto
+      if (property.coverPhoto) {
+          property.photos.push(property.coverPhoto);
+      }
+
+      property.coverPhoto = selectedPhoto;
+
+      // Save the updated property
       await property.save();
 
       res.status(200).json({ message: 'Cover photo updated successfully' });
@@ -329,26 +328,25 @@ const updatePropertyWithPhotos = async (req, res) => {
   }
 };
 
-// To delete photo
 const deletePhoto = async (req, res) => {
   const { propertyId, photoId } = req.params;
 
   try {
       // Find the property by ID
-      const property = await Property.findById(propertyId).populate('coverPhoto photos');
+      const property = await Property.findById(propertyId);
 
       if (!property) {
           return res.status(404).json({ error: "Property not found" });
       }
 
       // Check if the photo to be deleted is the cover photo
-      if (property.coverPhoto && property.coverPhoto._id.toString() === photoId) {
+      if (property.coverPhoto === photoId) {
           // Remove the cover photo
           property.coverPhoto = null;
       }
 
-      // Remove the photo from the photos array
-      property.photos = property.photos.filter(photo => photo._id.toString() !== photoId);
+     // Remove the photo from the photos array
+     property.photos = property.photos.filter(photo => photo !== photoId);
 
       // Save the updated property
       await property.save();
@@ -443,6 +441,8 @@ const getTenantReview = async (req, res) => {
   }
 };
 
+
+  
 
 module.exports = {
   getAllProperties,

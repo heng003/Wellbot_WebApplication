@@ -20,8 +20,6 @@ const ArrangePhoto = () => {
             const response = await axios.get(`/api/landlord/properties/uploadPhoto/getPhoto/${propertyId}`);
             const { coverPhoto, photos } = response.data;
             console.log('Response data:', response.data);
-            console.log('Cover photo:', coverPhoto);
-            console.log('photos:', photos)
             setCoverPhoto(coverPhoto);
             setPhotoItems(photos || []);
         } catch (error) {
@@ -31,13 +29,13 @@ const ArrangePhoto = () => {
     }, [propertyId]);
 
     useEffect(() => {
-        getPropertyPhotos(); // to fetch photos when component mounts
+        getPropertyPhotos();
     }, [getPropertyPhotos]);
 
     const handleDelete = async (id) => {
         try {
             await axios.delete(`/api/landlord/properties/${propertyId}/deletePhoto/${id}`);
-            setPhotoItems(prevItems => prevItems.filter(item => item._id !== id));
+            setPhotoItems(prevItems => prevItems.filter(item => item !== id));
         } catch (error) {
             console.error("Error deleting photo:", error);
         }
@@ -45,17 +43,15 @@ const ArrangePhoto = () => {
 
     const handleMakeCover = async (id) => {
         try {
-            const response = await axios.put(`/api/landlord/properties/makeCoverPhoto/${propertyId}/${id}`);
-            console.log('Id photo:', response.data)
-            getPropertyPhotos(); 
+            await axios.put(`/api/landlord/properties/makeCoverPhoto/${propertyId}/${id}`);
+            getPropertyPhotos();
         } catch (error) {
             console.error("Error making cover photo:", error);
         }
     };
 
-
     const handleImageClick = () => {
-        fileInputRef.current.click(); 
+        fileInputRef.current.click();
     };
 
     const handleFileChange = async (e) => {
@@ -64,12 +60,12 @@ const ArrangePhoto = () => {
             try {
                 const formData = new FormData();
                 formData.append("photo", file);
-                const response = await axios.put(`/api/landlord/properties/uploadPhotoNext/${propertyId}`, formData, {
+                await axios.put(`/api/landlord/properties/uploadPhotoNext/${propertyId}`, formData, {
                     headers: {
-                      "Content-Type": "multipart/form-data",
+                        "Content-Type": "multipart/form-data",
                     },
-                  });
-                getPropertyPhotos(); 
+                });
+                getPropertyPhotos();
             } catch (error) {
                 console.error("Error uploading photo:", error);
             }
@@ -93,7 +89,7 @@ const ArrangePhoto = () => {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                 });
-            }, 500); // Delay to allow scroll to finish
+            }, 500);
         } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(() => {
@@ -107,36 +103,36 @@ const ArrangePhoto = () => {
                         navigate("/landlordHome");
                     }
                 });
-            }, 100); // Delay to allow scroll to finish
+            }, 100);
         }
-    }
+    };
 
     return (
         <div className="pageMainContainer">
             <h1 className="pageMainTitle">Upload Your Properties</h1>
             <h2 className="pageMainSubTitle">STEP 2: UPLOAD YOUR PROPERTY'S PHOTO</h2>
             <div>
-            {coverPhoto && (
+                {coverPhoto && (
                     <div className="frame">
-                        <img className="photo" src={`./component/ImagesUpload/${coverPhoto.image}`} alt="Cover Photo" />
+                        <img className="photo" src={`http://localhost:5000/uploads/${coverPhoto}`} alt="Cover Photo" />
                         <div className="overlay">
                             <div className="text">Cover photo</div>
-                            <div className="icon" onClick={() => handleDelete(coverPhoto._id)}>x</div>
+                            <div className="icon" onClick={() => handleDelete(coverPhoto)}>x</div>
                         </div>
                     </div>
                 )}
-            {photoItems.length > 0 ? (
-                    photoItems.map((photo, index) => (
-                        <div key={photo._id} className="frame">
-                            <img className="photo" src={`./component/ImagesUpload/${photo.image}`} alt="Property" />
+                {photoItems.length > 0 ? (
+                    photoItems.map((photo) => (
+                        <div key={photo} className="frame">
+                            <img className="photo" src={`http://localhost:5000/uploads/${photo}`} alt="Property" />
                             <div className="overlay">
-                                <div className="text2" onClick={() => handleMakeCover(photo._id)}>Make cover photo</div>
-                                <div className="icon" onClick={() => handleDelete(photo._id)}>x</div>
+                                <div className="text2" onClick={() => handleMakeCover(photo)}>Make cover photo</div>
+                                <div className="icon" onClick={() => handleDelete(photo)}>x</div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p></p>
+                    <></>
                 )}
                 <div className="rectangleArrangePhoto">
                     <input
