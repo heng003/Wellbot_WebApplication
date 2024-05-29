@@ -11,9 +11,9 @@
 .imageContainer {
     position: relative; /* Required for absolute positioning */
     left: 0;
-    right: 0;
     display: flex;
     justify-content: space-between;
+    transition: transform 2s ase;
 }
 
 .propertyImage {
@@ -30,6 +30,32 @@
     justify-content: space-between;
     transform: translateY(-50%);
     padding-inline: 0.5em;
+}
+
+.imgPageIconContainer {
+    position: absolute;
+    top: 94.5%;
+    right: -14.5%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    transform: translateY(-50%);
+    column-gap: 0.45em;
+    padding-inline: 0.35em;
+    padding-block: 0.35em;
+    background-color: rgba(0, 0, 0, 0.64);
+} 
+
+.imgPageText {
+    color: white;
+    font-size: 1.35em;
+    font-weight: 300;
+}
+
+.imgPageIcon {
+    color: #FFFFFF;
+    width: auto;
+    height: 1.2em;
 }
 
 .previousButton,
@@ -88,8 +114,7 @@
 
 .commentTitle {
     color: #FF5C00;;
-    padding-top: 1.5em;
-    padding-bottom: 0.05em;
+    padding-top: 3em;
     margin-left: 3.3em;
     font-weight: 560;
     font-size: xx-large;
@@ -110,9 +135,10 @@
 }
 
 .comment-grid {
-    width: 78.444rem;
+    width: 88rem;
     flex-direction: column;
     justify-content: flex-start;
+    margin-left: 2rem;
     gap: 2.563rem;
 }
 
@@ -122,6 +148,25 @@
   justify-content: center;
   padding: 0 1.25rem 1.875rem;
   font-size: 1rem;
+  margin-left: 0.05em;
   margin-bottom: 5em;
   margin-top: 1.2em;
+}
+
+.commentPromptTitle {
+    font-size: 25px; 
+    color:#767676;
+    margin-left: 1em; 
+    font-weight: 500; 
+    padding-bottom: 5em; 
+    margin-top: -0.6em;
+}
+
+#Comment .ratingStarsGroup {
+    margin-right: 1.3em;
+    margin-left: -0.8em;
+}
+
+#Comment .rating-star {
+    margin-right: -2.1em;
 }

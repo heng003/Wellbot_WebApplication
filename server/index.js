@@ -37,7 +37,7 @@ app.use('/api/properties', propertiesRouter);
 app.use('/api/leases', leasesRouter);
 app.use('/api/reviewsTenant', reviewTenantRoute);
 app.use('/api/reviewsLandlord', reviewLandlordRoute);
-app.use('/api/landlordUpload',landlordRouter);
+app.use('/api/landlord',landlordRouter);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));

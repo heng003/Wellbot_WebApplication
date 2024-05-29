@@ -7,18 +7,18 @@ const propertySchema = new mongoose.Schema({
     address: { type: String, required: true },
     location: { type: String, required: true },
     postcode: { type: String, required: true },
-    bedroom: { type: Number, required: true },
-    bathroom: { type: Number, required: true },
+    bedroom: { type: String, required: true },
+    bathroom: { type: String, required: true },
     furnishing: { type: String, required: true },
-    parking: { type: Number, required: true },
-    floorLevel: { type: Number, required: true },
+    parking: { type: String, required: true },
+    floorLevel: { type: String, required: true },
     buildUpSize: { type: Number, required: true },
     facilities: { type: String, required: true },
     accessibility: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },
-    coverPhoto: { type: String, required: true },
-    photos: { type: [String], required: true }
+    coverPhoto: { type: String },
+    photos: { type: [String] }
 });
 
 const Property = mongoose.model('properties', propertySchema);
