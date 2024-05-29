@@ -7,8 +7,8 @@ const TenantReview = require('../models/reviewTenantModel');
 // Multer setup
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log('Setting destination for file upload');
-    cb(null, '../client/src/LandlordPOV/component/ImagesUpload/');
+    const uploadPath = path.join(__dirname, '../client/src/LandlordPOV/component/ImagesUpload/');
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
     const filename = Date.now() + '-' + file.originalname;
@@ -16,8 +16,8 @@ const storage = multer.diskStorage({
     cb(null, filename);
   }
 });
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage });
 const uploadPhotoMiddleware = upload.single('photo');
 
 // Upload photo 1st page
@@ -443,8 +443,6 @@ const getTenantReview = async (req, res) => {
   }
 };
 
-
-  
 
 module.exports = {
   getAllProperties,
