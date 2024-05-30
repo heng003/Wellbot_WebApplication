@@ -10,6 +10,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { FlipWords } from "../LandlordPOV/components/ui/flip-words"; // need to install "npm i framer-motion clsx tailwind-merge"
 import { CardBody, CardContainer, CardItem } from "../LandlordPOV/components/ui/3d-card"; // need to install "npm i framer-motion clsx tailwind-merge"
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const LandlordHome = () => {
   
@@ -224,7 +225,7 @@ const LandlordHome = () => {
         </section>
         <section id="recommendation">
           <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{ marginBottom: '0.4em' }}>
-            {isSearchClicked ? (filteredResults.length === 0 ? "No Result Found" : "Filter Result/s") : "Recommendations"}
+            {isSearchClicked ? (filteredResults.length === 0 ? "No Result Found" : "Filter Result/s") : "Your Property/s"}
           </header>
           <div className="row row-cols-1 row-cols-md-3 g-5">
             {(isSearchClicked ? filteredResults : cardData).map((card, index) => (
