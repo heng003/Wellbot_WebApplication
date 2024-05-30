@@ -16,15 +16,18 @@ import { Input } from "components/ui/input";
 import { FormError } from "./form-error";
 import { FormSuccess } from "./form-success";
 import { Button } from "components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   lesseeFormValues,
   lesseeSignature,
   lesseeSignatureUrl,
 } from "./agreement-signals";
 import { effect } from "@preact/signals";
+import axios from "axios";
+import { drawDOM, exportPDF } from "@progress/kendo-drawing";
 
 export const TenantAgreementForm = () => {
+  const { leaseAgreementId } = useParams();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -55,36 +58,61 @@ export const TenantAgreementForm = () => {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof lesseeAgreeementSchema>) => {
+  const onSubmit = async (values: z.infer<typeof lesseeAgreeementSchema>) => {
     if (!lesseeSignature.value || lesseeSignature.value.size === 0) {
       setError("Please upload signature");
       return;
     }
     setError("");
     setSuccess("");
-    startTransition(() => {
-      lesseeFormValues.value = values;
+    lesseeFormValues.value = values;
+    const response = await axios.post(
+      `/api/leaseAgreement/submitTenantLeaseAgreement/${leaseAgreementId}`,
+      {
+        lesseeIc: values.lesseeIc,
+        lesseeDesignation: values.lesseeDesignation,
+        lesseeSignature: lesseeSignatureUrl.value,
+      }
+    );
 
-      localStorage.setItem(
-        "lesseeFormValues",
-        JSON.stringify(lesseeFormValues.value)
-      );
-      localStorage.setItem(
-        "lesseeSignature",
-        JSON.stringify(lesseeSignature.value)
-      );
-      localStorage.setItem(
-        "lesseeSignatureUrl",
-        JSON.stringify(lesseeSignatureUrl.value)
-      );
-      // console.log(JSON.parse(localStorage.getItem("lesseeFormValues") || ""));
+    const exportPDFWithMethod = () => {
+      let gridElement = document.body;
+      drawDOM(gridElement, {
+        paperSize: "A4",
+      })
+        .then((group) => {
+          return exportPDF(group);
+        })
+        .then(async (dataUri) => {
+          const pdfBuffer = Buffer.from(dataUri.split(";base64,")[1], "base64");
+          const pdfRes = await axios.post(
+            `/api/leaseAgreement/savePDFToDB/${leaseAgreementId}`,
+            { pdfBuffer: pdfBuffer }
+          );
+          console.log(dataUri.split(";base64,")[1]);
+        });
+    };
+    exportPDFWithMethod();
 
-      // console.log(JSON.parse(localStorage.getItem("lesseeSignature") || ""));
-
-      // console.log(JSON.parse(localStorage.getItem("lesseeSignatureUrl") || ""));
-      // console.log(localStorage.getItem("lesseeSignatureUrl"));
-    });
-    navigate("/tenantLeaseAgreementLastPg");
+    localStorage.setItem(
+      "lesseeFormValues",
+      JSON.stringify(lesseeFormValues.value)
+    );
+    localStorage.setItem(
+      "lesseeSignature",
+      JSON.stringify(lesseeSignature.value)
+    );
+    localStorage.setItem(
+      "lesseeSignatureUrl",
+      JSON.stringify(lesseeSignatureUrl.value)
+    );
+    // startTransition(() => {
+    // console.log(JSON.parse(localStorage.getItem("lesseeFormValues") || ""));
+    // console.log(JSON.parse(localStorage.getItem("lesseeSignature") || ""));
+    // console.log(JSON.parse(localStorage.getItem("lesseeSignatureUrl") || ""));
+    // console.log(localStorage.getItem("lesseeSignatureUrl"));
+    // });
+    navigate(`/tenantLeaseAgreementLastPg/${leaseAgreementId}`);
   };
 
   return (

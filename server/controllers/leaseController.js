@@ -17,21 +17,24 @@ exports.getLeasesByPropertyId = async (req, res) => {
 };
 
 exports.getLeasesByTenantUsername = async (req, res) => {
-    try {
-        const { username } = req.params;
-        if (!username) {
-            return res.status(400).json({ message: "Username is required" });
-        }
-        const tenant = await User.findOne({ username });
-        if (!tenant) {
-            return res.status(404).json({ message: "Tenant not found" });
-        }
-        const leases = await Lease.find({ tenantId: tenant._id }).populate('tenantId', 'username');
-        res.json(leases);
-    } catch (err) {
-        console.error("Error fetching leases:", err);
-        res.status(500).json({ message: "Internal Server Error" });
+  try {
+    const { username } = req.params;
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
     }
+    const tenant = await User.findOne({ username });
+    if (!tenant) {
+      return res.status(404).json({ message: "Tenant not found" });
+    }
+    const leases = await Lease.find({ tenantId: tenant._id }).populate(
+      "tenantId",
+      "username"
+    );
+    res.json(leases);
+  } catch (err) {
+    console.error("Error fetching leases:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 exports.getLeasesAndPropertiesByTenantId = async (req, res) => {

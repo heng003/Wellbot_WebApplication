@@ -251,7 +251,9 @@ module.exports = {
 // GET property list
 exports.getAllProperties = async (req, res, next) => {
     console.log(req.body)
+    console.log(req.body)
     try {
+        console.log(req.body)
         console.log(req.body)
         // Query to retrieve all properties
         const properties = await Property.find();

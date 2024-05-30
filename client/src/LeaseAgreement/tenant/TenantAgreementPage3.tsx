@@ -1,6 +1,9 @@
+import axios from "axios";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const parseLocalStorage = (key: string): any => {
   try {
@@ -13,27 +16,48 @@ const parseLocalStorage = (key: string): any => {
 };
 
 const TenantAgreementPage3 = () => {
-  const localStorageLessorSignUrl = parseLocalStorage("lessorSignatureUrl");
-  const localStorageLessorValue = parseLocalStorage("lessorFormValues");
+  const { leaseAgreementId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    lessorSignature: "",
+    lessorDesignation: "",
+    lessorIc: "",
+  });
+  useEffect(() => {
+    setLoading(true);
+    async function fetchLease() {
+      const response = await axios.get(
+        `/api/leaseAgreement/getLeaseAgreement/${leaseAgreementId}`
+      );
+      setData(response.data.leaseAgreement);
+    }
+
+    fetchLease();
+    setLoading(false);
+  }, []);
 
   return (
     <>
-      <AgreementWrapper
-        title="Lease Agreement"
-        nextButtonText="Sign Now"
-        nextButtonHref="/tenantLeaseAgreementForm"
-      >
-        <AgreementTerm number="17" title="no partnership">
-          {TermSeventeen()}
-        </AgreementTerm>
-        <AgreementTerm number="18" title="SUCCESSORS BOUND">
-          {TermEighteen(
-            localStorageLessorSignUrl,
-            localStorageLessorValue?.lessorDesignation,
-            localStorageLessorValue?.lessorIc
-          )}
-        </AgreementTerm>
-      </AgreementWrapper>
+      {loading ? (
+        <></>
+      ) : (
+        <AgreementWrapper
+          title="Lease Agreement"
+          nextButtonText="Sign Now"
+          nextButtonHref={`/tenantLeaseAgreementForm/${leaseAgreementId}`}
+        >
+          <AgreementTerm number="17" title="no partnership">
+            {TermSeventeen()}
+          </AgreementTerm>
+          <AgreementTerm number="18" title="SUCCESSORS BOUND">
+            {TermEighteen(
+              data.lessorSignature,
+              data.lessorDesignation,
+              data.lessorIc
+            )}
+          </AgreementTerm>
+        </AgreementWrapper>
+      )}
     </>
   );
 };

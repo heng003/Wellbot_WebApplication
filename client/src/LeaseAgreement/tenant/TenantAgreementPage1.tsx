@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import {
   LeaseIntro,
@@ -9,59 +9,76 @@ import {
   TermTwo,
 } from "../AgreementText";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const TenantAgreementPage1 = () => {
-  // Retrieve data from localStorage
-  const localStorageValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || "{}"
-  );
+  const { leaseAgreementId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    day: "",
+    month: "",
+    year: "",
+    lessorName: "",
+    lessorIc: "",
+    lesseeName: "",
+    lesseeIc: "",
+    address: "",
+    effectiveDate: "",
+    expireDate: "",
+    rentRmWord: "",
+    rentRmNum: "",
+    advanceDay: "",
+    depositRmWord: "",
+    depositRmNum: "",
+  });
+  useEffect(() => {
+    setLoading(true);
+    async function fetchLease() {
+      const response = await axios.get(
+        `/api/leaseAgreement/getLeaseAgreement/${leaseAgreementId}`
+      );
+      setData(response.data.leaseAgreement);
+    }
 
-  // Check if localStorageValue is empty or invalid
-  if (!localStorageValue || Object.keys(localStorageValue).length === 0) {
-    // Handle the case when localStorageValue is empty or invalid
-    return <div>No data available.</div>;
-  }
+    fetchLease();
+    setLoading(false);
+  }, []);
 
   return (
     <>
-      <AgreementWrapper
-        title="Lease Agreement"
-        nextButtonText="Next"
-        nextButtonHref="/tenantLeaseAgreementPg2"
-      >
-        {LeaseIntro(
-          localStorageValue.day,
-          localStorageValue.month,
-          localStorageValue.year,
-          localStorageValue.lessorName,
-          localStorageValue.lessorIc,
-          localStorageValue.lesseeName,
-          localStorageValue.lesseIc
-        )}
-        {PropertyInfo(localStorageValue.address)}
-        <AgreementTerm number="1" title="term">
-          {TermOne(
-            localStorageValue.effectiveDate,
-            localStorageValue.expireDate
+      {loading ? (
+        <></>
+      ) : (
+        <AgreementWrapper
+          title="Lease Agreement"
+          nextButtonText="Next"
+          nextButtonHref={`/tenantLeaseAgreementPg2/${leaseAgreementId}`}
+        >
+          {LeaseIntro(
+            data.day,
+            data.month,
+            data.year,
+            data.lessorName,
+            data.lessorIc,
+            data.lesseeName,
+            data.lesseeIc
           )}
-        </AgreementTerm>
-        <AgreementTerm number="2" title="rent">
-          {TermTwo(
-            localStorageValue.rentRmWord,
-            localStorageValue.rentRmNum,
-            localStorageValue.advanceDay
-          )}
-        </AgreementTerm>
-        <AgreementTerm number="3" title="deposit">
-          {TermThree(
-            localStorageValue.depositRmWord,
-            localStorageValue.depositRmNum
-          )}
-        </AgreementTerm>
-        <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
-          {TermFour()}
-        </AgreementTerm>
-      </AgreementWrapper>
+          {PropertyInfo(data.address)}
+          <AgreementTerm number="1" title="term">
+            {TermOne(data.effectiveDate, data.expireDate)}
+          </AgreementTerm>
+          <AgreementTerm number="2" title="rent">
+            {TermTwo(data.rentRmWord, data.rentRmNum, data.advanceDay)}
+          </AgreementTerm>
+          <AgreementTerm number="3" title="deposit">
+            {TermThree(data.depositRmWord, data.depositRmNum)}
+          </AgreementTerm>
+          <AgreementTerm number="4" title="COVENANTS BY THE LESSEE">
+            {TermFour()}
+          </AgreementTerm>
+        </AgreementWrapper>
+      )}
     </>
   );
 };

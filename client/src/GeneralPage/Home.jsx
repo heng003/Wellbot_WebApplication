@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './home.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
+import React, { useState, useRef, useEffect } from "react";
+import "./home.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import CardGeneral from "../component/CardGeneral";
 import axios from 'axios';
 
 const Home = () => {
+  const [propertyList, setPropertyList] = useState([]);
   const [propertyList, setPropertyList] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);

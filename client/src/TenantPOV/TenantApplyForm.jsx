@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "../TenantPOV/edittenantprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import Swal from "sweetalert2";
@@ -181,6 +183,7 @@ const TenantApplyForm = () => {
         <div className="editLandlordForm">
           <div className="row" id="row2">
             <div className="col">
+            <div className="col">
               <h6>FullName *</h6>
               <input
                 type="text"
@@ -190,11 +193,14 @@ const TenantApplyForm = () => {
                 required
                 value={userData.editFullname}
                 onChange={handleChange}
+                value={userData.editFullname}
+                onChange={handleChange}
               />
               <div className="displayErrorEditMessage">
                   {errors.editFullname && <span>{errors.editFullname}</span>}
               </div>
             </div>
+            <div className="col">
             <div className="col">
               <h6>UserName *</h6>
               <input
@@ -205,7 +211,12 @@ const TenantApplyForm = () => {
                 required
                 value={userData.editUsername}
                 onChange={handleChange}
+                value={userData.editUsername}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editUsername && <span>{errors.editUsername}</span>}
+              </div>
               <div className="displayErrorEditMessage">
                 {errors.editUsername && <span>{errors.editUsername}</span>}
               </div>
@@ -213,6 +224,7 @@ const TenantApplyForm = () => {
           </div>
 
           <div className="row">
+            <div className="col">
             <div className="col">
               <h6>NRIC *</h6>
               <input
@@ -224,11 +236,18 @@ const TenantApplyForm = () => {
                 pattern="[0-9]{12}"
                 value={userData.editIC}
                 onChange={handleChange}
+                pattern="[0-9]{12}"
+                value={userData.editIC}
+                onChange={handleChange}
               />
               <div className="displayErrorEditMessage">
                 {errors.editIC && <span>{errors.editIC}</span>}
               </div>
+              <div className="displayErrorEditMessage">
+                {errors.editIC && <span>{errors.editIC}</span>}
+              </div>
             </div>
+            <div className="col">
             <div className="col">
               <h6>Phone Number *</h6>
               <input
@@ -240,6 +259,8 @@ const TenantApplyForm = () => {
                 pattern="[0-9]{3}-[0-9]{7,8}"
                 value={userData.editPhoneno}
                 onChange={handleChange}
+                value={userData.editPhoneno}
+                onChange={handleChange}
               />
                <div className="displayErrorEditMessage">
                 {errors.editPhoneno && <span>{errors.editPhoneno}</span>}
@@ -248,6 +269,7 @@ const TenantApplyForm = () => {
           </div>
 
           <div className="row">
+            <div className="col">
             <div className="col">
               <h6>Email Address *</h6>
               <input
@@ -258,7 +280,12 @@ const TenantApplyForm = () => {
                 required
                 value={userData.editEmail}
                 onChange={handleChange}
+                value={userData.editEmail}
+                onChange={handleChange}
               />
+              <div className="displayErrorEditMessage">
+                {errors.editEmail && <span>{errors.editEmail}</span>}
+              </div>
               <div className="displayErrorEditMessage">
                 {errors.editEmail && <span>{errors.editEmail}</span>}
               </div>
@@ -303,5 +330,6 @@ const TenantApplyForm = () => {
     </>
   );
 };
+
 
 export default TenantApplyForm;

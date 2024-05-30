@@ -121,8 +121,8 @@ const LandlordApplicantFeedback = () => {
   }, [commentList]);
 
   const handleSendLease = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    nav("/landlordLeaseAgreementForm");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    nav(`/landlordLeaseAgreementForm/${applicationId}`);
   };
 
   const handleRejectApplicant = () => {
@@ -159,7 +159,9 @@ const LandlordApplicantFeedback = () => {
 
               <div className="accountRight_Section">
                 <h5 className="usernameText">{username}</h5>
+                <h5 className="usernameText">{username}</h5>
                 <p className="accountDetail" id="accDetails">
+                  Current Rent Properties: {effectiveLeasesCount}
                   Current Rent Properties: {effectiveLeasesCount}
                 </p>
               </div>

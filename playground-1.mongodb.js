@@ -1,5 +1,4 @@
-
-use('RentSpotter');
+use("RentSpotter");
 
 db.getCollection('leases').insertOne({
   tenantId: new ObjectId('663c7b00472233659b0e1a69'),

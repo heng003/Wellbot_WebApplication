@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./editlandlordprofile.css";
 import "./landlord_history.css";
 import Swal from "sweetalert2";
@@ -12,8 +12,14 @@ const LandlordComment = () => {
   
   const { username } = useParams();
   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [ratings, setRatings] = useState(Array(5).fill(false));
   const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
+  const [landlordId, setLandlordId] = useState(null);
+  const [tenantId, setTenantId] = useState(null);
+  const [comment, setComment] = useState("");
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
   const [landlordId, setLandlordId] = useState(null);
   const [tenantId, setTenantId] = useState(null);
   const [comment, setComment] = useState("");
@@ -32,7 +38,7 @@ const LandlordComment = () => {
         setLandlordId(decodedToken.userId);
 
         const response = await axios.get(`/api/leases/tenant/${username}`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
@@ -52,6 +58,11 @@ const LandlordComment = () => {
         }
       } catch (err) {
         console.error("Error fetching leases:", err);
+        Swal.fire({
+          text: "Error fetching leases. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#FF8C22",
+        });
         Swal.fire({
           text: "Error fetching leases. Please try again later.",
           icon: "error",
@@ -136,6 +147,7 @@ const LandlordComment = () => {
 
           <div className="accountRight_Section">
             <h5 className="usernameText">{username}</h5>
+            <h5 className="usernameText">{username}</h5>
             <p className="accountDetail" id="accDetails">
               Current Rent Properties: {effectiveLeasesCount}
             </p>
@@ -177,6 +189,8 @@ const LandlordComment = () => {
                 id="additionalComment"
                 rows="5"
                 placeholder="You can leave your comment based on timeliness of rent payments, property maintenance and care, communication and responsiveness, adherence to lease terms and neighbor relations."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 required

@@ -10,6 +10,8 @@ const CardApplication = ({ listing }) => {
   const {
     applicationId,
     propertyId,
+    applicationId,
+    propertyId,
     title,
     locationOwner,
     imageUrl,
@@ -30,11 +32,14 @@ const CardApplication = ({ listing }) => {
     if (isPending) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       nav(`/tenantViewPropertyPending/${propertyId}`);
+      nav(`/tenantViewPropertyPending/${propertyId}`);
     } else if (isRejected) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       nav(`/tenantViewPropertyRejected/${propertyId}`);
+      nav(`/tenantViewPropertyRejected/${propertyId}`);
     } else if (isViewLease) {
       window.scrollTo({ top: 0, behavior: "smooth" });
+      nav(`/tenantViewPropertyLease/${propertyId}/${applicationId}`);
       nav(`/tenantViewPropertyLease/${propertyId}/${applicationId}`);
     }
   };

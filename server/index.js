@@ -48,31 +48,31 @@ app.get('*', function(req, res) {
 });
 
 // 3. MONGO DB CONNECTION
-const mongoURI = process.env.MONGODB_URI;
-
-mongoose.connect(mongoURI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('Could not connect to MongoDB Atlas:', err));
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
 
 // 4. GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
-    if (!res.headersSent) {
-        err.statusCode = err.statusCode || 500;
-        err.status = err.status || 'error';
+  if (!res.headersSent) {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || "error";
 
-        res.status(err.statusCode).json({
-            status: err.status,
-            message: err.message,
-        });
-    } else {
-        next(err);
-    }
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+    });
+  } else {
+    next(err);
+  }
 });
 
 // Server listen
 const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
 console.log('This is a test change to check Nodemon restart');

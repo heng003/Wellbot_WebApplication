@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./tenantapplication.css";
 import CardApplication from "./component/CardApplication";
 import { jwtDecode } from 'jwt-decode'; 

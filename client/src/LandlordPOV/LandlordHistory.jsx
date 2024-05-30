@@ -20,6 +20,7 @@ function LandlordHistory() {
   const [error, setError] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate(); 
 
@@ -55,8 +56,20 @@ function LandlordHistory() {
       setLoading(true); 
 
       async function fetchLeases() {
+  const handlePropertyChange = (propertyId) => {
+    if (!propertyId) {
+      setSelectedProperty(null);
+      setLeases([]);
+    } else {
+      const property = properties.find(p => p._id === propertyId);
+      setSelectedProperty(property);
+      setLeases([]); 
+      setLoading(true); 
+
+      async function fetchLeases() {
         try {
           const token = localStorage.getItem('token');
+          const response = await axios.get(`/api/leases/${propertyId}`, {
           const response = await axios.get(`/api/leases/${propertyId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -67,6 +80,11 @@ function LandlordHistory() {
         } catch (err) {
           console.error("Error fetching leases:", err);
           setError("Failed to fetch leases");
+        } finally {
+          setLoading(false); 
+        }
+      }
+      fetchLeases();
         } finally {
           setLoading(false); 
         }
@@ -125,6 +143,7 @@ function LandlordHistory() {
           <tr key={lease._id}>
             <td>{lease.tenantId.username}</td>
             <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
+            <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
             <td>{lease.leaseStatus}</td>
             <td>
               <img
@@ -160,6 +179,7 @@ function LandlordHistory() {
     <div className="rental-history">
       <h1 className="rentalTitle">Rental History</h1>
       {error && <p className="error">{error}</p>}
+      
       
       <div className="property-selector" ref={dropdownRef}>
         <label htmlFor="property-select">Your Property</label>
@@ -202,6 +222,10 @@ function LandlordHistory() {
               applicants for renting purposes.
             </h3>
           ) : (
+            <>
+              <h2 className="propertyName">{selectedProperty.name}</h2>
+              {renderTable(leases)}
+            </>
             <>
               <h2 className="propertyName">{selectedProperty.name}</h2>
               {renderTable(leases)}
