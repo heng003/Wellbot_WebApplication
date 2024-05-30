@@ -211,7 +211,7 @@ const LandlordApplicantFeedback = () => {
         </div>
         <div className="comment-grid">
           {loading ? (
-            <h3 className="Brief_Text">Loading...</h3>
+            <h3 className="Loading_Text">Loading...</h3>
           ) : (
             <>
               {commentList.length > 0 ? (
@@ -225,7 +225,7 @@ const LandlordApplicantFeedback = () => {
                   />
                 ))
               ) : (
-                <h3 className="commentPromptTitle" >No comments available.</h3>
+                <h3 className="Landlord_commentPromptTitle" >No comments available.</h3>
               )}
             </>
           )}

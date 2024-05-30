@@ -100,6 +100,19 @@ applicantInfoSection {
   row-gap: 2em;
 }
 
+.Loading_Text{
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 30px;
+  color: #8a8a8a;
+  margin-left: 1em; 
+  margin-top: -0.6em;
+  padding-bottom: 5em; 
+}
+
+
 @media screen and (max-width: 1000px) {
   .applicantCommentContainer {
     flex-direction: column; /* Stack comment cards vertically when screen width is less than 500px */
