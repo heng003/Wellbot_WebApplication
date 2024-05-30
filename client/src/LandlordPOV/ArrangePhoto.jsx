@@ -91,21 +91,32 @@ const ArrangePhoto = () => {
                 });
             }, 500);
         } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => {
+            if (photoItems.length < 1) {
                 Swal.fire({
-                    text: "Uploaded successfully!",
-                    icon: "success",
+                    title: 'Reminder',
+                    text: 'At least 2 photos are required.',
+                    icon: 'error',
                     confirmButtonColor: "#FF8C22",
                     confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate("/landlordHome");
-                    }
                 });
-            }, 100);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    Swal.fire({
+                        text: "Uploaded successfully!",
+                        icon: "success",
+                        confirmButtonColor: "#FF8C22",
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            navigate("/landlordHome");
+                        }
+                    });
+                }, 100);
+            }
         }
     };
+    
 
     return (
         <div className="pageMainContainer">

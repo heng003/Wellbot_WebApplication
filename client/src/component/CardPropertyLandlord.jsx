@@ -2,6 +2,7 @@ import React from "react";
 import '../GeneralPage/home.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import { useNavigate } from "react-router-dom";
+import { CardBody, CardContainer, CardItem } from "../LandlordPOV/components/ui/3d-card";
 
 const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, propertyAdd, roomDetails }) => {
     
@@ -15,16 +16,17 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
     }
 
     return (
-        <div className="card h-100" onClick={handleViewProperty}>
-            <div>
+        <CardContainer >
+            <CardBody className="card h-100" onClick={handleViewProperty}>
+            <CardItem onClick={handleViewProperty} translateZ="100">
                 <img src={imgSrc} className="card-img-top" alt="propertyImage"/>
-            </div>
-            <div className="card-body d-flex flex-column justify-content-between">
-                <div className="card-desription-container">
-                    <h4 className="card-title1">{cardTitle}</h4>
-                    <h6 className="card-title2">{propertyTitle}</h6>
-                    <p className="card-text">{propertyAdd}</p>
-                </div>
+                </CardItem>
+                <CardItem onClick={handleViewProperty} translateZ="60" className="card-body d-flex flex-column justify-content-between">
+                    <CardItem onClick={handleViewProperty} className="card-desription-container">
+                        <h4 className="card-title1">{cardTitle}</h4>
+                        <h6 className="card-title2">{propertyTitle}</h6>
+                        <p className="card-text">{propertyAdd}</p>
+                    </CardItem>
 
                 <ul className="roomIconsGroup">
                 {roomDetails.map((detail, index) => (
@@ -41,12 +43,13 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
                 ))}
                 </ul>
 
-                <div className="viewButton">
-                    <button className="View-Button" type="button" onClick={handleViewProperty}>Edit</button>
-                </div>
+                <CardItem onClick={handleViewProperty} className="viewButton" translateZ="60">
+                    <button className="View-Button" type="button">Edit</button>
+                </CardItem>
                 
-            </div>
-        </div>
+            </CardItem>
+        </CardBody>
+        </CardContainer>
     )
 }
 

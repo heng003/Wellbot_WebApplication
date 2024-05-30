@@ -1,139 +1,166 @@
-import React, { useState } from 'react';
-import { useRef } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
-import './updateproperty.css';
-import './uploadpropertyphoto.css'; 
-import './editphoto.css'; 
-import addFileImage from './Images/ADDfile.png';
-import Image1 from './Images/Image1.png';
-import Image2 from './Images/Image2.png';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import axios from "axios";
+import "./updateproperty.css";
+import "./uploadpropertyphoto.css";
+import "./editphoto.css";
+import addFileImage from "./Images/ADDfile.png";
+import Swal from "sweetalert2";
 
 const EditPhoto = () => {
-    const [photoItems, setPhotoItems] = useState([
-      { id: 1, image: Image1 },
-      { id: 2, image: Image2 }
-    ]);
-
+    const [coverPhoto, setCoverPhoto] = useState(null);
+    const [photoItems, setPhotoItems] = useState([]);
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
+    const { propertyId } = useParams();
 
-    const [isVisible1, setIsVisible1] = useState(true);
-    const [isVisible2, setIsVisible2] = useState(true);
+    const getPropertyPhotos = useCallback(async () => {
+        try {
+            const response = await axios.get(`/api/landlord/properties/uploadPhoto/getPhoto/${propertyId}`);
+            const { coverPhoto, photos } = response.data;
+            console.log('Response data:', response.data);
+            setCoverPhoto(coverPhoto);
+            setPhotoItems(photos || []);
+        } catch (error) {
+            console.error("Error fetching photos:", error);
+            setPhotoItems([]);
+        }
+    }, [propertyId]);
 
-    const handleDelete1 = () => {
-        setIsVisible1(false);
+    useEffect(() => {
+        getPropertyPhotos();
+    }, [getPropertyPhotos]);
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/api/landlord/properties/${propertyId}/deletePhoto/${id}`);
+            setPhotoItems(prevItems => prevItems.filter(item => item !== id));
+        } catch (error) {
+            console.error("Error deleting photo:", error);
+        }
     };
 
-    const handleDelete2 = () => {
-        setIsVisible2(false);
-     };
-  
-     const handleDelete = (id) => {
-      setPhotoItems(prevItems => prevItems.filter(item => item.id !== id));
-  };
-
-  const handleMakeCover = (id) => {
-    setPhotoItems(prevItems => {
-        const newItems = [...prevItems];
-        const index1 = newItems.findIndex(item => item.id === 1);
-        const index2 = newItems.findIndex(item => item.id === 2);
-        if (index1 !== -1 && index2 !== -1) {
-            // Swap the positions of the images
-            const temp = newItems[index1].image;
-            newItems[index1].image = newItems[index2].image;
-            newItems[index2].image = temp;
+    const handleMakeCover = async (id) => {
+        try {
+            await axios.put(`/api/landlord/properties/makeCoverPhoto/${propertyId}/${id}`);
+            getPropertyPhotos();
+        } catch (error) {
+            console.error("Error making cover photo:", error);
         }
-        return newItems;
-    });
-};
+    };
 
     const handleImageClick = () => {
-        fileInputRef.current.click(); // Trigger file input click
-      };
-    
-      const handleFileChange = (e) => {
-        // Handle file change logic here
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
-            navigate('/landlordArrangePhoto');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          console.log('Selected file:', file);
+            try {
+                const formData = new FormData();
+                formData.append("photo", file);
+                await axios.put(`/api/landlord/properties/uploadPhotoNext/${propertyId}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                getPropertyPhotos();
+            } catch (error) {
+                console.error("Error uploading photo:", error);
+            }
         } else {
-          console.log('Please select a valid image file (jpeg or png)');
+            console.log('Please select a valid image file (jpeg or png)');
         }
-      };
+    };
 
     const handleUploadButton = (e) => {
-      if (location.pathname !== "/landlordEditPhoto") {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => {
-            Swal.fire({
-              title: 'Warning!',
-              text: "You need to upload at least 1 property's photo.",
-              icon: 'warning',
-              confirmButtonColor: "#FF8C22",
-              confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-        }, 500); // Delay to allow scroll to finish
+      if (location.pathname !== `/landlordEditPhoto/${propertyId}`) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+              Swal.fire({
+                  title: 'Warning!',
+                  text: 'You need to register or log in to your account before performing this action.',
+                  icon: 'warning',
+                  confirmButtonColor: "#FF8C22",
+                  confirmButtonText: 'OK'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+              });
+          }, 500);
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => {
-            Swal.fire({
-              text: "Uploaded succesfully!",
-              icon: "success",
-              confirmButtonColor: "#FF8C22",
-              confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                  navigate("/landlordHome");
-                }
-            });
-        }, 100); // Delay to allow scroll to finish
+          if (photoItems.length < 1) {
+              Swal.fire({
+                  title: 'Reminder',
+                  text: 'At least 2 photos are required.',
+                  icon: 'error',
+                  confirmButtonColor: "#FF8C22",
+                  confirmButtonText: 'OK'
+              });
+          } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setTimeout(() => {
+                  Swal.fire({
+                      text: "Saved changes successfully!",
+                      icon: "success",
+                      confirmButtonColor: "#FF8C22",
+                      confirmButtonText: 'OK'
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          navigate("/landlordHome");
+                      }
+                  });
+              }, 100);
+          }
       }
-    }
-  
-    return (
-        
-      <div className="pageMainContainer">
-        <h1 className="pageMainTitle">Edit your property's photo</h1>
+  };
 
-        <div>
-        {photoItems.map(({ id, image, isCover }) => (
-            <div key={id} className="frame">
-                <img className="photo" src={image} alt="Property" />
-                <div className="overlay">
-                    {isCover ? (
-                        <div className="text">Cover photo</div>
-                    ) : (
-                        <div className="text2" onClick={() => handleMakeCover(id)}>Make cover photo</div>
-                    )}
-                    <div className="icon" onClick={() => handleDelete(id)}>x</div>
+    return (
+      <div className="pageMainContainer">
+          <h1 className="pageMainTitle">Edit your property's photo</h1>
+
+          <div>
+                {coverPhoto && (
+                    <div className="frame">
+                        <img className="photo" src={`http://localhost:5000/uploads/${coverPhoto}`} alt="Cover Photo" />
+                        <div className="overlay">
+                            <div className="text">Cover photo</div>
+                            <div className="icon" onClick={() => handleDelete(coverPhoto)}>x</div>
+                        </div>
+                    </div>
+                )}
+                {photoItems.length > 0 ? (
+                    photoItems.map((photo) => (
+                        <div key={photo} className="frame">
+                            <img className="photo" src={`http://localhost:5000/uploads/${photo}`} alt="Property" />
+                            <div className="overlay">
+                                <div className="text2" onClick={() => handleMakeCover(photo)}>Make cover photo</div>
+                                <div className="icon" onClick={() => handleDelete(photo)}>x</div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <></>
+                )}
+                <div className="rectangleArrangePhoto">
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg, image/png"
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                    />
+                    <img src={addFileImage} alt="Add File" className="imageAddPhoto" onClick={handleImageClick} />
+                    <span><p>Add more photos</p></span>
                 </div>
             </div>
-        ))}
-      <div className="rectangleArrangePhoto">
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg, image/png"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        <img src={addFileImage} alt="Add File" className="imageAddPhoto" onClick={handleImageClick} />
-        <span><p>Add more photos</p></span>
-      </div>
-    </div>
-    <div className="applyButton"> 
-                    <button className="applyNowButton" type="button" onClick={handleUploadButton}>Save</button>
-                </div>
-      </div>
+            <div className="applyButton">
+                <button className="applyNowButton" type="button" onClick={handleUploadButton}>Save</button>
+            </div>
+        </div>
     );
-  };
+};
 
 export default EditPhoto;
