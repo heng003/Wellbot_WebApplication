@@ -9,55 +9,40 @@ const mongoURI = process.env.MONGODB_URI;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-
-<<<<<<< HEAD
 const authRouter = require("./routes/authRoute");
 const tenantApplicationRouter = require("./tenantApplication/routes/tenantApplicationRoute");
 const propertiesRouter = require("./routes/propertiesRoute");
 const leasesRouter = require("./routes/leaseRoute");
-const commentByLandlordRoute = require("./routes/commentByLandlordRoute");
-import leaseAgreementRoute from "./routes/leaseAgreementRoute";
 const reviewTenantRoute = require("./routes/reviewTenantRoute");
-=======
-const authRouter = require('./routes/authRoute');
-const tenantApplicationRouter = require('./tenantApplication/routes/tenantApplicationRoute');
-const propertiesRouter = require('./routes/propertiesRoute');
->>>>>>> 314ff59 (jwt installed)
+const userRoute = require("./routes/userRoute");
+const reviewLandlordRoute = require("./routes/reviewLandlordRoute");
+const leaseAgreementRoute = require("./routes/leaseAgreementRoute");
 
 const app = express();
 
 // 1. MIDDLEWARES
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
 
 // 2. ROUTE
-<<<<<<< HEAD
 app.use("/api/auth", authRouter);
+app.use("/api", userRoute);
 app.use("/api/applications", tenantApplicationRouter);
 app.use("/api/properties", propertiesRouter);
 app.use("/api/leases", leasesRouter);
 app.use("/api/reviewsTenant", reviewTenantRoute);
+app.use("/api/reviewsLandlord", reviewLandlordRoute);
 app.use("/api/leaseAgreement", leaseAgreementRoute);
 
-// Serve static files from the React app build directory
-const buildPath = path.join(__dirname, "../client/build");
-=======
-app.use('/api/auth',authRouter);
-app.use('/api/applications',tenantApplicationRouter);
-app.use('/api', propertiesRouter);
-
-// Serve static files from the React app build directory
-const buildPath = path.join(__dirname, '../client/build');
-const ImagePath = path.join(__dirname, '../client/public/Images');
->>>>>>> 314ff59 (jwt installed)
-app.use(express.static(buildPath));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Handle React routing, return all requests to React app
 app.get("*", function (req, res) {
-  res.sendFile(path.join(buildPath, "index.html"));
+  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
 // 3. MONGO DB CONNECTION

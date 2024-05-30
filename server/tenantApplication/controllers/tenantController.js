@@ -1,9 +1,9 @@
 const { response } = require("express");
 const Application = require("../../models/applicationModel");
 const Property = require("../../models/propertyModel");
-const Lease = require("../../models/leaseModel");
 const LandlordReview = require("../../models/reviewLandlordModel");
 const User = require("../../models/userModel");
+const Lease = require("../../models/leaseModel");
 const createError = require("../../utils/appError");
 
 //GET All Properties
@@ -76,12 +76,14 @@ const getUserProfile = async (req, res) => {
 
 //POST New Application Record
 const createApplication = async (req, res) => {
-  const { userId, propertyId } = req.body;
+  const { userId, propertyId, landlordId } = req.body;
 
   try {
+    console.log(req.body);
     // Validate that the user and property exist
     const user = await User.findById(userId);
     const property = await Property.findById(propertyId);
+    const landlord = await User.findById(landlordId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -91,10 +93,15 @@ const createApplication = async (req, res) => {
       return res.status(404).json({ error: "Property not found" });
     }
 
+    if (!landlord) {
+      return res.status(404).json({ error: "Landlord not found" });
+    }
+
     // Create a new application
     const newApplication = new Application({
       tenantId: userId,
       propertyId: propertyId,
+      landlordId: landlordId,
       applicationStatus: "Pending", // Default status
     });
 
@@ -104,7 +111,7 @@ const createApplication = async (req, res) => {
     console.log("New application created:", savedApplication);
     return res.status(201).json(savedApplication);
   } catch (error) {
-    console.error("Error creating application:", error);
+    console.error(`Error application: ${req.body}`, error);
     return res.status(500).json({ error: error.message });
   }
 };
@@ -191,6 +198,25 @@ const getLandlordReview = async (req, res) => {
   }
 };
 
+//GET lease by applicationId
+const getLeaseByApplicationId = async (req, res) => {
+  const { applicationId } = req.params;
+
+  try {
+    const response = await Lease.findOne({ applicationId: applicationId });
+    console.log("Lease data: ", response);
+
+    if (!response) {
+      console.log("Lease not found");
+      return res.status(404).json({ error: "The lease is not found" });
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
 // GET Applications by Property ID
 const getApplicationsByProperty = async (req, res) => {
   const { propertyId } = req.params;
@@ -211,6 +237,7 @@ const getLeasesByTenants = async (req, res) => {
   try {
     const tenantIdArray = tenantIds.split(","); // Split the comma-separated string into an array
     const leases = await Lease.find({ tenantId: { $in: tenantIdArray } });
+
     return res.status(200).json(leases);
   } catch (error) {
     console.error("Error fetching leases by tenant IDs:", error);
@@ -229,6 +256,7 @@ module.exports = {
   getApplications,
   getLandlord,
   getLandlordReview,
+  getLeaseByApplicationId,
   getApplicationsByProperty,
   getLeasesByTenants,
 };
