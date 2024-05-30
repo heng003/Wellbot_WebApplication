@@ -12,6 +12,7 @@ const CardRent = ({ listing }) => {
 
     const { property, leaseStatus, effectiveDateStart, effectiveDateEnd } = listing;
     const { name, type, location, landlordUsername, coverPhoto } = property;
+    const imgSrc = `http://localhost:5000/uploads/${coverPhoto}`;
     const isActive = leaseStatus === 'Active';
     const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const CardRent = ({ listing }) => {
         <div className={`rentalList_statusCard ${isActive ? 'active' : 'expired'}`} onClick={handleCardClick}>
             <div className="history-listing">
                 <div className="rentalHistory-image">
-                    <img src={coverPhoto} alt="Rental Property" />
+                    <img src={imgSrc} alt="Rental Property" />
                 </div>
                 <div className="rentalHistory-details">
                     <h2 className="rental_historyTitle">{name}</h2>
