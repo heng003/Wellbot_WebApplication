@@ -10,6 +10,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 const LandlordHome = () => {
+  
   const [propertyList, setPropertyList] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);
@@ -229,7 +230,7 @@ const LandlordHome = () => {
                   propertyAdd={card.cardText}
                   roomDetails={card.roomDetails}
                 />
-              </div>
+              </div>  
             ))}
             <div className="col" onClick={() => {
               navigate(`/landlordUploadProperty/${landlordId}`);
@@ -246,6 +247,7 @@ const LandlordHome = () => {
               </div>
             </div>
           </div>
+          <br /><br /><br /><br /><br />
         </section>
         <br /><br /><br />
       </main>
