@@ -17,6 +17,7 @@ const reviewTenantRoute = require('./routes/reviewTenantRoute');
 const userRoute = require('./routes/userRoute')
 const reviewLandlordRoute = require('./routes/reviewLandlordRoute')
 const landlordRouter = require('./routes/landlordRoute');
+const leaseAgreementRouter = require('./routes/leaseAgreementRoute');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/api/leases', leasesRouter);
 app.use('/api/reviewsTenant', reviewTenantRoute);
 app.use('/api/reviewsLandlord', reviewLandlordRoute);
 app.use('/api/landlord',landlordRouter);
+app.use('/api/leaseAgreement', leaseAgreementRouter);
 
 // Serve static files from the React app
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
