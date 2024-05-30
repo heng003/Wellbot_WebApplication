@@ -5,10 +5,10 @@ import "../TenantPOV/edittenantprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import greyCircle from "./Images/greyCircle.png";
 import orangeCircle from "./Images/orangeCircle.png";
-import landed from "./Images/landed.png";
-import condo from "./Images/condo.png";
-import commercial from "./Images/commercial.png";
-import room from "./Images/room.png";
+import landed from "./Images/landed.svg";
+import condo from "./Images/condo.svg";
+import commercial from "./Images/commercial.svg";
+import room from "./Images/room.svg";
 import "./updateproperty.css";
 
 

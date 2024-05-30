@@ -153,12 +153,14 @@
 }
 
 .commentPromptTitle {
-    font-size: 25px; 
-    color:#767676;
-    margin-left: 1em; 
-    font-weight: 500; 
-    padding-bottom: 5em; 
-    margin-top: -0.6em;
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 30px;
+    color: #5c5c5c;
+    padding-top: 1.5em;
+ 
 }
 
 #Comment .ratingStarsGroup {

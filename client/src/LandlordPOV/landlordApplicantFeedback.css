@@ -30,15 +30,15 @@ applicantInfoSection {
   font-size: large;
 }
 
-.applicantInfoContainer .contactLink {
+.applicantInfoContainer .contactLink a{
   color: #ff8c22;
   text-decoration: underline;
   font-weight: 700;
   cursor: pointer;
 }
 
-.applicantInfoContainer .contactLink:hover {
-  color: rgba(255, 140, 34, 0.5);
+.applicantInfoContainer .contactLink:hover a{
+  color: rgb(252, 174, 72);
 }
 
 .applicantInfoContainer .contactBottom_Section {
