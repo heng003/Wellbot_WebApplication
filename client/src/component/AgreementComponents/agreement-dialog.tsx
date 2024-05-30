@@ -20,6 +20,7 @@ interface AgreementDialogProps {
   labelTextArr?: string[];
   closeText: string;
   closeHref?: string;
+  leaseAgreementId?: string;
   landlordLastPage?: boolean;
 }
 
@@ -31,6 +32,7 @@ export function AgreementDialog({
   closeText,
   closeHref,
   aboveTitleChildren,
+  leaseAgreementId,
   landlordLastPage,
 }: AgreementDialogProps) {
   const navigate = useNavigate();
@@ -82,7 +84,7 @@ export function AgreementDialog({
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 landlordLastPage
                   ? navigate("/landlordApplicant")
-                  : navigate("/tenantRent");
+                  : navigate(`/fullAgreement/${leaseAgreementId}`);
               }}
               className=" px-8 py-4 font-semibold text-xl rounded-lg text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
               type="submit"

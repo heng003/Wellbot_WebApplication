@@ -113,7 +113,9 @@ export const LandlordAgreementForm = () => {
         lessorSignature: lessorSignatureUrl.value,
       }
     );
-    const leaseAgreementId = response.data.leaseAgreement._id;
+
+    const leaseAgreementId = response.data.leaseAgreementId;
+    console.log(leaseAgreementId);
 
     localStorage.setItem(
       "lessorFormValues",

@@ -7,7 +7,7 @@ import axios from "axios";
 
 const TenantApplyForm = () => {
   const nav = useNavigate();
-  const { propertyId, userId } = useParams();
+  const { propertyId, userId, landlordId } = useParams();
 
   const [userData, setUserData] = useState({
     editFullname: "",
@@ -134,6 +134,7 @@ const TenantApplyForm = () => {
             {
               userId: userId,
               propertyId: propertyId,
+              landlordId: landlordId,
             },
             {
               headers: { Authorization: `Bearer ${token}` },

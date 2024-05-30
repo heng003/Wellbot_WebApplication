@@ -22,6 +22,7 @@ function LandlordApplicant() {
 
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [applications, setApplications] = useState([]);
   const [leases, setLeases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -61,7 +62,7 @@ function LandlordApplicant() {
   }, []);
 
   useEffect(() => {
-    async function fetchLeases() {
+    async function fetchApplicationsAndLeases() {
       if (selectedProperty && selectedProperty._id) {
         setLoading(true);
         try {
@@ -72,6 +73,7 @@ function LandlordApplicant() {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
+          setApplications(applicationsResponse.data);
 
           const tenantIds = applicationsResponse.data.map(
             (app) => app.tenantId._id
@@ -104,14 +106,14 @@ function LandlordApplicant() {
 
           setLeases(combinedData);
         } catch (err) {
-          console.error("Error fetching leases:", err);
-          setError("Failed to fetch leases");
+          console.error("Error fetching applications and leases:", err);
+          setError("Failed to fetch applications and leases");
         } finally {
           setLoading(false);
         }
       }
     }
-    fetchLeases();
+    fetchApplicationsAndLeases();
   }, [selectedProperty]);
 
   const handlePropertyChange = (propertyId) => {
@@ -121,6 +123,7 @@ function LandlordApplicant() {
       (!selectedProperty || selected._id !== selectedProperty._id)
     ) {
       setSelectedProperty(selected);
+      setApplications([]);
       setLeases([]);
     } else {
       setSelectedProperty(selected);
@@ -128,13 +131,19 @@ function LandlordApplicant() {
   };
 
   const handleViewApplicantFeedback = (lease) => {
-    console.log("Navigating to applicationReview with:", {
-      username: lease.tenantId.username,
-      leaseId: lease.leaseId,
-    });
-    nav("/landlordApplicantFeedback", {
-      state: { username: lease.tenantId.username, leaseId: lease.leaseId },
-    });
+    const application = applications.find(
+      (app) => app.tenantId._id === lease.tenantId._id
+    );
+    if (application) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      nav("/landlordApplicantFeedback", {
+        state: {
+          username: lease.tenantId.username,
+          leaseId: lease.leaseId,
+          applicationId: application._id,
+        },
+      });
+    }
   };
 
   const handleDownloadSigned = (event) => {

@@ -4,32 +4,38 @@ import CardComment from "./CardComment";
 import AverageRating from "../TenantPOV/component/AverageRating";
 import "./landlordApplicantFeedback.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const LandlordApplicantFeedback = () => {
-
   const location = useLocation();
   const nav = useNavigate();
-  const { username, leaseId } = location.state || {};
+  const { username, leaseId, applicationId } = location.state || {};
+  const leaseAgreementId = leaseId;
   const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
 
-  console.log('Received in LandlordApplicantFeedback:', { username, leaseId });
-  
+  console.log("Received in LandlordApplicantFeedback:", {
+    username,
+    leaseId,
+    applicationId,
+  });
+
   useEffect(() => {
     async function fetchLeases() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("No token found");
         }
 
         const response = await axios.get(`/api/leases/tenant/${username}`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
-        const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
+        const effectiveLeases = response.data.filter(
+          (lease) => lease.leaseStatus === "Effective"
+        );
         setEffectiveLeasesCount(effectiveLeases.length);
       } catch (err) {
         console.error("Error fetching leases:", err);
@@ -44,26 +50,25 @@ const LandlordApplicantFeedback = () => {
   }, [username]);
 
   const handleSendLease = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    nav("/landlordLeaseAgreementForm");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    nav(`/landlordLeaseAgreementForm/${applicationId}`);
   };
 
   const handleRejectApplicant = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-          Swal.fire({
-              text: "Reject Successfully",
-              icon: "success",
-              confirmButtonColor: "#FF8C22",
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  nav("/landlordApplicant");
-              }
-          });
-      }, 100); // Delay to ensure the scroll completes before showing the dialog
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      Swal.fire({
+        text: "Reject Successfully",
+        icon: "success",
+        confirmButtonColor: "#FF8C22",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          nav(`/landlordApplicant`);
+        }
+      });
+    }, 100); // Delay to ensure the scroll completes before showing the dialog
   };
-
 
   return (
     <>

@@ -151,15 +151,15 @@ function App() {
             element={<LandlordAgreementFormPage />}
           />
           <Route
-            path="/landlordLeaseAgreementPg1"
+            path="/landlordLeaseAgreementPg1/:leaseAgreementId"
             element={<LandlordAgreementPage1 />}
           />
           <Route
-            path="/landlordLeaseAgreementPg2"
+            path="/landlordLeaseAgreementPg2/:leaseAgreementId"
             element={<LandlordAgreementPage2 />}
           />
           <Route
-            path="/landlordLeaseAgreementPg3"
+            path="/landlordLeaseAgreementPg3/:leaseAgreementId"
             element={<LandlordAgreementPage3 />}
           />
           <Route
@@ -167,27 +167,33 @@ function App() {
             element={<TenantAgreementHome />}
           />
           <Route
-            path="/tenantLeaseAgreementForm/:aprrovedApplicationId"
+            path="/tenantLeaseAgreementForm/:leaseAgreementId"
             element={<TenantAgreementFormPage />}
           />
           <Route
-            path="/tenantLeaseAgreementPg1"
+            path="/tenantLeaseAgreementPg1/:leaseAgreementId"
             element={<TenantAgreementPage1 />}
           />
           <Route
-            path="/tenantLeaseAgreementPg2"
+            path="/tenantLeaseAgreementPg2/:leaseAgreementId"
             element={<TenantAgreementPage2 />}
           />
           <Route
-            path="/tenantLeaseAgreementPg3"
+            path="/tenantLeaseAgreementPg3/:leaseAgreementId"
             element={<TenantAgreementPage3 />}
           />
           <Route
-            path="/tenantLeaseAgreementLastPg"
+            path="/tenantLeaseAgreementLastPg/:leaseAgreementId"
             element={<TenantAgreementLastPage />}
           />
-          <Route path="/viewAgreement" element={<AgreementFullView />} />
-          <Route path="/fullAgreement" element={<AgreementFull />} />
+          <Route
+            path="/viewAgreement/:leaseAgreementId"
+            element={<AgreementFullView />}
+          />
+          <Route
+            path="/fullAgreement/:leaseAgreementId"
+            element={<AgreementFull />}
+          />
         </Routes>
         <ShowFooter>
           <Footer />
@@ -202,11 +208,14 @@ function CustomNavbar() {
 
   const isLandlordPage = location.pathname.startsWith("/landlord");
   const isTenantPage = location.pathname.startsWith("/tenant");
+  const isFullAgreementPage = location.pathname.startsWith("/fullAgreement");
 
   if (isLandlordPage) {
     return <LandlordNavbar />;
   } else if (isTenantPage) {
     return <TenantNavbar />;
+  } else if (isFullAgreementPage) {
+    return <></>;
   } else {
     return <Navbar />;
   }

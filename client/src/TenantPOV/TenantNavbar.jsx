@@ -8,83 +8,43 @@ const TenantNavbar = () => {
   const [isLogOut, setIsLogOut] = useState(false);
   const navigate = useNavigate();
 
-<<<<<<< HEAD
   console.log("Current Path:", location.pathname);
+
   useEffect(() => {
-    switch (location.pathname) {
-      case "/tenantHome":
-      case "/tenantViewProperty":
-        setActiveItem("Property");
-        break;
-      case "/tenantApplication":
-      case "/tenantViewPropertyLease":
-      case "/tenantViewPropertyPending":
-      case "/tenantViewPropertyRejected":
-      case "/tenantApplyForm":
-        setActiveItem("Application");
-        break;
-      case "/tenantRent":
-      case "/tenantComment":
-      case "/tenantViewPropertyActive":
-        setActiveItem("Rental History");
-        break;
-      case "/tenantProfileEdit":
-        setActiveItem("Edit Profile");
-        break;
-      case "/tenantLeaseAgreementHome":
-      case "/tenantLeaseAgreementForm":
-      case "/tenantLeaseAgreementPg1":
-      case "/tenantLeaseAgreementPg2":
-      case "/tenantLeaseAgreementPg3":
-      case "/tenantLeaseAgreementLastPg":
-        setActiveItem("Lease Agreement");
-        break;
-      case "/tenantProfileEdit":
-        setActiveItem("Edit Profile");
-        break;
-      default:
-        setActiveItem("");
+    if (
+      location.pathname.includes("/tenantApplication") ||
+      location.pathname.includes("/tenantViewPropertyLease") ||
+      location.pathname.includes("/tenantViewPropertyPending") ||
+      location.pathname.includes("/tenantViewPropertyRejected") ||
+      location.pathname.includes("/tenantApplyForm")
+    ) {
+      setActiveItem("Application");
+    } else if (
+      location.pathname.includes("/tenantHome") ||
+      location.pathname.includes("/tenantViewProperty")
+    ) {
+      setActiveItem("Property");
+    } else if (
+      location.pathname.includes("/tenantRent") ||
+      location.pathname.includes("/tenantComment") ||
+      location.pathname.includes("/tenantViewPropertyActive")
+    ) {
+      setActiveItem("Rental History");
+    } else if (location.pathname.includes("/tenantProfileEdit")) {
+      setActiveItem("Edit Profile");
+    } else if (
+      location.pathname.includes("/tenantLeaseAgreementHome") ||
+      location.pathname.includes("/tenantLeaseAgreementForm") ||
+      location.pathname.includes("/tenantLeaseAgreementPg1") ||
+      location.pathname.includes("/tenantLeaseAgreementPg2") ||
+      location.pathname.includes("/tenantLeaseAgreementPg3") ||
+      location.pathname.includes("/tenantLeaseAgreementLastPg")
+    ) {
+      setActiveItem("Lease Agreement");
+    } else {
+      setActiveItem("");
     }
   }, [location.pathname]);
-=======
-  console.log('Current Path:', location.pathname); 
-    useEffect(() => {
-        switch (location.pathname) {
-            case '/tenantHome':
-            case '/tenantViewProperty':
-                setActiveItem('Property');
-                break;
-            case '/tenantApplication':
-            case '/tenantViewPropertyLease':
-            case '/tenantViewPropertyPending':
-            case '/tenantViewPropertyRejected':
-            case '/tenantApplyForm':
-                setActiveItem('Application');
-                break;
-            case '/tenantRent':
-            case '/tenantComment':
-            case'/tenantViewPropertyActive':
-                setActiveItem('Rental History');
-                break;
-            case '/tenantProfileEdit':
-                setActiveItem('Edit Profile');
-                break;
-            case '/tenantLeaseAgreementHome':
-            case '/tenantLeaseAgreementForm':
-            case '/tenantLeaseAgreementPg1':
-            case '/tenantLeaseAgreementPg2':
-            case '/tenantLeaseAgreementPg3':
-            case '/tenantLeaseAgreementLastPg':
-                setActiveItem('Lease Agreement');
-                break;
-            case '/tenantProfileEdit':
-                setActiveItem('Edit Profile');
-                break;
-            default:
-                setActiveItem('');
-        }
-    }, [location.pathname]);
->>>>>>> 314ff59 (jwt installed)
 
   useEffect(() => {
     if (isLogOut) {

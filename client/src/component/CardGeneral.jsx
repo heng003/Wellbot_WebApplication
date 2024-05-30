@@ -18,12 +18,10 @@ const CardGeneral = ({
   ];
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleViewProperty = () => {
-    localStorage.setItem("previousPath", location.pathname);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate(`/ViewProperty/${cardId}`);
+    navigate(`/ViewProperty/${propertyId}`);
   };
 
   return (
