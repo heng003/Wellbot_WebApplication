@@ -4,7 +4,7 @@ import starDefault from "./Rental_Icon/rating_star_default.svg";
 const StarsGroup = ({ rating }) => {
 
     return (
-        <div className="ratingStarsGroup">
+        <div className="tenantRatingStarsGroup">
             {Array.from({ length: rating }).map((_, i) => (
                 <img
                     key={i}
@@ -12,7 +12,7 @@ const StarsGroup = ({ rating }) => {
                     alt="Rating Star"
                     width="75"
                     height="75"
-                    className="rating-star"
+                    className="tenant-rating-star"
                 />
             ))}
 
