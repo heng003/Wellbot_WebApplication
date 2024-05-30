@@ -9,7 +9,7 @@ import starOnClick from "./Rental_Icon//rating_star_onClick.svg";
 import starDefault from "./Rental_Icon/rating_star_default.svg";
 import Alert from "../LandlordPOV/Alert";
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode';
 
 function LandlordApplicant() {
 
@@ -22,6 +22,7 @@ function LandlordApplicant() {
 
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [applications, setApplications] = useState([]);
   const [leases, setLeases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -32,7 +33,7 @@ function LandlordApplicant() {
     if (selectedRatingSort !== option) {
       setSelectedRatingSort(option);
     }
-    setIsOpenRating(false);  
+    setIsOpenRating(false);
   };
 
   const handleAlert = () => {
@@ -55,63 +56,82 @@ function LandlordApplicant() {
           console.error("Error fetching properties:", err);
           setError("Failed to fetch properties");
         }
-      }    
+      }
       fetchProperties();
     }
   }, []);
 
   useEffect(() => {
-    async function fetchLeases() {
+    async function fetchApplicationsAndLeases() {
       if (selectedProperty && selectedProperty._id) {
-        setLoading(true); 
+        setLoading(true);
         try {
           const token = localStorage.getItem('token');
-          const response = await axios.get(`/api/leases/${selectedProperty._id}`, {
+          const applicationsResponse = await axios.get(`/api/applications/property/${selectedProperty._id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          const filteredLeases = response.data
-            .filter(lease => lease.leaseStatus === 'Not Applicable' || lease.leaseStatus === 'Under Review By Tenant' || lease.leaseStatus === "Effective")
-            .map(lease => ({
-              ...lease,
-              leaseStatus: lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus
-            }));
-          setLeases(filteredLeases);
+          setApplications(applicationsResponse.data);
+
+          const tenantIds = applicationsResponse.data.map(app => app.tenantId._id);
+          const leasesResponse = await axios.get(`/api/applications/leases/tenants`, {
+            headers: { Authorization: `Bearer ${token}` },
+            params: { tenantIds: tenantIds.join(',') }
+          });
+
+          const leasesData = leasesResponse.data;
+          const combinedData = applicationsResponse.data.map(app => {
+            const lease = leasesData.find(l => l.tenantId === app.tenantId._id);
+            let leaseStatus = lease ? (lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus) : 'Not Applicable';
+            
+            if (lease && lease.leaseStatus === 'Expired') {
+              leaseStatus = 'Not Applicable';
+            }
+
+            return { ...app, leaseStatus, leaseId: lease ? lease._id : null };
+          });
+
+          setLeases(combinedData);
         } catch (err) {
-          console.error("Error fetching leases:", err);
-          setError("Failed to fetch leases");
-        }finally{
+          console.error("Error fetching applications and leases:", err);
+          setError("Failed to fetch applications and leases");
+        } finally {
           setLoading(false);
         }
       }
     }
-    fetchLeases();
+    fetchApplicationsAndLeases();
   }, [selectedProperty]);
 
   const handlePropertyChange = (propertyId) => {
     const selected = properties.find(property => property._id === propertyId);
     if (selected && (!selectedProperty || selected._id !== selectedProperty._id)) {
       setSelectedProperty(selected);
-      setLeases([]); 
+      setApplications([]);
+      setLeases([]);
     } else {
       setSelectedProperty(selected);
     }
   };
 
-  const handleViewApplicantFeedback = (event) => {
-    if (
-      !event.target.classList.contains("signedStatusData") &&
-      !event.target.classList.contains("tenantReviewing")
-    ) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      nav("/landlordApplicantFeedback");
+  const handleViewApplicantFeedback = (lease) => {
+    const application = applications.find(app => app.tenantId._id === lease.tenantId._id);
+    if (application) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      nav("/landlordApplicantFeedback", {
+        state: { 
+          username: lease.tenantId.username, 
+          leaseId: lease.leaseId,
+          applicationId: application._id 
+        }
+      });
     }
   };
 
   const handleDownloadSigned = (event) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
     const link = document.createElement("a");
     link.href =
-      "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp"; 
+      "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
     link.download = "LeaseAgreement.pdf";
     document.body.appendChild(link);
     link.click();
@@ -148,9 +168,9 @@ function LandlordApplicant() {
         </tr>
       </thead>
 
-      <tbody onClick={handleViewApplicantFeedback}>
+      <tbody>
         {data.map((lease, index) => (
-          <tr key={lease.id}>
+          <tr key={lease.id} onClick={() => handleViewApplicantFeedback(lease)}>
             <td>{lease.tenantId.username}</td>
             <td>{renderRatingOrCommentText(lease)}</td>
             <td>{renderStatus(lease.leaseStatus)}</td>
@@ -224,7 +244,7 @@ function LandlordApplicant() {
 
   const sortTenantsByRating = (tenants, sortOption) => {
     return tenants.slice().sort((a, b) => {
-      const ratingA = a.tenantId.overallRating ?? 0; 
+      const ratingA = a.tenantId.overallRating ?? 0;
       const ratingB = b.tenantId.overallRating ?? 0;
       if (sortOption === "Highest to Lowest") {
         return ratingB - ratingA;
@@ -237,7 +257,7 @@ function LandlordApplicant() {
   const renderTablesBasedOnSelection = () => {
     if (selectedProperty) {
       if (loading) {
-        return <h3 className="Brief_Text"></h3>;
+        return <h3 className="Brief_Text">Loading...</h3>;
       }
       if (leases.length === 0) {
         return (

@@ -14,5 +14,10 @@ router.get('/tenantApplication/:userId', tenantController.getApplications);
 router.get('/landlord/:landlordId', tenantController.getLandlord);
 router.get('/landlordReview/:landlordId', tenantController.getLandlordReview);
 router.get('/tenantToLease/:applicationId', tenantController.getLeaseByApplicationId);
+router.get('/property/:propertyId', tenantController.getApplicationsByProperty);
+router.get('/leases/tenants', tenantController.getLeasesByTenants);
+
+
+
 
 module.exports = router;

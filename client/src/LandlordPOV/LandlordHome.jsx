@@ -1,186 +1,98 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/js/bootstrap.bundle';
-import '../LandlordPOV/landlordhome.css'
-import '../GeneralPage/home.css'
+import '../LandlordPOV/landlordhome.css';
+import '../GeneralPage/home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import CardPropertyLandlord from "../component/CardPropertyLandlord";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const LandlordHome = () => {
-  const [filterCriteria, setFilterCriteria] = useState({
-    state: "",
-    residential: "",
-    priceRange: "",
-  });
-  const [filteredProperties, setFilteredProperties] = useState([]);
+  const [propertyList, setPropertyList] = useState([]);
+  const [cardData, setCardData] = useState([]);
+  const [locations, setLocations] = useState(["All Location"]);
 
-    const navigate = useNavigate();
-    const [selectedOption1, setSelectedOption1] = useState("");
-    const [selectedOption2, setSelectedOption2] = useState("");
-    const [selectedOption3, setSelectedOption3] = useState("");
-    const [isSearchClicked, setIsSearchClicked] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
-      
-    const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
-    const [isLocationOpen, setIsLocationOpen] = useState(false);
-    const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
-      
-    const dropdownRef1 = useRef(null);
-    const dropdownRef2 = useRef(null);
-    const dropdownRef3 = useRef(null);
-      
-    const properties = ["All Properties Type","Condo", "Commercial", "Landed", "Room"];
-    const locations = ["All Location","Petaling Jaya", "Cheras", "Kajang", "Ampang","Bandar Sri Damansara","Bukit Bintang","Bandar Sunway"];
-    const priceRanges = ["All Price Range","RM 500 Below","RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000","RM 2001 - RM 2500","RM 2500 Above"];
-    
+  const navigate = useNavigate();
 
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
+  const [selectedOption1, setSelectedOption1] = useState(null);
+  const [selectedOption2, setSelectedOption2] = useState(null);
+  const [selectedOption3, setSelectedOption3] = useState(null);
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [landlordId, setLandlordId] = useState("");
 
-  const isPriceInRange = (price, range) => {
-    const [min, max] = range
-      .split("-")
-      .map((val) => parseInt(val.trim().replace("RM", "")));
-    return price >= min && price <= max;
+  const [isPropertyTypeOpen, setIsPropertyTypeOpen] = useState(false);
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
+
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
   };
 
-  const handleDropdownChange1 = (event) => {
-    setSelectedOption1(event.target.value);
-    setFilterCriteria({ ...filterCriteria, state: event.target.value });
-  };
-  const handleDropdownChange2 = (event) => {
-    setSelectedOption2(event.target.value);
-    setFilterCriteria({ ...filterCriteria, residential: event.target.value });
-  };
+  const dropdownRef1 = useRef(null);
+  const dropdownRef2 = useRef(null);
+  const dropdownRef3 = useRef(null);
 
-  const handleDropdownChange3 = (event) => {
-    setSelectedOption3(event.target.value);
-    setFilterCriteria({ ...filterCriteria, priceRange: event.target.value });
-  };
+  const properties = ["All Properties Type", "Condo", "Commercial", "Landed", "Room"];
+  const priceRanges = ["All Price Range", "RM 500 Below", "RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000", "RM 2001 - RM 2500", "RM 2500 Above"];
 
-  const handleViewProperty = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/landlordViewProperty");
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setLandlordId(decodedToken.userId);
+      console.log(decodedToken.userId);
 
-  const handleUpdateProperty = (event) => {
-    // Prevent the default behavior of the link
-    event.preventDefault();
-    // Stop event propagation to prevent triggering handleViewProperty
-    event.stopPropagation();
+      async function fetchProperties() {
+        try {
+          const response = await axios.get(`/api/properties/user/${decodedToken.userId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (Array.isArray(response.data)) {
+            setPropertyList(response.data);
+          } else {
+            console.error("Fetched data is not an array:", response.data);
+          }
+        } catch (err) {
+          console.error("Error fetching properties:", err);
+        }
+      }
+      fetchProperties();
+    }
+  }, []);
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/landlordUpdateProperty");
-  };
+  useEffect(() => {
+    if (propertyList.length > 0) {
+      const mappedCardData = propertyList.map((property) => ({
+        propertyId: property._id,
+        imgSrc: property.coverPhoto,
+        cardTitle1: `RM ${property.price} Per Month`,
+        cardTitle2: property.name,
+        cardText: property.address,
+        roomDetails: [property.bedroom.toString(), property.bathroom.toString(), `${property.buildUpSize}sf`],
+        propertyType: property.type,
+        location: property.location,
+        priceRange: determinePriceRange(property.price),
+      }));
+      setCardData(mappedCardData);
 
-    const handleSearchButtonClick = () => {
-        setIsSearchClicked(true);
-        const results = cardData.filter(card => {
-            const matchesType = selectedOption1 === "All Properties Type" || !selectedOption1 || card.propertyType === selectedOption1;
-            const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
-            const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
-            const matchesSearchQuery = !searchQuery || card.cardTitle2.toLowerCase().includes(searchQuery.toLowerCase());
-            return matchesType && matchesLocation && matchesPriceRange && matchesSearchQuery;
-        });
-        setFilteredProperties(results);
-    };
-
-  const selectOption = (option, setter, refSetter) => {
-    setter(option);
-    refSetter(false);
-  };
-
-    // Array of card data objects for frontend demo
-    const cardData = [
-        {
-        imgSrc: "Images/room.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
-        roomDetails: ["1", "2", "350sf"],
-        propertyType: "Room", 
-        location: "Petaling Jaya", 
-        priceRange: "RM 500 - RM 1000"
-        },
-
-        {
-        imgSrc: "Images/bungalow.jpg",
-        cardTitle1: "RM 2500 Per Month",
-        cardTitle2: "Sekysen 17 Landed House",
-        cardText: "16, Jalan King 123/A, Seksyen 17, 46350 Petaling Jaya, Selangor", 
-        roomDetails: ["7", "3", "2000sf"],
-        propertyType: "Landed", 
-        location: "Petaling Jaya", 
-        priceRange: "RM 2001 - RM 2500"
-        },
-        
-        {
-        imgSrc: "Images/commercial.jpg",
-        cardTitle1: "RM 1500 Per Month",
-        cardTitle2: "8 Trium (Office)",
-        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur", 
-        roomDetails: ["0", "3", "1000sf"],
-        propertyType: "Commercial", 
-        location: "Bandar Sri Damansara", 
-        priceRange: "RM 1001 - RM 1500"
-        },
-
-        {
-        imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 1800 Per Month",
-        cardTitle2: "Menara Yayasan Tun Razak",
-        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["7", "4", "1200sf"],
-        propertyType: "Commercial", 
-        location: "Bukit Bintang", 
-        priceRange: "RM 1501 - RM 2000"
-        },
-
-        {
-          imgSrc: "Images/condo_1.jpg",
-          cardTitle1: "RM 2300 Per Month",
-          cardTitle2: "Ryan & Miho",
-          cardText: "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",     
-          roomDetails: ["4", "3", "1200sf"],
-          propertyType: "Condo", 
-          location: "Petaling Jaya", 
-          priceRange: "RM 2001 - RM 2500"
-          },
-
-
-          {
-            imgSrc: "Images/condo_2.jpg",
-            cardTitle1: "RM 3500 Per Month",
-            cardTitle2: "D' Latour",
-            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",  
-            roomDetails: ["5", "3", "1800sf"],
-            propertyType: "Condo", 
-            location: "Bandar Sunway", 
-            priceRange: "RM 2500 Above"
-            }
-    ];
-
+      const uniqueLocations = [...new Set(propertyList.map((property) => property.location))];
+      setLocations(["All Location", ...uniqueLocations]);
+    }
+  }, [propertyList]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef1.current &&
-        !dropdownRef1.current.contains(event.target)
-      ) {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) {
         setIsPropertyTypeOpen(false);
       }
-      if (
-        dropdownRef2.current &&
-        !dropdownRef2.current.contains(event.target)
-      ) {
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
         setIsLocationOpen(false);
       }
-      if (
-        dropdownRef3.current &&
-        !dropdownRef3.current.contains(event.target)
-      ) {
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) {
         setIsPriceRangeOpen(false);
       }
     };
@@ -191,7 +103,39 @@ const LandlordHome = () => {
     };
   }, []);
 
-    
+  const determinePriceRange = (price) => {
+    if (price <= 500) {
+      return "RM 500 Below";
+    } else if (price <= 1000) {
+      return "RM 500 - RM 1000";
+    } else if (price <= 1500) {
+      return "RM 1001 - RM 1500";
+    } else if (price <= 2000) {
+      return "RM 1501 - RM 2000";
+    } else if (price <= 2500) {
+      return "RM 2001 - RM 2500";
+    } else {
+      return "RM 2500 Above";
+    }
+  };
+
+  const handleSearchButtonClick = () => {
+    setIsSearchClicked(true);
+    const results = cardData.filter((card) => {
+      const matchesType = selectedOption1 === "All Properties Type" || !selectedOption1 || card.propertyType === selectedOption1;
+      const matchesLocation = selectedOption2 === "All Location" || !selectedOption2 || card.location === selectedOption2;
+      const matchesPriceRange = selectedOption3 === "All Price Range" || !selectedOption3 || card.priceRange === selectedOption3;
+      const matchesSearchQuery = !searchQuery || card.cardTitle2.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesType && matchesLocation && matchesPriceRange && matchesSearchQuery;
+    });
+    setFilteredResults(results);
+  };
+
+  const selectOption = (option, setter, refSetter) => {
+    setter(option);
+    refSetter(false);
+  };
+
   
     return(
         <div>
@@ -277,13 +221,14 @@ const LandlordHome = () => {
                 </section>
         
                 <section id="recommendation">
-                    <header className="propertyTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                    {filteredProperties.length > 0 ? 'Filter Result/s' : 'Your Properties'}
+                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
+                        {isSearchClicked ? ( cardData.length===0? "No Result Found" : "Filter Result/s" ) : "Recommendations"}
                     </header>
-                    <div class="row row-cols-1 row-cols-md-3 g-5">
-                    {(isSearchClicked ? filteredProperties : cardData).map((card, index) => (  
-                        <div key={index} className="col">
+                    <div className="row row-cols-1 row-cols-md-3 g-5">
+                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
+                        <div className="col">
                             <CardPropertyLandlord
+                                propertyId={card.propertyId}
                                 imgSrc={card.imgSrc}
                                 cardTitle={card.cardTitle1}
                                 propertyTitle={card.cardTitle2}
@@ -293,7 +238,7 @@ const LandlordHome = () => {
                         </div>
                         ))}
                         <div class="col" onClick={() => {
-                            navigate('/landlordUploadProperty');
+                            navigate(`/landlordUploadProperty/${landlordId}`);
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}>
                             <div class="card h-100">
@@ -309,7 +254,6 @@ const LandlordHome = () => {
                         </div>
                         </section>
                         <br /><br /><br />
-
              </main>
         </div>
     );

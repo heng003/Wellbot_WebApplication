@@ -4,6 +4,7 @@ import "../LandlordPOV/editlandlordprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import Swal from "sweetalert2";
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; 
 
 const EditTenantProfile = () => {
     const [userData, setUserData] = useState({
@@ -16,6 +17,7 @@ const EditTenantProfile = () => {
 
     const [username, setUsername] = useState(localStorage.getItem('username') || '');
     const [errors, setErrors] = useState({})
+    const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
 
     const fetchUserData = () => {
       const token = localStorage.getItem('token');  
@@ -46,9 +48,36 @@ const EditTenantProfile = () => {
       });
     };
 
+
+    const fetchLeases = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error("No token found");
+        }
+  
+        const decodedToken = jwtDecode(token);
+        const response = await axios.get(`/api/leases/tenant/${username}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+  
+        const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
+        setEffectiveLeasesCount(effectiveLeases.length);
+  
+      } catch (err) {
+        console.error("Error fetching leases:", err);
+        Swal.fire({
+          text: "Error fetching leases. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#FF8C22",
+        });
+      }
+    };
+  
     useEffect(() => {
       fetchUserData();
-    }, []);
+      fetchLeases();
+    }, [username]);
 
     const handleSaveAndSubmit = (e) => {
       e.preventDefault();
@@ -131,8 +160,8 @@ const EditTenantProfile = () => {
 
           <div className="accountRight_Section">
             <h5 className="usernameText">{username}</h5>  
-            <p className="accountDetail" id="uploadproperty">
-              Applied <span id="day">4</span> properties
+            <p className="accountDetail" id="accDetails">
+              Current Rent Properties: {effectiveLeasesCount}
             </p>
           </div>
         </div>

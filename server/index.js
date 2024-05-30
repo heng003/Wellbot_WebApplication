@@ -1,11 +1,10 @@
 require('dotenv').config(); 
 console.log('Environment Variables:');
 console.log('PORT:', process.env.PORT);
-console.log('MONGO_URI:', process.env.MONGO_URI);
+console.log('MONGODB_URI:', process.env.MONGODB_URI); 
 
 const express = require("express");
 const mongoose = require("mongoose");
-const mongoURI = process.env.MONGODB_URI;
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
@@ -14,11 +13,17 @@ const tenantApplicationRouter = require('./tenantApplication/routes/tenantApplic
 const propertiesRouter = require('./routes/propertiesRoute');
 const leasesRouter = require('./routes/leaseRoute');
 const reviewTenantRoute = require('./routes/reviewTenantRoute');
+const userRoute = require('./routes/userRoute')
+const reviewLandlordRoute = require('./routes/reviewLandlordRoute')
+const landlordRouter = require('./routes/landlordRoute');
 
 const app = express();
 
 // 1. MIDDLEWARES
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', 
+    credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,11 +31,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
+app.use('/api', userRoute);
 app.use('/api/applications', tenantApplicationRouter);
 app.use('/api/properties', propertiesRouter);
 app.use('/api/leases', leasesRouter);
 app.use('/api/reviewsTenant', reviewTenantRoute);
-
+app.use('/api/reviewsLandlord', reviewLandlordRoute);
+app.use('/api/landlord',landlordRouter);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -41,6 +48,8 @@ app.get('*', function(req, res) {
 });
 
 // 3. MONGO DB CONNECTION
+const mongoURI = process.env.MONGODB_URI;
+
 mongoose.connect(mongoURI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Could not connect to MongoDB Atlas:', err));
@@ -65,3 +74,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+console.log('This is a test change to check Nodemon restart');

@@ -1,13 +1,140 @@
-import React from "react";
 import Swal from "sweetalert2";
 import contactIcon from "./Rental_Icon/contact.png";
-import CardComment from "./CardComment";
+import CommentBox from "./component/CommentBox";
 import AverageRating from "../TenantPOV/component/AverageRating";
 import "./landlordApplicantFeedback.css";
-import { useNavigate } from "react-router-dom";
+import './landlordviewproperty.css';
+import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { format } from "date-fns";
 
 const LandlordApplicantFeedback = () => {
+
+  const location = useLocation();
   const nav = useNavigate();
+  const { username, leaseId, applicationId } = location.state || {};
+  const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [overallRating, setOverallRating] = useState(0);
+  const [commentList, setCommentList] = useState([]);
+  const [idComment, setIdComment ] = useState([]);
+  const [usernameComment, setUsernameComment] = useState([]);
+  const [userNameList, setUserNameList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  console.log('Received in LandlordApplicantFeedback:', { username, leaseId, applicationId });
+  
+  const fetchTenantIdByUsername = async (username) => {
+    try {
+        const response = await axios.get(`/api/username/${username}/tenantId`);
+        return response.data.tenantId;
+    } catch (error) {
+        console.error("Error fetching tenantId:", error);
+        throw error;
+    }
+};
+
+  fetchTenantIdByUsername(username)
+      .then((tenantId) => {
+          console.log("TenantId:", tenantId);
+      })
+      .catch((error) => {
+          console.error("Error:", error);
+      });
+
+      useEffect(() => {
+        async function fetchLandlordRatingAndComments() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error("No token found");
+                }
+    
+                const tenantId = await fetchTenantIdByUsername(username);
+    
+                const landlordResponse = await axios.get(`/api/landlord/tenant/${tenantId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setOverallRating(landlordResponse.data.overallRating);
+                setPhoneNumber(landlordResponse.data.phonenumber);
+    
+                const commentResponse = await axios.get(`/api/landlord/tenantReview/${tenantId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setCommentList(commentResponse.data);
+                console.log("commentlist: ", commentList); 
+    
+            } catch (err) {
+                console.error("Error fetching landlord rating and comments:", err);
+                Swal.fire({
+                    text: "Error fetching landlord rating and comments. Please try again later.",
+                    icon: "error",
+                    confirmButtonColor: "#FF8C22",
+                });
+            }
+        }
+    
+        if (username) {
+            fetchLandlordRatingAndComments();
+        }
+    }, [username]);
+
+    useEffect(() => {
+      async function fetchLeases() {
+        try {
+          const token = localStorage.getItem('token');
+          if (!token) {
+            throw new Error("No token found");
+          }
+  
+          const response = await axios.get(`/api/leases/tenant/${username}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+  
+          const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
+          setEffectiveLeasesCount(effectiveLeases.length);
+        } catch (err) {
+          console.error("Error fetching leases:", err);
+          Swal.fire({
+            text: "Error fetching leases. Please try again later.",
+            icon: "error",
+            confirmButtonColor: "#FF8C22",
+          });
+        }
+      }
+      fetchLeases();
+    }, [username]);
+
+    useEffect(() => {
+      async function fetchUsername() {
+        try {
+          const promises = commentList.map(async (comment) => {
+            const response = await axios.get(`/api/landlord/landlordProperties/${comment.landlordId}`);
+            return { usernameComment: response.data.username };
+          });
+
+          const usernameData = await Promise.all(promises);
+          setUserNameList(usernameData);
+          setLoading(false);
+        } catch (err) {
+          setLoading(false);
+          console.error("Error fetching tenant data:", err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Failed to load tenant data!',
+            confirmButtonColor: "#FF8C22",
+          });
+        }
+      }
+      if (commentList.length > 0) {
+        fetchUsername();
+      } else {
+        setLoading(false);
+      }
+    }, [commentList]);
+
 
   const handleSendLease = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -48,9 +175,9 @@ const LandlordApplicantFeedback = () => {
               </div>
 
               <div className="accountRight_Section">
-                <h5 className="usernameText">lilian29</h5>
+                <h5 className="usernameText">{username}</h5>
                 <p className="accountDetail" id="accDetails">
-                  Account had been created 3 year before.
+                  Current Rent Properties: {effectiveLeasesCount}
                 </p>
               </div>
             </div>
@@ -65,13 +192,22 @@ const LandlordApplicantFeedback = () => {
                   className="contactIcon"
                 />
                 <p className="contactText">
-                  Contact me <span className="contactLink">HERE</span>
+                  Contact me{" "}
+                  <span className="contactLink">
+                    <a
+                      href={`https://wa.me/6${phoneNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      HERE
+                    </a>
+                  </span>
                 </p>
               </div>
 
               <div className="contactBottom_Section">
                 <div className="avgRatingGroup">
-                  <AverageRating numOfReview="3" avg="4.0" />
+                {overallRating > 0 && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
                 </div>
               </div>
             </div>
@@ -86,29 +222,30 @@ const LandlordApplicantFeedback = () => {
             </button>
           </div>
         </div>
-        <h2 className="applicantCommentTitle">3 Comments</h2>
+        <h2 className="applicantCommentTitle">{commentList.length} Comments</h2>
         <div id="lineWrapper">
           <hr></hr>
         </div>
-        <div className="applicantCommentContainer">
-          <CardComment
-            userImgSrc="Images/commentProfilePic.png"
-            username="Joyce Lim"
-            date="2 days ago"
-            comment="Exceptional tenant! Always punctual with rent, maintained the property immaculately, and communicated effectively. Demonstrated respect for property rules and neighbors. I highly recommend this applicant for any future tenancy without reservation."
-          />
-          <CardComment
-            userImgSrc="Images/commentProfilePic.png"
-            username="JASON Tan"
-            date="3 MARCH 2024"
-            comment="Reliable rent payer and generally maintained the property well. Had a few instances requiring reminders about property rules and noise levels. With improved communication, would be a good tenant."
-          />
-          <CardComment
-            userImgSrc="Images/commentProfilePic.png"
-            username="Muhammad Hakim bin ali Joyce Lim"
-            date="1 JANUARY 2024"
-            comment="The tenant was mostly timely with rent payments, with a couple of late instances quickly rectified after follow-up. Property condition was satisfactory upon move-out. Open to discussion for resolving minor issues during tenancy."
-          />
+        <div className="comment-grid">
+        {loading ? (
+            <p className="commentPromptTitle">Loading...</p>
+          ) : (
+            <>
+              {commentList.length > 0 ? (
+                commentList.map((comment, index) => (
+                  <CommentBox
+                    key={index}
+                    username={userNameList[index]?.usernameComment || "Anonymous"}
+                    date={format(new Date(comment.commentDate), 'dd MMMM yyyy')}
+                    comment={comment.commentTenant}
+                    rating={comment.tenantRating}
+                  />
+                ))
+              ) : (
+                <p className="commentPromptTitle">No comments available.</p>
+              )}
+            </>
+          )}
         </div>
       </div>
     </>

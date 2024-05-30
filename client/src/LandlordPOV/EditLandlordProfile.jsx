@@ -3,8 +3,10 @@ import "./editlandlordprofile.css";
 import "./landlord_history.css";
 import Swal from "sweetalert2";
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 
 const EditLandlordProfile = () => {
+
   const [userData, setUserData] = useState({
       editFullname: '',
       editUsername: '',
@@ -14,7 +16,8 @@ const EditLandlordProfile = () => {
   });
 
   const [username, setUsername] = useState(localStorage.getItem('username') || '');
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
+  const [propertyCount, setPropertyCount] = useState(0);
 
   const fetchUserData = () => {
     const token = localStorage.getItem('token');  
@@ -45,8 +48,56 @@ const EditLandlordProfile = () => {
     });
   };
 
+  const fetchPropertyCount = () => {
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("No token found");
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    const landlordUsername = localStorage.getItem('username');
+
+    if (!landlordUsername) {
+      console.error("No landlordUsername found in URL");
+      return;
+    }
+
+    axios.get(`/api/username/${landlordUsername}/landlordId`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(landlordResponse => {
+      const landlordId = landlordResponse.data.landlordId;
+
+      axios.get(`/api/properties/landlord/${landlordId}/propertyCount`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(propertyResponse => {
+        setPropertyCount(propertyResponse.data.propertyCount);
+      })
+      .catch(error => {
+        console.error("Error fetching property count:", error);
+        Swal.fire({
+          text: "Error fetching property count. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#FF8C22",
+        });
+      });
+    })
+    .catch(error => {
+      console.error("Error fetching landlord ID:", error);
+      Swal.fire({
+        text: "Error fetching landlord ID. Please try again later.",
+        icon: "error",
+        confirmButtonColor: "#FF8C22",
+      });
+    });
+  };
+
   useEffect(() => {
     fetchUserData();
+    fetchPropertyCount();
   }, []);
 
   const handleSaveAndSubmit = (e) => {
@@ -132,7 +183,7 @@ const EditLandlordProfile = () => {
           <div className="accountRight_Section">
             <h5 className="usernameText">{username}</h5>     
             <p className="accountDetail" id="uploadproperty">
-              Uploaded Properties: <span id="countProperty">2</span>
+              Uploaded Properties: <span id="countProperty">{propertyCount}</span>
             </p>
           </div>
         </div>

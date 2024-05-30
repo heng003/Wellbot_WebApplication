@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "bootstrap/dist/js/bootstrap.bundle";
 import "./landlord_history.css";
 import DownloadIcon from "./Rental_Icon/download.png";
@@ -21,6 +21,7 @@ function LandlordHistory() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -103,6 +104,11 @@ function LandlordHistory() {
     document.body.removeChild(link);
   };
 
+  const handleCommentClick = (username) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(`/landlordComment/${username}`); 
+  };
+
   const renderTable = (data) => (
     <table className="history-table">
       <thead>
@@ -117,7 +123,7 @@ function LandlordHistory() {
         {data.map((lease, index) => (
           <tr key={lease._id}>
             <td>{lease.tenantId.username}</td>
-            <td>{new Date(lease.effectiveDateEnd).toLocaleDateString()} - {new Date(lease.effectiveDateStart).toLocaleDateString()}</td>
+            <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
             <td>{lease.leaseStatus}</td>
             <td>
               <img
@@ -130,19 +136,18 @@ function LandlordHistory() {
                 width="29"
                 height="29"
               />
-              <a
+              <span
                 className="comment_linkIcon"
                 onMouseEnter={() => handleCommentIconMouseEnter(index)}
                 onMouseLeave={() => handleCommentIconMouseLeave(index)}
-                >
-                <Link to={`/landlordComment/${lease.tenantId.username}`}>
+                onClick={() => handleCommentClick(lease.tenantId.username)}
+              >
                 <img
-                src={hoveredCommentIcon[index] ? CommentHoverIcon : CommentIcon}
-                alt="Comment Link"
-                width="29"
+                  src={hoveredCommentIcon[index] ? CommentHoverIcon : CommentIcon}
+                  alt="Comment Link"
+                  width="29"
                 />
-                </Link>
-              </a>
+              </span>
             </td>
           </tr>
         ))}
@@ -188,7 +193,7 @@ function LandlordHistory() {
       <div className="property-details">
         {selectedProperty ? (
           loading ? (
-            <h3 className="Brief_Text"></h3>
+            <h3 className="Brief_Text">Loading...</h3>
           ) : leases.length === 0 ? (
             <h3 className="Brief_Text">
               Sorry, this property hasn't been rented out yet, so it{" "}
