@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import "../LandlordPOV/editlandlordprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import Swal from "sweetalert2";
@@ -66,46 +66,7 @@ const TenantComment = () => {
         }
         setRatings(newRatings);
     };
-    const handleStarClick = (index) => {
-        const newRatings = new Array(ratings.length).fill(false);
-        const fillUpTo = ratings[index] && !ratings.some((active, idx) => active && idx > index) ? index : index + 1;
-        for (let i = 0; i < fillUpTo; i++) {
-            newRatings[i] = true;
-        }
-        setRatings(newRatings);
-    };
 
-    const handleSaveAndSubmit = async (e) => {
-        
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-        const landlordRating = ratings.filter(Boolean).length;
-    
-        console.log('tenantId:', tenantId);
-        console.log('landlordId:', landlordId);
-        console.log('landlordRating:', landlordRating);
-        console.log('commentLandlord:', comment);
-
-        if (!tenantId || !landlordId || landlordRating === undefined || !comment) {
-            console.error("Missing required fields");
-            return;
-        }
-
-        try {
-            await axios.post('/api/reviewsLandlord/landlord', {
-              tenantId,
-              landlordId,
-              landlordRating,
-              commentLandlord: comment,
-            }, {
-              headers: { Authorization: `Bearer ${token}` }
-            });
-      
-            Swal.fire({
-              text: "Saved and Submitted!",
-              icon: "success",
-              confirmButtonColor: "#FF8C22",
-              customClass: {
     const handleSaveAndSubmit = async (e) => {
         
         e.preventDefault();
@@ -202,10 +163,7 @@ const TenantComment = () => {
                     <button id="submitEdirProfileInfoBtn" onClick={handleSaveAndSubmit} type="submit">Save & Submit</button>
                 </div>
             </div>
-            </div>
         </div>
-    );
-};
     );
 };
 

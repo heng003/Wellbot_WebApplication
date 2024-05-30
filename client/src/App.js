@@ -92,21 +92,17 @@ function App() {
           <Route path="/tenantRent" element={<RentTenant />} />
           <Route
             path="/tenantViewPropertyPending/:propertyId"
-            path="/tenantViewPropertyPending/:propertyId"
             element={<TenantViewPropertyPending />}
           />
           <Route
-            path="/tenantViewPropertyRejected/:propertyId"
             path="/tenantViewPropertyRejected/:propertyId"
             element={<TenantViewPropertyRejected />}
           />
           <Route
             path="/tenantViewPropertyLease/:propertyId/:applicationId"
-            path="/tenantViewPropertyLease/:propertyId/:applicationId"
             element={<TenantViewPropertyLease />}
           />
           <Route
-            path="/tenantViewPropertyActive/:propertyId"
             path="/tenantViewPropertyActive/:propertyId"
             element={<ViewPropertyActive />}
           />

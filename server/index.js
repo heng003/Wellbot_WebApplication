@@ -5,6 +5,7 @@ console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
 const express = require("express");
 const mongoose = require("mongoose");
+const mongoURI = process.env.MONGODB_URI;
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
@@ -69,7 +70,6 @@ app.use((err, req, res, next) => {
 });
 
 // Server listen
-const PORT = process.env.PORT || 5000;
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

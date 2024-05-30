@@ -159,9 +159,7 @@ const LandlordApplicantFeedback = () => {
 
               <div className="accountRight_Section">
                 <h5 className="usernameText">{username}</h5>
-                <h5 className="usernameText">{username}</h5>
                 <p className="accountDetail" id="accDetails">
-                  Current Rent Properties: {effectiveLeasesCount}
                   Current Rent Properties: {effectiveLeasesCount}
                 </p>
               </div>

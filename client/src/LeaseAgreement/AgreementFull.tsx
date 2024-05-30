@@ -29,7 +29,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTimeout } from "usehooks-ts";
 import { drawDOM, exportPDF } from "@progress/kendo-drawing";
 import axios from "axios";
-import { PDFViewer } from "@react-pdf/renderer";
 var Buffer = require("buffer/").Buffer;
 
 const AgreementFull = () => {

@@ -6,6 +6,10 @@ import CardProperty from "../component/CardProperty";
 
 const TenantHome = () => {
 
+  const [propertyList, setPropertyList] = useState([]);
+  const [cardData, setCardData] = useState([]);
+  const [locations, setLocations] = useState(["All Location"]);
+
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [selectedOption3, setSelectedOption3] = useState(null);
@@ -120,115 +124,61 @@ const TenantHome = () => {
       return matchesType && matchesLocation && matchesPriceRange;
     });
     setFilteredResults(results);
-};
-    const selectOption = (option, setter, refSetter) => {
-      setter(option);
-      refSetter(false);
   };
 
-     // Array of card data objects for frontend demo
-     const cardData = [
-        {
-        imgSrc: "Images/room.jpg",
-        cardTitle1: "RM 500 Per Month",
-        cardTitle2: "Tiara Damansara's Master Room",
-        cardText: "Tiara Damansara Condominium, Seksyen 16, 46350 Petaling Jaya, Selangor",  
-        roomDetails: ["1", "2", "350sf"],
-        propertyType: "Room", 
-        location: "Petaling Jaya", 
-        priceRange: "RM 500 - RM 1000"
-        },
+  const selectOption = (option, setter, refSetter) => {
+    setter(option);
+    refSetter(false);
+  };
 
-        {
-        imgSrc: "Images/bungalow.jpg",
-        cardTitle1: "RM 2500 Per Month",
-        cardTitle2: "Sekysen 17 Landed House",
-        cardText: "16, Jalan King 123/A, Seksyen 17, 46350 Petaling Jaya, Selangor", 
-        roomDetails: ["7", "3", "2000sf"],
-        propertyType: "Landed", 
-        location: "Petaling Jaya", 
-        priceRange: "RM 2001 - RM 2500"
-        },
-        
-        {
-        imgSrc: "Images/commercial.jpg",
-        cardTitle1: "RM 1500 Per Month",
-        cardTitle2: "8 Trium (Office)",
-        cardText: "Jalan Cempaka SD 12/5, Bandar Sri Damansara, 52200 Kuala Lumpur", 
-        roomDetails: ["0", "3", "1000sf"],
-        propertyType: "Commercial", 
-        location: "Bandar Sri Damansara", 
-        priceRange: "RM 1001 - RM 1500"
-        },
+  return (
+    <div>
+      <main>
+        <section id="Home" />
 
-        {
-        imgSrc: "Images/commercial2.jpg",
-        cardTitle1: "RM 1800 Per Month",
-        cardTitle2: "Menara Yayasan Tun Razak",
-        cardText: "Jalan Bukit Bintang, Bukit Bintang, KL City, Kuala Lumpur",     
-        roomDetails: ["7", "4", "1200sf"],
-        propertyType: "Commercial", 
-        location: "Bukit Bintang", 
-        priceRange: "RM 1501 - RM 2000"
-        },
+        <section id="filter">
+          <div className="container">
+            <header className="subTitle text-center fs-2 fw-bolder mt-4">
+              Find Your Dream Property
+            </header>
 
-    {
-      imgSrc: "Images/condo_1.jpg",
-      cardTitle1: "RM 2300 Per Month",
-      cardTitle2: "Ryan & Miho",
-      cardText:
-        "Jln Profesor Diraja Ungku Aziz, Pjs 13, 46200 Petaling Jaya, Selangor",
-      roomDetails: ["4", "3", "1200sf"],
-      propertyType: "Condo",
-      location: "Petaling Jaya",
-      priceRange: "RM 2001 - RM 2500",
-    },
+            <div className="row row-cols-1 row-cols-md-3 g-5">
+              <div className="property-selector">
+                <label htmlFor="propertyType" className="filterTitle">
+                  Property Type
+                </label>
 
-          {
-            imgSrc: "Images/condo_2.jpg",
-            cardTitle1: "RM 3500 Per Month",
-            cardTitle2: "D' Latour",
-            cardText: "Jalan Taylors Off Lebuhraya Damansara, Bandar Sunway, Subang Jaya, Selangor",  
-            roomDetails: ["5", "3", "1800sf"],
-            propertyType: "Condo", 
-            location: "Bandar Sunway", 
-            priceRange: "RM 2500 Above"
-            }
-    ];
-
-      
-    return (
-        <div>
-
-        <main>
-            <section id="Home"/>
-      
-             <section id="filter">
-                <div className="container">
-                  <header className="subTitle text-center fs-2 fw-bolder mt-4">
-                    Find Your Dream Property
-                  </header>
-      
-                  <div className="row row-cols-1 row-cols-md-3 g-5">
-
-                    <div className="property-selector">
-                      <label htmlFor="propertyType" className="filterTitle">Property Type</label>
-                     
-                      <div className="form-select" tabIndex={0} onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}>
-                        <div className="displayed-value">{selectedOption1 || 'Please Select'}</div>
-                        {isPropertyTypeOpen && (
-                          <div className="custom-options" ref={dropdownRef1}>
-                            {properties.map((property, index) => (
-                              <div key={index}
-                                   className={`custom-option ${selectedOption1 === property ? 'selected' : ''}`}
-                                   onClick={() => selectOption(property, setSelectedOption1, setIsPropertyTypeOpen)}>
-                                {property}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                <div
+                  className="form-select"
+                  tabIndex={0}
+                  onClick={() => setIsPropertyTypeOpen(!isPropertyTypeOpen)}
+                >
+                  <div className="displayed-value">
+                    {selectedOption1 || "Please Select"}
+                  </div>
+                  {isPropertyTypeOpen && (
+                    <div className="custom-options" ref={dropdownRef1}>
+                      {properties.map((property, index) => (
+                        <div
+                          key={index}
+                          className={`custom-option ${
+                            selectedOption1 === property ? "selected" : ""
+                          }`}
+                          onClick={() =>
+                            selectOption(
+                              property,
+                              setSelectedOption1,
+                              setIsPropertyTypeOpen
+                            )
+                          }
+                        >
+                          {property}
+                        </div>
+                      ))}
                     </div>
+                  )}
+                </div>
+              </div>
 
               {/* Location Dropdown */}
               <div className="property-selector">

@@ -5,12 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import axios from 'axios';
 
 const Commercial = () => {
-  const [propertyList, setPropertyList] = useState([]);
-  const [cardData, setCardData] = useState([]);
-  const [locations, setLocations] = useState(["All Location"]);
-
-  const [selectedOption2, setSelectedOption2] = useState(null);
-  const [selectedOption3, setSelectedOption3] = useState(null);
+  
   const [propertyList, setPropertyList] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);
@@ -89,22 +84,6 @@ const Commercial = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const determinePriceRange = (price) => {
-    if (price <= 500) {
-      return "RM 500 Below";
-    } else if (price <= 1000) {
-      return "RM 500 - RM 1000";
-    } else if (price <= 1500) {
-      return "RM 1001 - RM 1500";
-    } else if (price <= 2000) {
-      return "RM 1501 - RM 2000";
-    } else if (price <= 2500) {
-      return "RM 2001 - RM 2500";
-    } else {
-      return "RM 2500 Above";
-    }
-  };
 
   const determinePriceRange = (price) => {
     if (price <= 500) {

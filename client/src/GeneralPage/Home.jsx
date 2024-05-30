@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const Home = () => {
   const [propertyList, setPropertyList] = useState([]);
-  const [propertyList, setPropertyList] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);
 

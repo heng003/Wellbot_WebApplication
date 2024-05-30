@@ -12,14 +12,8 @@ const LandlordComment = () => {
   
   const { username } = useParams();
   const navigate = useNavigate();
-  const navigate = useNavigate();
   const [ratings, setRatings] = useState(Array(5).fill(false));
   const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
-  const [landlordId, setLandlordId] = useState(null);
-  const [tenantId, setTenantId] = useState(null);
-  const [comment, setComment] = useState("");
-  const [totalReviews, setTotalReviews] = useState(0);
-  const [averageRating, setAverageRating] = useState(0);
   const [landlordId, setLandlordId] = useState(null);
   const [tenantId, setTenantId] = useState(null);
   const [comment, setComment] = useState("");
@@ -147,7 +141,6 @@ const LandlordComment = () => {
 
           <div className="accountRight_Section">
             <h5 className="usernameText">{username}</h5>
-            <h5 className="usernameText">{username}</h5>
             <p className="accountDetail" id="accDetails">
               Current Rent Properties: {effectiveLeasesCount}
             </p>
@@ -189,8 +182,6 @@ const LandlordComment = () => {
                 id="additionalComment"
                 rows="5"
                 placeholder="You can leave your comment based on timeliness of rent payments, property maintenance and care, communication and responsiveness, adherence to lease terms and neighbor relations."
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 required

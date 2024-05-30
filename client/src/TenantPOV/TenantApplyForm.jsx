@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import "../TenantPOV/edittenantprofile.css";
 import "../LandlordPOV/landlord_history.css";
 import Swal from "sweetalert2";
@@ -171,165 +169,139 @@ const TenantApplyForm = () => {
     };
     
     return(
-        <>
-        <div className="pageMainContainer">
+      <>
+      <div className="pageMainContainer">
 
-            <h1 className="pageMainTitle">Edit Personal Details</h1>
+          <h1 className="pageMainTitle">Edit Personal Details</h1>
 
-        <h3 className="pageMainSubTitle">
-          Please make sure personal details are correct before proceed.
-        </h3>
+      <h3 className="pageMainSubTitle">
+        Please make sure personal details are correct before proceed.
+      </h3>
 
-        <div className="editLandlordForm">
-          <div className="row" id="row2">
-            <div className="col">
-            <div className="col">
-              <h6>FullName *</h6>
-              <input
-                type="text"
-                name="editFullname"
-                id="editFullname"
-                placeholder="Enter Your FullName Stated in MyKad"
-                required
-                value={userData.editFullname}
-                onChange={handleChange}
-                value={userData.editFullname}
-                onChange={handleChange}
-              />
-              <div className="displayErrorEditMessage">
-                  {errors.editFullname && <span>{errors.editFullname}</span>}
-              </div>
-            </div>
-            <div className="col">
-            <div className="col">
-              <h6>UserName *</h6>
-              <input
-                type="text"
-                name="editUsername"
-                id="editUsername"
-                placeholder="Enter Your Username"
-                required
-                value={userData.editUsername}
-                onChange={handleChange}
-                value={userData.editUsername}
-                onChange={handleChange}
-              />
-              <div className="displayErrorEditMessage">
-                {errors.editUsername && <span>{errors.editUsername}</span>}
-              </div>
-              <div className="displayErrorEditMessage">
-                {errors.editUsername && <span>{errors.editUsername}</span>}
-              </div>
+      <div className="editLandlordForm">
+        <div className="row" id="row2">
+          <div className="col">
+            <h6>FullName *</h6>
+            <input
+              type="text"
+              name="editFullname"
+              id="editFullname"
+              placeholder="Enter Your FullName Stated in MyKad"
+              required
+              value={userData.editFullname}
+              onChange={handleChange}
+            />
+            <div className="displayErrorEditMessage">
+                {errors.editFullname && <span>{errors.editFullname}</span>}
             </div>
           </div>
-
-          <div className="row">
-            <div className="col">
-            <div className="col">
-              <h6>NRIC *</h6>
-              <input
-                type="text"
-                name="editIC"
-                id="editIC"
-                placeholder="Enter Your IC Number"
-                required
-                pattern="[0-9]{12}"
-                value={userData.editIC}
-                onChange={handleChange}
-                pattern="[0-9]{12}"
-                value={userData.editIC}
-                onChange={handleChange}
-              />
-              <div className="displayErrorEditMessage">
-                {errors.editIC && <span>{errors.editIC}</span>}
-              </div>
-              <div className="displayErrorEditMessage">
-                {errors.editIC && <span>{errors.editIC}</span>}
-              </div>
+          <div className="col">
+            <h6>UserName *</h6>
+            <input
+              type="text"
+              name="editUsername"
+              id="editUsername"
+              placeholder="Enter Your Username"
+              required
+              value={userData.editUsername}
+              onChange={handleChange}
+            />
+            <div className="displayErrorEditMessage">
+              {errors.editUsername && <span>{errors.editUsername}</span>}
             </div>
-            <div className="col">
-            <div className="col">
-              <h6>Phone Number *</h6>
-              <input
-                type="tel"
-                name="editPhoneno"
-                id="editPhoneno"
-                placeholder="Enter Your Phone Number"
-                required
-                pattern="[0-9]{3}-[0-9]{7,8}"
-                value={userData.editPhoneno}
-                onChange={handleChange}
-                value={userData.editPhoneno}
-                onChange={handleChange}
-              />
-               <div className="displayErrorEditMessage">
-                {errors.editPhoneno && <span>{errors.editPhoneno}</span>}
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col">
-            <div className="col">
-              <h6>Email Address *</h6>
-              <input
-                type="email"
-                name="editEmail"
-                id="editEmail"
-                placeholder="Enter Your Email Address"
-                required
-                value={userData.editEmail}
-                onChange={handleChange}
-                value={userData.editEmail}
-                onChange={handleChange}
-              />
-              <div className="displayErrorEditMessage">
-                {errors.editEmail && <span>{errors.editEmail}</span>}
-              </div>
-              <div className="displayErrorEditMessage">
-                {errors.editEmail && <span>{errors.editEmail}</span>}
-              </div>
-            </div>
-
-            <div className="col">
-              <div className="col"></div>
-            </div>
-          </div>
-
-          <div className="row">
-              <div className="row-checkbox">
-                <input
-                  type="checkbox"
-                  id="confirmCheckbox"
-                  checked={clicked}
-                  onChange={handleCheckboxChange}
-                  className="checkbox"
-                />
-                <label htmlFor="confirmCheckbox">
-                  I hereby confirm the information is true and allow my information
-                  to be shared with this property's landlord.
-                </label>
-              </div>
-
-              <div className="displayErrorEditMessage" style={{marginTop: -20 + 'px'}}>
-                  {errors.editCheckBox && <span>{errors.editCheckBox}</span>}
-              </div>
           </div>
         </div>
 
-        <div className="mainCentreButton" style={{marginTop: -50 + 'px'}}>
-          <button
-            id="submitEdirProfileInfoBtn"
-            onClick={handleSaveAndSubmit}
-            type="submit"
-          >
-            Save & Submit
-          </button>
+        <div className="row">
+          <div className="col">
+            <h6>NRIC *</h6>
+            <input
+              type="text"
+              name="editIC"
+              id="editIC"
+              placeholder="Enter Your IC Number"
+              required
+              pattern="[0-9]{12}"
+              value={userData.editIC}
+              onChange={handleChange}
+            />
+            <div className="displayErrorEditMessage">
+              {errors.editIC && <span>{errors.editIC}</span>}
+            </div>
+          </div>
+          <div className="col">
+            <h6>Phone Number *</h6>
+            <input
+              type="tel"
+              name="editPhoneno"
+              id="editPhoneno"
+              placeholder="Enter Your Phone Number"
+              required
+              pattern="[0-9]{3}-[0-9]{7,8}"
+              value={userData.editPhoneno}
+              onChange={handleChange}
+            />
+             <div className="displayErrorEditMessage">
+              {errors.editPhoneno && <span>{errors.editPhoneno}</span>}
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+            <h6>Email Address *</h6>
+            <input
+              type="email"
+              name="editEmail"
+              id="editEmail"
+              placeholder="Enter Your Email Address"
+              required
+              value={userData.editEmail}
+              onChange={handleChange}
+            />
+            <div className="displayErrorEditMessage">
+              {errors.editEmail && <span>{errors.editEmail}</span>}
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="col"></div>
+          </div>
+        </div>
+
+        <div className="row">
+            <div className="row-checkbox">
+              <input
+                type="checkbox"
+                id="confirmCheckbox"
+                checked={clicked}
+                onChange={handleCheckboxChange}
+                className="checkbox"
+              />
+              <label htmlFor="confirmCheckbox">
+                I hereby confirm the information is true and allow my information
+                to be shared with this property's landlord.
+              </label>
+            </div>
+
+            <div className="displayErrorEditMessage" style={{marginTop: -20 + 'px'}}>
+                {errors.editCheckBox && <span>{errors.editCheckBox}</span>}
+            </div>
         </div>
       </div>
-    </>
-  );
-};
 
+      <div className="mainCentreButton" style={{marginTop: -50 + 'px'}}>
+        <button
+          id="submitEdirProfileInfoBtn"
+          onClick={handleSaveAndSubmit}
+          type="submit"
+        >
+          Save & Submit
+        </button>
+      </div>
+    </div>
+  </>
+);
+};
 
 export default TenantApplyForm;

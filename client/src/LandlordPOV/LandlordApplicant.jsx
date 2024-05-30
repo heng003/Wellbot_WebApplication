@@ -27,20 +27,8 @@ function LandlordApplicant() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const [properties, setProperties] = useState([]);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [applications, setApplications] = useState([]);
-  const [leases, setLeases] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   const nav = useNavigate();
 
-  const handleSortOptionClick = (option) => {
-    if (selectedRatingSort !== option) {
-      setSelectedRatingSort(option);
-    }
-    setIsOpenRating(false);
   const handleSortOptionClick = (option) => {
     if (selectedRatingSort !== option) {
       setSelectedRatingSort(option);
@@ -141,7 +129,6 @@ function LandlordApplicant() {
 
   const handleDownloadSigned = (event) => {
     event.stopPropagation();
-    event.stopPropagation();
     const link = document.createElement("a");
     link.href =
       "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
@@ -187,53 +174,12 @@ function LandlordApplicant() {
             <td>{lease.tenantId.username}</td>
             <td>{renderRatingOrCommentText(lease)}</td>
             <td>{renderStatus(lease.leaseStatus)}</td>
-      <tbody>
-        {data.map((lease, index) => (
-          <tr key={lease.id} onClick={() => handleViewApplicantFeedback(lease)}>
-            <td>{lease.tenantId.username}</td>
-            <td>{renderRatingOrCommentText(lease)}</td>
-            <td>{renderStatus(lease.leaseStatus)}</td>
           </tr>
         ))}
       </tbody>
     </table>
   );
 
-  const renderRatingOrCommentText = (lease) => {
-    const { tenantId } = lease;
-    if (tenantId.overallRating === null) {
-      return <span className="none_Rating">N/A</span>;
-    } else {
-      return renderRating(tenantId.overallRating);
-    }
-  };
-
-  const renderRating = (rating) => {
-    return (
-      <div className="ratingStarsGroup">
-        {Array.from({ length: rating }).map((_, i) => (
-          <img
-            key={i}
-            src={starOnClick}
-            alt="Rating Star"
-            width="65"
-            height="65"
-            className="rating-star"
-          />
-        ))}
-        {Array.from({ length: 5 - rating }).map((_, i) => (
-          <img
-            key={i}
-            src={starDefault}
-            alt="Rating Star"
-            width="65"
-            height="65"
-            className="rating-star"
-          />
-        ))}
-      </div>
-    );
-  };
   const renderRatingOrCommentText = (lease) => {
     const { tenantId } = lease;
     if (tenantId.overallRating === null) {
@@ -300,14 +246,9 @@ function LandlordApplicant() {
     return tenants.slice().sort((a, b) => {
       const ratingA = a.tenantId.overallRating ?? 0;
       const ratingB = b.tenantId.overallRating ?? 0;
-    return tenants.slice().sort((a, b) => {
-      const ratingA = a.tenantId.overallRating ?? 0;
-      const ratingB = b.tenantId.overallRating ?? 0;
       if (sortOption === "Highest to Lowest") {
         return ratingB - ratingA;
-        return ratingB - ratingA;
       } else {
-        return ratingA - ratingB;
         return ratingA - ratingB;
       }
     });
@@ -333,28 +274,8 @@ function LandlordApplicant() {
             {renderTable(sortedLeases)}
           </>
         );
-    if (selectedProperty) {
-      if (loading) {
-        return <h3 className="Brief_Text">Loading...</h3>;
-      }
-      if (leases.length === 0) {
-        return (
-          <h3 className="Brief_Text">
-            Sorry, this property hasn't been applied yet, so it{" "}
-            <b>doesn't have any applicant's info</b>.
-          </h3>
-        );
-      } else {
-        const sortedLeases = sortTenantsByRating(leases, selectedRatingSort);
-        return (
-          <>
-            <h2 className="propertyName">{selectedProperty.name}</h2>
-            {renderTable(sortedLeases)}
-          </>
-        );
       }
     }
-    return null;
     return null;
   };
 
@@ -381,11 +302,9 @@ function LandlordApplicant() {
                     className={`custom-option ${selectedProperty && selectedProperty._id === property._id ? "selected" : ""}`}
                     onClick={() => {
                       handlePropertyChange(property._id);
-                      handlePropertyChange(property._id);
                       setIsOpen(false);
                     }}
                   >
-                    {property.name}
                     {property.name}
                   </div>
                 ))}

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import './viewproperty.css';
 import DetailsPanel from "./component/DetailsPanel";
 import CommentSection from "./component/CommentSection";
-import CommentSection from "./component/CommentSection";
 import PropertyStatus from "./component/PropertyStatus";
 
 const ViewPropertyPending = () => {

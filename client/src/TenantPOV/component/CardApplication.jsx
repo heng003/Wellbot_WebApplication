@@ -10,8 +10,6 @@ const CardApplication = ({ listing }) => {
   const {
     applicationId,
     propertyId,
-    applicationId,
-    propertyId,
     title,
     locationOwner,
     imageUrl,

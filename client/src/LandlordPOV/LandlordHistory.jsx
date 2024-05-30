@@ -20,7 +20,6 @@ function LandlordHistory() {
   const [error, setError] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate(); 
 
@@ -45,17 +44,7 @@ function LandlordHistory() {
     }
   }, []);
 
-  const handlePropertyChange = (propertyId) => {
-    if (!propertyId) {
-      setSelectedProperty(null);
-      setLeases([]);
-    } else {
-      const property = properties.find(p => p._id === propertyId);
-      setSelectedProperty(property);
-      setLeases([]); 
-      setLoading(true); 
 
-      async function fetchLeases() {
   const handlePropertyChange = (propertyId) => {
     if (!propertyId) {
       setSelectedProperty(null);
@@ -70,7 +59,6 @@ function LandlordHistory() {
         try {
           const token = localStorage.getItem('token');
           const response = await axios.get(`/api/leases/${propertyId}`, {
-          const response = await axios.get(`/api/leases/${propertyId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           const filteredLeases = response.data
@@ -80,11 +68,6 @@ function LandlordHistory() {
         } catch (err) {
           console.error("Error fetching leases:", err);
           setError("Failed to fetch leases");
-        } finally {
-          setLoading(false); 
-        }
-      }
-      fetchLeases();
         } finally {
           setLoading(false); 
         }
@@ -142,7 +125,6 @@ function LandlordHistory() {
         {data.map((lease, index) => (
           <tr key={lease._id}>
             <td>{lease.tenantId.username}</td>
-            <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
             <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
             <td>{lease.leaseStatus}</td>
             <td>
@@ -222,10 +204,6 @@ function LandlordHistory() {
               applicants for renting purposes.
             </h3>
           ) : (
-            <>
-              <h2 className="propertyName">{selectedProperty.name}</h2>
-              {renderTable(leases)}
-            </>
             <>
               <h2 className="propertyName">{selectedProperty.name}</h2>
               {renderTable(leases)}
