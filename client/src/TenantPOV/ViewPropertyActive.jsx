@@ -21,8 +21,10 @@ const ViewPropertyActive = () => {
             try {
                 const response = await axios.get(`/api/applications/ViewProperty/${propertyId}`); // Adjust the endpoint if necessary
                 const propertyData = response.data;
+                const baseURL = 'http://localhost:5000/uploads/';
+                const images = [propertyData.coverPhoto, ...propertyData.photos].map(photo => `${baseURL}${photo}`);
                 setProperty(propertyData);
-                setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
+                setPropertyImageSrc(images);
                 setLandlordId(propertyData.landlordId);
                 setIsFetched(true);
             } catch (error) {
@@ -32,46 +34,29 @@ const ViewPropertyActive = () => {
         fetchProperty();
     }, [propertyId]);
 
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) => {
-      let newIndex = prevIndex - 2;
-      if (newIndex < 0) {
-        newIndex = propertyImageSrc.length + newIndex;
-      }
-      return newIndex;
-    });
-  };
+    const handlePrevious = () => {
+      setCurrentIndex(prevIndex => (prevIndex === 0 ? propertyImageSrc.length - 1 : prevIndex - 1));
+    };
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => {
-      let newIndex = prevIndex + 2;
-      if (newIndex >= propertyImageSrc.length) {
-        newIndex = newIndex - propertyImageSrc.length;
-      }
-      return newIndex;
-    });
-  };
+    const handleNext = () => {
+      setCurrentIndex(prevIndex => (prevIndex === propertyImageSrc.length - 1 ? 0 : prevIndex + 1));
+    };
 
   return (
     <div>
       <main>
         <section id="PropertyImage">
           <div className="container">
-            <div className="imageContainer">
-              <img
-                src={propertyImageSrc[currentIndex]}
-                alt="propertyImages"
-                className="propertyImage"
-              />
-              <img
-                src={
-                  propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]
-                }
-                alt="propertyImages"
-                className="propertyImage"
-                id="propertyImage2"
-              />
-            </div>
+   
+          <div className="imageContainer">
+                <div className="propertyImageContainer">
+                    <img src={propertyImageSrc[currentIndex]} alt='propertyImages' className='propertyImage' />
+                </div>
+                <div className="propertyImageContainer">
+                    <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2' />
+                </div>
+          </div>
+
             <div className="buttonContainer">
               <button className="previousButton" onClick={handlePrevious}>
                 <svg

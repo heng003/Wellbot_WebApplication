@@ -104,9 +104,7 @@ const ViewProperty = () => {
                 </section>
 
                 <section id="PropertyDetails">
-                    <div className="container">
-                        <DetailsPanel property={property} />
-                    </div>
+                    <div className="container"><DetailsPanel/></div>
                 </section>
 
                 <div className="applyButton">
