@@ -1,5 +1,5 @@
 import React from "react";
-import StarsGroup from "./StarsGroup";
+import StarsGroup from "./LandlordStarsGroup";
 import "./averagerating.css";
 
 const AverageRating = ({ numOfReview, avg }) => {

@@ -96,7 +96,7 @@ const CommentSection = ({ landlordId }) => {
                         <>
                             {commentList.length > 0 ? (
                                 commentList.map((comment, index) => (
-                                    <div className="tenantCommentBoxContainer">
+                                    <div className="comment-grid">
                                         <CommentBox
                                             key={index}
                                             username={userNameList[index]?.username || "Anonymous"}

@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import contactIcon from "./Rental_Icon/contact.png";
 import CommentBox from "./component/CommentBox";
-import AverageRating from "../TenantPOV/component/AverageRating";
+import AverageRating from "./component/AverageRating";
 import "./landlordApplicantFeedback.css";
 import './landlordviewproperty.css';
 import { useLocation, useNavigate } from "react-router-dom";

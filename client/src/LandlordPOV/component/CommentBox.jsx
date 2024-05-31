@@ -1,6 +1,6 @@
 import React from "react";
 import "./commentbox.css";
-import StarsGroup from "./StarsGroup";
+import StarsGroup from "./LandlordStarsGroup";
 import profilePic from "./Rental_Icon/commentProfilePic.png"
 
 const CommentBox = ({ username, date, comment, rating }) => {
