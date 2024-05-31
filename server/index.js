@@ -5,6 +5,7 @@ console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
 const express = require("express");
 const mongoose = require("mongoose");
+const mongoURI = process.env.MONGODB_URI;
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
@@ -16,6 +17,7 @@ const reviewTenantRoute = require('./routes/reviewTenantRoute');
 const userRoute = require('./routes/userRoute')
 const reviewLandlordRoute = require('./routes/reviewLandlordRoute')
 const landlordRouter = require('./routes/landlordRoute');
+const leaseAgreementRouter = require('./routes/leaseAgreementRoute');
 
 const app = express();
 
@@ -38,9 +40,10 @@ app.use('/api/leases', leasesRouter);
 app.use('/api/reviewsTenant', reviewTenantRoute);
 app.use('/api/reviewsLandlord', reviewLandlordRoute);
 app.use('/api/landlord',landlordRouter);
+app.use('/api/leaseAgreement', leaseAgreementRouter);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {
@@ -48,31 +51,30 @@ app.get('*', function(req, res) {
 });
 
 // 3. MONGO DB CONNECTION
-const mongoURI = process.env.MONGODB_URI;
-
-mongoose.connect(mongoURI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.error('Could not connect to MongoDB Atlas:', err));
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
 
 // 4. GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
-    if (!res.headersSent) {
-        err.statusCode = err.statusCode || 500;
-        err.status = err.status || 'error';
+  if (!res.headersSent) {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || "error";
 
-        res.status(err.statusCode).json({
-            status: err.status,
-            message: err.message,
-        });
-    } else {
-        next(err);
-    }
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+    });
+  } else {
+    next(err);
+  }
 });
 
 // Server listen
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
 console.log('This is a test change to check Nodemon restart');

@@ -45,7 +45,7 @@ const leaseSchema = new Schema({
   lesseeDesignation: { type: String },
   lesseeSignature: { type: String },
   completed: { type: Boolean, required: true, default: false },
-  PDF: { data: Buffer, contentType: String },
+  PDF: { type: String },
 });
 
 // Define virtual for landlordId

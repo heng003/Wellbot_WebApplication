@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./editlandlordprofile.css";
 import "./landlord_history.css";
 import Swal from "sweetalert2";
@@ -32,7 +32,7 @@ const LandlordComment = () => {
         setLandlordId(decodedToken.userId);
 
         const response = await axios.get(`/api/leases/tenant/${username}`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
@@ -52,6 +52,11 @@ const LandlordComment = () => {
         }
       } catch (err) {
         console.error("Error fetching leases:", err);
+        Swal.fire({
+          text: "Error fetching leases. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#FF8C22",
+        });
         Swal.fire({
           text: "Error fetching leases. Please try again later.",
           icon: "error",
@@ -110,6 +115,7 @@ const LandlordComment = () => {
         }
       }).then((result) => {
         if (result.isConfirmed) {
+          window.scrollTo({ top: 0, behavior: 'smooth'});
           navigate("/landlordHistory");
         }
       });

@@ -41,7 +41,7 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <img
-            src="Images/logoText.png"
+            src="/Images/logoText.png"
             alt="Logo"
             width="90"
             height="90"
@@ -96,7 +96,7 @@ const Navbar = () => {
           </div>
           <a href="#">
             <img
-              src="Images/general_Profile.svg"
+              src="/Images/general_Profile.svg"
               alt="Avatar"
               width="110"
               height="auto"

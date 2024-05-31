@@ -75,6 +75,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
           <Route path="/ViewProperty/:propertyId" element={<ViewProperty />} />
+          <Route path="/ViewProperty/:propertyId" element={<ViewProperty />} />
           <Route path="/landlordHome" element={<LandlordHome />} />
           <Route path="/tenantHome" element={<TenantHome />} />
           <Route path="/landlordProfileEdit" element={<EditLandlordProfile />}/>
@@ -140,20 +141,58 @@ function App() {
           <Route path="/landlordEditPhoto" element={<LandlordEditPhoto />} />
           <Route path="/landlordEditPhoto/:propertyId" element={<LandlordEditPhoto />} />
           <Route path="/landlordApplicant" element={<LandlordApplicant />} />
-          <Route path="/landlordApplicantFeedback" element={<LandlordApplicantFeedback />}/>
-          <Route path="/landlordLeaseAgreementForm" element={<LandlordAgreementFormPage />}/>
-          <Route path="/landlordLeaseAgreementPg1" element={<LandlordAgreementPage1 />}/>
-          <Route path="/landlordLeaseAgreementPg2" element={<LandlordAgreementPage2 />}/>
-          <Route path="/landlordLeaseAgreementPg3" element={<LandlordAgreementPage3 />}/>
-          <Route path="/tenantLeaseAgreementHome" element={<TenantAgreementHome />}/>
-          <Route path="/tenantLeaseAgreementForm" element={<TenantAgreementFormPage />}/>    
-          <Route path="/tenantLeaseAgreementPg1" element={<TenantAgreementPage1 />}/>
-          <Route path="/tenantLeaseAgreementPg2"element={<TenantAgreementPage2 />}/>
-          <Route path="/tenantLeaseAgreementPg3" element={<TenantAgreementPage3 />}/>
-          <Route path="/tenantLeaseAgreementLastPg" element={<TenantAgreementLastPage />}/>
-          <Route path="/viewAgreement" element={<AgreementFullView />} />
-          <Route path="/fullAgreement" element={<AgreementFull />} />
-          
+          <Route
+            path="/landlordApplicantFeedback"
+            element={<LandlordApplicantFeedback />}
+          />
+          <Route
+            path="/landlordLeaseAgreementForm/:applicationId"
+            element={<LandlordAgreementFormPage />}
+          />
+          <Route
+            path="/landlordLeaseAgreementPg1/:leaseAgreementId"
+            element={<LandlordAgreementPage1 />}
+          />
+          <Route
+            path="/landlordLeaseAgreementPg2/:leaseAgreementId"
+            element={<LandlordAgreementPage2 />}
+          />
+          <Route
+            path="/landlordLeaseAgreementPg3/:leaseAgreementId"
+            element={<LandlordAgreementPage3 />}
+          />
+          <Route
+            path="/tenantLeaseAgreementHome"
+            element={<TenantAgreementHome />}
+          />
+          <Route
+            path="/tenantLeaseAgreementForm/:leaseAgreementId"
+            element={<TenantAgreementFormPage />}
+          />
+          <Route
+            path="/tenantLeaseAgreementPg1/:leaseAgreementId"
+            element={<TenantAgreementPage1 />}
+          />
+          <Route
+            path="/tenantLeaseAgreementPg2/:leaseAgreementId"
+            element={<TenantAgreementPage2 />}
+          />
+          <Route
+            path="/tenantLeaseAgreementPg3/:leaseAgreementId"
+            element={<TenantAgreementPage3 />}
+          />
+          <Route
+            path="/tenantLeaseAgreementLastPg/:leaseAgreementId"
+            element={<TenantAgreementLastPage />}
+          />
+          <Route
+            path="/viewAgreement/:leaseAgreementId"
+            element={<AgreementFullView />}
+          />
+          <Route
+            path="/fullAgreement/:leaseAgreementId"
+            element={<AgreementFull />}
+          />
         </Routes>
         <ShowFooter>
           <Footer />
@@ -168,11 +207,14 @@ function CustomNavbar() {
 
   const isLandlordPage = location.pathname.startsWith("/landlord");
   const isTenantPage = location.pathname.startsWith("/tenant");
+  const isFullAgreementPage = location.pathname.startsWith("/fullAgreement");
 
   if (isLandlordPage) {
     return <LandlordNavbar />;
   } else if (isTenantPage) {
     return <TenantNavbar />;
+  } else if (isFullAgreementPage) {
+    return <></>;
   } else {
     return <Navbar />;
   }

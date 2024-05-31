@@ -21,8 +21,10 @@ const ViewProperty = () => {
             try {
                 const response = await axios.get(`/api/applications/ViewProperty/${propertyId}`); // Adjust the endpoint if necessary
                 const propertyData = response.data;
+                const baseURL = 'http://localhost:5000/uploads/';
+                const images = [propertyData.coverPhoto, ...propertyData.photos].map(photo => `${baseURL}${photo}`);
                 setProperty(propertyData);
-                setPropertyImageSrc([propertyData.coverPhoto, ...propertyData.photos]);
+                setPropertyImageSrc(images);
                 setLandlordId(propertyData.landlordId);
                 setIsFetched(true);
             } catch (error) {
@@ -33,24 +35,12 @@ const ViewProperty = () => {
     }, [propertyId]);
 
     const handlePrevious = () => {
-        setCurrentIndex(prevIndex => {
-            let newIndex = prevIndex - 2;
-            if (newIndex < 0) {
-                newIndex = propertyImageSrc.length + newIndex;
-            }
-            return newIndex;
-        });
-    };
+        setCurrentIndex(prevIndex => (prevIndex === 0 ? propertyImageSrc.length - 1 : prevIndex - 1));
+      };
 
-    const handleNext = () => {
-        setCurrentIndex(prevIndex => {
-            let newIndex = prevIndex + 2;
-            if (newIndex >= propertyImageSrc.length) {
-                newIndex = newIndex - propertyImageSrc.length;
-            }
-            return newIndex;
-        });
-    };
+      const handleNext = () => {
+        setCurrentIndex(prevIndex => (prevIndex === propertyImageSrc.length - 1 ? 0 : prevIndex + 1));
+      };
 
     const handleApplyPropertyPageButton = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -79,9 +69,14 @@ const ViewProperty = () => {
             <main>
                 <section id="PropertyImage">
                     <div className="container">
-                        <div className="imageContainer">
-                            <img src={propertyImageSrc[currentIndex]} alt='propertyImages' className='propertyImage' />
-                            <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2' />
+
+                       <div className="imageContainer">
+                            <div className="propertyImageContainer">
+                                <img src={propertyImageSrc[currentIndex]} alt='propertyImages' className='propertyImage' />
+                            </div>
+                            <div className="propertyImageContainer">
+                                <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2' />
+                            </div>
                         </div>
 
                         <div className="buttonContainer">
@@ -109,9 +104,7 @@ const ViewProperty = () => {
                 </section>
 
                 <section id="PropertyDetails">
-                    <div className="container">
-                        <DetailsPanel property={property} />
-                    </div>
+                    <div className="container"><DetailsPanel/></div>
                 </section>
 
                 <div className="applyButton">

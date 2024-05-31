@@ -12,6 +12,7 @@ interface AgreementWrapperProps {
   dialogCloseText?: string;
   dialogDescription?: string;
   landlordLastPage?: boolean;
+  leaseAgreementId?: string;
   children: React.ReactNode;
 }
 
@@ -24,6 +25,7 @@ export const AgreementWrapper = ({
   dialogCloseText,
   dialogDescription,
   landlordLastPage,
+  leaseAgreementId,
   children,
 }: AgreementWrapperProps) => {
   const navigate = useNavigate();
@@ -57,6 +59,7 @@ export const AgreementWrapper = ({
               description={dialogDescription}
               closeHref="/"
               landlordLastPage={landlordLastPage}
+              leaseAgreementId={leaseAgreementId}
             ></AgreementDialog>
           )}
         </div>

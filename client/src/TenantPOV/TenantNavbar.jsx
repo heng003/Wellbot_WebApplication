@@ -85,7 +85,7 @@ const TenantNavbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <img
-            src="Images/logoText.png"
+            src="/Images/logoText.png"
             alt="Logo"
             width="90"
             height="90"
@@ -166,7 +166,7 @@ const TenantNavbar = () => {
           </div>
           <a href="/tenantProfileEdit">
             <img
-              src="Images/tenant_Profile.svg"
+              src="/Images/tenant_Profile.svg"
               alt="Avatar"
               width="110"
               height="auto"

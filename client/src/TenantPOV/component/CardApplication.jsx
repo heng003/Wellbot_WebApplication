@@ -12,7 +12,7 @@ const CardApplication = ({ listing }) => {
     propertyId,
     title,
     locationOwner,
-    imageUrl,
+    imgSrc,
     isViewLease,
     isPending,
     isRejected,
@@ -30,17 +30,20 @@ const CardApplication = ({ listing }) => {
     if (isPending) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       nav(`/tenantViewPropertyPending/${propertyId}`);
+      nav(`/tenantViewPropertyPending/${propertyId}`);
     } else if (isRejected) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       nav(`/tenantViewPropertyRejected/${propertyId}`);
+      nav(`/tenantViewPropertyRejected/${propertyId}`);
     } else if (isViewLease) {
       window.scrollTo({ top: 0, behavior: "smooth" });
+      nav(`/tenantViewPropertyLease/${propertyId}/${applicationId}`);
       nav(`/tenantViewPropertyLease/${propertyId}/${applicationId}`);
     }
   };
 
   // Check if any property data is missing
-  if (!title || !locationOwner || !imageUrl || !bedroom || !bathroom || !sqft || !price) {
+  if (!title || !locationOwner || !imgSrc || !bedroom || !bathroom || !sqft || !price) {
     alert("Error: Missing property data!");
   }
 
@@ -48,7 +51,7 @@ const CardApplication = ({ listing }) => {
     <div className="applicationList_card" onClick={handleViewPropertyStatus}>
       <div className="history-listing">
         <div className="rentalHistory-image">
-          <img src={imageUrl} alt="Rental Property" />
+          <img src = {imgSrc} alt="Rental Property" />
         </div>
         <div className="rentalHistory-details">
           <h2 className="rental_historyTitle">{title}</h2>

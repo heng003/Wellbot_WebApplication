@@ -10,7 +10,7 @@ import axios from 'axios';
 import { format } from "date-fns";
 
 const LandlordApplicantFeedback = () => {
-
+  
   const location = useLocation();
   const nav = useNavigate();
   const { username, leaseId, applicationId } = location.state || {};
@@ -18,13 +18,9 @@ const LandlordApplicantFeedback = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [overallRating, setOverallRating] = useState(0);
   const [commentList, setCommentList] = useState([]);
-  const [idComment, setIdComment ] = useState([]);
-  const [usernameComment, setUsernameComment] = useState([]);
   const [userNameList, setUserNameList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log('Received in LandlordApplicantFeedback:', { username, leaseId, applicationId });
-  
   const fetchTenantIdByUsername = async (username) => {
     try {
         const response = await axios.get(`/api/username/${username}/tenantId`);
@@ -33,112 +29,100 @@ const LandlordApplicantFeedback = () => {
         console.error("Error fetching tenantId:", error);
         throw error;
     }
-};
+  };
 
-  fetchTenantIdByUsername(username)
-      .then((tenantId) => {
-          console.log("TenantId:", tenantId);
-      })
-      .catch((error) => {
-          console.error("Error:", error);
-      });
-
-      useEffect(() => {
-        async function fetchLandlordRatingAndComments() {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error("No token found");
-                }
-    
-                const tenantId = await fetchTenantIdByUsername(username);
-    
-                const landlordResponse = await axios.get(`/api/landlord/tenant/${tenantId}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setOverallRating(landlordResponse.data.overallRating);
-                setPhoneNumber(landlordResponse.data.phonenumber);
-    
-                const commentResponse = await axios.get(`/api/landlord/tenantReview/${tenantId}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setCommentList(commentResponse.data);
-                console.log("commentlist: ", commentList); 
-    
-            } catch (err) {
-                console.error("Error fetching landlord rating and comments:", err);
-                Swal.fire({
-                    text: "Error fetching landlord rating and comments. Please try again later.",
-                    icon: "error",
-                    confirmButtonColor: "#FF8C22",
-                });
+  useEffect(() => {
+    async function fetchLandlordRatingAndComments() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error("No token found");
             }
-        }
-    
-        if (username) {
-            fetchLandlordRatingAndComments();
-        }
-    }, [username]);
 
-    useEffect(() => {
-      async function fetchLeases() {
-        try {
-          const token = localStorage.getItem('token');
-          if (!token) {
-            throw new Error("No token found");
-          }
-  
-          const response = await axios.get(`/api/leases/tenant/${username}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-  
-          const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
-          setEffectiveLeasesCount(effectiveLeases.length);
+            const tenantId = await fetchTenantIdByUsername(username);
+
+            const landlordResponse = await axios.get(`/api/landlord/tenant/${tenantId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setOverallRating(landlordResponse.data.overallRating);
+            setPhoneNumber(landlordResponse.data.phonenumber);
+
+            const commentResponse = await axios.get(`/api/landlord/tenantReview/${tenantId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setCommentList(commentResponse.data);
         } catch (err) {
-          console.error("Error fetching leases:", err);
-          Swal.fire({
-            text: "Error fetching leases. Please try again later.",
-            icon: "error",
-            confirmButtonColor: "#FF8C22",
-          });
+            console.error("Error fetching landlord rating and comments:", err);
+            Swal.fire({
+                text: "Error fetching landlord rating and comments. Please try again later.",
+                icon: "error",
+                confirmButtonColor: "#FF8C22",
+            });
+        } finally {
+            setLoading(false);
         }
-      }
-      fetchLeases();
-    }, [username]);
+    }
 
-    useEffect(() => {
-      async function fetchUsername() {
-        try {
-          const promises = commentList.map(async (comment) => {
-            const response = await axios.get(`/api/landlord/landlordProperties/${comment.landlordId}`);
-            return { usernameComment: response.data.username };
-          });
+    if (username) {
+        fetchLandlordRatingAndComments();
+    }
+  }, [username]);
 
-          const usernameData = await Promise.all(promises);
-          setUserNameList(usernameData);
-          setLoading(false);
-        } catch (err) {
-          setLoading(false);
-          console.error("Error fetching tenant data:", err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Failed to load tenant data!',
-            confirmButtonColor: "#FF8C22",
-          });
+  useEffect(() => {
+    async function fetchLeases() {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error("No token found");
         }
-      }
-      if (commentList.length > 0) {
-        fetchUsername();
-      } else {
-        setLoading(false);
-      }
-    }, [commentList]);
 
+        const response = await axios.get(`/api/leases/tenant/${username}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        const effectiveLeases = response.data.filter(lease => lease.leaseStatus === 'Effective');
+        setEffectiveLeasesCount(effectiveLeases.length);
+      } catch (err) {
+        console.error("Error fetching leases:", err);
+        Swal.fire({
+          text: "Error fetching leases. Please try again later.",
+          icon: "error",
+          confirmButtonColor: "#FF8C22",
+        });
+      }
+    }
+    fetchLeases();
+  }, [username]);
+
+  useEffect(() => {
+    async function fetchUsername() {
+      try {
+        if (commentList.length === 0) {
+          return;
+        }
+        const promises = commentList.map(async (comment) => {
+          const response = await axios.get(`/api/landlord/landlordProperties/${comment.landlordId}`);
+          return { usernameComment: response.data.username };
+        });
+
+        const usernameData = await Promise.all(promises);
+        setUserNameList(usernameData);
+      } catch (err) {
+        console.error("Error fetching tenant data:", err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to load tenant data!',
+          confirmButtonColor: "#FF8C22",
+        });
+      }
+    }
+    fetchUsername();
+  }, [commentList]);
 
   const handleSendLease = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    nav("/landlordLeaseAgreementForm");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    nav(`/landlordLeaseAgreementForm/${applicationId}`);
   };
 
   const handleRejectApplicant = () => {
@@ -154,9 +138,8 @@ const LandlordApplicantFeedback = () => {
                   nav("/landlordApplicant");
               }
           });
-      }, 100); // Delay to ensure the scroll completes before showing the dialog
+      }, 100); 
   };
-
 
   return (
     <>
@@ -227,8 +210,8 @@ const LandlordApplicantFeedback = () => {
           <hr></hr>
         </div>
         <div className="comment-grid">
-        {loading ? (
-            <p className="commentPromptTitle">Loading...</p>
+          {loading ? (
+            <h3 className="Loading_Text">Loading...</h3>
           ) : (
             <>
               {commentList.length > 0 ? (
@@ -242,7 +225,7 @@ const LandlordApplicantFeedback = () => {
                   />
                 ))
               ) : (
-                <p className="commentPromptTitle">No comments available.</p>
+                <h3 className="Landlord_commentPromptTitle" >No comments available.</h3>
               )}
             </>
           )}

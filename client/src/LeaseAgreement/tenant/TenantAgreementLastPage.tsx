@@ -1,46 +1,63 @@
 import { lessorSignatureUrl } from "@/component/AgreementComponents/agreement-signals";
+import axios from "axios";
 import { AgreementTerm } from "component/AgreementComponents/agreeement-term";
 import { AgreementWrapper } from "component/AgreementComponents/agreement-wrapper";
 import { TermEighteen, TermSeventeen } from "LeaseAgreement/AgreementText";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const TenantAgreementLastPage = () => {
-  const localStorageLessorSignUrl = JSON.parse(
-    localStorage.getItem("lessorSignatureUrl") || ""
-  );
-  const localStorageLesseeSignUrl = JSON.parse(
-    localStorage.getItem("lesseeSignatureUrl") || ""
-  );
-  console.log(localStorageLesseeSignUrl);
-  const localStorageLessorValue = JSON.parse(
-    localStorage.getItem("lessorFormValues") || ""
-  );
-  const localStorageLesseeValue = JSON.parse(
-    localStorage.getItem("lesseeFormValues") || ""
-  );
+  const { leaseAgreementId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    lessorSignature: "",
+    lessorDesignation: "",
+    lessorIc: "",
+    lesseeSignature: "",
+    lesseeDesignation: "",
+    lesseeIc: "",
+  });
+  useEffect(() => {
+    setLoading(true);
+    async function fetchLease() {
+      const response = await axios.get(
+        `/api/leaseAgreement/getLeaseAgreement/${leaseAgreementId}`
+      );
+      setData(response.data.leaseAgreement);
+    }
+
+    fetchLease();
+    setLoading(false);
+  }, []);
 
   return (
     <>
-      <AgreementWrapper
-        title="Lease Agreement"
-        dialogCloseText="OK"
-        dialogDescription="You have agreed and submitted the lease agreement to the landlord."
-        dialogTitle="Submitted Successfully"
-        dialogTriggerText="Save and Submit"
-      >
-        <AgreementTerm number="17" title="no partnership">
-          {TermSeventeen()}
-        </AgreementTerm>
-        <AgreementTerm number="18" title="SUCCESSORS BOUND ">
-          {TermEighteen(
-            localStorageLessorSignUrl,
-            localStorageLessorValue.lessorDesignation,
-            localStorageLessorValue.lessorIc,
-            localStorageLesseeSignUrl,
-            localStorageLesseeValue.lesseeDesignation,
-            localStorageLesseeValue.lesseeIc
-          )}
-        </AgreementTerm>
-      </AgreementWrapper>
+      {loading ? (
+        <></>
+      ) : (
+        <AgreementWrapper
+          title="Lease Agreement"
+          dialogCloseText="OK"
+          dialogDescription="You have agreed and submitted the lease agreement to the landlord."
+          dialogTitle="Submitted Successfully"
+          dialogTriggerText="Save and Submit"
+          leaseAgreementId={leaseAgreementId}
+        >
+          <AgreementTerm number="17" title="no partnership">
+            {TermSeventeen()}
+          </AgreementTerm>
+          <AgreementTerm number="18" title="SUCCESSORS BOUND ">
+            {TermEighteen(
+              data.lessorSignature,
+              data.lessorDesignation,
+              data.lessorIc,
+              data.lesseeSignature,
+              data.lesseeDesignation,
+              data.lesseeIc
+            )}
+          </AgreementTerm>
+        </AgreementWrapper>
+      )}
     </>
   );
 };

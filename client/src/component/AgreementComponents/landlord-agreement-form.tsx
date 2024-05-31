@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { lessorAgreeementSchema } from "schemas";
+import { useParams } from "react-router-dom";
 import * as z from "zod";
+import { Request, Response, NextFunction } from "express";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CardWrapper } from "./card-wrapper";
 import {
@@ -23,8 +25,10 @@ import {
   lessorSignatureUrl,
 } from "./agreement-signals";
 import { effect } from "@preact/signals";
+import axios from "axios";
 
 export const LandlordAgreementForm = () => {
+  const { applicationId } = useParams();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
@@ -35,23 +39,23 @@ export const LandlordAgreementForm = () => {
     defaultValues: {
       day: "",
       month: "April",
-      year: "24",
-      lessorName: "Lye",
+      year: "2024",
+      lessorName: "Lye Xin Tian",
       lessorIc: "000000",
       lesseeName: "Joshua",
       lesseeIc: "000000",
-      address: "775 House",
+      address: "Ryan and Mihon Unit 16/3",
       effectiveDate: "1 April 2024",
       expireDate: "1 April 2025",
-      rentRmWord: "Five Hundred",
-      rentRmNum: "500",
+      rentRmWord: "Three Thousand Six Hundred",
+      rentRmNum: "3600",
       advanceDay: "10",
       depositRmWord: "Five Hundred",
       depositRmNum: "500",
       lessorAdd: "775 House",
       lessorTel: "0123456789",
       lessorFax: "04-1234567",
-      lesseeAdd: "Ryan n Miho",
+      lesseeAdd: "KL",
       lesseeTel: "0123456789",
       lesseeFax: "04-1234567",
       lessorDesignation: "Ms.",
@@ -74,34 +78,60 @@ export const LandlordAgreementForm = () => {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof lessorAgreeementSchema>) => {
+  const onSubmit = async (values: z.infer<typeof lessorAgreeementSchema>) => {
     if (!lessorSignature.value || lessorSignature.value.size === 0) {
       setError("Please upload signature");
       return;
     }
     setError("");
     setSuccess("");
-    startTransition(() => {
-      lessorFormValues.value = values;
+    lessorFormValues.value = values;
+    const response = await axios.post(
+      `/api/leaseAgreement/submitLandlordLeaseAgreement/${applicationId}`,
+      {
+        day: values.day,
+        month: values.month,
+        year: values.year,
+        lessorName: values.lessorName,
+        lessorIc: values.lessorIc,
+        lesseeName: values.lesseeName,
+        address: values.address,
+        effectiveDate: values.effectiveDate,
+        expireDate: values.expireDate,
+        rentRmWord: values.rentRmWord,
+        rentRmNum: values.rentRmNum,
+        advanceDay: values.advanceDay,
+        depositRmWord: values.depositRmWord,
+        depositRmNum: values.depositRmNum,
+        lessorAdd: values.lessorAdd,
+        lessorTel: values.lessorTel,
+        lessorFax: values.lessorFax,
+        lesseeAdd: values.lesseeAdd,
+        lesseeTel: values.lesseeTel,
+        lesseeFax: values.lesseeFax,
+        lessorDesignation: values.lessorDesignation,
+        lessorSignature: lessorSignatureUrl.value,
+      }
+    );
 
-      localStorage.setItem(
-        "lessorFormValues",
-        JSON.stringify(lessorFormValues.value)
-      );
-      localStorage.setItem(
-        "lessorSignature",
-        JSON.stringify(lessorSignature.value)
-      );
-      localStorage.setItem(
-        "lessorSignatureUrl",
-        JSON.stringify(lessorSignatureUrl.value)
-      );
-      console.log(JSON.parse(localStorage.getItem("lessorFormValues") || ""));
+    const leaseAgreementId = response.data.leaseAgreementId;
+    console.log(leaseAgreementId);
 
-      console.log(JSON.parse(localStorage.getItem("lessorSignatureUrl") || ""));
-    });
+    localStorage.setItem(
+      "lessorFormValues",
+      JSON.stringify(lessorFormValues.value)
+    );
+    localStorage.setItem(
+      "lessorSignature",
+      JSON.stringify(lessorSignature.value)
+    );
+    localStorage.setItem(
+      "lessorSignatureUrl",
+      JSON.stringify(lessorSignatureUrl.value)
+    );
+    // startTransition(() => {});
     window.scrollTo({ top: 0, behavior: "smooth" });
-    navigate("/landlordLeaseAgreementPg1");
+    navigate(`/landlordLeaseAgreementPg1/${leaseAgreementId}`);
   };
 
   return (

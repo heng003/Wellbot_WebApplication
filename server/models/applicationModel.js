@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const applicationSchema = new Schema({
@@ -8,4 +8,4 @@ const applicationSchema = new Schema({
     applicationStatus: { type: String, enum: ['Pending', 'Approved', 'Rejected', 'Active'], default: 'Pending', required: true }
 });
 
-module.exports = mongoose.model('applications', applicationSchema);
+module.exports = mongoose.model("applications", applicationSchema);

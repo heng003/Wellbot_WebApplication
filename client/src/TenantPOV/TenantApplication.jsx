@@ -77,7 +77,7 @@ const TenantApplication = () => {
             propertyId: application.propertyId,
             title: property.name,
             locationOwner: `${property.location} | ${property.type} rented out by ${property.landlordUsername}`,
-            imageUrl: property.coverPhoto,
+            imgSrc: `http://localhost:5000/uploads/${property.coverPhoto}`,
             isViewLease: application.applicationStatus === "Approved",
             isPending: application.applicationStatus === "Pending",
             isRejected: application.applicationStatus === "Rejected",

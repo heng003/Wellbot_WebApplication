@@ -77,7 +77,7 @@ const LogIn = () => {
                 <div className="left-section">
                     <h2 className="logIn_wlcTxt">Welcome Back To <br/>RentSpotter !</h2>
                     <p className="brief_txt">Direct Dialogue: Your Bridge-Free<br/> Connection to Home</p>
-                    <img src="Images/signIn_pic.svg" alt="signIn_pic" width='950' height='auto' style={{marginLeft:'-14em', marginTop:'-9em'}}/>
+                    <img src="/Images/signIn_pic.svg" alt="signIn_pic" width='950' height='auto' style={{marginLeft:'-14em', marginTop:'-9em'}}/>
                 </div>
 
                 <div className="right-section">

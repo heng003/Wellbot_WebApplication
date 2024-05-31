@@ -45,24 +45,27 @@
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    margin-top: 0.2em;
     margin-right: 3em; /* Add margin between each image container */
     position: relative; /* Add positioning for stacking */
   }
   
   .circle-image {
-    width: 50px; /* Set circle image width */
-    height: 50px; /* Set circle image height */
+    width: 72px; /* Set circle image width */
+    height: 72px; /* Set circle image height */
   }
   
   .main-image {
-    width: 30px; /* Set main image width */
-    height: 30px; /* Set main image height */
+    width: 8em; /* Set main image width */
+    height: 6em; /* Set main image height */
     position: absolute; /* Position the main image */
-    top: 10px; /* Adjust the top position for stacking */
+    top: -0.75em; /* Adjust the top position for stacking */
   }
   
   .label {
-    font-size: 12px; /* Set label font size */
+    font-size: 14px; /* Set label font size */
+    padding-top: 0.8em;
+    padding-bottom: 1.4em;
   }
 
   .displayErrorMessage {
@@ -114,7 +117,6 @@
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
     opacity: 0.7;
 }
-
 
   
   

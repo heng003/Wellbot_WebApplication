@@ -6,12 +6,13 @@ import downLoad_Icon from '../component/Rental_Icon/download.png';
 import downLoad_HoverIcon from '../component/Rental_Icon/download_hover.png';
 import Comment_Icon from '../component/Rental_Icon/comment.png';
 import Comment_Hover_Icon from '../component/Rental_Icon/comment_hover.png';
-import Alert from '../../LandlordPOV/Alert';
+import Alert from '../../LandlordPOV/Alert'; 
 
 const CardRent = ({ listing }) => {
 
     const { property, leaseStatus, effectiveDateStart, effectiveDateEnd } = listing;
     const { name, type, location, landlordUsername, coverPhoto } = property;
+    const imgSrc = `http://localhost:5000/uploads/${coverPhoto}`;
     const isActive = leaseStatus === 'Active';
     const navigate = useNavigate();
 
@@ -23,6 +24,10 @@ const CardRent = ({ listing }) => {
     const handleCommentIconMouseEnter = () => setHoveredCommentIcon(true);
     const handleCommentIconMouseLeave = () => setHoveredCommentIcon(false);
 
+    const handleAlert = () => {
+        Alert();
+      };
+    
     const handleCardClick = () => {
         if (isActive) {
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -34,6 +39,8 @@ const CardRent = ({ listing }) => {
 
     const triggerDownload = (event) => {
         event.stopPropagation(); 
+        console.log("Alert function called");  
+        Alert("Download started!");
         const link = document.createElement('a');
         link.href = 'https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp';
         link.download = 'LeaseAgreement.pdf';  
@@ -57,7 +64,7 @@ const CardRent = ({ listing }) => {
         <div className={`rentalList_statusCard ${isActive ? 'active' : 'expired'}`} onClick={handleCardClick}>
             <div className="history-listing">
                 <div className="rentalHistory-image">
-                    <img src={coverPhoto} alt="Rental Property" />
+                    <img src={imgSrc} alt="Rental Property" />
                 </div>
                 <div className="rentalHistory-details">
                     <h2 className="rental_historyTitle">{name}</h2>

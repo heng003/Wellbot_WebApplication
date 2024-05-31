@@ -130,7 +130,7 @@ const EditPhoto = () => {
       </div>
     </div>
     <div className="applyButton"> 
-                    <button className="applyNowButton" type="button" onClick={handleUploadButton}>Upload</button>
+                    <button className="applyNowButton" type="button" onClick={handleUploadButton}>Save</button>
                 </div>
       </div>
     );

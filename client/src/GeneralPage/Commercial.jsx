@@ -5,6 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import axios from 'axios';
 
 const Commercial = () => {
+  
   const [propertyList, setPropertyList] = useState([]);
   const [cardData, setCardData] = useState([]);
   const [locations, setLocations] = useState(["All Location"]);
@@ -47,7 +48,7 @@ const Commercial = () => {
 
     const mappedCardData = propertyList.map(property => ({
       propertyId: property._id,
-      imgSrc: property.coverPhoto,
+      imgSrc: `http://localhost:5000/uploads/${property.coverPhoto}`,
       cardTitle1: `RM ${property.price} Per Month`,
       cardTitle2: property.name,
       cardText: property.address,

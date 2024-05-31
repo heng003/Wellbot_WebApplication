@@ -447,7 +447,6 @@ export const TermSeventeen = () => {
   );
 };
 
-// TODO: Add params for lessor and lessee signature
 export const TermEighteen = (
   lessorSignatureUrl: string,
   lessorDesignation: string,
@@ -472,11 +471,13 @@ export const TermEighteen = (
           </div>
           <div>
             <span>: </span>
-            <img
-              src={lessorSignatureUrl}
-              alt="sign"
-              className="object-cover max-w-32 max-h-28"
-            />
+            {lessorSignatureUrl && (
+              <img
+                src={lessorSignatureUrl}
+                alt="sign"
+                className="object-cover max-w-32 max-h-28"
+              />
+            )}
           </div>
         </div>
         <br />

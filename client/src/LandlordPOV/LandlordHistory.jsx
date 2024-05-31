@@ -44,6 +44,7 @@ function LandlordHistory() {
     }
   }, []);
 
+
   const handlePropertyChange = (propertyId) => {
     if (!propertyId) {
       setSelectedProperty(null);
@@ -96,6 +97,7 @@ function LandlordHistory() {
   }, []);
 
   const triggerDownload = () => {
+    Alert("Download started!");
     const link = document.createElement('a');
     link.href = "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
     link.download = "LeaseAgreement.pdf";
@@ -159,6 +161,7 @@ function LandlordHistory() {
     <div className="rental-history">
       <h1 className="rentalTitle">Rental History</h1>
       {error && <p className="error">{error}</p>}
+      
       
       <div className="property-selector" ref={dropdownRef}>
         <label htmlFor="property-select">Your Property</label>

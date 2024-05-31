@@ -30,15 +30,15 @@ applicantInfoSection {
   font-size: large;
 }
 
-.applicantInfoContainer .contactLink {
+.applicantInfoContainer .contactLink a{
   color: #ff8c22;
   text-decoration: underline;
   font-weight: 700;
   cursor: pointer;
 }
 
-.applicantInfoContainer .contactLink:hover {
-  color: rgba(255, 140, 34, 0.5);
+.applicantInfoContainer .contactLink:hover a{
+  color: rgb(252, 174, 72);
 }
 
 .applicantInfoContainer .contactBottom_Section {
@@ -99,6 +99,19 @@ applicantInfoSection {
   justify-content: space-around;
   row-gap: 2em;
 }
+
+.Loading_Text{
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 30px;
+  color: #8a8a8a;
+  margin-left: 1em; 
+  margin-top: -0.6em;
+  padding-bottom: 5em; 
+}
+
 
 @media screen and (max-width: 1000px) {
   .applicantCommentContainer {

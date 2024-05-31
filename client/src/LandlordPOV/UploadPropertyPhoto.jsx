@@ -75,7 +75,7 @@ const UploadPropertyPhoto = () => {
       </div>
       <div className="additionalInfo">
         <p>Important:</p>
-        <ul>1. At least 3 photos required.</ul>
+        <ul>1. At least 2 photos required.</ul>
         <ul>2. High-quality photos.</ul>
         <ul>3. Allowed file types: JPEG, TIF, PNG.</ul>
         <ul>4. Photos must be less than 5MB.</ul>

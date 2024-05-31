@@ -48,14 +48,14 @@ const DetailsPanel = ({ property }) => {
     return (
         <section className="details-panel">
             <div className="heading">
-                <h3 className="property-classfication">{`PROPERTY  |  ${propertyLocation} | ${propertyType}`}</h3>
+                <h3 className="property-classfication">{`Property  |  ${propertyLocation} | ${propertyType}`}</h3>
             </div>
 
             <div className="rental-details">
                 <div className="rent-price-unit-panel">
                     <div className="rent-breakdown">
                         <h2 className="rent-price">{`RM ${propertyPrice} Per Month`}</h2>
-                        <h3 className="rent-unit">Minimum rental duration of six months</h3>
+                        <h3 className="rent-unit">Minimum Rental Duration of Six Months</h3>
                     </div>
                 </div>
 

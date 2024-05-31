@@ -3,13 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../GeneralPage/navbar.css";
 
 const LandlordNavbar = () => {
-
   const location = useLocation();
-  const [activeItem, setActiveItem] = useState("YourProperty");
+  const [activeItem, setActiveItem] = useState('');
   const [isLogOut, setIsLogOut] = useState(false);
   const navigate = useNavigate();
 
-  console.log('Current Path:', location.pathname); 
   useEffect(() => {
     const path = location.pathname;
     if (path.startsWith('/landlordHome') || path.startsWith('/landlordViewProperty') || path.startsWith('/landlordUpdateProperty') || path.startsWith('/landlordEditPhoto') || path.startsWith('/landlordUploadProperty') || path.startsWith('/landlordUploadPropertyPhoto') || path.startsWith('/landlordArrangePhoto')) {
@@ -24,10 +22,9 @@ const LandlordNavbar = () => {
       setActiveItem('');
     }
   }, [location.pathname]);
-  
+
   useEffect(() => {
     if (isLogOut) {
-      console.log("Navigating to home...");
       navigate('/');
     }
   }, [isLogOut, navigate]);
@@ -40,20 +37,15 @@ const LandlordNavbar = () => {
     event.preventDefault();
     localStorage.removeItem('username');
     localStorage.removeItem('token');
-
-    setTimeout(() => {
-      console.log("Username and token have been removed");
-    }, 1000);
-
-    setIsLogOut(true); // Set the logout flag to trigger redirection
+    setIsLogOut(true);
   };
 
   return (
     <div className="navbarContainer">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
@@ -61,79 +53,63 @@ const LandlordNavbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <img
-            src="Images/logoText.png"
+            src="/Images/logoText.png"
             alt="Logo"
             width="90"
             height="90"
             style={{ marginLeft: "1.5em" }}
           />
-
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li
-                className={`nav-item ${
-                  activeItem === "YourProperty" ? "active" : ""
-                }`}
-              >
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className={`nav-item ${activeItem === 'YourProperty' ? 'active' : ''}`}>
                 <Link
                   className="nav-link"
                   to="/landlordHome"
-                  onClick={() => handleItemClick("YourProperty")}
+                  onClick={() => handleItemClick('YourProperty')}
                 >
                   Your Property
                 </Link>
               </li>
-              <li
-                className={`nav-item ${
-                  activeItem === "Applicant" ? "active" : ""
-                }`}
-              >
+              <li className={`nav-item ${activeItem === 'Applicant' ? 'active' : ''}`}>
                 <Link
                   className="nav-link"
                   to="/landlordApplicant"
-                  onClick={() => handleItemClick("Applicant")}
+                  onClick={() => handleItemClick('Applicant')}
                 >
                   Applicant
                 </Link>
               </li>
-
-              <li
-                className={`nav-item ${
-                  activeItem === "RentalHistory" ? "active" : ""
-                }`}
-              >
+              <li className={`nav-item ${activeItem === 'RentalHistory' ? 'active' : ''}`}>
                 <Link
                   className="nav-link"
-                  to="/landlordhistory"
-                  onClick={() => handleItemClick("RentalHistory")}
+                  to="/landlordHistory"
+                  onClick={() => handleItemClick('RentalHistory')}
                 >
                   Rental History
                 </Link>
               </li>
             </ul>
-            <ul class="navbar-nav">
-              <li 
-                className={`nav-item ${
-                    activeItem === "Edit Profile" ? "active" : ""
-                }`}>
-                <Link 
+            <ul className="navbar-nav">
+              <li className={`nav-item ${activeItem === 'Edit Profile' ? 'active' : ''}`}>
+                <Link
                   className="nav-link"
-                  to="/landlordProfileEdit" 
-                  onClick={() => handleItemClick("Edit Profile")}>
+                  to="/landlordProfileEdit"
+                  onClick={() => handleItemClick('Edit Profile')}
+                >
                   Edit Profile
                 </Link>
               </li>
-              <li class="nav-item">
+              <li className="nav-item">
                 <button className="nav-link" onClick={handleLogout}>Log Out</button>
               </li>
             </ul>
           </div>
           <a href="/landlordProfileEdit">
             <img
-              src="Images/landlord_Profile.svg"
+              src="/Images/landlord_Profile.svg"
               alt="Avatar"
               width="110"
               height="auto"

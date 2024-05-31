@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './home.css';
-import 'bootstrap/dist/js/bootstrap.bundle';
+import React, { useState, useRef, useEffect } from "react";
+import "./home.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import CardGeneral from "../component/CardGeneral";
 import axios from 'axios';
 
@@ -46,7 +46,7 @@ const Home = () => {
   const setPropertyToCardData = () => {
     const mappedCardData = propertyList.map(property => ({
       propertyId: property._id,
-      imgSrc: property.coverPhoto,
+      imgSrc: `http://localhost:5000/uploads/${property.coverPhoto}`,
       cardTitle1: `RM ${property.price} Per Month`,
       cardTitle2: property.name,
       cardText: property.address,
