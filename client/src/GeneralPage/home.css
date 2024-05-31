@@ -19,6 +19,7 @@
 #Home .container {
   padding-inline: 0;
   margin-inline: 0;
+  width: 100%;
 }
 
 #Home #backgroundImg {
@@ -57,7 +58,6 @@
   color: hwb(22 0% 0%);
   margin-bottom: 1.35em;
   margin-top: 2.725em;
-  margin-left: 2.2em;
 }
 
 #filter .form-select {
@@ -313,4 +313,12 @@
   margin-left: 1em;
   margin-right: 1em;
   margin-top: -0.9em;
+}
+
+.noPropertyPromptText {
+  font-size: x-large;
+  padding-block: 3em;
+  text-align: center;
+  color: rgba(23, 22, 22, 0.6);
+  font-weight: 400;
 }

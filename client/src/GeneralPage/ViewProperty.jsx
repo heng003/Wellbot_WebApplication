@@ -36,11 +36,11 @@ const ViewProperty = () => {
 
     const handlePrevious = () => {
         setCurrentIndex(prevIndex => (prevIndex === 0 ? propertyImageSrc.length - 1 : prevIndex - 1));
-      };
+    };
 
-      const handleNext = () => {
+    const handleNext = () => {
         setCurrentIndex(prevIndex => (prevIndex === propertyImageSrc.length - 1 ? 0 : prevIndex + 1));
-      };
+    };
 
     const handleApplyPropertyPageButton = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -57,20 +57,16 @@ const ViewProperty = () => {
             }).then((result) => {
                 nav("/logIn");
             });
-        }, 100); // Delay to ensure the scroll completes before showing the dialog
+        }, 100); 
     };
-
-    if (!property) {
-        return <p>Loading...</p>;
-    }
-
+    
     return (
         <div>
             <main>
                 <section id="PropertyImage">
                     <div className="container">
-
-                       <div className="imageContainer">
+                        
+                    <div className="imageContainer">
                             <div className="propertyImageContainer">
                                 <img src={propertyImageSrc[currentIndex]} alt='propertyImages' className='propertyImage' />
                             </div>
@@ -78,6 +74,7 @@ const ViewProperty = () => {
                                 <img src={propertyImageSrc[(currentIndex + 1) % propertyImageSrc.length]} alt='propertyImages' className='propertyImage' id='propertyImage2' />
                             </div>
                         </div>
+
 
                         <div className="buttonContainer">
                             <button className="previousButton" onClick={handlePrevious}>
@@ -104,7 +101,9 @@ const ViewProperty = () => {
                 </section>
 
                 <section id="PropertyDetails">
-                    <div className="container"><DetailsPanel/></div>
+                    <div className="container">
+                        <DetailsPanel property={property} />
+                    </div>
                 </section>
 
                 <div className="applyButton">

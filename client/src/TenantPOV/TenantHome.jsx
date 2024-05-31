@@ -30,7 +30,7 @@ const TenantHome = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('/api/applications'); 
+        const response = await axios.get('/api/applications/home/property'); 
         setPropertyList(response.data);
       } catch (error) {
         console.error('Error fetching properties:', error);
@@ -242,24 +242,32 @@ const TenantHome = () => {
                 
               </section>
                 <section id="recommendation">
-                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                        {isSearchClicked ? ( cardData.length===0? "No Result Found" : "Filter Result/s" ) : "Recommendations"}
-                    </header>
-                    <div className="row row-cols-1 row-cols-md-3 g-5">
-                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
-                        <div className="col">
-                            <CardProperty
-                                propertyId={card.propertyId}
-                                imgSrc={card.imgSrc}
-                                cardTitle={card.cardTitle1}
-                                propertyTitle={card.cardTitle2}
-                                propertyAdd={card.cardText}
-                                roomDetails={card.roomDetails}
-                            />
-                        </div>
-                        ))}
-                    </div>
-                    <br /><br /><br /><br /><br />
+                  {isSearchClicked || cardData.length > 0 ? (
+                      <div>
+                          <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{ marginBottom: '0.4em' }}>
+                              {isSearchClicked ? (cardData.length === 0 ? "No Result Found" : "Filter Result/s") : "Recommendations"}
+                          </header>
+                          <div className="row row-cols-1 row-cols-md-3 g-5">
+                              {(isSearchClicked ? filteredResults : cardData).map((card, index) => (
+                                  <div className="col" key={index}>
+                                      <CardProperty
+                                          propertyId={card.propertyId}
+                                          imgSrc={card.imgSrc}
+                                          cardTitle={card.cardTitle1}
+                                          propertyTitle={card.cardTitle2}
+                                          propertyAdd={card.cardText}
+                                          roomDetails={card.roomDetails}
+                                      />
+                                  </div>
+                              ))}
+                          </div>
+                          <br /><br /><br /><br /><br />
+                      </div>
+                  ) : (
+                      <div className="noPropertyPromptText">
+                          Currently, no property is available for this section.
+                      </div>
+                  )}
                 </section>
 
         <section id="info">
