@@ -83,29 +83,31 @@ const CommentSection = ({ landlordId }) => {
             <header className="commentTitle">Comment And Rating</header>
 
             <section className="comment-avg">
-                <div className="comment-grid">
+                <div className="tenant-comment-grid">
                     {overallRating > 0 && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
                 </div>
             </section>
             
             <section className="comments">
-                <div className="comment-grid">
+                <div className="tenant-comment-grid">
                     {loading ? (
                         <p className="commentPromptTitle">Loading...</p>
                     ) : (
                         <>
                             {commentList.length > 0 ? (
                                 commentList.map((comment, index) => (
-                                    <CommentBox
-                                        key={index}
-                                        username={userNameList[index]?.username || "Anonymous"}
-                                        date={format(new Date(comment.commentDate), 'dd MMMM yyyy')}
-                                        comment={comment.commentLandlord}
-                                        rating={comment.landlordRating}
-                                    />
+                                    <div className="comment-grid">
+                                        <CommentBox
+                                            key={index}
+                                            username={userNameList[index]?.username || "Anonymous"}
+                                            date={format(new Date(comment.commentDate), 'dd MMMM yyyy')}
+                                            comment={comment.commentLandlord}
+                                            rating={comment.landlordRating}
+                                        />
+                                    </div>
                                 ))
                             ) : (
-                                <p className="commentPromptTitle">No comments available.</p>
+                                <p className="tenantCommentPromptTitle">No comments available.</p>
                             )}
                         </>
                     )}

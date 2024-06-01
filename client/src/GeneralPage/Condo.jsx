@@ -25,7 +25,7 @@ const Condo = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await axios.get('/api/applications/condo'); 
+        const response = await axios.get('/api/applications/home/condo'); 
         if (Array.isArray(response.data)) {
           setPropertyList(response.data);
         } else {
@@ -170,26 +170,34 @@ const Condo = () => {
             </div>
         </section>
                 
-        <section id="recommendation">
-            <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{marginBottom:'0.4em'}}>
-                {isSearchClicked ? (filteredResults.length === 0 ? "No Result Found" : "Filter Result/s") : "Recommendations"}
-            </header>
-            <div className="row row-cols-1 row-cols-md-3 g-5">
-                {(isSearchClicked ? filteredResults : cardData).map((card, index) => (  
-                <div className="col" key={index}>
-                    <CardGeneral
-                        propertyId={card.propertyId}
-                        imgSrc={card.imgSrc}
-                        cardTitle={card.cardTitle1}
-                        propertyTitle={card.cardTitle2}
-                        propertyAdd={card.cardText}
-                        roomDetails={card.roomDetails}
-                    />
+          <section id="recommendation">
+            {isSearchClicked || cardData.length > 0 ? (
+                <div>
+                    <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{ marginBottom: '0.4em' }}>
+                        {isSearchClicked ? (cardData.length === 0 ? "No Result Found" : "Filter Result/s") : "Recommendations"}
+                    </header>
+                    <div className="row row-cols-1 row-cols-md-3 g-5">
+                        {(isSearchClicked ? filteredResults : cardData).map((card, index) => (
+                            <div className="col" key={index}>
+                                <CardGeneral
+                                    propertyId={card.propertyId}
+                                    imgSrc={card.imgSrc}
+                                    cardTitle={card.cardTitle1}
+                                    propertyTitle={card.cardTitle2}
+                                    propertyAdd={card.cardText}
+                                    roomDetails={card.roomDetails}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <br /><br /><br /><br /><br />
                 </div>
-                ))}
-            </div>
-            <br /><br /><br /><br /><br />
-        </section>
+            ) : (
+                <div className="noPropertyPromptText">
+                    Currently, no property is available for this section.
+                </div>
+            )}
+          </section>
       </div>
     </div>
   );

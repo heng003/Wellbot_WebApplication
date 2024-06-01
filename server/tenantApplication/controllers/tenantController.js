@@ -172,7 +172,7 @@ const getLandlordReview = async (req, res) => {
   const { landlordId } = req.params;
 
   try {
-    const response = await LandlordReview.find().sort({ createdAt: -1 });
+    const response = await LandlordReview.find({ landlordId: landlordId }).sort({ createdAt: -1 });
 
     console.log("Landlord Review: ", response)
 
@@ -230,6 +230,76 @@ const getLeasesByTenants = async (req, res) => {
   }
 };
 
+// GET All Properties but drop the property with Active Application
+const getAllPropertiesWithoutActiveApplication = async (req, res) => {
+  try {
+    const activeApplication = await Application.find({ applicationStatus: 'Active' }).distinct('propertyId');
+
+    const response = await Property.aggregate([
+      {
+        $match: {
+          _id: { $nin: activeApplication }
+        }
+      },
+      {
+        $sort: { createdAt: -1 }
+      }
+    ]);
+
+    console.log("Properties without Active Application:", response);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+// GET Condo Properties but drop the property with Active Application
+const getCondoPropertiesWithoutActiveApplication = async (req, res) => {
+  try {
+    const activeApplication = await Application.find({ applicationStatus: 'Active' }).distinct('propertyId');
+
+    const response = await Property.aggregate([
+      {
+        $match: {
+          _id: { $nin: activeApplication },
+          type: 'Condo' 
+        }
+      },
+      {
+        $sort: { createdAt: -1 }
+      }
+    ]);
+
+    console.log("Properties without Active Application and of type 'Condo':", response);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+// GET Commercial Properties but drop the property with Active Application
+const getCommercialPropertiesWithoutActiveApplication = async (req, res) => {
+  try {
+    const activeApplication = await Application.find({ applicationStatus: 'Active' }).distinct('propertyId');
+
+    const response = await Property.aggregate([
+      {
+        $match: {
+          _id: { $nin: activeApplication },
+          type: 'Commercial' 
+        }
+      },
+      {
+        $sort: { createdAt: -1 }
+      }
+    ]);
+
+    console.log("Properties without Active Application and of type 'Condo':", response);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
   getAllProperties,
@@ -244,52 +314,8 @@ module.exports = {
   getLandlordReview,
   getLeaseByApplicationId,
   getApplicationsByProperty,
-  getLeasesByTenants
+  getLeasesByTenants,
+  getAllPropertiesWithoutActiveApplication,
+  getCondoPropertiesWithoutActiveApplication,
+  getCommercialPropertiesWithoutActiveApplication
 };
-
-/*
-// GET property list
-exports.getAllProperties = async (req, res, next) => {
-    console.log(req.body)
-    console.log(req.body)
-    try {
-        console.log(req.body)
-        console.log(req.body)
-        // Query to retrieve all properties
-        const properties = await Property.find();
-
-        console.log(properties.length)
-        
-        // Send the list of properties in the response
-        res.status(200).json({
-            status: 'success',
-            data: properties
-        });
-    } catch (error) {
-        console.error("Error fetching property list:", error);
-        next(new createError("Internal Server Error", 404));
-    }
-};
-
-// GET property list
-exports.getPropertyDetails = async (req, res, next) => {
-    console.log(req)
-    try {
-        const{propertyId} = req.body;
-        const property = await Property.findOne({propertyId});
-        if(!property)
-            return next(new createError("Property not found",404));
-
-        console.log(property)
-        
-        // Send the list of properties in the response
-        res.status(200).json({
-            status: 'success',
-            data: properties
-        });
-    } catch (error) {
-        console.error("Error fetching property:", error);
-        next(new createError("Internal Server Error", 404));
-    }
-};*/
-

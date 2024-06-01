@@ -127,18 +127,17 @@
   margin-bottom: 2em;
 }
 
-.comment-grid,
+.tenant-comment-grid,
 .comments {
   display: flex;
   align-items: flex-start;
   width: 100%;
 }
 
-.comment-grid {
-  width: 78.444rem;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 2.563rem;
+.tenant-comment-grid {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2.563rem;
 }
 
 .comments {
@@ -152,22 +151,24 @@
   margin-top: 1.2em;
 }
 
-.commentPromptTitle {
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 19px;
-    line-height: 30px;
-    color: #5c5c5c;
-    padding-top: 1.5em;
- 
+.tenantCommentPromptTitle {
+    font-size: 25px; 
+    color:#767676;
+    margin-left: 3.5em; 
+    font-weight: 500; 
+    padding-bottom: 5em; 
+    margin-top: -0.6em;
 }
 
-#Comment .ratingStarsGroup {
+#Comment .tenantRatingStarsGroup {
     margin-right: 1.3em;
     margin-left: -0.8em;
 }
 
-#Comment .rating-star {
+#Comment .tenant-rating-star {
     margin-right: -2.1em;
+}
+
+.tenantCommentBoxContainer {
+    margin-left: 3.8em;
 }

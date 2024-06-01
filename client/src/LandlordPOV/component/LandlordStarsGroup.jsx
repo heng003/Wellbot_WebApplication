@@ -1,7 +1,7 @@
-import starOnClick from "./Rental_Icon//rating_star_onClick.svg";
+import starOnClick from "./Rental_Icon/rating_star_onClick.svg";
 import starDefault from "./Rental_Icon/rating_star_default.svg";
 
-const StarsGroup = ({ rating }) => {
+const LandlordStarsGroup = ({ rating }) => {
 
     return (
         <div className="ratingStarsGroup">
@@ -31,4 +31,4 @@ const StarsGroup = ({ rating }) => {
 };
 
 
-export default StarsGroup;
+export default LandlordStarsGroup;

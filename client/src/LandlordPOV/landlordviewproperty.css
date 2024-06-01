@@ -172,11 +172,11 @@
     margin-top: 0.5em;
 }
 
-#Comment .ratingStarsGroup {
+.applicantReviewDetails .ratingStarsGroup {
     margin-right: 1.3em;
-    margin-left: -0.8em;
+    margin-left: -1em;
 }
 
-#Comment .rating-star {
-    margin-right: -2.1em;
+.applicantReviewDetails .rating-star {
+    margin-right: -2.2em;
 }
