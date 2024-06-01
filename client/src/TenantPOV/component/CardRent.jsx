@@ -69,7 +69,7 @@ const CardRent = ({ listing }) => {
                 <div className="rentalHistory-details">
                     <h2 className="rental_historyTitle">{name}</h2>
                     <p className="descript_rental">{location} | {type} rented out by {landlordUsername}</p>
-                    <p className="descript_duration">Duration: {formatDate(effectiveDateStart)} - {formatDate(effectiveDateEnd)}</p>
+                    <p className="descript_duration">Duration: {new Date(effectiveDateStart).toLocaleDateString()} - {new Date(effectiveDateEnd).toLocaleDateString()}</p>
                 </div>
                 <div className="property-actions">
                     {isActive ? (
