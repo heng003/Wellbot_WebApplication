@@ -78,6 +78,11 @@
     cursor: pointer;
 }
 
+#landlordHome #findButton:hover{
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.85;
+}
+
 #residential_price{
     margin-top: 1em;
 }
@@ -167,4 +172,9 @@
     .row-landlordhome {
         padding: 1em 1em;
         justify-content: start;
+    }
+
+    .card_Container{
+        margin-top: -3.5em;
+        margin-left: -1em;
     }

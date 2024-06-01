@@ -16,7 +16,7 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
     }
 
     return (
-        <CardContainer >
+        <CardContainer className="card_Container">
             <CardBody className="card h-100" onClick={handleViewProperty}>
             <CardItem onClick={handleViewProperty} translateZ="100">
                 <img src={imgSrc} className="card-img-top" alt="propertyImage"/>

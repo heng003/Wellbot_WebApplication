@@ -244,7 +244,7 @@ const LandlordHome = () => {
               navigate(`/landlordUploadProperty/${landlordId}`);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}>
-              <CardContainer >
+              <CardContainer className="card_Container">
               <CardBody className="card h-100">
               <CardItem>
                 <img src="Images/plus.png" className="card-img-top" alt="upload" height={295} />
@@ -258,8 +258,7 @@ const LandlordHome = () => {
                 </CardBody>
               </CardContainer>
             </div>
-          </div>
-          <br /><br /><br /><br /><br />
+          </div>  
         </section>
         <br /><br /><br />
       </main>
