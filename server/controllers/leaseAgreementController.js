@@ -164,23 +164,6 @@ exports.submitTenantLeaseAgreement = async (req, res, next) => {
           leaseStatus: "Effective",
         }
       );
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      const website_url = "http://localhost:3000/viewAgreement";
-      await page.goto(website_url, { waitUntil: "networkidle0" });
-      await page.emulateMediaType("screen");
-      const pdf = await page.pdf({
-        path: "agreement.pdf",
-        margin: { top: "100px", right: "50px", bottom: "100px", left: "50px" },
-        printBackground: true,
-        format: "A4",
-      });
-      await Lease.findOneAndUpdate(
-        { _id: existingLeaseAgreement._id },
-        {
-          PDF: { data: pdf, contentType: "application/pdf" },
-        }
-      );
     } else {
       return { message: "Lease Agreement not found" };
     }
@@ -296,7 +279,7 @@ exports.getPDFFromDB = async (req, res, next) => {
     const base64Str = existingLeaseAgreement.PDF;
     const downloadUrl = "data:application/pdf;base64," + base64Str;
     //   res.type("application/pdf");
-    // res.header("Content-Disposition", `attachment; filename="lease.pdf"`);
+    // res.header("Content-Disposition", attachment; filename="lease.pdf");
 
     // const buffer = Buffer.from(base64Str, "base64");
     // console.log(buffer);
