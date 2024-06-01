@@ -141,6 +141,10 @@ const LandlordApplicantFeedback = () => {
       }, 100); 
   };
 
+  const formatPhoneNumber = (phone) => {
+    return phone.startsWith("6") ? phone : `6${phone}`;
+  };
+
   return (
     <>
       <div className="rental-history applicantReviewDetails">
@@ -178,7 +182,7 @@ const LandlordApplicantFeedback = () => {
                   Contact me{" "}
                   <span className="contactLink">
                     <a
-                      href={`https://wa.me/6${phoneNumber}`}
+                      href={`https://wa.me/${formatPhoneNumber(phoneNumber)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

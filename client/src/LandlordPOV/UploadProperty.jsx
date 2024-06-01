@@ -75,6 +75,7 @@ const UploadProperty = () => {
     const validationErrors = {};
 
     // Validation
+    if (!selected) validationErrors.editProppertyType = "*Property type is required.";
     if (!formData.editPropertyName) validationErrors.editPropertyName = "*Property name is required.";
     if (!formData.editAddress) validationErrors.editAddress = "*Address is required.";
     if (!formData.editPostcode || formData.editPostcode.length !== 5 || !/^\d+$/.test(formData.editPostcode)) validationErrors.editPostcode = "*Postcode must be 5 digits.";
@@ -165,6 +166,11 @@ const UploadProperty = () => {
           <img src={room} alt="Room" className="main-image" />
           <p className="label">Room</p>
         </div>
+      </div>
+      <div className="editLandlordForm">
+      <div className="displayErrorEditMessage">
+                {errors.editProppertyType && <span>{errors.editProppertyType}</span>}
+              </div>
       </div>
       <h3 className="pageSubTitle">Where is your property located?</h3>
       <div className="editLandlordForm">

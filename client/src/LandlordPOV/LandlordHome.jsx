@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import CardPropertyLandlord from "../component/CardPropertyLandlord";
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { FlipWords } from "../LandlordPOV/components/ui/flip-words"; // need to install "npm i framer-motion clsx tailwind-merge"
+import { CardBody, CardContainer, CardItem } from "../LandlordPOV/components/ui/3d-card"; // need to install "npm i framer-motion clsx tailwind-merge"
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const LandlordHome = () => {
   
@@ -39,6 +42,8 @@ const LandlordHome = () => {
 
   const properties = ["All Properties Type", "Condo", "Commercial", "Landed", "Room"];
   const priceRanges = ["All Price Range", "RM 500 Below", "RM 500 - RM 1000", "RM 1001 - RM 1500", "RM 1501 - RM 2000", "RM 2001 - RM 2500", "RM 2500 Above"];
+
+  const words = ["In Just A Moment", "Very Soon", "Effortlessly", "Without Hassle"];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -145,7 +150,10 @@ const LandlordHome = () => {
               <div className="col">
                 <div className="container" id="homeTitle">
                   <div className="row">
-                    <p className="display-4 fw-bolder mt-5">Find Your Uploaded Property<span id="text"> In Just A Moment</span></p>
+                  <p className="display-4 fw-bolder mt-5" style={{ display: 'flex', alignItems: 'center' }}>
+                        Find Your Uploaded Property <span id="text"><FlipWords words={words} /></span>
+                        <br />
+                      </p>
                   </div>
                   <div className="row" id="filter_location">
                     <div className="col" id="state_search_find">
@@ -217,7 +225,7 @@ const LandlordHome = () => {
         </section>
         <section id="recommendation">
           <header className="recommendationTitle text-left fs-2 fw-bolder mt-4" style={{ marginBottom: '0.4em' }}>
-            {isSearchClicked ? (filteredResults.length === 0 ? "No Result Found" : "Filter Result/s") : "Recommendations"}
+            {isSearchClicked ? (filteredResults.length === 0 ? "No Result Found" : "Filter Result/s") : "Your Property/s"}
           </header>
           <div className="row row-cols-1 row-cols-md-3 g-5">
             {(isSearchClicked ? filteredResults : cardData).map((card, index) => (
@@ -236,15 +244,19 @@ const LandlordHome = () => {
               navigate(`/landlordUploadProperty/${landlordId}`);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}>
-              <div className="card h-100">
+              <CardContainer >
+              <CardBody className="card h-100">
+              <CardItem>
                 <img src="Images/plus.png" className="card-img-top" alt="upload" height={295} />
-                <div className="card-body">
+                </CardItem>
+                <CardItem className="card-body">
                   <h4 className="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
                   <div className="uploadButton">
                     <a href="#"><button id="upload" type="button">Upload</button></a>
                   </div>
-                </div>
-              </div>
+                </CardItem>
+                </CardBody>
+              </CardContainer>
             </div>
           </div>
           <br /><br /><br /><br /><br />

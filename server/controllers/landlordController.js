@@ -339,16 +339,14 @@ const deletePhoto = async (req, res) => {
           return res.status(404).json({ error: "Property not found" });
       }
 
-      // Check if the photo to be deleted is the cover photo
+      // Check if is cover photo
       if (property.coverPhoto === photoId) {
-          // Remove the cover photo
           property.coverPhoto = null;
       }
 
-     // Remove the photo from the photos array
+     // Remove photo from the photos array
      property.photos = property.photos.filter(photo => photo !== photoId);
 
-      // Save the updated property
       await property.save();
 
       res.status(200).json({ message: "Photo deleted successfully" });
