@@ -199,8 +199,8 @@
   padding: 1.35em;
   object-fit: cover;
   background-repeat: no-repeat;
-  width: 100%;
-  height: 16.88em;
+  width: 385px;
+  height: 280px;
   align-self: center;
 }
 
@@ -214,6 +214,7 @@
   border-left: white;
   border-right: white;
   flex-direction: row;
+  width: 320px;
 }
 
 #recommendation .roomIconsGroup .roomDetailsOneIconGroup {

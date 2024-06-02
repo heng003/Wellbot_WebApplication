@@ -96,9 +96,10 @@
 .applyButton {
     display: flex;
     justify-content: center;
+    padding-right: 2em;
 }
 
-.applyNowButton {
+.editNowButton {
     background-color: #FF8C22;
     font-weight: bold;
     color: #FFF6EA;
@@ -107,11 +108,32 @@
     padding: 0.65em 4.5em;
     margin-top: 3.125em;
     cursor: pointer;
-    margin-bottom: 5em;
+    margin-bottom: 2em;
     font-size: larger;
 }
 
-.applyNowButton:hover {
+.editNowButton:hover {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}
+
+.deleteButton {
+    display: flex;
+    justify-content: center;
+}
+
+.deleteNowButton {
+    background-color: #b90000;
+    font-weight: bold;
+    color: #FFF6EA;
+    border: 2px;
+    border-radius: 6px;
+    padding: 0.65em 4.5em;
+    cursor: pointer;
+    font-size: larger;
+}
+
+.deleteNowButton:hover {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
     opacity: 0.7;
 }

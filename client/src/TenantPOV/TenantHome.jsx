@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../GeneralPage/home.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import CardProperty from "../component/CardProperty";
+import { FlipWords } from "../LandlordPOV/components/ui/flip-words";
 
 const TenantHome = () => {
 
@@ -130,6 +131,8 @@ const TenantHome = () => {
     setter(option);
     refSetter(false);
   };
+
+  const words = ["Partner", "Ally", "Guide", "Support", "Assistant"];
 
   return (
     <div>

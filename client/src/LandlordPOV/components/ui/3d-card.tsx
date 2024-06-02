@@ -8,11 +8,11 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-
+ 
 const MouseEnterContext = createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
 >(undefined);
-
+ 
 export const CardContainer = ({
   children,
   className,
@@ -24,7 +24,7 @@ export const CardContainer = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
-
+ 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const { left, top, width, height } =
@@ -33,12 +33,12 @@ export const CardContainer = ({
     const y = (e.clientY - top - height / 2) / 25;
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
-
+ 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMouseEntered(true);
     if (!containerRef.current) return;
   };
-
+ 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
@@ -48,7 +48,7 @@ export const CardContainer = ({
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
         className={cn(
-          "py-20 flex items-center justify-center",
+          "py-10 flex items-center justify-center",
           containerClassName
         )}
         style={{
@@ -74,7 +74,7 @@ export const CardContainer = ({
     </MouseEnterContext.Provider>
   );
 };
-
+ 
 export const CardBody = ({
   children,
   className,
