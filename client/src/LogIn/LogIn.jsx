@@ -71,7 +71,7 @@ const LogIn = () => {
 
         <div id="login" className="d-flex">
 
-            <img src="Images/authe_logo.png" alt="Logo" width='140' height='140'/>
+            <img src="/Images/authe_logo.png" alt="Logo" width='140' height='140'/>
 
             <div className="content-section">
                 <div className="left-section">
