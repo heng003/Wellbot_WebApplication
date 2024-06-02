@@ -23,6 +23,11 @@ function LandlordHistory() {
   const dropdownRef = useRef(null);
   const navigate = useNavigate(); 
 
+  const formatDate = (dateString) => {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-GB', options);
+ };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -63,7 +68,7 @@ function LandlordHistory() {
           });
           const filteredLeases = response.data
             .filter(lease => lease.leaseStatus === 'Expired' || lease.leaseStatus === 'Effective')
-            .sort((a, b) => new Date(b.effectiveDateStart) - new Date(a.effectiveDateStart));
+            .sort((a, b) => new Date(b.effectiveDate) - new Date(a.effectiveDate));
           setLeases(filteredLeases);
         } catch (err) {
           console.error("Error fetching leases:", err);
@@ -96,14 +101,28 @@ function LandlordHistory() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const triggerDownload = () => {
-    Alert("Download started!");
-    const link = document.createElement('a');
-    link.href = "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
-    link.download = "LeaseAgreement.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const triggerDownload  = async (event, leaseId) => {
+    event.stopPropagation();
+    try {
+      const token = localStorage.getItem('token');
+      console.log("Requesting lease download for ID:", leaseId);
+      const response = await axios.get(`/api/leases/download/${leaseId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'blob' 
+      });
+      console.log("Response:", response); // Log the response for debugging
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'LeaseAgreement.pdf'); // Use a relevant file name
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      handleAlert();
+    } catch (error) {
+      console.error("Error downloading the signed lease agreement:", error);
+      setError("Failed to download the signed lease agreement");
+    }
   };
 
   const handleCommentClick = (username) => {
@@ -125,7 +144,7 @@ function LandlordHistory() {
         {data.map((lease, index) => (
           <tr key={lease._id}>
             <td>{lease.tenantId.username}</td>
-            <td>{new Date(lease.effectiveDateStart).toLocaleDateString()} - {new Date(lease.effectiveDateEnd).toLocaleDateString()}</td>
+            <td>{formatDate(lease.effectiveDate)} - {formatDate(lease.expireDate)}</td>
             <td>{lease.leaseStatus}</td>
             <td>
               <img
@@ -134,7 +153,7 @@ function LandlordHistory() {
                 alt="Download Icon"
                 onMouseEnter={() => handleDownloadIconMouseEnter(index)}
                 onMouseLeave={() => handleDownloadIconMouseLeave(index)}
-                onClick={triggerDownload}
+                onClick={(event) => triggerDownload(event, lease._id)}
                 width="29"
                 height="29"
               />

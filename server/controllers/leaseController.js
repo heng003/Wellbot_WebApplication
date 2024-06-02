@@ -58,3 +58,49 @@ exports.getLeasesAndPropertiesByTenantId = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+exports.downloadLeasePDF = async (req, res) => {
+  try {
+      const { leaseId } = req.params;
+      console.log("Lease ID received:", leaseId); // Debug log
+      if (!leaseId) {
+          return res.status(400).json({ message: "Lease ID is required" });
+      }
+
+      const lease = await Lease.findById(leaseId);
+      if (!lease) {
+          return res.status(404).json({ message: "Lease not found" });
+      }
+
+      // If PDF is stored as base64 string in the 'PDF' field
+      if (lease.PDF) {
+          const buffer = Buffer.from(lease.PDF, 'base64');
+          res.setHeader('Content-Type', 'application/pdf');
+          res.setHeader('Content-Disposition', 'attachment; filename=LeaseAgreement.pdf');
+          res.send(buffer);
+      } else if (lease.pdfPath) {
+          // If PDF is stored as a file path
+          const pdfPath = path.resolve(__dirname, '..', 'path_to_your_pdfs', lease.pdfPath);
+          console.log("PDF Path resolved:", pdfPath); // Debug log
+
+          // Check if the file exists
+          if (!fs.existsSync(pdfPath)) {
+              console.error("File does not exist at path:", pdfPath); // Debug log
+              return res.status(404).json({ message: "File not found" });
+          }
+
+          // Send the file to the client
+          res.download(pdfPath, 'LeaseAgreement.pdf', (err) => {
+              if (err) {
+                  console.error("Error sending file:", err);
+                  res.status(500).json({ message: "Error downloading file" });
+              }
+          });
+      } else {
+          return res.status(404).json({ message: "Lease or PDF not found" });
+      }
+  } catch (err) {
+      console.error("Error downloading lease PDF:", err);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+};

@@ -50,7 +50,7 @@ export const AgreementWrapper = ({
             <AgreementDialog
               aboveTitleChildren={
                 <div className="w-full flex justify-center my-4">
-                  <img src="Images/tick.png" alt="tick" className="w-20 " />
+                  <img src="/Images/tick.png" alt="tick" className="w-20 " />
                 </div>
               }
               title={dialogTitle}

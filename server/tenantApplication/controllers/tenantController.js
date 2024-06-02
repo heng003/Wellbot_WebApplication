@@ -205,15 +205,34 @@ const getLeaseByApplicationId = async (req, res) => {
   }
 };
 
-// GET Applications by Property ID
-const getApplicationsByProperty = async (req, res) => {
+const getApplicationsWithDetailsByProperty = async (req, res) => {
   const { propertyId } = req.params;
+
   try {
-    const applications = await Application.find({ propertyId }).populate('tenantId');
-    return res.status(200).json(applications);
+    const applications = await Application.find({ propertyId })
+      .populate('tenantId', 'username overallRating')
+      .exec();
+
+    const applicationDetails = await Promise.all(applications.map(async (application) => {
+      const lease = await Lease.findOne({ applicationId: application._id });
+      const leaseStatus = lease ? (lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus) : 'Not Applicable';
+      if (lease && lease.leaseStatus === 'Expired') {
+        leaseStatus = 'Not Applicable';
+      }
+
+      return {
+        ...application._doc,
+        leaseStatus,
+        tenantUsername: application.tenantId.username,
+        tenantOverallRating: application.tenantId.overallRating,
+        leaseId: lease ? lease._id : null
+      };
+    }));
+
+    res.status(200).json(applicationDetails);
   } catch (error) {
-    console.error("Error fetching applications by property ID:", error);
-    return res.status(500).json({ error: error.message });
+    console.error("Error fetching applications with details:", error);
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -313,7 +332,7 @@ module.exports = {
   getLandlord,
   getLandlordReview,
   getLeaseByApplicationId,
-  getApplicationsByProperty,
+  getApplicationsWithDetailsByProperty,
   getLeasesByTenants,
   getAllPropertiesWithoutActiveApplication,
   getCondoPropertiesWithoutActiveApplication,

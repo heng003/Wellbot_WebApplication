@@ -7,10 +7,11 @@ import downLoad_HoverIcon from '../component/Rental_Icon/download_hover.png';
 import Comment_Icon from '../component/Rental_Icon/comment.png';
 import Comment_Hover_Icon from '../component/Rental_Icon/comment_hover.png';
 import Alert from '../../LandlordPOV/Alert'; 
+import axios from 'axios';
 
 const CardRent = ({ listing }) => {
 
-    const { property, leaseStatus, effectiveDateStart, effectiveDateEnd } = listing;
+    const { property, leaseStatus, effectiveDate, expireDate, _id: leaseId } = listing;
     const { name, type, location, landlordUsername, coverPhoto } = property;
     const imgSrc = `http://localhost:5000/uploads/${coverPhoto}`;
     const isActive = leaseStatus === 'Active';
@@ -37,21 +38,33 @@ const CardRent = ({ listing }) => {
         }
     };
 
-    const triggerDownload = (event) => {
-        event.stopPropagation(); 
-        console.log("Alert function called");  
-        Alert("Download started!");
-        const link = document.createElement('a');
-        link.href = 'https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp';
-        link.download = 'LeaseAgreement.pdf';  
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+    const triggerDownload  = async (event, leaseId) => {
+        event.stopPropagation();
+        try {
+          const token = localStorage.getItem('token');
+          console.log("Requesting lease download for ID:", leaseId);
+          const response = await axios.get(`/api/leases/download/${leaseId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            responseType: 'blob' 
+          });
+          console.log("Response:", response); // Log the response for debugging
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'LeaseAgreement.pdf'); // Use a relevant file name
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          handleAlert();
+        } catch (error) {
+          console.error("Error downloading the signed lease agreement:", error);
+         
+        }
+      };
     
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        return new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString)).replace(/\//g, '/');
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-GB', options);
     };
 
     const handleCommentClick = (event) => {
@@ -69,7 +82,7 @@ const CardRent = ({ listing }) => {
                 <div className="rentalHistory-details">
                     <h2 className="rental_historyTitle">{name}</h2>
                     <p className="descript_rental">{location} | {type} rented out by {landlordUsername}</p>
-                    <p className="descript_duration">Duration: {new Date(effectiveDateStart).toLocaleDateString()} - {new Date(effectiveDateEnd).toLocaleDateString()}</p>
+                     <p className="descript_duration">Duration: {formatDate(effectiveDate)} - {formatDate(expireDate)}</p>
                 </div>
                 <div className="property-actions">
                     {isActive ? (
@@ -84,7 +97,7 @@ const CardRent = ({ listing }) => {
                         src={hoveredDownloadIcon ? downLoad_HoverIcon : downLoad_Icon}
                         onMouseEnter={handleDownloadIconMouseEnter}
                         onMouseLeave={handleDownloadIconMouseLeave}
-                        onClick={triggerDownload}
+                        onClick={(event) => triggerDownload(event, leaseId)}
                         alt="Download"
                     />
                     <div

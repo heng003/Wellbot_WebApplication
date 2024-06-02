@@ -14,7 +14,7 @@ router.get('/tenantApplication/:userId', tenantController.getApplications);
 router.get('/landlord/:landlordId', tenantController.getLandlord);
 router.get('/landlordReview/:landlordId', tenantController.getLandlordReview);
 router.get('/tenantToLease/:applicationId', tenantController.getLeaseByApplicationId);
-router.get('/property/:propertyId', tenantController.getApplicationsByProperty);
+router.get('/property-details/:propertyId',  tenantController.getApplicationsWithDetailsByProperty);
 router.get('/leases/tenants', tenantController.getLeasesByTenants);
 router.get('/home/property', tenantController.getAllPropertiesWithoutActiveApplication);
 router.get('/home/condo', tenantController.getCondoPropertiesWithoutActiveApplication);

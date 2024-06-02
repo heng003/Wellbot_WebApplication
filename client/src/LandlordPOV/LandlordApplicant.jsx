@@ -12,7 +12,6 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 function LandlordApplicant() {
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRating, setIsOpenRating] = useState(false);
   const [selectedRatingSort, setSelectedRatingSort] = useState("Highest to Lowest");
@@ -22,7 +21,6 @@ function LandlordApplicant() {
 
   const [properties, setProperties] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [applications, setApplications] = useState([]);
   const [leases, setLeases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -67,30 +65,19 @@ function LandlordApplicant() {
         setLoading(true);
         try {
           const token = localStorage.getItem('token');
-          const applicationsResponse = await axios.get(`/api/applications/property/${selectedProperty._id}`, {
+          const response = await axios.get(`/api/applications/property-details/${selectedProperty._id}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          setApplications(applicationsResponse.data);
 
-          const tenantIds = applicationsResponse.data.map(app => app.tenantId._id);
-          const leasesResponse = await axios.get(`/api/applications/leases/tenants`, {
-            headers: { Authorization: `Bearer ${token}` },
-            params: { tenantIds: tenantIds.join(',') }
-          });
+          const applicationDetails = response.data;
+          console.log("Fetched application details:", applicationDetails); 
 
-          const leasesData = leasesResponse.data;
-          const combinedData = applicationsResponse.data.map(app => {
-            const lease = leasesData.find(l => l.tenantId === app.tenantId._id);
-            let leaseStatus = lease ? (lease.leaseStatus === 'Effective' ? 'Signed' : lease.leaseStatus) : 'Not Applicable';
-            
-            if (lease && lease.leaseStatus === 'Expired') {
-              leaseStatus = 'Not Applicable';
-            }
+          const filteredApplications = applicationDetails.filter(
+            application => application.applicationStatus !== "Rejected"
+          );
 
-            return { ...app, leaseStatus, leaseId: lease ? lease._id : null };
-          });
-
-          setLeases(combinedData);
+          console.log("Fetched application details:", filteredApplications); 
+          setLeases(filteredApplications || []);
         } catch (err) {
           console.error("Error fetching applications and leases:", err);
           setError("Failed to fetch applications and leases");
@@ -106,7 +93,6 @@ function LandlordApplicant() {
     const selected = properties.find(property => property._id === propertyId);
     if (selected && (!selectedProperty || selected._id !== selectedProperty._id)) {
       setSelectedProperty(selected);
-      setApplications([]);
       setLeases([]);
     } else {
       setSelectedProperty(selected);
@@ -114,12 +100,12 @@ function LandlordApplicant() {
   };
 
   const handleViewApplicantFeedback = (lease) => {
-    const application = applications.find(app => app.tenantId._id === lease.tenantId._id);
+    const application = leases.find(app => app.tenantId._id === lease.tenantId._id);
     if (application) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       nav("/landlordApplicantFeedback", {
         state: { 
-          username: lease.tenantId.username, 
+          username: lease.tenantUsername, 
           leaseId: lease.leaseId,
           applicationId: application._id 
         }
@@ -127,17 +113,27 @@ function LandlordApplicant() {
     }
   };
 
-  const handleDownloadSigned = (event) => {
+  const handleDownloadSigned = async (event, leaseId) => {
     event.stopPropagation();
-    const link = document.createElement("a");
-    link.href =
-      "https://drive.google.com/uc?export=download&id=17cF4WZw6zIB96n7WgmE2tN2_IxhFwvPp";
-    link.download = "LeaseAgreement.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    {
+    try {
+      const token = localStorage.getItem('token');
+      console.log("Requesting lease download for ID:", leaseId);
+      const response = await axios.get(`/api/leases/download/${leaseId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'blob' 
+      });
+      console.log("Response:", response); // Log the response for debugging
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'LeaseAgreement.pdf'); // Use a relevant file name
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
       handleAlert();
+    } catch (error) {
+      console.error("Error downloading the signed lease agreement:", error);
+      setError("Failed to download the signed lease agreement");
     }
   };
 
@@ -146,11 +142,7 @@ function LandlordApplicant() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
-
-      if (
-        dropdownRatingRef.current &&
-        !dropdownRatingRef.current.contains(event.target)
-      ) {
+      if (dropdownRatingRef.current && !dropdownRatingRef.current.contains(event.target)) {
         setIsOpenRating(false);
       }
     };
@@ -167,13 +159,12 @@ function LandlordApplicant() {
           <th>Lease Agreement Status</th>
         </tr>
       </thead>
-
       <tbody>
         {data.map((lease, index) => (
           <tr key={lease.id} onClick={() => handleViewApplicantFeedback(lease)}>
-            <td>{lease.tenantId.username}</td>
+            <td>{lease.tenantUsername}</td>
             <td>{renderRatingOrCommentText(lease)}</td>
-            <td>{renderStatus(lease.leaseStatus)}</td>
+            <td>{renderStatus(lease.leaseStatus, lease.leaseId)}</td>
           </tr>
         ))}
       </tbody>
@@ -181,11 +172,11 @@ function LandlordApplicant() {
   );
 
   const renderRatingOrCommentText = (lease) => {
-    const { tenantId } = lease;
-    if (tenantId.overallRating === null) {
+    const { tenantOverallRating } = lease;
+    if (tenantOverallRating === null) {
       return <span className="none_Rating">N/A</span>;
     } else {
-      return renderRating(tenantId.overallRating);
+      return renderRating(tenantOverallRating);
     }
   };
 
@@ -216,12 +207,12 @@ function LandlordApplicant() {
     );
   };
 
-  const renderStatus = (status) => {
+  const renderStatus = (status, leaseId) => {
     if (status === "Signed") {
       return (
         <div
           className="signedStatusData"
-          onClick={handleDownloadSigned}
+          onClick={(event) => handleDownloadSigned(event, leaseId)}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -243,9 +234,10 @@ function LandlordApplicant() {
   };
 
   const sortTenantsByRating = (tenants, sortOption) => {
+    if (!Array.isArray(tenants)) return [];
     return tenants.slice().sort((a, b) => {
-      const ratingA = a.tenantId.overallRating ?? 0;
-      const ratingB = b.tenantId.overallRating ?? 0;
+      const ratingA = a.tenantOverallRating ?? 0;
+      const ratingB = b.tenantOverallRating ?? 0;
       if (sortOption === "Highest to Lowest") {
         return ratingB - ratingA;
       } else {
