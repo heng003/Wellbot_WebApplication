@@ -6,7 +6,7 @@ const AverageRating = ({ numOfReview, avg }) => {
   
     const reviewNumbers = "(" + numOfReview + " Reviews)";
     const avgRatingScore = avg + "/5";
-    const rating = Math.floor(avg); 
+    const rating = Math.round(avg); 
 
     return (
         <div className="avg-rating-group">

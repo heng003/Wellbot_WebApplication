@@ -181,7 +181,7 @@ function LandlordApplicant() {
   };
 
   const renderRating = (rating) => {
-    const starNum = Math.floor(rating)
+    const starNum = Math.round(rating)
     return (
       <div className="ratingStarsGroup">
         {Array.from({ length: starNum }).map((_, i) => (
