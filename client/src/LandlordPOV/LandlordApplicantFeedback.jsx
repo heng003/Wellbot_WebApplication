@@ -194,7 +194,7 @@ const LandlordApplicantFeedback = () => {
 
               <div className="contactBottom_Section">
                 <div className="avgRatingGroup">
-                {overallRating !== null && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
+                {commentList.length > 0 && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
                 </div>
               </div>
             </div>

@@ -84,7 +84,7 @@ const CommentSection = ({ landlordId }) => {
 
             <section className="comment-avg">
                 <div className="tenant-comment-grid">
-                    {overallRating !== null && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
+                    {commentList.length > 0 && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
                 </div>
             </section>
             
