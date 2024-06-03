@@ -7,7 +7,7 @@ import CommentBox from "./CommentBox";
 import AverageRating from "./AverageRating";
 
 const CommentSection = ({ landlordId }) => {
-    const [overallRating, setOverallRating] = useState(0);
+    const [overallRating, setOverallRating] = useState(null);
     const [commentList, setCommentList] = useState([]);
     const [userNameList, setUserNameList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -84,7 +84,7 @@ const CommentSection = ({ landlordId }) => {
 
             <section className="comment-avg">
                 <div className="tenant-comment-grid">
-                    {overallRating > 0 && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
+                    {overallRating !== null && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
                 </div>
             </section>
             

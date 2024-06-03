@@ -16,7 +16,7 @@ const LandlordApplicantFeedback = () => {
   const { username, leaseId, applicationId } = location.state || {};
   const [effectiveLeasesCount, setEffectiveLeasesCount] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [overallRating, setOverallRating] = useState(0);
+  const [overallRating, setOverallRating] = useState(null);
   const [commentList, setCommentList] = useState([]);
   const [userNameList, setUserNameList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -194,7 +194,7 @@ const LandlordApplicantFeedback = () => {
 
               <div className="contactBottom_Section">
                 <div className="avgRatingGroup">
-                {overallRating > 0 && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
+                {overallRating !== null && <AverageRating numOfReview={commentList.length} avg={overallRating} />}
                 </div>
               </div>
             </div>
