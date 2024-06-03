@@ -181,9 +181,10 @@ function LandlordApplicant() {
   };
 
   const renderRating = (rating) => {
+    const starNum = Math.floor(rating)
     return (
       <div className="ratingStarsGroup">
-        {Array.from({ length: rating }).map((_, i) => (
+        {Array.from({ length: starNum }).map((_, i) => (
           <img
             key={i}
             src={starOnClick}
@@ -193,7 +194,7 @@ function LandlordApplicant() {
             className="rating-star"
           />
         ))}
-        {Array.from({ length: 5 - rating }).map((_, i) => (
+        {Array.from({ length: 5 - starNum }).map((_, i) => (
           <img
             key={i}
             src={starDefault}
