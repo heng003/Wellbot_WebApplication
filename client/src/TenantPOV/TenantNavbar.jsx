@@ -11,7 +11,11 @@ const TenantNavbar = () => {
   console.log('Current Path:', location.pathname); 
 
   useEffect(() => {
-    if (
+  if (
+      location.pathname.includes('/tenantViewPropertyActive')
+  ) {
+      
+  } else if (
       location.pathname.includes('/tenantApplication') ||
       location.pathname.includes('/tenantViewPropertyLease') ||
       location.pathname.includes('/tenantViewPropertyPending') ||
@@ -19,31 +23,30 @@ const TenantNavbar = () => {
       location.pathname.includes('/tenantApplyForm')
   )   {
         setActiveItem('Application');
-    } else if (
+  } else if (
       location.pathname.includes('/tenantHome') ||
       location.pathname.includes('/tenantViewProperty')
-    )  {
+  )  {
         setActiveItem('Property');
-    } else if (
-        location.pathname.includes('/tenantRent') ||
-        location.pathname.includes('/tenantComment') ||
-        location.pathname.includes('/tenantViewPropertyActive')
-    ) {
-        setActiveItem('Rental History');
-    } else if (location.pathname.includes('/tenantProfileEdit')) {
-        setActiveItem('Edit Profile');
-    } else if (
-        location.pathname.includes('/tenantLeaseAgreementHome') ||
-        location.pathname.includes('/tenantLeaseAgreementForm') ||
-        location.pathname.includes('/tenantLeaseAgreementPg1') ||
-        location.pathname.includes('/tenantLeaseAgreementPg2') ||
-        location.pathname.includes('/tenantLeaseAgreementPg3') ||
-        location.pathname.includes('/tenantLeaseAgreementLastPg')
-    ) {
-        setActiveItem('Lease Agreement');
-    } else {
-        setActiveItem('');
-    }
+  } else if (
+      location.pathname.includes('/tenantRent') ||
+      location.pathname.includes('/tenantComment') 
+  )  {
+      setActiveItem('Rental History');
+  } else if (location.pathname.includes('/tenantProfileEdit')) {
+      setActiveItem('Edit Profile');
+  } else if (
+      location.pathname.includes('/tenantLeaseAgreementHome') ||
+      location.pathname.includes('/tenantLeaseAgreementForm') ||
+      location.pathname.includes('/tenantLeaseAgreementPg1') ||
+      location.pathname.includes('/tenantLeaseAgreementPg2') ||
+      location.pathname.includes('/tenantLeaseAgreementPg3') ||
+      location.pathname.includes('/tenantLeaseAgreementLastPg')
+  ) {
+      setActiveItem('Lease Agreement');
+  } else {
+      setActiveItem('');
+  }
 }, [location.pathname]);
 
     useEffect(() => {
