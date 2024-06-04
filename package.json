@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "node-polyfill-webpack-plugin": "^4.0.0"
+  }
+}

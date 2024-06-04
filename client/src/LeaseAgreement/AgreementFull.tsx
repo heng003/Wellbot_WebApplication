@@ -114,7 +114,7 @@ const AgreementFull = () => {
   useTimeout(() => {
     exportPDFWithMethod();
     navigate("/tenantLeaseAgreementHome");
-  }, 3000);
+  }, 100);
 
   return (
     <>
@@ -197,7 +197,7 @@ const AgreementFull = () => {
             <AgreementTerm number="17" title="no partnership">
               {TermSeventeen()}
             </AgreementTerm>
-            {/* <AgreementTerm number="18" title="SUCCESSORS BOUND ">
+            <AgreementTerm number="18" title="SUCCESSORS BOUND ">
               {TermEighteen(
                 data.lessorSignature,
                 data.lessorDesignation,
@@ -206,7 +206,7 @@ const AgreementFull = () => {
                 data.lesseeDesignation,
                 data.lesseeIc
               )}
-            </AgreementTerm> */}
+            </AgreementTerm>
           </AgreementWrapper>
         </PDFExport>
       )}

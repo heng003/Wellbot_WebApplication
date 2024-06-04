@@ -5,17 +5,21 @@ import "TenantPOV/tenantapplication.css";
 import "../../TenantPOV/component/cardApplication.css";
 
 export interface PropertyCardProps {
+  applicationId?: string;
+  leaseAgreementId?: string;
   imageUrl: string;
   title: string;
   locationOwner: string;
   bedroom: number;
   bathroom: number;
-  sqft: string;
+  sqft: number;
   price: string;
-  status: "viewLease" | "active";
+  status: string;
 }
 
 const PropertyCard = ({
+  applicationId,
+  leaseAgreementId,
   imageUrl,
   title,
   locationOwner,
@@ -28,12 +32,9 @@ const PropertyCard = ({
   const nav = useNavigate();
 
   const handleViewPropertyStatus = () => {
-    if (status == "viewLease") {
+    if (status == "Effective") {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      nav("/tenantLeaseAgreementPg1");
-    } else if (status == "active") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      nav("/viewAgreement");
+      nav(`/viewAgreement/${leaseAgreementId}`);
     }
   };
 
@@ -66,9 +67,12 @@ const PropertyCard = ({
               <p className="icon-text">{bedroom}</p>
             </div>
 
-
             <div className="facilities-per-icon">
-              <img src="Images/sqftGrey.png" className="sqftIcon" alt="Sqft Icon" />
+              <img
+                src="Images/sqftGrey.png"
+                className="sqftIcon"
+                alt="Sqft Icon"
+              />
               <p className="icon-text">{sqft}</p>
             </div>
           </div>
@@ -81,7 +85,7 @@ const PropertyCard = ({
           {status == "active" && (
             <button className="pending-btn">Active</button>
           )}
-          <h2 className="propertyPriceApplication">{price}</h2>
+          <h2 className="propertyPriceApplication">RM {price}</h2>
         </div>
       </div>
     </div>

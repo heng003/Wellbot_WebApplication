@@ -24,7 +24,6 @@ import {
 } from "./agreement-signals";
 import { effect } from "@preact/signals";
 import axios from "axios";
-import { drawDOM, exportPDF } from "@progress/kendo-drawing";
 
 export const TenantAgreementForm = () => {
   const { leaseAgreementId } = useParams();
@@ -75,25 +74,6 @@ export const TenantAgreementForm = () => {
       }
     );
 
-    const exportPDFWithMethod = () => {
-      let gridElement = document.body;
-      drawDOM(gridElement, {
-        paperSize: "A4",
-      })
-        .then((group) => {
-          return exportPDF(group);
-        })
-        .then(async (dataUri) => {
-          const pdfBuffer = Buffer.from(dataUri.split(";base64,")[1], "base64");
-          const pdfRes = await axios.post(
-            `/api/leaseAgreement/savePDFToDB/${leaseAgreementId}`,
-            { pdfBuffer: pdfBuffer }
-          );
-          console.log(dataUri.split(";base64,")[1]);
-        });
-    };
-    exportPDFWithMethod();
-
     localStorage.setItem(
       "lesseeFormValues",
       JSON.stringify(lesseeFormValues.value)
@@ -106,12 +86,6 @@ export const TenantAgreementForm = () => {
       "lesseeSignatureUrl",
       JSON.stringify(lesseeSignatureUrl.value)
     );
-    // startTransition(() => {
-    // console.log(JSON.parse(localStorage.getItem("lesseeFormValues") || ""));
-    // console.log(JSON.parse(localStorage.getItem("lesseeSignature") || ""));
-    // console.log(JSON.parse(localStorage.getItem("lesseeSignatureUrl") || ""));
-    // console.log(localStorage.getItem("lesseeSignatureUrl"));
-    // });
     navigate(`/tenantLeaseAgreementLastPg/${leaseAgreementId}`);
   };
 

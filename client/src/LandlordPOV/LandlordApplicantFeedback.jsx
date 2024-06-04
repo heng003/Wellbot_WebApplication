@@ -54,8 +54,11 @@ const LandlordApplicantFeedback = () => {
     nav(`/landlordLeaseAgreementForm/${applicationId}`);
   };
 
-  const handleRejectApplicant = () => {
+  const handleRejectApplicant = async () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    const response = await axios.post(
+      `/api/leaseAgreement/rejectApplication/${applicationId}`
+    );
     setTimeout(() => {
       Swal.fire({
         text: "Reject Successfully",
