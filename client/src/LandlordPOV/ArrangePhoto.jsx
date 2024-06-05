@@ -83,7 +83,10 @@ const ArrangePhoto = () => {
                     text: 'You need to register or log in to your account before performing this action.',
                     icon: 'warning',
                     confirmButtonColor: "#FF8C22",
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK', 
+                    customClass: {
+                        confirmButton: 'my-confirm-button-class-success'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -97,7 +100,10 @@ const ArrangePhoto = () => {
                     text: 'At least 2 photos are required.',
                     icon: 'error',
                     confirmButtonColor: "#FF8C22",
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'my-confirm-button-class-success'
+                    }
                 });
             } else {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -106,7 +112,10 @@ const ArrangePhoto = () => {
                         text: "Uploaded successfully!",
                         icon: "success",
                         confirmButtonColor: "#FF8C22",
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'my-confirm-button-class-success'
+                        }
                     }).then((result) => {
                         if (result.isConfirmed) {
                             navigate("/landlordHome");

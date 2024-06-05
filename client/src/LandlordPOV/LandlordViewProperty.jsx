@@ -93,6 +93,9 @@ const LandlordViewProperty = () => {
             icon: 'success',
             confirmButtonColor: "#FF8C22",
             confirmButtonText: 'Ok',
+            customClass: {
+              confirmButton: 'my-confirm-button-class-success'
+          }
           }).then(() => {
             nav('/landlordHome');
           });

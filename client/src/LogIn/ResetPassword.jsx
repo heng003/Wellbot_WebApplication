@@ -34,14 +34,12 @@ const ResetPassword = () => {
                 const response = await axios.post(`/api/auth/resetPassword/${id}/${token}`, { password });
                 if (response.data) {
                     Swal.fire({
-                        title: "Success !",
                         text: "Your password has been reset successfully.",
                         icon: "success",
                         confirmButtonText: "OK",
                         confirmButtonColor: "#FF8C22",
                         customClass: {
-                            title: 'my-title-class-success',
-                            confirmButton: 'my-confirm-button-class'
+                            confirmButton: 'my-confirm-button-class-success'
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
@@ -88,7 +86,7 @@ const ResetPassword = () => {
                             onChange={handleChange} 
                         />
                     </div>
-                    <div style={{marginRight:'40.5em', marginTop:'27.7em'}} className="eye-icon" onClick={() => setVisible(!visible)}>
+                    <div style={{marginRight:'40.5em', marginTop:'29.7em'}} className="eye-icon" onClick={() => setVisible(!visible)}>
                         {visible ? <FontAwesomeIcon icon={faEye} className="fa-lg me-3 fa-fw"/> : <FontAwesomeIcon icon={faEyeSlash} className="fa-lg me-3 fa-fw"/>}
                     </div>
                     <div className="errorMessageResetPassword2"> {errors.password && <span>{errors.password}</span>} </div>

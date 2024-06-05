@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 
 import '../RegisterAcc/signin.css'
 const SignIn = () => {
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
     return(
         <>
         <div id="signincontainer">
@@ -17,7 +25,7 @@ const SignIn = () => {
                             <div className="contextDetails">
                                 <p className="signinContext">Simplify Your Property Management With Our Easy-To-Use Landlord Portal. Register Now To Start Streamlining Your Rentals, Tracking, Applicants, And Connecting With Tenants Effortlessly. Join Us And Make Property Management A Breeze!</p>  
                             </div> 
-                            <Link className="nav-link" to="/registerLandlordAcc"><button className="buttonLandlord" type="button">Register</button></Link>
+                            <Link className="nav-link" to="/registerLandlordAcc"><button className="buttonLandlord" type="button" onClick={scrollToTop}>Register</button></Link>
                                 
                             <br />
                         </div>
@@ -29,7 +37,7 @@ const SignIn = () => {
                             <div className="contextDetails">
                                 <p className="signinContext">Get Ready To Find Your Perfect Rental With Ease. Register Your Tenant Account To Search Listings, Communicate With Landlords, And Manage Your Lease Docuemnts All In One Place. Quick, Simple, And Secure - Your Home Journey Starts Here!</p>
                             </div>
-                            <Link className="nav-link" to="/registerTenantAcc"><button className="buttonTenant" type="button">Register</button></Link>
+                            <Link className="nav-link" to="/registerTenantAcc"><button className="buttonTenant" type="button" onClick={scrollToTop}>Register</button></Link>
                             <br />
                         </div>
                     </div>

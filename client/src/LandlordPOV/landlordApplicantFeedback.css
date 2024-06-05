@@ -90,6 +90,7 @@ applicantInfoSection {
 
 .applicantReviewDetails #lineWrapper {
   padding-inline: 2.7em;
+  padding-bottom: 1em;
 }
 
 .applicantCommentContainer {

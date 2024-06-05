@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   faUser,
   faEnvelope,
@@ -14,6 +14,7 @@ import axios from 'axios';
 import "../RegisterAcc/registeracc.css";
 
 const Tenant = ({role}) => {
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
@@ -87,6 +88,7 @@ const Tenant = ({role}) => {
                     confirmButton: 'my-confirm-button-class'
                 }
             }).then(() => {
+              navigate('/logIn');
                 // Clear the form fields
                 formRef.current.reset();
                 // Clear the form data

@@ -99,43 +99,42 @@
     padding-right: 2em;
 }
 
-.editNowButton {
-    background-color: #FF8C22;
-    font-weight: bold;
-    color: #FFF6EA;
-    border: 2px;
-    border-radius: 6px;
-    padding: 0.65em 4.5em;
-    cursor: pointer;
-    font-size: larger;
-}
-
-.editNowButton:hover {
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
-    opacity: 0.7;
-}
-
-.deleteButton {
-    display: flex;
-    justify-content: center;
-}
-
-.deleteNowButton {
-    background-color: #b90000;
-    font-weight: bold;
-    color: #FFF6EA;
-    border: 2px;
-    border-radius: 6px;
-    padding: 0.65em 4.5em;
-    cursor: pointer;
-    font-size: larger;
-    justify-self: center;
-    align-self: center;
-}
-
+.editNowButton:hover,
 .deleteNowButton:hover {
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
-    opacity: 0.7;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+  opacity: 0.7;
+}
+
+.deleteNowButton{
+  font-weight: 600;
+  color: #fff6ea;
+  border: 1em;
+  border-radius: 0.5em;
+  padding: 0.75em 3em;
+  cursor: pointer;
+  margin-top:-1.8em ;
+  font-size: 20px;
+  width: fit-content;
+  align-self: end;
+  background-color: #b90000;
+  padding-inline: 5.5em;
+}
+
+.editNowButton{
+  font-weight: 600;
+  color: #fff6ea;
+  border: 1em;
+  border-radius: 0.5em;
+  padding: 0.75em 3em;
+  cursor: pointer;
+  margin-top:-1.8em ;
+  margin-right: 0.6em;
+  margin-left: 1em;
+  font-size: 20px;
+  width: fit-content;
+  align-self: end;
+  background-color: #ff8c22;
+  padding-inline: 5.5em;
 }
 
 #Comment {

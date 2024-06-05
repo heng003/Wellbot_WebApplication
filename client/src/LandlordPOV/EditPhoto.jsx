@@ -106,7 +106,10 @@ const EditPhoto = () => {
                       text: "Saved changes successfully!",
                       icon: "success",
                       confirmButtonColor: "#FF8C22",
-                      confirmButtonText: 'OK'
+                      confirmButtonText: 'OK',
+                      customClass: {
+                        confirmButton: 'my-confirm-button-class-success'
+                    }
                   }).then((result) => {
                       if (result.isConfirmed) {
                           navigate("/landlordHome");

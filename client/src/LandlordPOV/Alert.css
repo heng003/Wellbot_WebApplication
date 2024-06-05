@@ -40,14 +40,20 @@
     line-height: 3em;
 }
 
-.swal2-popup .my-title-class-success {
-    margin-top: 1em !important;
-    color: #FF5C00;
-    font-weight: bold;
-    font-family: "Poppins";
-    font-size: 28px;
-}  
 
-.swal2-popup .swal2-title.my-title-class-success {
-    margin-top: 1em !important; /* Adjust as needed for spacing */
+.my-confirm-button-class-success {
+    background-color: #FF8C22; 
+    border-color:#FF8C22 ;
+    color: white; 
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 8px; 
+    font-weight: 600;
+    font-size: 20px;
+    font-family: 'Poppins'; 
+    margin-top: 0.5em;
+    margin-bottom: 1.2em;
+    width: 5.6em;
+    height: 2.8em; 
 }

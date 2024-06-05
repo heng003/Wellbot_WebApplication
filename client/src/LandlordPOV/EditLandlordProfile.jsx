@@ -142,9 +142,12 @@ const EditLandlordProfile = () => {
           Swal.fire({
               text: "Profile Updated Successfully!",
               icon: "success",
+              confirmButtonText: "OK",
               confirmButtonColor: "#FF8C22",
+              customClass: {
+                confirmButton: 'my-confirm-button-class-success'
+            }
           });
-
       })
       .catch(error => {
           console.error("Failed to update profile:", error);

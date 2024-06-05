@@ -271,7 +271,7 @@ exports.forgotPassword = async (req, res, next) => {
       },
     });
     console.log("ID:", userExists._id, "Token:", tokenEmail);
-    const link = `http://localhost:5000/resetPassword/${userExists._id}/${tokenEmail}`;
+    const link = `http://localhost:3000/resetPassword/${userExists._id}/${tokenEmail}`;
     console.log("Reset Password link: " + link);
 
     // Send email
