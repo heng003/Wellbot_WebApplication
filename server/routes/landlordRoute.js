@@ -16,7 +16,7 @@ router.get('/properties/uploadPhoto/getPhoto/:propertyId', landlordController.ge
 router.put('/properties/uploadPhotoNext/:propertyId', landlordController.uploadPhotoMiddleware, landlordController.uploadPhotoNext);
 router.put('/properties/makeCoverPhoto/:propertyId/:photoId', landlordController.makeCoverPhoto);
 router.delete('/properties/:propertyId/deletePhoto/:photoId', landlordController.deletePhoto);
-router.delete('/properties/:id', landlordController.deleteProperty);
+router.delete('/properties/delete/:propertyId', landlordController.deleteProperty);
 router.get('/landlordProperties/:landlordId', landlordController.getLandlord);
 router.get('/tenant/:tenantId', landlordController.getTenant);
 router.get('/tenantReview/:tenantId', landlordController.getTenantReview);

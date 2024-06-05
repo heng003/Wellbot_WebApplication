@@ -10,7 +10,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { FlipWords } from "../LandlordPOV/components/ui/flip-words"; // need to install "npm i framer-motion clsx tailwind-merge"
 import { CardBody, CardContainer, CardItem } from "../LandlordPOV/components/ui/3d-card"; // need to install "npm i framer-motion clsx tailwind-merge"
-import { motion, useScroll, useTransform } from "framer-motion";
+
 
 const LandlordHome = () => {
   
@@ -246,12 +246,12 @@ const LandlordHome = () => {
             }}>
               <CardContainer className="card_Container">
               <CardBody className="card h-100">
-              <CardItem>
+              <CardItem translateZ={100}>
                 <img src="Images/plus.png" className="card-img-top" alt="upload" height={295} />
                 </CardItem>
-                <CardItem className="card-body">
+                <CardItem translateZ={50} className="card-body">
                   <h4 className="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
-                  <div className="uploadButton">
+                  <div className="uploadButton" translateZ="60">
                     <a href="#"><button id="upload" type="button">Upload</button></a>
                   </div>
                 </CardItem>

@@ -42,7 +42,7 @@ const LandlordViewProperty = () => {
       setCurrentIndex(prevIndex => (prevIndex === propertyImageSrc.length - 1 ? 0 : prevIndex + 1));
     };
   
-    const handleApplyPropertyPageButton = () => {
+    const handleEditPropertyPageButton = () => {
       const token = localStorage.getItem('token');
       if (!token) {
         console.log("Token not found");
@@ -82,6 +82,33 @@ const LandlordViewProperty = () => {
       }
     };
   
+    const handleDeleteProperty = async () => {
+      try {
+        const response = await axios.delete(`/api/landlord/properties/delete/${propertyId}`);
+        if (response.status === 200) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          Swal.fire({
+            title: 'Deleted',
+            text: 'Property deleted successfully',
+            icon: 'success',
+            confirmButtonColor: "#FF8C22",
+            confirmButtonText: 'Ok',
+          }).then(() => {
+            nav('/landlordHome');
+          });
+        }
+      } catch (error) {
+        console.error('Error deleting property:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to delete property. Please try again later.',
+          icon: 'error',
+          confirmButtonColor: "#FF8C22",
+          confirmButtonText: 'Ok',
+        });
+      }
+    };
+
     return (
         <div>
       <main>
@@ -126,9 +153,15 @@ const LandlordViewProperty = () => {
           </div>
         </section>
 
-        <div className="applyButton">
-          <button className="applyNowButton" type="button" onClick={handleApplyPropertyPageButton}>Edit Information</button>
-        </div>
+        <section id="LandlordPropertyButton">
+          <div className="applyButton">
+            <button className="editNowButton" type="button" onClick={handleEditPropertyPageButton}>Edit Information</button>
+          </div>
+
+          <div className="applyButton">
+            <button className="deleteNowButton" type="button" onClick={handleDeleteProperty}>Delete Property</button>
+          </div>
+        </section>
       </main>
     </div>
   );

@@ -19,7 +19,11 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
         <CardContainer className="card_Container">
             <CardBody className="card h-100" onClick={handleViewProperty}>
             <CardItem onClick={handleViewProperty} translateZ="100">
-                <img src={imgSrc} className="card-img-top" alt="propertyImage"/>
+                <img
+                    src={imgSrc}
+                    className="card-img-top"
+                    alt="propertyImage"
+                />
                 </CardItem>
                 <CardItem onClick={handleViewProperty} translateZ="60" className="card-body d-flex flex-column justify-content-between">
                     <CardItem onClick={handleViewProperty} className="card-desription-container">
@@ -36,7 +40,6 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
                         alt="details"
                         width="35"
                         height="35"
-                        style={{ marginRight: "0.5em" }}
                     />{" "}
                     {detail}
                     </li>
@@ -45,10 +48,10 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
 
                 <CardItem onClick={handleViewProperty} className="viewButton" translateZ="60">
                     <button className="View-Button" type="button">Edit</button>
-                </CardItem>
+                    </CardItem>
                 
-            </CardItem>
-        </CardBody>
+                </CardItem>
+            </CardBody>
         </CardContainer>
     )
 }

@@ -40,12 +40,6 @@ const uploadPhoto = async (req, res) => {
 
     console.log("Image name: ", req.file.filename);
 
-    // if (!property.coverPhoto) {
-    //   property.coverPhoto = req.file.path;
-    // } else {
-    //   property.photos.push(req.file.path);
-    // }
-
     // Save the updated property
     await property.save();
     console.log('Property saved successfully');
@@ -102,10 +96,6 @@ const getPropertyPhotos = async (req, res) => {
     // Ensure coverPhoto is a string and photos is an array
     const coverPhoto = typeof property.coverPhoto === 'string' ? property.coverPhoto : null;
     const photos = Array.isArray(property.photos) ? property.photos : [];
-
-    // // Extract coverPhoto and photos from the property document
-    // const coverPhoto = property.coverPhoto;
-    // const photos = property.photos;
 
     // Return the coverPhoto and photos to the frontend
     res.status(200).json({ coverPhoto, photos });
@@ -357,13 +347,14 @@ const deletePhoto = async (req, res) => {
 
 // Delete a property
 const deleteProperty = async (req, res) => {
+  const { propertyId } = req.params;
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findById(propertyId);
     if (!property) {
       return res.status(404).json({ message: 'Property not found' });
     }
 
-    await property.remove();
+    await Property.deleteOne({ _id: propertyId });
     res.json({ message: 'Property deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
