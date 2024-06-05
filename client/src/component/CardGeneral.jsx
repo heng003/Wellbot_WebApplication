@@ -17,7 +17,7 @@ const CardGeneral = ({ propertyId, imgSrc, cardTitle, propertyTitle, propertyAdd
   return (
         <CardContainer className="card_Container">
             <CardBody className="card h-100" onClick={handleViewProperty}>
-            <CardItem onClick={handleViewProperty} translateZ="100">
+            <CardItem onClick={handleViewProperty}>
                 <img
                     src={imgSrc}
                     className="card-img-top"
@@ -25,7 +25,7 @@ const CardGeneral = ({ propertyId, imgSrc, cardTitle, propertyTitle, propertyAdd
                     style={{ height: "280px", width: "385px" }}
                 />
                 </CardItem>
-                <CardItem onClick={handleViewProperty} translateZ="60" className="card-body d-flex flex-column justify-content-between">
+                <CardItem onClick={handleViewProperty} className="card-body d-flex flex-column justify-content-between">
                     <CardItem onClick={handleViewProperty} className="card-desription-container">
                         <h4 className="card-title1" >{cardTitle}</h4>
                         <h6 className="card-title2">{propertyTitle}</h6>
@@ -47,7 +47,7 @@ const CardGeneral = ({ propertyId, imgSrc, cardTitle, propertyTitle, propertyAdd
                 ))}
                 </ul>
 
-                <CardItem onClick={handleViewProperty} className="viewButton" translateZ="60">
+                <CardItem onClick={handleViewProperty} className="viewButton">
                     <button className="View-Button" type="button">View</button>
                     </CardItem>
                 

@@ -137,7 +137,15 @@ const UpdateProperty = () => {
         const response = await axios.put(
           `/api/landlord/properties/update/${propertyId}`,
           {
-            ...formData,
+            name: formData.editPropertyName,
+            address: formData.editAddress,
+            postcode: formData.editPostcode,
+            location: formData.editLocation,
+            buildUpSize: formData.editSize,
+            facilities: formData.editFac,
+            accessibility: formData.editAccesibility,
+            description: formData.editDesc,
+            price: formData.editPrice,
             type: selected,
             bedroom: selectedBedroom,
             bathroom: selectedBathroom,
@@ -150,6 +158,7 @@ const UpdateProperty = () => {
           }
         );
           console.log("Saved property info successfully.")
+          console.log("Updated FormData:", response.data);
           nav(`/landlordEditPhoto/${propertyId}`);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         
