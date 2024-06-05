@@ -32,14 +32,15 @@
     align-self: stretch;
     display: flex;
     align-items: flex-start;
-    margin-top: 2.5em;
+    margin-top: 5em;
+    margin-bottom: 1em;
     font-weight: bolder;
 }
 
 .status-action {
     margin: 0;
     position: relative;
-    font-weight: bold;
+    font-weight: 520;
     text-transform: capitalize;
     display: inline-block;
     flex-shrink: 0;

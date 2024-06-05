@@ -155,6 +155,16 @@ exports.submitTenantLeaseAgreement = async (req, res, next) => {
     });
 
     if (existingLeaseAgreement) {
+      const existingApplication = await Application.findOne({
+        _id: existingLeaseAgreement.applicationId,
+      });
+      if (!existingApplication) {
+        res.status(400).json({
+          status: "fail",
+          message: "Application not found",
+        });
+        return;
+      }
       await Lease.findOneAndUpdate(
         { _id: existingLeaseAgreement._id },
         {
@@ -163,6 +173,10 @@ exports.submitTenantLeaseAgreement = async (req, res, next) => {
           lesseeSignature,
           leaseStatus: "Effective",
         }
+      );
+      await Application.findOneAndUpdate(
+        { _id: existingLeaseAgreement.applicationId },
+        { applicationStatus: "Active" }
       );
     } else {
       return { message: "Lease Agreement not found" };
@@ -279,7 +293,7 @@ exports.getPDFFromDB = async (req, res, next) => {
     const base64Str = existingLeaseAgreement.PDF;
     const downloadUrl = "data:application/pdf;base64," + base64Str;
     //   res.type("application/pdf");
-    // res.header("Content-Disposition", attachment; filename="lease.pdf");
+    // res.header("Content-Disposition", `attachment; filename="lease.pdf"`);
 
     // const buffer = Buffer.from(base64Str, "base64");
     // console.log(buffer);
@@ -292,5 +306,39 @@ exports.getPDFFromDB = async (req, res, next) => {
   } catch (error) {
     console.log("Failed to retrieve PDF", error);
     next(error);
+  }
+};
+
+exports.rejectApplication = async (req, res, next) => {
+  const applicationId = req.params.applicationId;
+  try {
+    const application = await Application.findOneAndUpdate(
+      { _id: applicationId },
+      { applicationStatus: "Rejected" }
+    );
+    res.status(200).json({
+      status: "success",
+      message: "Application rejected successfully",
+    });
+  } catch (error) {
+    console.log("Failed to reject application", error);
+    next(error);
+  }
+};
+
+exports.getLeaseAgreements = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find applications by tenantId and exclude those with applicationStatus "Active"
+    const response = await Lease.find({
+      tenantId: userId,
+      leaseStatus: "Effective",
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json(response);
+  } catch (err) {
+    console.error("Error fetching user profile by user ID:", err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

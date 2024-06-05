@@ -186,7 +186,7 @@ function App() {
             element={<TenantAgreementLastPage />}
           />
           <Route
-            path="/viewAgreement/:leaseAgreementId"
+            path="/tenantViewAgreement/:leaseAgreementId"
             element={<AgreementFullView />}
           />
           <Route

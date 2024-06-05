@@ -29,6 +29,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTimeout } from "usehooks-ts";
 import { drawDOM, exportPDF } from "@progress/kendo-drawing";
 import axios from "axios";
+import { PDFViewer } from "@react-pdf/renderer";
 var Buffer = require("buffer/").Buffer;
 
 const AgreementFull = () => {
@@ -113,7 +114,7 @@ const AgreementFull = () => {
   useTimeout(() => {
     exportPDFWithMethod();
     navigate("/tenantLeaseAgreementHome");
-  }, 3000);
+  }, 100);
 
   return (
     <>
@@ -196,7 +197,7 @@ const AgreementFull = () => {
             <AgreementTerm number="17" title="no partnership">
               {TermSeventeen()}
             </AgreementTerm>
-             <AgreementTerm number="18" title="SUCCESSORS BOUND ">
+            <AgreementTerm number="18" title="SUCCESSORS BOUND ">
               {TermEighteen(
                 data.lessorSignature,
                 data.lessorDesignation,

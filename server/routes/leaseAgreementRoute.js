@@ -13,11 +13,14 @@ const {
   getLeaseAgreement,
   savePDFToDB,
   getPDFFromDB,
+  rejectApplication,
+  getLeaseAgreements,
 } = require("../controllers/leaseAgreementController");
 
 // TODO: add controller for get completed lease agreement
 router.get("/getLeaseAgreement/:leaseAgreementId", getLeaseAgreement);
 router.get("/getPDFFromDB/:leaseAgreementId", getPDFFromDB);
+router.get("/getLeaseAgreements/:userId", getLeaseAgreements);
 router.post(
   "/submitLandlordLeaseAgreement/:applicationId",
   submitLandlordLeaseAgreement
@@ -28,5 +31,6 @@ router.post(
 );
 router.post("/savePDFToDB/:leaseAgreementId", savePDFToDB);
 // router.post("/resetPassword/:id/:token", authController.resetPassword);
+router.post("/rejectApplication/:applicationId", rejectApplication);
 
 module.exports = router;

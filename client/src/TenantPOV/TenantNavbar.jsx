@@ -41,7 +41,8 @@ const TenantNavbar = () => {
       location.pathname.includes('/tenantLeaseAgreementPg1') ||
       location.pathname.includes('/tenantLeaseAgreementPg2') ||
       location.pathname.includes('/tenantLeaseAgreementPg3') ||
-      location.pathname.includes('/tenantLeaseAgreementLastPg')
+      location.pathname.includes('/tenantLeaseAgreementLastPg')||
+      location.pathname.includes('/tenantViewAgreement')
   ) {
       setActiveItem('Lease Agreement');
   } else {

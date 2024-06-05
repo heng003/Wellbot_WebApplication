@@ -125,21 +125,25 @@ const LandlordApplicantFeedback = () => {
     nav(`/landlordLeaseAgreementForm/${applicationId}`);
   };
 
-  const handleRejectApplicant = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => {
-          Swal.fire({
-              text: "Reject Successfully",
-              icon: "success",
-              confirmButtonColor: "#FF8C22",
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  nav("/landlordApplicant");
-              }
-          });
-      }, 100); 
+  const handleRejectApplicant = async () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const response = await axios.post(
+      `/api/leaseAgreement/rejectApplication/${applicationId}`
+    );
+    setTimeout(() => {
+      Swal.fire({
+        text: "Reject Successfully",
+        icon: "success",
+        confirmButtonColor: "#FF8C22",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          nav(`/landlordApplicant`);
+        }
+      });
+    }, 100); // Delay to ensure the scroll completes before showing the dialog
   };
+
 
   const formatPhoneNumber = (phone) => {
     return phone.startsWith("6") ? phone : `6${phone}`;
