@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "TenantPOV/component/cardHistory.css";
 import "TenantPOV/tenantapplication.css";
 import "../../TenantPOV/component/cardApplication.css";
+const bedroomIcon = require("./bedroom.png");
+const bathroomIcon = require("./bathroom.png");
+const sqftIcon = require("./sqft.png");
 
 export interface PropertyCardProps {
   applicationId?: string;
@@ -12,7 +15,7 @@ export interface PropertyCardProps {
   locationOwner: string;
   bedroom: number;
   bathroom: number;
-  sqft: number;
+  sqft: string;
   price: string;
   status: string;
 }
@@ -30,6 +33,18 @@ const PropertyCard = ({
   status,
 }: PropertyCardProps) => {
   const nav = useNavigate();
+  // Check if any property data is missing
+  if (
+    !title ||
+    !locationOwner ||
+    !imageUrl ||
+    !bedroom ||
+    !bathroom ||
+    !sqft ||
+    !price
+  ) {
+    alert("Error: Missing property data!");
+  }
 
   const handleViewPropertyStatus = () => {
     if (status == "Effective") {
@@ -51,45 +66,45 @@ const PropertyCard = ({
           <div className="facilities-icons">
             <div className="facilities-per-icon">
               <img
-                src={"Images/bedroomGrey.png"}
+                src={bedroomIcon}
                 className="bedroomIcon"
                 alt="Bedroom Icon"
-              />
-              <p className="icon-text">{bathroom}</p>
-            </div>
-
-            <div className="facilities-per-icon">
-              <img
-                src={"Images/bathroomGrey.png"}
-                className="bathroomIcon"
-                alt="Bathroom Icon"
               />
               <p className="icon-text">{bedroom}</p>
             </div>
 
             <div className="facilities-per-icon">
               <img
-                src="Images/sqftGrey.png"
-                className="sqftIcon"
-                alt="Sqft Icon"
+                src={bathroomIcon}
+                className="bathroomIcon"
+                alt="Bedroom Icon"
               />
+              <p className="icon-text">{bathroom}</p>
+            </div>
+
+            <div className="facilities-per-icon">
+              <img src={sqftIcon} className="sqftIcon" alt="Sqft Icon" />
               <p className="icon-text">{sqft}</p>
             </div>
           </div>
         </div>
-
-        <div className="propertyStatusLease">
-          {status == "viewLease" && (
-            <button className="view-lease-btn">View Lease</button>
-          )}
-          {status == "active" && (
+        <div className="propertyStatusApplication">
+          {/* {isViewLease && (
+            <button className="view-lease-btn" onClick={handleViewLease}>
+              View Lease
+            </button>
+          )} */}
+          {status == "Effective" && (
             <button className="pending-btn">Active</button>
           )}
-          <h2 className="propertyPriceApplication">RM {price}</h2>
+          {status != "Effective" && (
+            <button className="rejected-btn">Expired</button>
+          )}
+          <h2 className="propertyPriceApplication">{price}</h2>
         </div>
       </div>
     </div>
   );
 };
 
-export default PropertyCard;
+export default PropertyCard;

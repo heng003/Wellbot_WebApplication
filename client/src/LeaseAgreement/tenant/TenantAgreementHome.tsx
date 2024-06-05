@@ -218,13 +218,13 @@ const TenantAgreementHome = () => {
               <PropertyCard
                 key={index}
                 leaseAgreementId={info.leaseAgreement._id}
-                imageUrl={info.property.coverPhoto}
+                imageUrl={`http://localhost:5000/uploads/${info.property.coverPhoto}`}
                 title={info.property.name}
-                locationOwner={info.locationOwner}
+                locationOwner={`${info.property.location} | ${info.property.type} rented out by ${info.locationOwner}`}
                 bedroom={info.property.bedroom}
                 bathroom={info.property.bathroom}
-                sqft={info.property.buildUpSize}
-                price={info.property.price}
+                sqft={`${info.property.buildUpSize} Sqft`}
+                price={`RM ${info.property.price}`}
                 status={info.leaseAgreement.leaseStatus}
               />
             ))}

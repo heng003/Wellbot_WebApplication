@@ -179,10 +179,9 @@ const AgreementFullView = () => {
               //     `/api/leaseAgreement/getPDFFromDB/${leaseAgreementId}`
               //   );
               // }}
-              className="my-4 px-4 py-2 font-semibold rounded-lg text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"
-            >
+              className="my-12 px-16 py-8 mr-16 font-semibold rounded-lg text-2xl text-white bg-dark-orange hover:shadow-standardisedHoverShadow hover:opacity-70"            >
               <a
-                style={{ textDecoration: "none", color: "black" }}
+                style={{ textDecoration: "none", color: "white" }}
                 href={pdfUrl}
                 target="_blank"
                 download="lease.pdf"
