@@ -245,14 +245,12 @@ const LandlordHome = () => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}>
               <CardContainer className="card_Container">
-              <CardBody className="relative group/card bg-white dark:bg-black dark:hover:shadow-2xl 
-            dark:hover:shadow-emerald-500/[0.1] dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto 
-            rounded-full p-6 border">
+              <CardBody className="card h-100">
               <CardItem translateZ={100}>
                 <img src="Images/plus.png" className="card-img-top" alt="upload" height={295} />
                 </CardItem>
                 <CardItem translateZ={50} className="card-body">
-                  <h4 className="card-title1" style={{ paddingTop: "10px" }}>Upload Your Property Details <span id="hoverText">Now</span></h4>
+                  <h4 className="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
                   <div className="uploadButton" translateZ="60">
                     <a href="#"><button id="upload" type="button">Upload</button></a>
                   </div>

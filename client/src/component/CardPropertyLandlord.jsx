@@ -17,9 +17,7 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
 
     return (
         <CardContainer className="card_Container">
-            <CardBody className="relative group/card bg-white dark:bg-black dark:hover:shadow-2xl 
-            dark:hover:shadow-emerald-500/[0.1] dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto 
-            rounded-full p-6 border" onClick={handleViewProperty}>
+            <CardBody className="card h-100" onClick={handleViewProperty}>
             <CardItem onClick={handleViewProperty} translateZ="100">
                 <img
                     src={imgSrc}
@@ -29,7 +27,7 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
                 </CardItem>
                 <CardItem onClick={handleViewProperty} translateZ="60" className="card-body d-flex flex-column justify-content-between">
                     <CardItem onClick={handleViewProperty} className="card-desription-container">
-                        <h4 className="card-title1" style={{ paddingTop: "10px" }}>{cardTitle}</h4>
+                        <h4 className="card-title1">{cardTitle}</h4>
                         <h6 className="card-title2">{propertyTitle}</h6>
                         <p className="card-text">{propertyAdd}</p>
                     </CardItem>
@@ -42,7 +40,6 @@ const CardPropertyLandlord = ({ propertyId, imgSrc, cardTitle, propertyTitle, pr
                         alt="details"
                         width="35"
                         height="35"
-                        style={{ marginRight: "0.5em" }}
                     />{" "}
                     {detail}
                     </li>
