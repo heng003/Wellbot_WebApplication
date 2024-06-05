@@ -246,10 +246,10 @@ const LandlordHome = () => {
             }}>
               <CardContainer className="card_Container">
               <CardBody className="card h-100">
-              <CardItem translateZ={100}>
+              <CardItem >
                 <img src="Images/plus.png" className="card-img-top" alt="upload" height={295} />
                 </CardItem>
-                <CardItem translateZ={50} className="card-body">
+                <CardItem  className="card-body">
                   <h4 className="card-title1">Upload Your Property Details <span id="hoverText">Now</span></h4>
                   <div className="uploadButton" translateZ="60">
                     <a href="#"><button id="upload" type="button">Upload</button></a>
