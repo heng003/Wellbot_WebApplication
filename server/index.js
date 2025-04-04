@@ -10,14 +10,6 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
 const authRouter = require('./routes/authRoute');
-const tenantApplicationRouter = require('./tenantApplication/routes/tenantApplicationRoute');
-const propertiesRouter = require('./routes/propertiesRoute');
-const leasesRouter = require('./routes/leaseRoute');
-const reviewTenantRoute = require('./routes/reviewTenantRoute');
-const userRoute = require('./routes/userRoute')
-const reviewLandlordRoute = require('./routes/reviewLandlordRoute')
-const landlordRouter = require('./routes/landlordRoute');
-const leaseAgreementRouter = require('./routes/leaseAgreementRoute');
 
 const app = express();
 
@@ -34,17 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use('/api/auth',authRouter);
-app.use('/api', userRoute);
-app.use('/api/applications', tenantApplicationRouter);
-app.use('/api/properties', propertiesRouter);
-app.use('/api/leases', leasesRouter);
-app.use('/api/reviewsTenant', reviewTenantRoute);
-app.use('/api/reviewsLandlord', reviewLandlordRoute);
-app.use('/api/landlord',landlordRouter);
-app.use('/api/leaseAgreement', leaseAgreementRouter);
-
-// Serve static files from the React app
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {
