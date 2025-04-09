@@ -12,9 +12,9 @@
         "sharp": "^0.33.4"
     },
     "scripts": {
-        "server": "cd server && nodemon index.js",
-        "client": "cd client && npm start",
-        "start": "concurrently \"npm run server\" \"npm run client\""
+        "frontend": "cd frontend && npm start",
+        "backend": "cd backend && nodemon index.js",
+        "start": "concurrently \"npm run backend\" \"npm run frontend\""
     },
     "devDependencies": {
         "concurrently": "^8.2.0",
