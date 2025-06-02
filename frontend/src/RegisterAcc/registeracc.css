@@ -1,4 +1,4 @@
-#register{
+/* #register{
     padding: 0em 3.5em;
     padding-bottom: 5em;
     background-color: #FBF4E8;
@@ -136,8 +136,8 @@
 #register .col input[type="tel"],
 #register .col input[type="password"] {
     border-radius: 18px; /* Set border radius to match tenant form */
-    border: 2px solid black; /* Set border color */
-    padding-top: 0.5em;
+  /*  border: 2px solid black; /* Set border color */
+/*    padding-top: 0.5em;
     padding-bottom: 0.5em;
     padding-left: 0.85em;
-}
+} */

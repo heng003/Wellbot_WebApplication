@@ -1,0 +1,65 @@
+.register-role-session {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 3.8em;
+    padding-block: 4em;
+    background-color: #F8FAFCE6;
+    gap: 1em;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-inline: 4em;
+    padding-block: 4em;
+    gap: 1.5em;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.register-role-title {
+    color: black;
+    font-weight: 600;
+    font-size: 2em;
+}
+
+.register-role-content-black {
+    color: black;
+    font-size: 1.2em;
+    font-weight: 400;
+}
+
+.register-role-title-small {
+    color: black;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.register-role-content-grey {
+    color: #333333;
+    font-weight: 450;
+    font-size: 1.2em;
+}
+
+.green-button {
+    background-color: #0D9488;
+    margin-block: 1em;
+    font-weight: 600;
+    color: #FFFFFF;
+    border: 2px;
+    border-radius: 6px;
+    font-size: 16.5px;
+    padding: 11px 40px;
+    cursor: pointer;
+}
+
+.green-button:hover {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+    opacity: 0.7;
+}

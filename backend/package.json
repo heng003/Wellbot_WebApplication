@@ -1,36 +1,39 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "fyp name",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "start:dev": "nodemon index.js"
-  },
-  "author": "Xiao Xuan",
-  "license": "ISC",
-  "dependencies": {
-    "@types/jsonwebtoken": "^9.0.6",
-    "base64topdf": "^1.1.8",
-    "bcrypt": "^5.1.1",
-    "bcryptjs": "^2.4.3",
-    "buffer": "^6.0.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "express": "^4.19.2",
-    "express-jwt": "^8.4.1",
-    "express-urlrewrite": "^2.0.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.1",
-    "nodemailer": "^6.9.13",
-    "pdf-master": "^1.1.0",
-    "puppeteer": "^22.9.0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.12.12",
-    "nodemon": "^3.1.1"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "Well-Bot Website",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon index.js",
+		"start:dev": "nodemon index.js"
+	},
+	"author": "Xiao Xuan",
+	"license": "ISC",
+	"dependencies": {
+		"@types/jsonwebtoken": "^9.0.6",
+		"axios": "^1.8.4",
+		"base64topdf": "^1.1.8",
+		"bcrypt": "^5.1.1",
+		"bcryptjs": "^2.4.3",
+		"buffer": "^6.0.3",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.7",
+		"ejs": "^3.1.10",
+		"express": "^4.19.2",
+		"express-jwt": "^8.4.1",
+		"express-urlrewrite": "^2.0.2",
+		"jsonwebtoken": "^9.0.2",
+		"mongodb": "^6.15.0",
+		"mongoose": "^8.14.2",
+		"nodemailer": "^6.9.13",
+		"pdf-master": "^1.1.0",
+		"puppeteer": "^22.9.0",
+		"qs": "^6.14.0"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"@types/node": "^20.12.12",
+		"nodemon": "^3.1.1"
+	}
 }

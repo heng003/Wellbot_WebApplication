@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Swal from 'sweetalert2'
 import axios from 'axios';
-import '../LogIn/forgotpassword.css'
+// import '../LogIn/forgotpassword.css'
 const ForgotPassword = () => {
 
     const [email, setEmail] = useState("");
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
         if (Object.keys(validationErrors).length === 0) {
 
             try {
-                await axios.post('api/auth/forgotPassword', { email });
+                await axios.post('/api/auth/forgotPassword', { email });
                 Swal.fire({
                     title: "Check Your Email",
                     text: "We have sent an email to " + email + " to reset your password. Link in email will expire within 5 minutes.",

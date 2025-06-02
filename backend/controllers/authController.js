@@ -10,10 +10,10 @@ const crypto = require("crypto");
 exports.registerLandlordAcc = async (req, res, next) => {
   try {
     const { email, username, phonenumber, role } = req.body;
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return next(new createError("User already exists!", 400));
-    }
+    // const userExists = await User.findOne({ email });
+    // if (userExists) {
+    //   return next(new createError("User already exists!", 400));
+    // }
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     const verificationToken = crypto.randomBytes(16).toString("hex");
     const tokenExpirationDate = new Date(Date.now() + 5 * 60 * 1000); // 5 mins from now

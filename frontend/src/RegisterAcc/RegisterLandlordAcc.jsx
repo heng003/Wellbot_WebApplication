@@ -126,7 +126,7 @@ const RegisterLandlordAcc = ({role}) => {
             <div className="container text-center">
             <div className="row">
                 <div className="col">
-                    <h2 className="registerTitleLandlord fs-2 fw-bolder mt-4">Register As Landlord</h2>
+                    <h2 className="registerTitleLandlord fs-2 fw-bolder mt-4">Register As Admin</h2>
                     <img src="Images/landlord.png" class="landlord" alt="landlord" width="350" />
                 </div>
                 <div className="col rightCol">

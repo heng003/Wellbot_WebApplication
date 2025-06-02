@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import '../LogIn/forgotpassword.css';
+// import '../LogIn/forgotpassword.css';
 
 const ResetPassword = () => {
     const [visible, setVisible] = useState(false);

@@ -1,4 +1,4 @@
-const FITBIT_AUTH_URL = `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=23QCQJ&redirect_uri=http://localhost:3000/callback&scope=activity%20heartrate%20sleep&expires_in=604800`;
+const FITBIT_AUTH_URL = `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=23QCQJ&redirect_uri=http://localhost:3000/callback&scope=heartrate respiratory_rate temperature sleep profile activity&expires_in=604800`;
 
 function FitbitLoginButton() {
   return (
@@ -7,3 +7,5 @@ function FitbitLoginButton() {
     </button>
   );
 }
+
+export default FitbitLoginButton;

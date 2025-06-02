@@ -109,7 +109,6 @@ const Tenant = ({role}) => {
                 title: "Error!",
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
-                confirmButtonColor: "#d33",
                 confirmButtonText: "OK",
                 confirmButtonColor: "#FF8C22",
                     customClass: {
@@ -129,7 +128,7 @@ const Tenant = ({role}) => {
                 
             <div class="row">
                 <div class="col">
-                    <h2 className="registerTitleTenant fs-2 fw-bolder mt-4">Register As Tenant</h2>
+                    <h2 className="registerTitleTenant fs-2 fw-bolder mt-4">Register As User</h2>
                     <img src="Images/tenant.png" class="landlord" alt="landlord" width="350" height=""/>
                 </div>
                 <div class="col rightCol">

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { faEnvelope, faLock, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import '../LogIn/login.css'
+// import '../LogIn/login.css'
 
 const LogIn = () => {
 
@@ -13,13 +13,13 @@ const LogIn = () => {
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
     const [errors, setErrors] = useState({
-        username: "",
+        email: "",
         password: ""
     });
 
     const handleLogin = async () => {
         const newErrors = {}; // Create a new object to accumulate errors
-    
+
         if (!email.trim()) {
             newErrors.email = "*email is required";
           } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -30,7 +30,7 @@ const LogIn = () => {
             newErrors.password = "*password is required"; // Add error for password
         }
         setErrors(newErrors); // Update the state with the new error object
-    
+
         if (Object.keys(newErrors).length === 0) {
             console.log("Form is valid, proceed with login");
             try {
@@ -47,7 +47,7 @@ const LogIn = () => {
                 } else if (userRole === 'landlord') {
                     navigate('/landlordHome');
                 }
-                
+
             } catch (error) {
                 Swal.fire({
                     // "Login Failed", 
@@ -66,7 +66,7 @@ const LogIn = () => {
             }
         }
     };
-    
+
     return(
 
         <div id="login" className="d-flex">
@@ -75,7 +75,7 @@ const LogIn = () => {
 
             <div className="content-section">
                 <div className="left-section">
-                    <h2 className="logIn_wlcTxt">Welcome Back To <br/>RentSpotter !</h2>
+                    <h2 className="logIn_wlcTxt">Welcome Back To <br/>Wellbot !</h2>
                     <p className="brief_txt">Direct Dialogue: Your Bridge-Free<br/> Connection to Home</p>
                     <img src="/Images/signIn_pic.svg" alt="signIn_pic" width='950' height='auto' style={{marginLeft:'-14em', marginTop:'-9em'}}/>
                 </div>
@@ -89,7 +89,7 @@ const LogIn = () => {
                             <input type="text" id="username" className="form-control" placeholder="Email" required onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="errorMessage"> {errors.email && <span>{errors.email}</span>} </div>
-                        
+
 
                         <div className="form align-items-center mb-4">
                             <FontAwesomeIcon icon={faLock} className="fa-lg me-3 fa-fw"size="2x"/>
