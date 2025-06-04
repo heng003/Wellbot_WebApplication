@@ -18,11 +18,11 @@ const RegisterUserPage = () => {
         username: '',
         age: '',
         gender: '',
-        role: 'user',
         culturalBackground: '',
         language: 'english',
         spiritualBeliefs: '',
-        allowAdmin: false
+        serialNumber: '',
+        allowGuardian: false
     });
 
     const scrollToTop = () => {
@@ -58,27 +58,25 @@ const RegisterUserPage = () => {
     };
 
     const handleConsentClick = async (consent) => {
-        setFormData(prev => ({ ...prev, allowAdmin: consent }));
-        await proceedWithLogin();
         setShowConsent(false);
+        setFormData(prev => ({ ...prev, allowGuardian: consent }));
+        await proceedWithLogin();
     };
 
 
     const proceedWithLogin = async () => {
         try {
             const response = await axios.post('/api/auth/registerUserAcc', formData);
-            // Handle successful registration
-            console.log(response.data); // Log response from the backend
 
             Swal.fire({
                 title: "Check Your Email",
-                titleColor: "#0d9488",
+                titleColor: "#0D9488",
                 text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 5 minutes.",
                 imageUrl: "Images/checkEmail.gif",
                 imageHeight: 200,
                 imageAlt: "email",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0d9488",
+                confirmButtonColor: "#0D9488",
                 customClass: {
                     title: 'my-title-class',
                     confirmButton: 'my-confirm-button-class'
@@ -93,25 +91,20 @@ const RegisterUserPage = () => {
                     username: '',
                     age: '',
                     gender: '',
-                    role: 'user',
                     culturalBackground: '',
                     language: 'english',
                     spiritualBeliefs: '',
-                    allowAdmin: false
+                    serialNumber: '',
+                    allowGuardian: false
                 });
             });
         } catch (error) {
-            console.log("Validation errors exist, not showing alert.");
-            // Handle registration error
-            console.error(error); // Log error message
-            console.error("Registration Error:", error.response.data);
-            // Handle showing the error message from the backend
             Swal.fire({
                 title: "Error!",
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0d9488",
+                confirmButtonColor: "#0D9488",
                 customClass: {
                     title: 'my-title-class',
                     confirmButton: 'my-confirm-button-class'
@@ -179,7 +172,7 @@ const RegisterUserPage = () => {
                                     value={formData.age}
                                     onChange={handleInputChange}
                                     className="form-input"
-                                    min="13"
+                                    min="0"
                                     max="120"
                                     required
                                 />
@@ -254,6 +247,18 @@ const RegisterUserPage = () => {
                                     <option value="None">None</option>
                                     <option value="Other">Other</option>
                                 </select>
+                            </div>
+
+                            <div className="form-full">
+                                <label className="form-label">Well-Bot Serial Number</label>
+                                <input
+                                    type="text"
+                                    name="serialNumber"
+                                    value={formData.serialNumber}
+                                    onChange={handleInputChange}
+                                    className="form-input"
+                                    required
+                                />
                             </div>
 
                             <div>

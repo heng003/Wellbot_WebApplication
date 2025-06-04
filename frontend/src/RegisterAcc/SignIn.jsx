@@ -22,7 +22,7 @@ const SignIn = () => {
 					<div class="col">
 						<div class="card h-100">
 							<img src="Images/landlord.png" class="landlord" alt="landlord" width="200" height="180" />
-							<h5 class="cardtitle text-center">Admin Account</h5>
+							<h5 class="cardtitle text-center">Guardian Account</h5>
 							<div className="contextDetails">
 								<p className="signinContext">Simplify Your Property Management With Our Easy-To-Use Landlord Portal. Register Now To Start Streamlining Your Rentals, Tracking, Applicants, And Connecting With Tenants Effortlessly. Join Us And Make Property Management A Breeze!</p>
 							</div>

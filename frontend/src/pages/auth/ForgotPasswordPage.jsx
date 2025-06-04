@@ -35,7 +35,7 @@ const ForgotPasswordPage = () => {
                     imageHeight: 200,
                     imageAlt: "email",
                     confirmButtonText: "OK",
-                    confirmButtonColor: "#0d9488",
+                    confirmButtonColor: "#0D9488",
                     customClass: {
                         title: 'my-title-class-login',
                         confirmButton: 'my-confirm-button-class',
@@ -53,7 +53,7 @@ const ForgotPasswordPage = () => {
                     title: "Error!",
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
-                    confirmButtonColor: "#FF8C22",
+                    confirmButtonColor: "#0D9488",
                     customClass: {
                         title: 'my-title-class',
                         confirmButton: 'my-confirm-button-class'
@@ -112,7 +112,7 @@ const ForgotPasswordPage = () => {
                     <div className="signup-link">
                         <p>
                             Don't have an account?{' '}
-                            <Link to="/register" className="link">
+                            <Link to="/registerRole" className="link">
                                 Sign up
                             </Link>
                         </p>

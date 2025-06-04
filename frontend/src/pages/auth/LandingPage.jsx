@@ -74,7 +74,7 @@ const LandingPage = () => {
                         <div className="landing-device-container d-flex flex-column">
                             <img
                                 src="/Images/watch.png"
-                                alt="Logo"
+                                alt="Watch"
                                 height="50"
                                 width="50"
                             />
@@ -84,7 +84,7 @@ const LandingPage = () => {
                         <div className="landing-device-container d-flex flex-column">
                             <img
                                 src="/Images/camera.png"
-                                alt="Logo"
+                                alt="Camera"
                                 height="50"
                                 width="50"
                             />
@@ -94,7 +94,7 @@ const LandingPage = () => {
                         <div className="landing-device-container d-flex flex-column">
                             <img
                                 src="/Images/mic.png"
-                                alt="Logo"
+                                alt="Mic"
                                 height="50"
                                 width="42"
                                 style={{ paddingBlock: '8.33px' }}

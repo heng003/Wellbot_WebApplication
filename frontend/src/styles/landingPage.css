@@ -28,7 +28,7 @@
 
 .landing-bg-section {
     position: relative;
-    background: linear-gradient(to right, #0d9488, #1d4ed8);
+    background: linear-gradient(to right, #0D9488, #1d4ed8);
     color: white;
     overflow: hidden;
 }
@@ -256,7 +256,7 @@
         transform: translateX(-50%);
         width: 4rem;
         height: 4rem;
-        background-color: #0d9488;
+        background-color: #0D9488;
         border: 2px solid #99f6e4;
         border-radius: 9999px;
         color: white;
@@ -282,6 +282,6 @@
 }
 
 .timeline-card h3 {
-    color: #0d9488;
+    color: #0D9488;
     margin-bottom: 0.75em;
 }

@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import axios from 'axios';
 import '../../styles/registerPage.css';
 
-const RegisterAdminPage = () => {
+const RegisterGuardianPage = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [tags, setTags] = useState([]);
@@ -17,8 +17,7 @@ const RegisterAdminPage = () => {
         confirmPassword: '',
         fullName: '',
         username: '',
-        role: 'admin',
-        monitoredIds: ''
+        monitoredSerialNumbers: [],
     });
 
     const scrollToTop = () => {
@@ -44,33 +43,31 @@ const RegisterAdminPage = () => {
             return setError('Passwords do not match');
         }
 
-        formData.monitoredIds = tags.map(tag => tag.text).join(',');
-
-        if (formData.role === 'admin' && !formData.monitoredIds) {
+        formData.monitoredSerialNumbers = tags;
+        if (formData.monitoredSerialNumbers.length === 0) {
             scrollToTop();
-            return setError('Please enter at least one Well-Bot ID to monitor');
+            return setError('Please enter at least one Well-Bot Serial Number to monitor');
         }
 
         try {
             setError('');
-            const response = await axios.post('/api/auth/registerAdminAcc', formData);
-            // Handle successful registration
-            console.log(response.data); // Log response from the backend
+            const response = await axios.post('/api/auth/registerGuardianAcc', formData);
 
             Swal.fire({
                 title: "Check Your Email",
-                titleColor: "#0d9488",
+                titleColor: "#0D9488",
                 text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 5 minutes.",
                 imageUrl: "Images/checkEmail.gif",
                 imageHeight: 200,
                 imageAlt: "email",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0d9488",
+                confirmButtonColor: "#0D9488",
                 customClass: {
                     title: 'my-title-class',
                     confirmButton: 'my-confirm-button-class'
                 }
             }).then(() => {
+                scrollToTop();
                 navigate('/logIn');
                 setFormData({
                     email: '',
@@ -78,7 +75,6 @@ const RegisterAdminPage = () => {
                     confirmPassword: '',
                     fullName: '',
                     username: '',
-                    role: 'admin',
                     monitoredIds: '',
                 });
             });
@@ -93,64 +89,7 @@ const RegisterAdminPage = () => {
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0d9488",
-                customClass: {
-                    title: 'my-title-class',
-                    confirmButton: 'my-confirm-button-class'
-                }
-            });
-        }
-    };
-
-    const proceedWithLogin = async () => {
-        try {
-            const response = await axios.post('/api/auth/registerUserAcc', formData);
-            // Handle successful registration
-            console.log(response.data); // Log response from the backend
-
-            Swal.fire({
-                title: "Check Your Email",
-                titleColor: "#0d9488",
-                text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 5 minutes.",
-                imageUrl: "Images/checkEmail.gif",
-                imageHeight: 200,
-                imageAlt: "email",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#0d9488",
-                customClass: {
-                    title: 'my-title-class',
-                    confirmButton: 'my-confirm-button-class'
-                }
-            }).then(() => {
-                navigate('/logIn');
-                setFormData({
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    fullName: '',
-                    username: '',
-                    age: '',
-                    gender: '',
-                    role: 'user',
-                    culturalBackground: '',
-                    language: 'english',
-                    spiritualBeliefs: '',
-                    monitoredIds: '',
-                    allowAdmin: false
-                });
-            });
-        } catch (error) {
-            console.log("Validation errors exist, not showing alert.");
-            // Handle registration error
-            console.error(error); // Log error message
-            console.error("Registration Error:", error.response.data);
-            // Handle showing the error message from the backend
-            Swal.fire({
-                title: "Error!",
-                text: error.response?.data?.message || "An unknown error occurred",
-                icon: "error",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#0d9488",
+                confirmButtonColor: "#0D9488",
                 customClass: {
                     title: 'my-title-class',
                     confirmButton: 'my-confirm-button-class'
@@ -208,7 +147,7 @@ const RegisterAdminPage = () => {
                             </div>
 
                             <div className="form-full">
-                                <label className="form-label">Well-Bot IDs to Monitor</label>
+                                <label className="form-label">Well-Bot Serial Number(s) for Monitoring</label>
                                 <ReactTags
                                     tags={tags}
                                     onChange={setTags}
@@ -246,7 +185,7 @@ const RegisterAdminPage = () => {
                         <button type="submit" className="submit-btn">Create Account</button>
                     </form>
 
-                    <p className="login-redirect">
+                    <p className="login-redirect mt-2">
                         Already have an account?{' '}
                         <Link to="/login" className="login-link" onClick={scrollToTop}>
                             Login here
@@ -258,4 +197,4 @@ const RegisterAdminPage = () => {
     );
 };
 
-export default RegisterAdminPage;
+export default RegisterGuardianPage;

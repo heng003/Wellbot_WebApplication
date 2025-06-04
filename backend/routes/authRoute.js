@@ -3,13 +3,11 @@ const router = express.Router();
 
 const authController = require("../controllers/authController");
 
-router.post('/registerLandlordAcc', authController.registerLandlordAcc);
-router.post('/registerTenantAcc', authController.registerTenantAcc);
+router.post('/registerUserAcc', authController.registerUserAcc);
+router.post('/registerGuardianAcc', authController.registerGuardianAcc);
 router.post('/logIn', authController.logIn);
 router.post('/forgotPassword', authController.forgotPassword);
-router.post('/resetPassword/:id/:token', authController.resetPassword);
+router.post('/resetPassword/:id/:token/:role', authController.resetPassword);
 router.get('/confirmEmail/:token', authController.confirmEmail);
-router.get('/landlordProfileEdit', authController.getUserProfile);
-router.put('/landlordProfileEdit', authController.updateUserProfile);
 
 module.exports = router;

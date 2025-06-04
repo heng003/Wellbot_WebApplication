@@ -10,7 +10,7 @@ import NavBarGeneral from "./layout/NavBarGeneral";
 import LandingPage from "./pages/auth/LandingPage";
 import RegisterRolePage from "./pages/auth/RegisterRolePage";
 import RegisterUserPage from "./pages/auth/RegisterUserPage";
-import RegisterAdminPage from "./pages/auth/RegisterAdminPage";
+import RegisterGuardianPage from "./pages/auth/RegisterGuardianPage";
 import LoginPage from "./pages/auth/LoginPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import ShowNavbar from "./ShowNavbarFooter/ShowNavbar";
@@ -35,7 +35,7 @@ function App() {
 					<Route path="/" element={<LandingPage />} />
 					<Route path="/registerRole" element={<RegisterRolePage />} />
 					<Route path="/registerUser" element={<RegisterUserPage />} />
-					<Route path="/registerAdmin" element={<RegisterAdminPage />} />
+					<Route path="/registerGuardian" element={<RegisterGuardianPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
 					<Route path="/signIn" element={<SignIn />} />

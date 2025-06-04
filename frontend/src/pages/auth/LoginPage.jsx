@@ -32,18 +32,20 @@ const LoginPage = () => {
         if (Object.keys(newErrors).length === 0) {
             console.log("Form is valid, proceed with login");
             try {
-                const response = await axios.post('/api/auth/login', { email, password });
+                const response = await axios.post('/api/auth/logIn', { email, password });
                 console.log("Login response:", response);
                 localStorage.setItem('token', response.data.token);
                 console.log("Token stored:", response.data.token);
                 localStorage.setItem('username', response.data.user.username);
                 console.log("Username stored:", response.data.user.username);
+                localStorage.setItem('fullname', response.data.user.fullname);
+                console.log("Fullname stored:", response.data.user.fullname);
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {
                     navigate('/userHome');
-                } else if (userRole === 'admin') {
-                    navigate('/adminHome');
+                } else if (userRole === 'guardian') {
+                    navigate('/guardianHome');
                 }
 
             } catch (errors) {
@@ -51,10 +53,10 @@ const LoginPage = () => {
                     // "Login Failed", 
                     // error.response.data.message, "error"
                     title: "Login Failed",
-                    text: errors.response.data.message,
+                    text: errors.response.data?.message,
                     icon: "error",
                     confirmButtonText: "OK",
-                    confirmButtonColor: "#0d9488",
+                    confirmButtonColor: "#0D9488",
                     customClass: {
                         title: 'my-title-class',
                         confirmButton: 'my-confirm-button-class'

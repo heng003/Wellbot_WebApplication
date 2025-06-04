@@ -26,10 +26,10 @@ const RegisterRolePage = () => {
                 </div>
                 <div class="col">
                     <div class="card h-100">
-                        <img src="Images/adminAcc.png" alt="admin" height="180" width="190.8" />
-                        <h5 class="register-role-title text-center">Admin Account</h5>
+                        <img src="Images/guardianAcc.png" alt="guardian" height="180" width="190.8" />
+                        <h5 class="register-role-title text-center">Guardian Account</h5>
                         <p className="register-role-content-black">Monitor multiple users' emotional trends — ideal for caregivers who want to support family, friends, or others.</p>
-                        <Link to="/registerAdmin"><button className="green-button" type="button" onClick={scrollToTop}>Register</button></Link>
+                        <Link to="/registerGuardian"><button className="green-button" type="button" onClick={scrollToTop}>Register</button></Link>
                     </div>
                 </div>
             </div>
