@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -10,8 +10,6 @@ const ForgotPasswordPage = () => {
     const [errors, setErrors] = useState({
         email: ""
     });
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,9 +35,8 @@ const ForgotPasswordPage = () => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "#0D9488",
                     customClass: {
-                        title: 'my-title-class-login',
-                        confirmButton: 'my-confirm-button-class',
-                        text: 'my-loginText-class'
+                        title: 'swal-title-class-login',
+                        confirmButton: 'swal-confirm-button-class',
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -55,7 +52,7 @@ const ForgotPasswordPage = () => {
                     icon: "error",
                     confirmButtonColor: "#0D9488",
                     customClass: {
-                        title: 'my-title-class',
+                        title: 'swal-title-class',
                         confirmButton: 'my-confirm-button-class'
                     }
                 });
@@ -93,17 +90,9 @@ const ForgotPasswordPage = () => {
                         <div>
                             <button
                                 type="submit"
-                                disabled={loading}
                                 className="btn-submit"
                             >
-                                {loading ? (
-                                    <svg className="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="spinner-bg" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="spinner-fg" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                                    </svg>
-                                ) : (
-                                    <ArrowRight className="submit-icon" />
-                                )}
+                                <ArrowRight className="submit-icon" />
                                 Reset Password
                             </button>
                         </div>

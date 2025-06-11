@@ -16,7 +16,7 @@ const PopupConsent = ({ onConsentChange }) => {
                         <p className='mt-3'>Your emotional state data (including mood trends and intervention history) will be securely stored in our database to support the system's features and provide you with personalized emotional insights.</p>
                         <ul>
                             <li>Only you, the registered user, will have direct access to view and manage your emotional data.</li>
-                            <li>Authorized Guardians with your Well-Bot ID can view emotional trends.</li>
+                            <li>Authorized Guardians with your registered email address or username can view emotional trends.</li>
                             <li>No other parties will have access.</li>
                         </ul>
 

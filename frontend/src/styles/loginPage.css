@@ -45,7 +45,7 @@ sas.login-page {
 }
 
 .login-title {
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	font-weight: 700;
 	color: #0f172a;
 }
@@ -70,7 +70,7 @@ sas.login-page {
 
 .form-label {
 	display: block;
-	font-size: 0.875rem;
+	font-size: 0.8rem;
 	font-weight: 500;
 	color: #334155;
 	margin-bottom: 0.25rem;
@@ -125,13 +125,14 @@ sas.login-page {
 	width: 100%;
 	background-color: #0D9488;
 	color: white;
-	padding: 0.75rem;
+	padding: 0.5rem;
 	border: none;
 	border-radius: 6px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+	font-size: 0.9rem;
 }
 
 .btn-submit:hover {
@@ -154,7 +155,7 @@ sas.login-page {
 .terms {
 	text-align: center;
 	margin-top: 1.5rem;
-	font-size: 0.875rem;
+	font-size: 0.8rem;
 	color: #64748b;
 }
 
@@ -179,7 +180,7 @@ sas.login-page {
 
 .input-error {
 	color: red;
-	font-size: 0.85rem;
+	font-size: 0.8rem;
 	margin-top: 4px;
 }
 
@@ -191,4 +192,8 @@ sas.login-page {
 	margin-bottom: 1rem;
 	border-radius: 4px;
 	text-align: center;
+}
+
+.redirect-link {
+	font-size: 0.8rem;
 }

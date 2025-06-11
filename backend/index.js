@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
 const authRouter = require('./routes/authRoute');
+const permissionRouter = require('./routes/permissionRoute')
 const fitbitRouter = require('./routes/fitbitRoute');
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // 2. ROUTE
 app.use('/api/auth', authRouter);
+app.use('/api/permission', permissionRouter);
 app.use('/api/fitbit', fitbitRouter);
 
 // Handle React routing, return all requests to React app

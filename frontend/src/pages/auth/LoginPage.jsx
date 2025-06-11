@@ -45,7 +45,7 @@ const LoginPage = () => {
                 if (userRole === 'user') {
                     navigate('/userHome');
                 } else if (userRole === 'guardian') {
-                    navigate('/guardianHome');
+                    navigate('/guardian/monitoredUser');
                 }
 
             } catch (errors) {
@@ -58,8 +58,8 @@ const LoginPage = () => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "#0D9488",
                     customClass: {
-                        title: 'my-title-class',
-                        confirmButton: 'my-confirm-button-class'
+                        title: 'swal-title-class',
+                        confirmButton: 'swal-confirm-button-class'
                     }
                 });
                 setErrors({ form: "Login Failed: " + errors.response.data.message });
@@ -116,7 +116,7 @@ const LoginPage = () => {
                         <div className="form-options mb-3">
                             <div className="checkbox-wrapper">
                             </div>
-                            <div className="forgot-password">
+                            <div className="redirect-link">
                                 <Link to="/forgotPassword" className="link">
                                     Forgot your password?
                                 </Link>

@@ -51,8 +51,42 @@
 }
 
 .navbarContainer {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 1);
-    z-index: 2;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.nav-green-button {
+    background-color: #0D9488;
+    margin-left: 2.5em;
+    font-weight: 500;
+    color: #FFFFFF;
+    border: 2px;
+    border-radius: 6px;
+    font-size: 15px;
+    padding: 10px 30px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav-green-button:hover {
+    background-color: #14B8A6;
+    opacity: 0.7;
+}
+
+.nav-white-button {
+    background-color: #ffffff;
+    font-weight: 500;
+    color: #000000;
+    border: 1px solid black;
+    border-radius: 6px;
+    font-size: 15px;
+    padding: 10px 30px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav-white-button:hover {
+    background-color: #e7e7e7;
+    opacity: 0.7;
 }
 
 @media (max-width: 991px) {

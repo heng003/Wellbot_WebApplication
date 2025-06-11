@@ -11,7 +11,7 @@ const crypto = require("crypto");
 //REGISTER USER ACC
 exports.registerUserAcc = async (req, res, next) => {
     try {
-        const { email, fullname, username, gender, age, serialNumber, allowGuardian } = req.body;
+        const { email, fullname, username, gender, age, language, culturalBackground, spiritualBeliefs, serialNumber, allowGuardian } = req.body;
         const userExists = await User.findOne({ email });
         if (userExists) {
             return next(new createError("Email is already registered as a User!", 400));
@@ -20,6 +20,15 @@ exports.registerUserAcc = async (req, res, next) => {
         const guardianExists = await Guardian.findOne({ email });
         if (guardianExists) {
             return next(new createError("Email is already registered as a Guardian!", 400));
+        }
+
+        let usernameExists = await User.findOne({ username });
+        if (!usernameExists) {
+            usernameExists = await Guardian.findOne({ username });
+        }
+
+        if (usernameExists) {
+            return next(new createError("Username already been registered", 400));
         }
 
         const device = await Device.findOne({ serialNumber });
@@ -43,6 +52,9 @@ exports.registerUserAcc = async (req, res, next) => {
             username,
             gender,
             age,
+            language,
+            culturalBackground,
+            spiritualBeliefs,
             deviceId: device._id,
             allowGuardian,
             verificationToken,
@@ -71,10 +83,10 @@ exports.registerUserAcc = async (req, res, next) => {
     }
 };
 
-//REGISTER ADMIN ACC
+//REGISTER GUARDIAN ACC
 exports.registerGuardianAcc = async (req, res, next) => {
     try {
-        const { email, fullname, username, monitoredSerialNumbers } = req.body;
+        const { email, fullname, username } = req.body;
         const userExists = await User.findOne({ email });
         if (userExists) {
             return next(new createError("Email is already registered as a User!", 400));
@@ -85,15 +97,14 @@ exports.registerGuardianAcc = async (req, res, next) => {
             return next(new createError("Email is already registered as a Guardian!", 400));
         }
 
-        const devices = await Device.find({ serialNumber: { $in: monitoredSerialNumbers } });
-        const foundSerials = devices.map((device) => device.serialNumber);
-        const missingSerials = monitoredSerialNumbers.filter(sn => !foundSerials.includes(sn));
-
-        if (missingSerials.length > 0) {
-            return next(new createError(`Invalid serial number(s): ${missingSerials.join(', ')}`, 400));
+        let usernameExists = await User.findOne({ username });
+        if (!usernameExists) {
+            usernameExists = await Guardian.findOne({ username });
         }
 
-        const monitoredDevices = devices.map(device => device._id);
+        if (usernameExists) {
+            return next(new createError("Username already been registered", 400));
+        }
 
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
         const verificationToken = crypto.randomBytes(16).toString("hex");
@@ -105,7 +116,6 @@ exports.registerGuardianAcc = async (req, res, next) => {
             password: hashedPassword,
             fullname,
             username,
-            monitoredDevices,
             verificationToken, // Store the verification token directly in the user document
             tokenExpires: tokenExpirationDate,
             verified: false,
@@ -221,9 +231,15 @@ exports.confirmEmail = async (req, res) => {
         console.log("Accessed confirmEmail with token:", req.params.token);
 
         // Find user by verification token
-        const user = await User.findOne({
+        let user = await User.findOne({
             verificationToken: req.params.token,
         });
+
+        if (!user) {
+            user = await Guardian.findOne({
+                verificationToken: req.params.token,
+            });
+        }
 
         if (!user) {
             return res.status(404).send("Verification token is invalid.");

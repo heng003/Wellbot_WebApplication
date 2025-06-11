@@ -6,7 +6,6 @@ const guardianSchema = new Schema({
     password: { type: String, required: true },
     fullname: { type: String },
     username: { type: String, required: true, },
-    monitoredDevices: [{ type: Schema.Types.ObjectId, ref: 'Device' }],
     verified: { type: Boolean, default: false },
     verificationToken: { type: String },
     tokenExpires: { type: Date, required: false },

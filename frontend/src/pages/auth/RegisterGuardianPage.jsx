@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ReactTags from '@pathofdev/react-tag-input'
-import '@pathofdev/react-tag-input/build/index.css'
 import Swal from "sweetalert2";
 import axios from 'axios';
 import '../../styles/registerPage.css';
@@ -9,7 +7,6 @@ import '../../styles/registerPage.css';
 const RegisterGuardianPage = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
-    const [tags, setTags] = useState([]);
 
     const [formData, setFormData] = useState({
         email: '',
@@ -17,7 +14,6 @@ const RegisterGuardianPage = () => {
         confirmPassword: '',
         fullName: '',
         username: '',
-        monitoredSerialNumbers: [],
     });
 
     const scrollToTop = () => {
@@ -43,15 +39,9 @@ const RegisterGuardianPage = () => {
             return setError('Passwords do not match');
         }
 
-        formData.monitoredSerialNumbers = tags;
-        if (formData.monitoredSerialNumbers.length === 0) {
-            scrollToTop();
-            return setError('Please enter at least one Well-Bot Serial Number to monitor');
-        }
-
         try {
             setError('');
-            const response = await axios.post('/api/auth/registerGuardianAcc', formData);
+            await axios.post('/api/auth/registerGuardianAcc', formData);
 
             Swal.fire({
                 title: "Check Your Email",
@@ -63,8 +53,8 @@ const RegisterGuardianPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "#0D9488",
                 customClass: {
-                    title: 'my-title-class',
-                    confirmButton: 'my-confirm-button-class'
+                    title: 'swal-title-class',
+                    confirmButton: 'swal-confirm-button-class'
                 }
             }).then(() => {
                 scrollToTop();
@@ -75,7 +65,6 @@ const RegisterGuardianPage = () => {
                     confirmPassword: '',
                     fullName: '',
                     username: '',
-                    monitoredIds: '',
                 });
             });
         } catch (error) {
@@ -91,7 +80,7 @@ const RegisterGuardianPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "#0D9488",
                 customClass: {
-                    title: 'my-title-class',
+                    title: 'swal-title-class',
                     confirmButton: 'my-confirm-button-class'
                 }
             });
@@ -143,15 +132,6 @@ const RegisterGuardianPage = () => {
                                     onChange={handleInputChange}
                                     className="form-input"
                                     required
-                                />
-                            </div>
-
-                            <div className="form-full">
-                                <label className="form-label">Well-Bot Serial Number(s) for Monitoring</label>
-                                <ReactTags
-                                    tags={tags}
-                                    onChange={setTags}
-                                    placeholder="Enter each Well-Bot ID and press Enter to add it"
                                 />
                             </div>
 

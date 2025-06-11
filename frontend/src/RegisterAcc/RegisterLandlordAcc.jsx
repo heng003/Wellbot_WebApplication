@@ -83,7 +83,7 @@ const RegisterLandlordAcc = ({role}) => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "#FF8C22",
                     customClass: {
-                        title: 'my-title-class',
+                        title: 'swal-title-class',
                         confirmButton: 'my-confirm-button-class'
                     }
                 }).then(() => {
@@ -111,7 +111,7 @@ const RegisterLandlordAcc = ({role}) => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "#FF8C22",
                     customClass: {
-                        title: 'my-title-class',
+                        title: 'swal-title-class',
                         confirmButton: 'my-confirm-button-class'
                     } 
                 });

@@ -14,12 +14,12 @@ const RegisterUserPage = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        fullName: '',
+        fullname: '',
         username: '',
         age: '',
         gender: '',
-        culturalBackground: '',
         language: 'english',
+        culturalBackground: '',
         spiritualBeliefs: '',
         serialNumber: '',
         allowGuardian: false
@@ -66,7 +66,7 @@ const RegisterUserPage = () => {
 
     const proceedWithLogin = async () => {
         try {
-            const response = await axios.post('/api/auth/registerUserAcc', formData);
+            await axios.post('/api/auth/registerUserAcc', formData);
 
             Swal.fire({
                 title: "Check Your Email",
@@ -78,7 +78,7 @@ const RegisterUserPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "#0D9488",
                 customClass: {
-                    title: 'my-title-class',
+                    title: 'swal-title-class',
                     confirmButton: 'my-confirm-button-class'
                 }
             }).then(() => {
@@ -87,7 +87,7 @@ const RegisterUserPage = () => {
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    fullName: '',
+                    fullname: '',
                     username: '',
                     age: '',
                     gender: '',
@@ -106,7 +106,7 @@ const RegisterUserPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "#0D9488",
                 customClass: {
-                    title: 'my-title-class',
+                    title: 'swal-title-class',
                     confirmButton: 'my-confirm-button-class'
                 }
             });
@@ -144,8 +144,8 @@ const RegisterUserPage = () => {
                                 <label className="form-label">Full Name</label>
                                 <input
                                     type="text"
-                                    name="fullName"
-                                    value={formData.fullName}
+                                    name="fullname"
+                                    value={formData.fullname}
                                     onChange={handleInputChange}
                                     className="form-input"
                                     required

@@ -58,7 +58,7 @@ const LogIn = () => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "#FF8C22",
                     customClass: {
-                        title: 'my-title-class',
+                        title: 'swal-title-class',
                         confirmButton: 'my-confirm-button-class'
                     } 
                 });    //need to cahnge button color??

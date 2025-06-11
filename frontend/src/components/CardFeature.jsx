@@ -3,7 +3,7 @@ import "../styles/landingPage.css";
 
 const CardFeature = ({ cardIcon, cardTitle, cardContent }) => {
     return (
-        <div className="card p-8 hover:-translate-y-1 transition-all feature-card">
+        <div className="feature-card">
             <img
                 className="mb-3"
                 src={`/Images/${cardIcon}`}

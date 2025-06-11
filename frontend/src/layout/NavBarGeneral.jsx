@@ -5,23 +5,23 @@ import "../styles/navBar.css";
 
 const NavBarGeneral = () => {
 	const location = useLocation();
-	// const [activeItem, setActiveItem] = useState("Rent");
+	const [activeItem, setActiveItem] = useState("");
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
-	// useEffect(() => {
-	// 	const determineActiveItem = () => {
-	// 		const path = location.pathname;
-	// 		if (path.includes("/condo")) {
-	// 			return "Condo";
-	// 		} else if (path.includes("/commercial")) {
-	// 			return "Commercial";
-	// 		} else {
-	// 			return "Rent";
-	// 		}
-	// 	};
+	useEffect(() => {
+		const determineActiveItem = () => {
+			const path = location.pathname;
+			if (path.includes("register")) {
+				return "Register";
+			} else if (path.includes("/login")) {
+				return "Login";
+			} else {
+				return "";
+			}
+		};
 
-	// 	setActiveItem(determineActiveItem());
-	// }, [location]);
+		setActiveItem(determineActiveItem());
+	}, [location]);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -32,9 +32,9 @@ const NavBarGeneral = () => {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	// const handleItemClick = (itemName) => {
-	// 	setActiveItem(itemName);
-	// };
+	const handleItemClick = (itemName) => {
+		setActiveItem(itemName);
+	};
 
 	return (
 		<div className="navbarContainer">
@@ -62,15 +62,11 @@ const NavBarGeneral = () => {
 					<div className="collapse navbar-collapse" id="navbarNav">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 						<ul className="navbar-nav">
-							<li className="nav-item">
-								<Link className="nav-link" to="/login">
-									Login
-								</Link>
+							<li className={`nav-item ${activeItem === "Login" ? "active" : ""}`}>
+								<Link className={isMobile ? "nav-link" : "nav-white-button"} to="/login" onClick={() => handleItemClick("Login")}>Login</Link>
 							</li>
-							<li className="nav-item">
-								<Link className="nav-link" to="/registerRole">
-									Register
-								</Link>
+							<li className={`nav-item ${activeItem === "Register" ? "active" : ""}`}>
+								<Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("Register")}>Register</Link>
 							</li>
 						</ul>
 					</div>

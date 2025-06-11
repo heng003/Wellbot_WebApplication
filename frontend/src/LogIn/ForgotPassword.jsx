@@ -33,7 +33,7 @@ const ForgotPassword = () => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "#FF8C22",
                     customClass: {
-                        title: 'my-title-class-login',
+                        title: 'swal-title-class-login',
                         confirmButton: 'my-confirm-button-class',
                         text: 'my-loginText-class'
                     }
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
                     icon: "error",
                     confirmButtonColor: "#FF8C22",
                     customClass: {
-                        title: 'my-title-class',
+                        title: 'swal-title-class',
                         confirmButton: 'my-confirm-button-class'
                     }
                 });

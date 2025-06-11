@@ -49,13 +49,12 @@
 
 .green-button {
     background-color: #0D9488;
-    margin-block: 1em;
-    font-weight: 600;
+    font-weight: 500;
     color: #FFFFFF;
     border: 2px;
     border-radius: 6px;
-    font-size: 16.5px;
-    padding: 11px 40px;
+    font-size: 15px;
+    padding: 10px 15px;
     cursor: pointer;
 }
 

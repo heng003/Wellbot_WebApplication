@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import CardFeature from "../../components/CardFeature";
 import "../../styles/landingPage.css";
 
+import { Link } from 'react-router-dom';//remove
+
 const LandingPage = () => {
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
@@ -37,7 +39,24 @@ const LandingPage = () => {
         <div className="flex flex-col min-h-screen">
             {/* <Header /> */}
 
+
             <main className="flex-grow">
+                <button><Link to="/guardian/monitoredUser" className="navbar-logo-container text-decoration-none">
+                    <img
+                        src="/Images/logo.png"
+                        alt="Logo"
+                        height="60"
+                    />
+                    <span className="nav-title">click</span>
+                </Link></button>
+                <button><Link to="/user/trackingManage" className="navbar-logo-container text-decoration-none">
+                    <img
+                        src="/Images/logo.png"
+                        alt="Logo"
+                        height="60"
+                    />
+                    <span className="nav-title">click</span>
+                </Link></button>
                 <section className='landing-session landing-bg-section justify-content-between align-items-center'>
                     <div className="landing-grid">
                         <div className="align-content-center">
@@ -70,8 +89,8 @@ const LandingPage = () => {
                     <p className='landing-content-grey text-center'>
                         Well-Bot, a smart companion droid designed to provide early intervention when detecting critical emotional states such as sadness, fear, or anger. By combining multimodal emotion analysis, Well-Bot Insight delivers a holistic view of the user’s emotional state through:
                     </p>
-                    <div className='landing-devices-section' style={{ gap: '1em', paddingInline: '5em' }}>
-                        <div className="landing-device-container d-flex flex-column">
+                    <div className='features-grid'>
+                        <div className="feature-card">
                             <img
                                 src="/Images/watch.png"
                                 alt="Watch"
@@ -81,7 +100,7 @@ const LandingPage = () => {
                             <p className='landing-title-small'>Smartwatch Sensors</p>
                             <p className='landing-content-small'>To Monitor Real-Time Body Vital Signs</p>
                         </div>
-                        <div className="landing-device-container d-flex flex-column">
+                        <div className="feature-card">
                             <img
                                 src="/Images/camera.png"
                                 alt="Camera"
@@ -91,7 +110,7 @@ const LandingPage = () => {
                             <p className='landing-title-small'>Well-Bot Camera</p>
                             <p className='landing-content-small'>To Capture Facial Expressions</p>
                         </div>
-                        <div className="landing-device-container d-flex flex-column">
+                        <div className="feature-card">
                             <img
                                 src="/Images/mic.png"
                                 alt="Mic"
