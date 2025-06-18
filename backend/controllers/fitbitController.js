@@ -42,21 +42,21 @@ const exchangeToken = async (req, res) => {
 		const expiresAt = new Date(Date.now() + expires_in * 1000);
 
 		// Update dummy user — here we assume email is unique and fixed for testing
-		const dummyEmail = 'dummy@example.com';
+		// const dummyEmail = 'dummy@example.com';
 
-		const updatedUser = await User.findOneAndUpdate(
-			{ email: dummyEmail },
-			{
-				fitbitAccessToken: access_token,
-				fitbitRefreshToken: refresh_token,
-				fitbitExpiresAt: expiresAt,
-			},
-			{ new: true }
-		);
+		// const updatedUser = await User.findOneAndUpdate(
+		// 	{ email: dummyEmail },
+		// 	{
+		// 		fitbitAccessToken: access_token,
+		// 		fitbitRefreshToken: refresh_token,
+		// 		fitbitExpiresAt: expiresAt,
+		// 	},
+		// 	{ new: true }
+		// );
 
-		if (!updatedUser) {
-			return res.status(404).json({ error: 'Dummy user not found' });
-		}
+		// if (!updatedUser) {
+		// 	return res.status(404).json({ error: 'Dummy user not found' });
+		// }
 
 		console.log('Fitbit token details:', {
 			access_token,

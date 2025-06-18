@@ -1,6 +1,5 @@
 import "bootstrap/dist/js/bootstrap.bundle";
 import React, { useEffect, useState } from "react";
-import { LogOut } from 'lucide-react';
 import { Link, useLocation } from "react-router-dom";
 import "../styles/navBar.css";
 
@@ -42,7 +41,7 @@ const NavBarGuardian = () => {
     return (
         <div className="navbarContainer">
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                <div className="container-fluid">
+                <div className="container-fluid" style={{ padding: "0 2.5em" }}>
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -58,7 +57,7 @@ const NavBarGuardian = () => {
                         <img
                             src="/Images/logo.png"
                             alt="Logo"
-                            height="60"
+                            height="40"
                         />
                         {!isMobile && <span className="nav-title">Well-Bot</span>}
                     </Link>
@@ -87,7 +86,7 @@ const NavBarGuardian = () => {
                             <li className={`nav-item ${activeItem === "Profile" ? "active" : ""}`}>
                                 <Link
                                     className="nav-link"
-                                    to="/"
+                                    to="/guardian/profile"
                                     onClick={() => handleItemClick("Profile")}
                                 >
                                     Profile
@@ -96,7 +95,7 @@ const NavBarGuardian = () => {
                         </ul>
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={isMobile ? "nav-link" : "nav-white-button"} to="/">LogOut</Link>
+                                <Link className={isMobile ? "nav-link" : "nav-white-button"} onClick={() => localStorage.removeItem('token')} to="/">Log Out</Link>
                             </li>
                         </ul>
                     </div>

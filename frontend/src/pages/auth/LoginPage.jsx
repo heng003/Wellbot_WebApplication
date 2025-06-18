@@ -30,20 +30,15 @@ const LoginPage = () => {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            console.log("Form is valid, proceed with login");
             try {
                 const response = await axios.post('/api/auth/logIn', { email, password });
                 console.log("Login response:", response);
                 localStorage.setItem('token', response.data.token);
                 console.log("Token stored:", response.data.token);
-                localStorage.setItem('username', response.data.user.username);
-                console.log("Username stored:", response.data.user.username);
-                localStorage.setItem('fullname', response.data.user.fullname);
-                console.log("Fullname stored:", response.data.user.fullname);
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {
-                    navigate('/userHome');
+                    navigate('/user/accessManage');
                 } else if (userRole === 'guardian') {
                     navigate('/guardian/monitoredUser');
                 }
@@ -57,10 +52,6 @@ const LoginPage = () => {
                     icon: "error",
                     confirmButtonText: "OK",
                     confirmButtonColor: "#0D9488",
-                    customClass: {
-                        title: 'swal-title-class',
-                        confirmButton: 'swal-confirm-button-class'
-                    }
                 });
                 setErrors({ form: "Login Failed: " + errors.response.data.message });
             } finally {

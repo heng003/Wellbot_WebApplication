@@ -239,6 +239,12 @@ exports.confirmEmail = async (req, res) => {
             user = await Guardian.findOne({
                 verificationToken: req.params.token,
             });
+        } else {
+            const device = await Device.findById(user.deviceId);
+            if (device) {
+                device.status = 'active';
+                await device.save();
+            }
         }
 
         if (!user) {
@@ -270,7 +276,31 @@ exports.confirmEmail = async (req, res) => {
         user.tokenExpires = null; // Clear the expiration date
         await user.save(); // Save the updated user
 
-        res.send("Email verified successfully!");
+        // Redirect to login page after success (frontend route)
+        return res.send(`
+            <html>
+                <head>
+                    <meta http-equiv="refresh" content="2;url=http://localhost:3000/login" />
+                    <style>
+                        body { font-family: Arial, sans-serif; background: #f8fafc; color: #0d9488; text-align: center; padding-top: 80px; }
+                        .card { background: #fff; display: inline-block; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(16,24,40,0.08); }
+                        h2 { margin-bottom: 1rem; }
+                        p { color: #475569; }
+                    </style>
+                </head>
+                <body>
+                    <div class="card">
+                        <h2>Email verified successfully!</h2>
+                        <p>You will be redirected to the login page shortly.</p>
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "http://localhost:3000/login";
+                        }, 2000);
+                    </script>
+                </body>
+            </html>
+        `);
     } catch (error) {
         console.error("Error verifying email:", error);
         res.status(500).send("An error occurred during the verification process.");
@@ -402,82 +432,192 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
-// // GET user profile
-// exports.getUserProfile = async (req, res, next) => {
-//     try {
-//         // Extract token from the request headers
-//         const token = req.headers.authorization.split(" ")[1]; // Assuming token is sent in the "Authorization" header
-//         console.log("Received token:", token);
+// GET user profile with device info
+exports.getUserProfile = async (req, res, next) => {
+    try {
+        // Extract token from the request headers
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-//         // Verify token
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // Retrieve user data using the user ID from the decoded token
+        const user = await User.findById(decoded.userId).lean();
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
 
-//         // Retrieve user data using the user ID from the decoded token
-//         const user = await User.findById(decoded.userId);
-//         console.log("User data:", user);
+        // Get device info if deviceId exists
+        let serialNumber = null;
+        if (user.deviceId) {
+            const device = await Device.findById(user.deviceId).lean();
+            if (device) {
+                serialNumber = device.serialNumber;
+            }
+        }
 
-//         if (!user) {
-//             return res
-//                 .status(404)
-//                 .json({ status: "error", message: "User not found" });
-//         }
+        res.status(200).json({
+            status: "success",
+            data: {
+                id: user._id,
+                fullname: user.fullname,
+                username: user.username,
+                age: user.age,
+                gender: user.gender,
+                language: user.language,
+                spiritualBeliefs: user.spiritualBeliefs,
+                culturalBackground: user.culturalBackground,
+                allowGuardian: user.allowGuardian,
+                deviceId: user.deviceId || null,
+                serialNumber: serialNumber || null
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching user profile:", error);
+        if (error.name === "JsonWebTokenError") {
+            return res.status(401).json({ status: "error", message: "Invalid token" });
+        } else if (error.name === "TokenExpiredError") {
+            return res.status(401).json({ status: "error", message: "Token expired" });
+        } else {
+            next(new createError("Internal Server Error", 500));
+        }
+    }
+};
 
-//         res.status(200).json({
-//             status: "success",
-//             data: user,
-//         });
-//     } catch (error) {
-//         console.error("Error fetching user profile:", error);
-//         // Handle token verification errors
-//         if (error.name === "JsonWebTokenError") {
-//             return res
-//                 .status(401)
-//                 .json({ status: "error", message: "Invalid token" });
-//         } else if (error.name === "TokenExpiredError") {
-//             return res
-//                 .status(401)
-//                 .json({ status: "error", message: "Token expired" });
-//         } else {
-//             next(new createError("Internal Server Error", 500)); // Proper error handling
-//         }
-//     }
-// };
+// UPDATE user profile
+exports.updateUserProfile = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-// // UPDATE user profile
-// exports.updateUserProfile = async (req, res) => {
-//     console.log("Received data:", req.body);
+        const user = await User.findById(decoded.userId);
 
-//     try {
-//         const token = req.headers.authorization.split(" ")[1]; // Get the token from header
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET); // Decode the token
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
 
-//         const user = await User.findById(decoded.userId);
+        // Update fields (add or remove fields as needed)
+        const {
+            fullname,
+            username,
+            age,
+            gender,
+            language,
+            culturalBackground,
+            spiritualBeliefs
+        } = req.body;
 
-//         const { editFullname, editUsername, editPhoneno, editEmail, editIC } =
-//             req.body;
+        if (fullname !== undefined) user.fullname = fullname;
+        if (username !== undefined) user.username = username;
+        if (age !== undefined) user.age = age;
+        if (gender !== undefined) user.gender = gender;
+        if (language !== undefined) user.language = language;
+        if (culturalBackground !== undefined) user.culturalBackground = culturalBackground;
+        if (spiritualBeliefs !== undefined) user.spiritualBeliefs = spiritualBeliefs;
 
-//         if (!user) {
-//             return res
-//                 .status(404)
-//                 .json({ status: "error", message: "User not found" });
-//         }
+        await user.save();
 
-//         user.fullname = editFullname;
-//         user.username = editUsername;
-//         user.email = editEmail;
-//         user.phonenumber = editPhoneno;
-//         user.ic = editIC;
+        res.status(200).json({
+            status: "success",
+            message: "Profile updated successfully",
+            data: {
+                id: user._id,
+                fullname: user.fullname,
+                username: user.username,
+                age: user.age,
+                gender: user.gender,
+                language: user.language,
+                culturalBackground: user.culturalBackground,
+                spiritualBeliefs: user.spiritualBeliefs
+            }
+        });
+    } catch (error) {
+        console.error("Error updating user profile:", error);
+        res.status(500).json({ status: "error", message: "Failed to update profile" });
+    }
+};
 
-//         await user.save();
-//         res.status(200).json({
-//             status: "success",
-//             message: "Profile updated successfully",
-//             data: user,
-//         });
-//     } catch (error) {
-//         console.error("Error updating user profile:", error);
-//         res
-//             .status(500)
-//             .json({ status: "error", message: "Failed to update profile" });
-//     }
-// };
+exports.changePassword = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const { currentPassword, newPassword } = req.body;
+        const user = await User.findById(decoded.userId);
+
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            // Frontend should show Swal error
+            return res.status(400).json({ status: "error", message: "Current password is incorrect" });
+        }
+
+        user.password = await bcrypt.hash(newPassword, 12);
+        await user.save();
+
+        // Frontend should show Swal success
+        res.status(200).json({ status: "success", message: "Password updated successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.changeDevice = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const { serialNumber } = req.body;
+        const user = await User.findById(decoded.userId);
+
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
+
+        const newDevice = await Device.findOne({ serialNumber, status: "inactive" });
+        if (!newDevice) {
+            // Frontend should show Swal error
+            return res.status(400).json({ status: "error", message: "Device not found or already in use" });
+        }
+
+        // Set old device to inactive
+        if (user.deviceId) {
+            await Device.findByIdAndUpdate(user.deviceId, { status: "inactive" });
+        }
+
+        // Set new device to active
+        newDevice.status = "active";
+        await newDevice.save();
+
+        // Update user
+        user.deviceId = newDevice._id;
+        await user.save();
+
+        // Frontend should show Swal success
+        res.status(200).json({ status: "success", message: "Device changed successfully" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updateGuardianPermission = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const { allowGuardian } = req.body;
+        const user = await User.findById(decoded.userId);
+
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
+
+        user.allowGuardian = !!allowGuardian;
+        await user.save();
+
+        res.status(200).json({ status: "success", message: "Guardian permission updated", allowGuardian: user.allowGuardian });
+    } catch (error) {
+        next(error);
+    }
+};

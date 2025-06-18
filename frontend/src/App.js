@@ -5,8 +5,10 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import SignIn from "./RegisterAcc/SignIn";
 import NavBarGeneral from "./layout/NavBarGeneral";
+import NavBarGuardian from "./layout/NavBarGuardian";
+import NavBarUser from "./layout/NavBarUser";
+import Footer from "./layout/Footer.jsx";
 import LandingPage from "./pages/auth/LandingPage";
 import RegisterRolePage from "./pages/auth/RegisterRolePage";
 import RegisterUserPage from "./pages/auth/RegisterUserPage";
@@ -14,18 +16,14 @@ import RegisterGuardianPage from "./pages/auth/RegisterGuardianPage";
 import LoginPage from "./pages/auth/LoginPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import MonitoredUserPage from "./pages/guardian/MonitoredUserPage";
-import TrackingManagePage from "./pages/user/TrackingManagePage";
+import AccessManagePage from "./pages/user/AccessManagePage";
+import UserProfilePage from "./pages/user/UserProfilePage";
+import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
+import DashboardPage from "./pages/user/DashboardPage.jsx";
 import ShowNavbar from "./ShowNavbarFooter/ShowNavbar";
 import ShowFooter from "./ShowNavbarFooter/ShowFooter";
-import RegisterLandlordAcc from "./RegisterAcc/RegisterLandlordAcc";
-import RegisterTenantAcc from "./RegisterAcc/RegisterTenantAcc";
-import LogIn from "./LogIn/LogIn";
-import ForgotPassword from "./LogIn/ForgotPassword";
 import ResetPassword from "./LogIn/ResetPassword";
 import FitbitCallback from "./RegisterAcc/FitbitCallback";
-import Dashboard from "./RegisterAcc/Dashboard";
-import NavBarGuardian from "./layout/NavBarGuardian";
-import NavBarUser from "./layout/NavBarUser";
 
 function App() {
 	return (
@@ -40,14 +38,16 @@ function App() {
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
 					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />
-					<Route path="/user/trackingManage" element={<TrackingManagePage />} />
+					<Route path="/user/accessManage" element={<AccessManagePage />} />
+					<Route path="/user/profile" element={<UserProfilePage />} />
+					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
+					<Route path="/user/dashboard" element={<DashboardPage />} />
 					<Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
 					<Route path="/callback" element={<FitbitCallback />} />
-					<Route path="/dashboard" element={<Dashboard />} />
 				</Routes>
-				{/* <ShowFooter>
-          <Footer />
-        </ShowFooter> */}
+				<ShowFooter>
+					<Footer />
+				</ShowFooter>
 			</Router>
 		</>
 	);

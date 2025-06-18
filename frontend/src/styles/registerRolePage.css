@@ -3,7 +3,7 @@
     flex-direction: column;
     padding-inline: 3.8em;
     padding-block: 4em;
-    background-color: #F8FAFCE6;
+    background-color:#F8FAFCE6;
     gap: 1em;
 }
 
@@ -11,9 +11,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-inline: 2em;
-    padding-block: 2em;
-    gap: 1.5em;
+    padding-inline: 3.5em !important;
+    padding-block: 3em !important;
+    margin-block: 1em;
+    gap: 1em;
     border-radius: 0.75rem;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease;
@@ -23,28 +24,38 @@
     transform: translateY(-4px);
 }
 
+.card-hover {
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+.card-hover:hover {
+    box-shadow: 0 4px 16px rgba(13, 148, 136, 0.15);
+    border: 1.5px solid black;
+}
+
 .register-role-title {
     color: black;
     font-weight: 600;
-    font-size: 2em;
+    font-size: 1.275em;
+    margin-top: 0.8em;
 }
 
 .register-role-content-black {
     color: black;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: 400;
 }
 
 .register-role-title-small {
     color: black;
     font-weight: 600;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .register-role-content-grey {
     color: #333333;
     font-weight: 450;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .green-button {
@@ -61,4 +72,9 @@
 .green-button:hover {
     background-color: #14B8A6;
     opacity: 0.7;
+}
+
+.row-register-roles {
+    gap: 5em;
+    margin-bottom: 2em;
 }

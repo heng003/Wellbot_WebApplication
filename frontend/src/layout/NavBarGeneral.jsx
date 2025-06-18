@@ -39,7 +39,7 @@ const NavBarGeneral = () => {
 	return (
 		<div className="navbarContainer">
 			<nav className="navbar navbar-expand-lg bg-body-tertiary">
-				<div className="container-fluid">
+				<div className="container-fluid" style={{ padding: "0 2.5em" }}>
 					<button
 						className="navbar-toggler"
 						type="button"
@@ -55,7 +55,7 @@ const NavBarGeneral = () => {
 						<img
 							src="/Images/logo.png"
 							alt="Logo"
-							height="60"
+							height="40"
 						/>
 						{!isMobile && <span className="nav-title">Well-Bot</span>}
 					</Link>

@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 
-export function getGuardianIdFromToken() {
+export function getIdFromToken() {
     const token = localStorage.getItem('token');
     if (!token) return null;
     try {

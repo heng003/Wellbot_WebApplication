@@ -12,7 +12,7 @@ const RegisterGuardianPage = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        fullName: '',
+        fullname: '',
         username: '',
     });
 
@@ -63,7 +63,7 @@ const RegisterGuardianPage = () => {
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    fullName: '',
+                    fullname: '',
                     username: '',
                 });
             });
@@ -115,8 +115,8 @@ const RegisterGuardianPage = () => {
                                 <label className="form-label">Full Name</label>
                                 <input
                                     type="text"
-                                    name="fullName"
-                                    value={formData.fullName}
+                                    name="fullname"
+                                    value={formData.fullname}
                                     onChange={handleInputChange}
                                     className="form-input"
                                     required

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CardFeature from "../../components/CardFeature";
 import "../../styles/landingPage.css";
-
-import { Link } from 'react-router-dom';//remove
+import FitbitLoginButton from "../../components/FitbitLoginButton";
 
 const LandingPage = () => {
 
@@ -41,22 +40,6 @@ const LandingPage = () => {
 
 
             <main className="flex-grow">
-                <button><Link to="/guardian/monitoredUser" className="navbar-logo-container text-decoration-none">
-                    <img
-                        src="/Images/logo.png"
-                        alt="Logo"
-                        height="60"
-                    />
-                    <span className="nav-title">click</span>
-                </Link></button>
-                <button><Link to="/user/trackingManage" className="navbar-logo-container text-decoration-none">
-                    <img
-                        src="/Images/logo.png"
-                        alt="Logo"
-                        height="60"
-                    />
-                    <span className="nav-title">click</span>
-                </Link></button>
                 <section className='landing-session landing-bg-section justify-content-between align-items-center'>
                     <div className="landing-grid">
                         <div className="align-content-center">
@@ -86,31 +69,32 @@ const LandingPage = () => {
 
                 <section className='landing-session flex-column' style={{ gap: '2em' }}>
                     <p className='landing-title align-self-center text-center'>About</p>
-                    <p className='landing-content-grey text-center'>
-                        Well-Bot, a smart companion droid designed to provide early intervention when detecting critical emotional states such as sadness, fear, or anger. By combining multimodal emotion analysis, Well-Bot Insight delivers a holistic view of the user’s emotional state through:
-                    </p>
                     <div className='features-grid'>
-                        <div className="feature-card">
+                        <div className="feature-card grey-border">
                             <img
                                 src="/Images/watch.png"
                                 alt="Watch"
                                 height="50"
                                 width="50"
                             />
-                            <p className='landing-title-small'>Smartwatch Sensors</p>
-                            <p className='landing-content-small'>To Monitor Real-Time Body Vital Signs</p>
+                            <div className="column-center gap-2">
+                                <p className='landing-title-small'>Smartwatch Sensors</p>
+                                <p className='landing-content-small'>To Monitor Real-Time Body Vital Signs</p>
+                            </div>
                         </div>
-                        <div className="feature-card">
+                        <div className="feature-card grey-border">
                             <img
                                 src="/Images/camera.png"
                                 alt="Camera"
                                 height="50"
                                 width="50"
                             />
-                            <p className='landing-title-small'>Well-Bot Camera</p>
-                            <p className='landing-content-small'>To Capture Facial Expressions</p>
+                            <div className="column-center gap-2">
+                                <p className='landing-title-small'>Well-Bot Camera</p>
+                                <p className='landing-content-small'>To Capture Facial Expressions</p>
+                            </div>
                         </div>
-                        <div className="feature-card">
+                        <div className="feature-card grey-border">
                             <img
                                 src="/Images/mic.png"
                                 alt="Mic"
@@ -118,20 +102,19 @@ const LandingPage = () => {
                                 width="42"
                                 style={{ paddingBlock: '8.33px' }}
                             />
-                            <p className='landing-title-small'>Well-Bot Microphone</p>
-                            <p className='landing-content-small'>To Capture Speech and Background Musics</p>
+                            <div className="column-center gap-2">
+                                <p className='landing-title-small'>Well-Bot Microphone</p>
+                                <p className='landing-content-small'>To Capture Speech and Background Musics</p>
+                            </div>
                         </div>
                     </div>
                     <p className='landing-content-grey text-center'>
-                        With the power of AI and real-time data collection, Well-Bot delivers personalized early intervention on user’s mental wellness and  offer insight into their emotional states, helping users stay aware of their mental well-being and promoting healthier emotional regulation.
+                        Well-Bot is a smart companion droid that uses AI and real-time data from the smartwatch, camera, and microphone to detect critical emotional states.<br />With these multimodal inputs, Well-Bot Insight provides a holistic view of the user’s emotional state and delivers personalized early interventions.
                     </p>
                 </section>
 
                 <section className='landing-session flex-column' style={{ gap: '2em', background: '#F0F0F0' }}>
                     <p className='landing-title align-self-center text-center'>Powerful Features for Emotional Well-being</p>
-                    <p className='landing-content-grey text-center'>
-                        Our system provides you with the tools you need to understand, track, and improve your emotional wellness.
-                    </p>
                     <div className="features-grid mt-3">
                         {featureCardData.map((card, index) => (
                             <CardFeature
@@ -195,7 +178,7 @@ const LandingPage = () => {
 
                     </div>
                 </section>
-
+                {/* <FitbitLoginButton /> */}
             </main>
 
             {/* <Footer /> */}

@@ -7,6 +7,7 @@ const guardianSchema = new Schema({
     status: { type: String, enum: ['active', 'pending', 'reject', 'revoked']},
     requestedAt: { type: Date, required: false },
     updatedAt: { type: Date, required: false },
+    requestMessage: { type: String, required: false },
 });
 
 const Permission = mongoose.model("Permission", guardianSchema);

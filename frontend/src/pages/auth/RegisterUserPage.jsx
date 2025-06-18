@@ -32,12 +32,23 @@ const RegisterUserPage = () => {
         });
     };
 
+    const capitalizeWords = (str) =>
+      str.replace(/\b\w/g, char => char.toUpperCase());
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
         }));
+    };
+
+    const handlePersonalInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({
+        ...prev,
+        [name]: name === "fullname" ? capitalizeWords(value) : value
+      }));
     };
 
     const handleSubmit = async (e) => {
@@ -146,7 +157,7 @@ const RegisterUserPage = () => {
                                     type="text"
                                     name="fullname"
                                     value={formData.fullname}
-                                    onChange={handleInputChange}
+                                    onChange={handlePersonalInputChange}
                                     className="form-input"
                                     required
                                 />

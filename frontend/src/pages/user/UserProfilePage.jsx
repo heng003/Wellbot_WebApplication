@@ -1,0 +1,724 @@
+import React, { useState, useEffect } from 'react';
+import { User, Edit, Save, Lock, Eye, EyeOff, Smartphone, Shield, Bot } from 'lucide-react';
+import '../../styles/profilePage.css';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { getIdFromToken } from '../../utils/auth';
+import { Link, useNavigate } from 'react-router-dom';
+
+const UserProfilePage = () => {
+    const [personalData, setPersonalData] = useState({});
+    const userId = getIdFromToken();
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState('');
+    const [error, setError] = useState('');
+    const [editingPersonal, setEditingPersonal] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showDeviceModal, setShowDeviceModal] = useState(false);
+    const [serialNumberInput, setSerialNumberInput] = useState('');
+    const navigate = useNavigate();
+
+    // const [personalData, setPersonalData] = useState({
+    //     fullname: 'Emma Johnson',
+    //     username: 'emmaj',
+    //     age: 28,
+    //     gender: 'female',
+    //     language: 'english',
+    //     culturalBackground: 'Asian',
+    //     spiritualBeliefs: 'Buddhism'
+    // });
+
+    const fetchProfile = async () => {
+        const token = localStorage.getItem('token');
+        const res = await axios.get('/api/profile/userProfile', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        setPersonalData(res.data.data);
+    };
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    const capitalizeWords = (str) =>
+      str.replace(/\b\w/g, char => char.toUpperCase());
+
+    const handleFullNameInputChange = (e) => {
+      const { name, value } = e.target;
+      setPersonalData(prev => ({
+        ...prev,
+        [name]: name === "fullname" ? capitalizeWords(value) : value
+      }));
+    };
+
+    const handlePersonalInputChange = (e) => {
+        const { name, value } = e.target;
+        setPersonalData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handlePersonalSubmit = async (e) => {
+        e.preventDefault();
+        if (!userId) {
+            alert('Credential not found');
+            return;
+        }
+        setLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            await axios.put('/api/profile/userProfile', personalData, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setSuccess('Personal information updated successfully!');
+            setEditingPersonal(false);
+            Swal.fire({
+                title: "Success",
+                text: "Personal information updated successfully!",
+                icon: "success",
+                confirmButtonColor: "#0D9488",
+            });
+        } catch (err) {
+            setError('Failed to update profile');
+            Swal.fire({
+                title: "Error",
+                text: "Failed to update profile",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handlePasswordSubmit = async (e) => {
+        e.preventDefault();
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            Swal.fire({
+                title: "Error",
+                text: "New passwords do not match",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+            return;
+        }
+        if (passwordData.newPassword.length < 8) {
+            setError('Password must be at least 8 characters long');
+            Swal.fire({
+                title: "Error",
+                text: "Password must be at least 8 characters long",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+            return;
+        }
+        setLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            await axios.post('/api/profile/changePassword', {
+                currentPassword: passwordData.currentPassword,
+                newPassword: passwordData.newPassword
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setSuccess('Password changed!');
+            setShowPasswordModal(false);
+            Swal.fire({
+                title: "Success",
+                text: "Password changed successfully!",
+                icon: "success",
+                confirmButtonColor: "#0D9488",
+            });
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to change password');
+            Swal.fire({
+                title: "Error",
+                text: err.response?.data?.message || "Failed to change password",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGuardianTrackingToggle = async (checked) => {
+        const token = localStorage.getItem('token');
+        if (checked) {
+            // Enabling: just update
+            try {
+                await axios.patch('/api/profile/guardianPermission', { allowGuardian: true }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setPersonalData(prev => ({
+                    ...prev,
+                    allowGuardian: true
+                }));
+                setSuccess('Guardian tracking enabled');
+                Swal.fire({
+                    title: "Success",
+                    text: "Guardian tracking enabled",
+                    icon: "success",
+                    confirmButtonColor: "#0D9488",
+                });
+            } catch (err) {
+                setError('Failed to enable guardian tracking');
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to enable guardian tracking",
+                    icon: "error",
+                    confirmButtonColor: "#0D9488",
+                });
+            }
+        } else {
+            // Disabling: check for active permissions
+            try {
+                const res = await axios.get('/api/permission/user/activeCount', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (res.data.count > 0) {
+                    Swal.fire({
+                        title: "Active Guardians",
+                        text: `You have ${res.data.count} granted permissions. Do you want to revoke them before disable guardian to send tracking requests?`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Go to Access Management",
+                        cancelButtonText: "Cancel",
+                        confirmButtonColor: "#0D9488",
+                        cancelButtonColor: "#FFF",
+                        customClass: {
+                            cancelButton: 'swal-cancel-white'
+                        }
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            scrollToTop();
+                            navigate('/user/accessManage');
+                        } else {
+                            handleDisableRequest();
+                        }
+                    });
+                } else {
+                    handleDisableRequest();
+                }
+            } catch (err) {
+                setError('Failed to disable guardian tracking');
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to disable guardian tracking",
+                    icon: "error",
+                    confirmButtonColor: "#0D9488",
+                });
+            }
+        }
+    };
+
+    const handleDisableRequest = async (e) => {
+        try {
+            const token = localStorage.getItem('token');
+            await axios.patch('/api/profile/guardianPermission', { allowGuardian: false }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setPersonalData(prev => ({
+                ...prev,
+                allowGuardian: false
+            }));
+            setSuccess('Guardian tracking disabled');
+            Swal.fire({
+                title: "Success",
+                text: "Guardian tracking disabled",
+                icon: "success",
+                confirmButtonColor: "#0D9488",
+            });
+        } catch (err) {
+            setError('Failed to disable guardian tracking');
+            Swal.fire({
+                title: "Error",
+                text: "Failed to disable guardian tracking",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+        }
+    };
+
+    const closeModals = () => {
+        setShowPasswordModal(false);
+        setShowDeviceModal(false);
+        setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+        setSerialNumberInput('');
+    };
+
+    // Change device
+    const handleDeviceChange = async (e) => {
+        e.preventDefault();
+        if (personalData.serialNumber === passwordData.confirmPassword) {
+            Swal.fire({
+                title: "Device Error",
+                text: "The new serial number cannot be the same as the current one.",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+            return;
+        }
+        setLoading(true);
+
+        try {
+            const token = localStorage.getItem('token');
+            const res = await axios.post('/api/profile/device/change', {
+                serialNumber: serialNumberInput,
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setSuccess('Device changed!');
+            setShowDeviceModal(false);
+            Swal.fire({
+                title: "Success",
+                text: "Device changed successfully!",
+                icon: "success",
+                confirmButtonColor: "#0D9488",
+            });
+        } catch (err) {
+            Swal.fire({
+                title: "Device Error",
+                text: err.response?.data?.message || "Failed to change device",
+                icon: "error",
+                confirmButtonColor: "#0D9488",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <>
+            <main className="main-container">
+                <div className="top-bar">
+                    <div className="header-section flex-column">
+                        <div>
+                            <h1 className="page-title">Profile</h1>
+                            <p className="page-subtitle">Manage your personal information, account settings, and privacy preferences</p>
+                        </div>
+                        {/* <button className="green-button" onClick={() => setShowAddGuardianModal(true)}>
+                            <UserPlus className="icon-small" />
+                            Add Guardian
+                        </button> */}
+                    </div>
+                </div>
+
+                {error && (
+                    <div className="alert alert-error">{error}</div>
+                )}
+                {success && (
+                    <div className="alert alert-success">{success}</div>
+                )}
+
+                <div className="profile-section">
+                    {/* Personal Information */}
+                    <div className="profile-card">
+                        <div className="profile-card-header">
+                            <h2>
+                                <User size={25} className="profile-icon" />
+                                Personal Information
+                            </h2>
+                            {!editingPersonal && (
+                                <button
+                                    onClick={() => setEditingPersonal(true)}
+                                    className="white-button btn-outline"
+                                    disabled={editingPersonal}
+                                >
+                                    <Edit size={16} />
+                                    Edit
+                                </button>
+                            )}
+                        </div>
+                        {editingPersonal ? (
+                            <form onSubmit={handlePersonalSubmit} className="profile-card-content profile-form-grid">
+                                <div>
+                                    <label className="form-label">Full Name</label>
+                                    <input
+                                        type="text"
+                                        name="fullname"
+                                        value={personalData.fullname}
+                                        onChange={handleFullNameInputChange}
+                                        className="form-input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="form-label">Username</label>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        value={personalData.username}
+                                        onChange={handlePersonalInputChange}
+                                        className="form-input"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="form-label">Age</label>
+                                    <input
+                                        type="number"
+                                        name="age"
+                                        value={personalData.age}
+                                        onChange={handlePersonalInputChange}
+                                        className="form-input"
+                                        required
+                                        min="13"
+                                        max="120"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="form-label">Gender</label>
+                                    <select
+                                        name="gender"
+                                        value={personalData.gender}
+                                        onChange={handlePersonalInputChange}
+                                        className="form-input"
+                                        required
+                                    >
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="form-label">Language</label>
+                                    <select
+                                        name="language"
+                                        value={personalData.language}
+                                        onChange={handlePersonalInputChange}
+                                        className="form-input"
+                                        required
+                                    >
+                                        <option value="english">English</option>
+                                        <option value="malay">Malay</option>
+                                        <option value="chinese">Chinese</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="form-label">Cultural Background</label>
+                                    <select
+                                        name="culturalBackground"
+                                        value={personalData.culturalBackground}
+                                        onChange={handlePersonalInputChange}
+                                        className="form-input"
+                                    >
+                                        <option value="">Select background</option>
+                                        <option value="Malay">Malay</option>
+                                        <option value="Chinese">Chinese</option>
+                                        <option value="Indian">Indian</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div className="span-2">
+                                    <label className="form-label">Spiritual/Religious Beliefs</label>
+                                    <select
+                                        name="spiritualBeliefs"
+                                        value={personalData.spiritualBeliefs}
+                                        onChange={handlePersonalInputChange}
+                                        className="form-input"
+                                    >
+                                        <option value="">Select beliefs</option>
+                                        <option value="Islam">Islam</option>
+                                        <option value="Buddhism">Buddhism</option>
+                                        <option value="Christianity">Christianity</option>
+                                        <option value="Hinduism">Hinduism</option>
+                                        <option value="None">None</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div className="profile-form-actions">
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="green-button btn-primary"
+                                    >
+                                        {loading ? <span className="loader"></span> : <Save size={16} />}
+                                        <span className="mt-1">Save Changes</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditingPersonal(false)}
+                                        className="white-button btn-outline"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        ) : (
+                            <div className="profile-card-content profile-info-grid">
+                                <div>
+                                    <span className="profile-label">Full Name</span>
+                                    <span className="profile-value">{personalData.fullname}</span>
+                                </div>
+                                <div>
+                                    <span className="profile-label">Username</span>
+                                    <span className="profile-value">{personalData.username}</span>
+                                </div>
+                                <div>
+                                    <span className="profile-label">Age</span>
+                                    <span className="profile-value">{personalData.age} years old</span>
+                                </div>
+                                <div>
+                                    <span className="profile-label">Gender</span>
+                                    <span className="profile-value">{personalData.gender}</span>
+                                </div>
+                                <div>
+                                    <span className="profile-label">Language</span>
+                                    <span className="profile-value">{personalData.language}</span>
+                                </div>
+                                <div>
+                                    <span className="profile-label">Cultural Background</span>
+                                    <span className="profile-value">{personalData.culturalBackground || 'Not specified'}</span>
+                                </div>
+                                <div className="span-2">
+                                    <span className="profile-label">Spiritual/Religious Beliefs</span>
+                                    <span className="profile-value">{personalData.spiritualBeliefs || 'Not specified'}</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Account Settings */}
+                    <div className="profile-card">
+                        <div className="profile-card-header">
+                            <h2>
+                                <Lock size={25} className="profile-icon" />
+                                Account Settings
+                            </h2>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Password</span>
+                                <span className="profile-content-subtitle">Password must be at least 8 characters and include a mix of letteres, numbers, and symbols</span>
+                            </div>
+                            <button
+                                onClick={() => setShowPasswordModal(true)}
+                                className="white-button btn-outline"
+                                disabled={editingPersonal}
+                            >
+                                <Edit size={16} />
+                                Change Password
+                            </button>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Well-Bot Device Connection</span>
+                                <span className="profile-content-subtitle">Replace your current Well-Bot connection with another validated droid</span>
+                            </div>
+                            <button
+                                onClick={() => setShowDeviceModal(true)}
+                                className="white-button btn-outline"
+                                disabled={editingPersonal}
+                            >
+                                <Bot size={20} />
+                                <span className="mt-1">Change Device</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Guardian Tracking */}
+                    <div className="profile-card">
+                        <div className="profile-card-header">
+                            <h2>
+                                <Shield size={25} className="profile-icon" />
+                                Guardian Tracking
+                            </h2>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Guardian Tracking Permission</span>
+                                <span className="profile-content-subtitle">Enable caregivers to send tracking requests</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    checked={!!personalData.allowGuardian}
+                                    onChange={async (e) => {
+                                        const checked = e.target.checked;
+                                        await handleGuardianTrackingToggle(checked);
+                                    }}
+                                    disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        {personalData.allowGuardian && (<div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Manage Guardian Access</span>
+                                <span className="profile-content-subtitle">View and manage guardian requests and permissions</span>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    scrollToTop();
+                                    navigate('/user/accessManage');
+                                }}
+                                className="white-button btn-outline"
+                                disabled={editingPersonal}
+                            >
+                                Manage Access
+                            </button>
+                        </div>)}
+                    </div>
+                </div>
+            </main>
+            {/* Change Password Modal */}
+            {showPasswordModal && (
+                <div className="modal-overlay">
+                    <div className="modal-container">
+                        <h3 className="modal-title mb-4">Change Password</h3>
+                        <form onSubmit={handlePasswordSubmit} className="profile-form-vertical">
+                            <div>
+                                <label className="form-label">Current Password</label>
+                                <div className="input-password">
+                                    <input
+                                        type={showCurrentPassword ? "text" : "password"}
+                                        name="currentPassword"
+                                        value={passwordData.currentPassword}
+                                        onChange={handlePasswordInputChange}
+                                        className="form-input"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="input-eye"
+                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                    >
+                                        {showCurrentPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="form-label">New Password</label>
+                                <div className="input-password">
+                                    <input
+                                        type={showNewPassword ? "text" : "password"}
+                                        name="newPassword"
+                                        value={passwordData.newPassword}
+                                        onChange={handlePasswordInputChange}
+                                        className="form-input"
+                                        required
+                                        minLength={8}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="input-eye"
+                                        onClick={() => setShowNewPassword(!showNewPassword)}
+                                    >
+                                        {showNewPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="form-label">Confirm New Password</label>
+                                <div className="input-password">
+                                    <input
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        name="confirmPassword"
+                                        value={passwordData.confirmPassword}
+                                        onChange={handlePasswordInputChange}
+                                        className="form-input"
+                                        required
+                                        minLength={8}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="input-eye"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    >
+                                        {showConfirmPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="profile-form-actions">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="green-button btn-primary"
+                                >
+                                    {loading ? <span className="loader"></span> : <Save size={16} />}
+                                    <span className="mt-1">Update Password</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={closeModals}
+                                    className="white-button btn-outline"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Change Device Modal */}
+            {showDeviceModal && (
+                <div className="modal-overlay">
+                    <div className="modal-container">
+                        <h3 className="modal-title mb-4">Change Well-Bot Device</h3>
+                        <form onSubmit={handleDeviceChange} className="profile-form-vertical">
+                            <div>
+                                <label className="form-label">New Device Serial Number</label>
+                                <input
+                                    type="text"
+                                    value={serialNumberInput}
+                                    onChange={e => setSerialNumberInput(e.target.value)}
+                                    className="form-input"
+                                    placeholder="Enter new device serial number"
+                                    required
+                                />
+                            </div>
+                            <div className="profile-form-actions">
+                                <button
+                                    type="submit"
+                                    className="green-button btn-primary"
+                                >
+                                    <Save size={16} />
+                                    <span className="mt-1">Change Device</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={closeModals}
+                                    className="white-button btn-outline"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
+
+export default UserProfilePage;

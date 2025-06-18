@@ -35,11 +35,11 @@ const LogIn = () => {
             console.log("Form is valid, proceed with login");
             try {
                 const response = await axios.post('/api/auth/logIn', { email, password });
-                console.log("Login response:", response);
+                // console.log("Login response:", response);
                 localStorage.setItem('token', response.data.token);
-                console.log("Token stored:", response.data.token);
-                localStorage.setItem('username', response.data.user.username);
-                console.log("Username stored:", response.data.user.username);
+                // console.log("Token stored:", response.data.token);
+                // localStorage.setItem('username', response.data.user.username);
+                // console.log("Username stored:", response.data.user.username);
 
                 const userRole = response.data.user.role; 
                 if (userRole === 'tenant') {

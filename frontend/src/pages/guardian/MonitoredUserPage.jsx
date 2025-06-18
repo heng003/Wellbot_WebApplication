@@ -5,7 +5,7 @@ import { X } from 'lucide-react';
 import '../../styles/monitoredUserPage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { getGuardianIdFromToken } from '../../utils/auth';
+import { getIdFromToken } from '../../utils/auth';
 
 const MonitoredUserPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -14,9 +14,10 @@ const MonitoredUserPage = () => {
     const [showAddUserModal, setShowAddUserModal] = useState(false);
     const [showViewModal, setShowViewModal] = useState(false);
     const [newUser, setNewUser] = useState('');
+    const [requestMessage, setRequestMessage] = useState('');
     const [monitoredList, setMonitoredList] = useState([]);
 
-    const guardianId = getGuardianIdFromToken();
+    const guardianId = getIdFromToken();
 
     const fetchMonitoredList = async () => {
         if (!guardianId) {
@@ -24,7 +25,10 @@ const MonitoredUserPage = () => {
             return;
         }
         try {
-            const response = await axios.get(`/api/permission/guardian/getMonitoredList/${guardianId}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`/api/permission/guardian/getMonitoredList/${guardianId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             setMonitoredList(response.data);
         } catch (error) {
             console.error('Error fetching monitored list:', error);
@@ -88,6 +92,7 @@ const MonitoredUserPage = () => {
             const response = await axios.post(`/api/permission/guardian/createPermission`, {
                 guardianId: guardianId,
                 userIdentification: newUser,
+                requestMessage: requestMessage
             }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -104,6 +109,7 @@ const MonitoredUserPage = () => {
                     if (result.isConfirmed) {
                         fetchMonitoredList();
                         setNewUser('');
+                        setRequestMessage('');
                         setShowAddUserModal(false);
                     }
                 });
@@ -117,6 +123,7 @@ const MonitoredUserPage = () => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setNewUser('');
+                        setRequestMessage('');
                         setShowAddUserModal(false);
                     }
                 });
@@ -176,8 +183,10 @@ const MonitoredUserPage = () => {
         if (!result.isConfirmed) return;
 
         try {
+            const token = localStorage.getItem('token');
             const response = await axios.delete('/api/permission/guardian/deletePermission', {
-                data: { guardianId, userId }
+                data: { guardianId, userId },
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.status === 200) {
                 fetchMonitoredList();
@@ -204,12 +213,12 @@ const MonitoredUserPage = () => {
                 });
             }
         } catch (error) {
-            console.error('Error deleting property:', error);
+            console.error('Error deleting user:', error);
             Swal.fire({
                 title: 'Error',
                 text: 'Failed to delete user. Please try again later.',
                 icon: 'error',
-                confirmButtonColor: "#FF8C22",
+                confirmButtonColor: "#0D9488",
                 confirmButtonText: 'Ok',
             });
         }
@@ -370,7 +379,7 @@ const MonitoredUserPage = () => {
                     <div className="add-user-container">
                         <h3 className="modal-title">Add New User</h3>
                         <form onSubmit={handleAddUser}>
-                            <div className="form-group mt-3">
+                            <div className="form-group">
                                 <label className="form-label">Email / Username</label>
                                 <input
                                     type="text"
@@ -380,9 +389,17 @@ const MonitoredUserPage = () => {
                                     placeholder="e.g. johndoe@example.com or johndoe123"
                                     required
                                 />
-                                <p className="form-helper">
-                                    Enter the user's email or username to send a monitoring request
-                                </p>
+                            </div>
+                            <div className="form-group mt-3">
+                                <label className="form-label">Message (optional)</label>
+                                <textarea
+                                    value={requestMessage}
+                                    onChange={(e) => setRequestMessage(e.target.value)}
+                                    className="form-input"
+                                    placeholder="Add a personal message to your monitoring request"
+                                    rows={3}
+                                    style={{ resize: 'vertical', minHeight: '60px' }}
+                                />
                             </div>
                             <div className="modal-actions">
                                 <button type="submit" className="long-green-button">
@@ -393,6 +410,7 @@ const MonitoredUserPage = () => {
                                     onClick={() => {
                                         setShowAddUserModal(false);
                                         setNewUser('');
+                                        setRequestMessage('');
                                     }}
                                     className="long-white-button"
                                 >
@@ -402,9 +420,7 @@ const MonitoredUserPage = () => {
                         </form>
                     </div>
                 </div>
-
-            )
-            }
+            )}
             {showViewModal && <div className="modal-overlay">
                 <div className="modal-container">
                     <div className="modal-header">
@@ -456,7 +472,7 @@ const MonitoredUserPage = () => {
 
                     <div className="modal-actions">
                         {selectedUser?.status === 'active' && <button className="long-green-button">View Emotional History</button>}
-                        <button onClick={() => handleRemoveUser(selectedUser)} className="long-red-button">
+                        <button onClick={() => handleRemoveUser(selectedUser)} className="long-white-button" style={{ color: '#dc2626', borderColor: '#fca5a5' }}>
                             {selectedUser?.status === 'pending'
                                 ? 'Cancel Request'
                                 : 'Remove User'}

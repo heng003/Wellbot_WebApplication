@@ -1,6 +1,5 @@
 import "bootstrap/dist/js/bootstrap.bundle";
 import React, { useEffect, useState } from "react";
-import { LogOut } from 'lucide-react';
 import { Link, useLocation } from "react-router-dom";
 import "../styles/navBar.css";
 
@@ -12,10 +11,12 @@ const NavBarUser = () => {
     useEffect(() => {
         const determineActiveItem = () => {
             const path = location.pathname;
-            if (path.includes("register")) {
-                return "Register";
-            } else if (path.includes("/login")) {
-                return "Login";
+            if (path.includes("access")) {
+                return "Access";
+            } else if (path.includes("/dashboard")) {
+                return "Dashboard";
+            } else if (path.includes("profile")) {
+                return "Profile";
             } else {
                 return "";
             }
@@ -40,7 +41,7 @@ const NavBarUser = () => {
     return (
         <div className="navbarContainer">
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
-                <div className="container-fluid">
+                <div className="container-fluid" style={{ padding: "0 2.5em" }}>
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -56,36 +57,35 @@ const NavBarUser = () => {
                         <img
                             src="/Images/logo.png"
                             alt="Logo"
-                            height="60"
+                            height="40"
                         />
                         {!isMobile && <span className="nav-title">Well-Bot</span>}
                     </Link>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className={`nav-item ${activeItem === "Management" ? "active" : ""}`}>
+                            <li className={`nav-item ${activeItem === "Dashboard" ? "active" : ""}`}>
                                 <Link
                                     className="nav-link"
-                                    to="/"
-                                    onClick={() => handleItemClick("Management")}
+                                    to="/user/dashboard"
+                                    onClick={() => handleItemClick("Dashboard")}
                                 >
-                                    User Management
+                                    Dashboard
                                 </Link>
                             </li>
-
-                            <li className={`nav-item ${activeItem === "Analytics" ? "active" : ""}`}>
+                            <li className={`nav-item ${activeItem === "Access" ? "active" : ""}`}>
                                 <Link
                                     className="nav-link"
-                                    to="/"
-                                    onClick={() => handleItemClick("Analytics")}
+                                    to="/user/accessManage"
+                                    onClick={() => handleItemClick("Access")}
                                 >
-                                    Analytics
+                                    Access Management
                                 </Link>
                             </li>
 
                             <li className={`nav-item ${activeItem === "Profile" ? "active" : ""}`}>
                                 <Link
                                     className="nav-link"
-                                    to="/"
+                                    to="/user/profile"
                                     onClick={() => handleItemClick("Profile")}
                                 >
                                     Profile
@@ -94,7 +94,7 @@ const NavBarUser = () => {
                         </ul>
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={isMobile ? "nav-link" : "nav-white-button"} to="/">Login</Link>
+                                <Link className={isMobile ? "nav-link" : "nav-white-button"} onClick={() => localStorage.removeItem('token')} to="/">Log Out</Link>
                             </li>
                         </ul>
                     </div>
