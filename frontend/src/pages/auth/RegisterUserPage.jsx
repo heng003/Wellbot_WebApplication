@@ -33,7 +33,7 @@ const RegisterUserPage = () => {
     };
 
     const capitalizeWords = (str) =>
-      str.replace(/\b\w/g, char => char.toUpperCase());
+        str.replace(/\b\w/g, char => char.toUpperCase());
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -44,11 +44,11 @@ const RegisterUserPage = () => {
     };
 
     const handlePersonalInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({
-        ...prev,
-        [name]: name === "fullname" ? capitalizeWords(value) : value
-      }));
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: name === "fullname" ? capitalizeWords(value) : value
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -299,7 +299,7 @@ const RegisterUserPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="submit-btn">Create Account</button>
+                        <button type="submit" className="btn-submit">Create Account</button>
                     </form>
 
                     <p className="login-redirect">
@@ -310,7 +310,7 @@ const RegisterUserPage = () => {
                     </p>
                 </div>
             </div>
-            {showConsent && <PopupConsent onConsentChange={handleConsentClick} />}
+            {showConsent && <PopupConsent setFormData={setFormData} setShowConsent={setShowConsent} proceedWithLogin={proceedWithLogin} />}
         </main>
     );
 };

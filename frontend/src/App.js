@@ -22,8 +22,8 @@ import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
 import DashboardPage from "./pages/user/DashboardPage.jsx";
 import ShowNavbar from "./ShowNavbarFooter/ShowNavbar";
 import ShowFooter from "./ShowNavbarFooter/ShowFooter";
-import ResetPassword from "./LogIn/ResetPassword";
-import FitbitCallback from "./RegisterAcc/FitbitCallback";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage.jsx";
+// import FitbitCallback from "./RegisterAcc/FitbitCallback";
 
 function App() {
 	return (
@@ -42,8 +42,8 @@ function App() {
 					<Route path="/user/profile" element={<UserProfilePage />} />
 					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
 					<Route path="/user/dashboard" element={<DashboardPage />} />
-					<Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
-					<Route path="/callback" element={<FitbitCallback />} />
+					<Route path="/resetPassword/:id/:token/:role" element={<ResetPasswordPage />} />
+					{/* <Route path="/callback" element={<FitbitCallback />} /> */}
 				</Routes>
 				<ShowFooter>
 					<Footer />

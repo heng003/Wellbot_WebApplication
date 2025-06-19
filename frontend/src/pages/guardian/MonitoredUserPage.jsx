@@ -73,7 +73,7 @@ const MonitoredUserPage = () => {
         const matchesFilter =
             filter === 'all' ||
             (filter === 'active' && user.status === 'active') ||
-            (filter === 'pending' && user.consentStatus === 'pending') ||
+            (filter === 'pending' && user.status === 'pending') ||
             (filter === 'reject' && user.status === 'reject') ||
             (filter === 'revoked' && user.status === 'revoked');
 
@@ -300,8 +300,9 @@ const MonitoredUserPage = () => {
                                 >
                                     <option value="all">All Users</option>
                                     <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
                                     <option value="pending">Pending Consent</option>
+                                    <option value="reject">Rejeceted</option>
+                                    <option value="revoked">Revoked</option>
                                 </select>
                                 <div className="filter-icon">
                                     <Filter className="filter-svg" />

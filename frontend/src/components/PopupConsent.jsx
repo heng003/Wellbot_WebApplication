@@ -1,58 +1,89 @@
-import React, { useEffect } from 'react';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import React, { useState } from 'react';
+import "../styles/registerPage.css";
 
-const MySwal = withReactContent(Swal);
+const PopupConsent = ({ setFormData, setShowConsent, proceedWithLogin }) => {
+    const [checked, setChecked] = useState(false);
 
-const PopupConsent = ({ onConsentChange }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            MySwal.fire({
-                title: 'User Consent Agreement',
-                html: (
-                    <div style={{ textAlign: 'left', marginTop: '0.5em' }}>
-                        <p><strong>By registering for Well-Bot, you acknowledge and agree to the following:</strong></p>
+    const handleCheckbox = (e) => {
+        setChecked(e.target.checked);
+        if (setFormData) {
+            setFormData(prev => ({
+                ...prev,
+                allowGuardian: e.target.checked
+            }));
+        }
+    };
 
-                        <p className='mt-3'>Your emotional state data (including mood trends and intervention history) will be securely stored in our database to support the system's features and provide you with personalized emotional insights.</p>
-                        <ul>
-                            <li>Only you, the registered user, will have direct access to view and manage your emotional data.</li>
-                            <li>Authorized Guardians with your registered email address or username can view emotional trends.</li>
-                            <li>No other parties will have access.</li>
-                        </ul>
+    const handleConfirm = async () => {
+        setShowConsent(false);
+        if (proceedWithLogin) await proceedWithLogin();
+    };
 
-                        <h4 className='mt-4'>Guardian Access Authorization</h4>
-                        <p>Do you consent to allow Guardian users with your Well-Bot serial number to view your emotional state history for caregiving or therapeutic support?</p>
-                        <br />
-                        <p><em>You may change this setting at any time in your privacy preferences.</em></p>
-                    </div>
-                ),
-                width: '65%',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, I consent',
-                cancelButtonText: 'No, keep it private',
-                confirmButtonColor: '#4caf50',
-                cancelButtonColor: '#f44336',
-                allowOutsideClick: false,
-                didOpen: (popup) => {
-                    popup.style.paddingInline = '1em';
-                    popup.style.paddingBlock = '2em';
-                    const actions = Swal.getActions();
-                    if (actions) actions.style.gap = '2em';
-                }
-            }).then((result) => {
-                console.log('result', result);
-                const consent = result.isConfirmed;
-                console.log('consent', consent);
-                if (onConsentChange) {
-                    onConsentChange(consent);
-                }
-            });
-        }, 0);
+    return (
+        <div className="popup-consent-overlay">
+            <div className="popup-consent-modal">
+                <h2 className="popup-title">USER CONSENT FORM</h2>
+                <h3 className="popup-section-title underline">Well-Bot Emotional Monitoring and Intervention Consent Form</h3>
+                <p>
+                    Thank you for considering the Well-Bot service to support your mental wellness. Before we begin, we need your informed consent to track emotional data and perform interventions. Please read the following carefully and indicate your agreement.
+                </p>
 
-        return () => clearTimeout(timer)
-    }, [onConsentChange]);
+                <h3 className="popup-section-title underline">Clear Purpose – Why are we collecting emotional data?</h3>
+                <p>
+                    We collect emotional data to enhance your mental well-being by providing personalized support. This includes monitoring your emotional state to offer real-time feedback, detect potential distress, and suggest timely interventions to improve your mood and overall health.
+                </p>
 
-    return null;
+                <h3 className="popup-section-title underline">Type of Data Collected – What exactly is being tracked?</h3>
+                <ul>
+                    <li>Facial expressions (via camera every 5 minutes).</li>
+                    <li>Body vital signs (via connected wearable).</li>
+                    <li>Voice tone and speech patterns (via microphone on standby).</li>
+                    <li>Ambient noise or music (via microphone).</li>
+                </ul>
+
+                <h3 className="popup-section-title underline">How the Data Will Be Used – For what purposes?</h3>
+                <ul>
+                    <li>Provide real-time feedback and mood-based interactions.</li>
+                    <li>Generate mood reports for your personal review.</li>
+                    <li>Activate alert systems to notify you or others of critical emotional states.</li>
+                    <li>Adapt the Well-Bot’s responses to better suit your needs.</li>
+                </ul>
+
+                <h3 className="popup-section-title underline">Who Has Access – Is the data private, or shared with others?</h3>
+                <ul>
+                    <li>Your data is primarily private and accessible only to you through the Well-Bot interface.</li>
+                    <li>With your explicit permission, data may be shared with caregivers, therapists, or authorized healthcare providers to support your wellness plan.</li>
+                    <li>Data is stored securely and will not be sold or shared with third parties without your consent.</li>
+                </ul>
+
+                <h3 className="popup-section-title underline">Your Consent</h3>
+                <p>
+                    By agreeing to this consent, you acknowledge that you have read and understood the above information. You may withdraw your consent at any time by contacting Well-Bot support or adjusting your settings.
+                </p>
+                <div className="popup-checkbox-row">
+                    <input
+                        type="checkbox"
+                        id="consent-checkbox"
+                        className='checkbox'
+                        checked={checked}
+                        onChange={handleCheckbox}
+                    />
+                    <label htmlFor="consent-checkbox">
+                        Yes, I give consent to track my emotional data and perform interventions as described above.
+                    </label>
+                </div>
+
+                <div className="popup-actions">
+                    <button
+                        className="green-button"
+                        onClick={handleConfirm}
+                    >
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default PopupConsent;

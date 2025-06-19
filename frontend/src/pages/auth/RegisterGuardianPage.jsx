@@ -162,7 +162,7 @@ const RegisterGuardianPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="submit-btn">Create Account</button>
+                        <button type="submit" className="btn-submit">Create Account</button>
                     </form>
 
                     <p className="login-redirect mt-2">
