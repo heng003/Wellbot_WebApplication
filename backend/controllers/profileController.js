@@ -77,16 +77,6 @@ exports.updateUserProfile = async (req, res, next) => {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
 
-        let usernameExists = await User.findOne({ username });
-        if (!usernameExists) {
-            usernameExists = await Guardian.findOne({ username });
-        }
-
-        if (usernameExists) {
-            return next(new createError("Username already been registered", 400));
-        }
-
-        // Update fields (add or remove fields as needed)
         const {
             fullname,
             username,
@@ -97,8 +87,21 @@ exports.updateUserProfile = async (req, res, next) => {
             spiritualBeliefs
         } = req.body;
 
+        // Update fields (add or remove fields as needed)
         if (fullname !== undefined) user.fullname = fullname;
-        if (username !== undefined) user.username = username;
+        if (username !== undefined) {
+            // Exclude current user from User check
+            let usernameExists = await User.findOne({ username, _id: { $ne: user._id } });
+            if (!usernameExists) {
+                // Exclude current guardian from Guardian check (if applicable)
+                usernameExists = await Guardian.findOne({ username, _id: { $ne: user._id } });
+            }
+
+            if (usernameExists) {
+                return next(new createError("Username already been registered", 400));
+            }
+            user.username = username;
+        }
         if (age !== undefined) user.age = age;
         if (gender !== undefined) user.gender = gender;
         if (language !== undefined) user.language = language;

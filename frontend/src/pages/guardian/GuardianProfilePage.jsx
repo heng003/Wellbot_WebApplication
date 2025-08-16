@@ -96,7 +96,7 @@ const GuardianProfilePage = () => {
             setError('Failed to update profile');
             Swal.fire({
                 title: "Error",
-                text: "Failed to update profile",
+                text: err.response?.data?.message || "Failed to update profile",
                 icon: "error",
                 confirmButtonColor: "#0D9488",
             });
@@ -136,6 +136,7 @@ const GuardianProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSuccess('Password changed!');
+            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
             setShowPasswordModal(false);
             Swal.fire({
                 title: "Success",

@@ -114,7 +114,7 @@ const AccessManagePage = () => {
         if (!result.isConfirmed) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete('/api/permission/user/updateRequestStatus', {
+            await axios.patch('/api/permission/user/updateRequestStatus', {
                 permissionId,
                 status: 'revoked'
             }, {

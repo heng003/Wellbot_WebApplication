@@ -58,14 +58,14 @@ const UserProfilePage = () => {
     };
 
     const capitalizeWords = (str) =>
-      str.replace(/\b\w/g, char => char.toUpperCase());
+        str.replace(/\b\w/g, char => char.toUpperCase());
 
     const handleFullNameInputChange = (e) => {
-      const { name, value } = e.target;
-      setPersonalData(prev => ({
-        ...prev,
-        [name]: name === "fullname" ? capitalizeWords(value) : value
-      }));
+        const { name, value } = e.target;
+        setPersonalData(prev => ({
+            ...prev,
+            [name]: name === "fullname" ? capitalizeWords(value) : value
+        }));
     };
 
     const handlePersonalInputChange = (e) => {
@@ -108,7 +108,7 @@ const UserProfilePage = () => {
             setError('Failed to update profile');
             Swal.fire({
                 title: "Error",
-                text: "Failed to update profile",
+                text: err.response?.data?.message || "Failed to update profile",
                 icon: "error",
                 confirmButtonColor: "#0D9488",
             });
@@ -148,6 +148,7 @@ const UserProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSuccess('Password changed!');
+            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' })
             setShowPasswordModal(false);
             Swal.fire({
                 title: "Success",
@@ -191,7 +192,7 @@ const UserProfilePage = () => {
                 setError('Failed to enable guardian tracking');
                 Swal.fire({
                     title: "Error",
-                    text: "Failed to enable guardian tracking",
+                    text: err.response?.data?.message || "Failed to enable guardian tracking",
                     icon: "error",
                     confirmButtonColor: "#0D9488",
                 });
@@ -230,7 +231,7 @@ const UserProfilePage = () => {
                 setError('Failed to disable guardian tracking');
                 Swal.fire({
                     title: "Error",
-                    text: "Failed to disable guardian tracking",
+                    text: err.response?.data?.message || "Failed to disable guardian tracking",
                     icon: "error",
                     confirmButtonColor: "#0D9488",
                 });
@@ -259,7 +260,7 @@ const UserProfilePage = () => {
             setError('Failed to disable guardian tracking');
             Swal.fire({
                 title: "Error",
-                text: "Failed to disable guardian tracking",
+                text: err.response?.data?.message || "Failed to disable guardian tracking",
                 icon: "error",
                 confirmButtonColor: "#0D9488",
             });
@@ -506,6 +507,168 @@ const UserProfilePage = () => {
                         )}
                     </div>
 
+                    {/* Early Intervention */}
+                    <div className="profile-card">
+                        <div className="profile-card-header">
+                            <h2>
+                                <Shield size={25} className="profile-icon" />
+                                Early Intervention Preference
+                            </h2>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Converse with Context Awareness</span>
+                                <span className="profile-content-subtitle">Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Voice and Image Journaling</span>
+                                <span className="profile-content-subtitle">Record your thoughts by speaking and taking an images, making emotional expression easier and more personal without needing to type</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Meditation with Calming Music</span>
+                                <span className="profile-content-subtitle">Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Guided Breathing Exercise</span>
+                                <span className="profile-content-subtitle">Follow step-by-step breathing patterns designed to calm your body and mind, easing anxiety and restoring focus</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Make a Gratitude List</span>
+                                <span className="profile-content-subtitle">List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Spiritual Quote of the Day</span>
+                                <span className="profile-content-subtitle">Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Spiritual Quote of the Day</span>
+                                <span className="profile-content-subtitle">Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                        <div className="profile-card-content profile-card-row-between">
+                            <div className="d-flex flex-column">
+                                <span className="profile-content-title">Plan the Day</span>
+                                <span className="profile-content-subtitle">Organize your thoughts by creating a quick to-do list, helping you regain a sense of control and structure</span>
+                            </div>
+                            <div className="profile-switch">
+                                <input
+                                    type="checkbox"
+                                    // checked={!!personalData.allowGuardian}
+                                    // onChange={async (e) => {
+                                    //     const checked = e.target.checked;
+                                    //     await handleGuardianTrackingToggle(checked);
+                                    // }}
+                                    // disabled={editingPersonal}
+                                    id="guardian-tracking-toggle"
+                                />
+                                <label htmlFor="guardian-tracking-toggle"></label>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Account Settings */}
                     <div className="profile-card">
                         <div className="profile-card-header">
@@ -589,134 +752,138 @@ const UserProfilePage = () => {
                         </div>)}
                     </div>
                 </div>
-            </main>
+            </main >
             {/* Change Password Modal */}
-            {showPasswordModal && (
-                <div className="modal-overlay">
-                    <div className="modal-container">
-                        <h3 className="modal-title mb-4">Change Password</h3>
-                        <form onSubmit={handlePasswordSubmit} className="profile-form-vertical">
-                            <div>
-                                <label className="form-label">Current Password</label>
-                                <div className="input-password">
-                                    <input
-                                        type={showCurrentPassword ? "text" : "password"}
-                                        name="currentPassword"
-                                        value={passwordData.currentPassword}
-                                        onChange={handlePasswordInputChange}
-                                        className="form-input"
-                                        required
-                                    />
+            {
+                showPasswordModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-container">
+                            <h3 className="modal-title mb-4">Change Password</h3>
+                            <form onSubmit={handlePasswordSubmit} className="profile-form-vertical">
+                                <div>
+                                    <label className="form-label">Current Password</label>
+                                    <div className="input-password">
+                                        <input
+                                            type={showCurrentPassword ? "text" : "password"}
+                                            name="currentPassword"
+                                            value={passwordData.currentPassword}
+                                            onChange={handlePasswordInputChange}
+                                            className="form-input"
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            className="input-eye"
+                                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                        >
+                                            {showCurrentPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="form-label">New Password</label>
+                                    <div className="input-password">
+                                        <input
+                                            type={showNewPassword ? "text" : "password"}
+                                            name="newPassword"
+                                            value={passwordData.newPassword}
+                                            onChange={handlePasswordInputChange}
+                                            className="form-input"
+                                            required
+                                            minLength={8}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="input-eye"
+                                            onClick={() => setShowNewPassword(!showNewPassword)}
+                                        >
+                                            {showNewPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="form-label">Confirm New Password</label>
+                                    <div className="input-password">
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            name="confirmPassword"
+                                            value={passwordData.confirmPassword}
+                                            onChange={handlePasswordInputChange}
+                                            className="form-input"
+                                            required
+                                            minLength={8}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="input-eye"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        >
+                                            {showConfirmPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="profile-form-actions">
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="green-button btn-primary"
+                                    >
+                                        {loading ? <span className="loader"></span> : <Save size={16} />}
+                                        <span className="mt-1">Update Password</span>
+                                    </button>
                                     <button
                                         type="button"
-                                        className="input-eye"
-                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                        onClick={closeModals}
+                                        className="white-button btn-outline"
                                     >
-                                        {showCurrentPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        Cancel
                                     </button>
                                 </div>
-                            </div>
-                            <div>
-                                <label className="form-label">New Password</label>
-                                <div className="input-password">
-                                    <input
-                                        type={showNewPassword ? "text" : "password"}
-                                        name="newPassword"
-                                        value={passwordData.newPassword}
-                                        onChange={handlePasswordInputChange}
-                                        className="form-input"
-                                        required
-                                        minLength={8}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="input-eye"
-                                        onClick={() => setShowNewPassword(!showNewPassword)}
-                                    >
-                                        {showNewPassword ? <Eye size={16} /> : <EyeOff size={16} />}
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="form-label">Confirm New Password</label>
-                                <div className="input-password">
-                                    <input
-                                        type={showConfirmPassword ? "text" : "password"}
-                                        name="confirmPassword"
-                                        value={passwordData.confirmPassword}
-                                        onChange={handlePasswordInputChange}
-                                        className="form-input"
-                                        required
-                                        minLength={8}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="input-eye"
-                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    >
-                                        {showConfirmPassword ? <Eye size={16} /> : <EyeOff size={16} />}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="profile-form-actions">
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="green-button btn-primary"
-                                >
-                                    {loading ? <span className="loader"></span> : <Save size={16} />}
-                                    <span className="mt-1">Update Password</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={closeModals}
-                                    className="white-button btn-outline"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* Change Device Modal */}
-            {showDeviceModal && (
-                <div className="modal-overlay">
-                    <div className="modal-container">
-                        <h3 className="modal-title mb-4">Change Well-Bot Device</h3>
-                        <form onSubmit={handleDeviceChange} className="profile-form-vertical">
-                            <div>
-                                <label className="form-label">New Device Serial Number</label>
-                                <input
-                                    type="text"
-                                    value={serialNumberInput}
-                                    onChange={e => setSerialNumberInput(e.target.value)}
-                                    className="form-input"
-                                    placeholder="Enter new device serial number"
-                                    required
-                                />
-                            </div>
-                            <div className="profile-form-actions">
-                                <button
-                                    type="submit"
-                                    className="green-button btn-primary"
-                                >
-                                    <Save size={16} />
-                                    <span className="mt-1">Change Device</span>
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={closeModals}
-                                    className="white-button btn-outline"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
+            {
+                showDeviceModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-container">
+                            <h3 className="modal-title mb-4">Change Well-Bot Device</h3>
+                            <form onSubmit={handleDeviceChange} className="profile-form-vertical">
+                                <div>
+                                    <label className="form-label">New Device Serial Number</label>
+                                    <input
+                                        type="text"
+                                        value={serialNumberInput}
+                                        onChange={e => setSerialNumberInput(e.target.value)}
+                                        className="form-input"
+                                        placeholder="Enter new device serial number"
+                                        required
+                                    />
+                                </div>
+                                <div className="profile-form-actions">
+                                    <button
+                                        type="submit"
+                                        className="green-button btn-primary"
+                                    >
+                                        <Save size={16} />
+                                        <span className="mt-1">Change Device</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={closeModals}
+                                        className="white-button btn-outline"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
         </>
     );
 };

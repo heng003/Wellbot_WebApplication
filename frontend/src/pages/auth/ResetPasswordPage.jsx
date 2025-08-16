@@ -65,7 +65,7 @@ const ResetPasswordPage = () => {
                         }
                     }
                 });
-                setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+                setPasswordData({ newPassword: '', confirmPassword: '' });
             }
         } catch (error) {
             console.error("Reset Password Error:", error);
