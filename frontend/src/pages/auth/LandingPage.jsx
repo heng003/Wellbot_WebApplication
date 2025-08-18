@@ -50,7 +50,7 @@ const LandingPage = () => {
                                 Track, understand, and improve your emotional well-being with our cutting-edge wellness insight system.
                             </p>
                         </div>
-                        {!isMobile && <div>
+                        <div className="align-content-center">
                             <div className="emotion-card animate-transition">
                                 <div className="card-header">
                                     <h3 className="black">Today's Emotions</h3>
@@ -63,7 +63,7 @@ const LandingPage = () => {
                                     <div className="bar-group"><div className="bar anger"></div><span>Anger</span></div>
                                 </div>
                             </div>
-                        </div>}
+                        </div>
                     </div>
                 </section>
 

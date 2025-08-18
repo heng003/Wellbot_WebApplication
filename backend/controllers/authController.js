@@ -8,44 +8,42 @@ const createError = require("../utils/appError");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
-//REGISTER USER ACC
+// REGISTER USER ACC
 exports.registerUserAcc = async (req, res, next) => {
     try {
-        const { email, fullname, username, gender, age, language, culturalBackground, spiritualBeliefs, serialNumber, allowGuardian } = req.body;
-        const userExists = await User.findOne({ email });
+        const { email, fullname, username, gender, age, language, culturalBackground, spiritualBeliefs, serialNumber, allowGuardian, password } = req.body;
+
+        // Check if email or username exists in users or guardians
+        const userExists = await User.findUserByEmail(email);
         if (userExists) {
             return next(new createError("Email is already registered as a User!", 400));
         }
-
-        const guardianExists = await Guardian.findOne({ email });
-        if (guardianExists) {
+        const guardianExists = await Guardian.findGuardianByEmailOrUsername(email);
+        if (guardianExists && guardianExists.email === email) {
             return next(new createError("Email is already registered as a Guardian!", 400));
         }
-
-        let usernameExists = await User.findOne({ username });
+        let usernameExists = await User.findUserByUsername(username);
         if (!usernameExists) {
-            usernameExists = await Guardian.findOne({ username });
-        }
-
-        if (usernameExists) {
+            usernameExists = await Guardian.findGuardianByEmailOrUsername(username);
+            if (usernameExists && usernameExists.username === username) {
+                return next(new createError("Username already been registered", 400));
+            }
+        } else {
             return next(new createError("Username already been registered", 400));
         }
 
-        const device = await Device.findOne({ serialNumber });
+        // Find device by serial number
+        const device = await Device.findDeviceBySerialAndStatus(serialNumber, 'inactive');
         if (!device) {
-            return next(new createError("Invalid serial number", 400));
+            return next(new createError("Invalid serial number or device already in use", 400));
         }
 
-        if (device.status === 'active') {
-            return next(new createError("Device is already linked to another account", 400));
-        }
-
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
+        const hashedPassword = await bcrypt.hash(password, 12);
         const verificationToken = crypto.randomBytes(16).toString("hex");
         const tokenExpirationDate = new Date(Date.now() + 5 * 60 * 1000); // 5 mins from now
-        console.log("Expiry:", tokenExpirationDate);
 
-        const newUser = await User.create({
+        // Create user
+        const newUser = await User.createUser({
             email,
             password: hashedPassword,
             fullname,
@@ -53,27 +51,24 @@ exports.registerUserAcc = async (req, res, next) => {
             gender,
             age,
             language,
-            culturalBackground,
-            spiritualBeliefs,
-            deviceId: device._id,
-            allowGuardian,
-            verificationToken,
-            tokenExpires: tokenExpirationDate,
+            cultural_background: culturalBackground,
+            spiritual_beliefs: spiritualBeliefs,
+            device_id: device.id,
+            allow_guardian: allowGuardian,
+            verification_token: verificationToken,
+            token_expires: tokenExpirationDate,
             verified: false,
         });
 
+        // Send verification email
         const link = `http://localhost:5000/api/auth/confirmEmail/${verificationToken}`;
-        console.log("Verification link: " + link);
-
-        // Send email
         await verifyEmail(newUser.email, link);
 
         res.status(201).json({
             status: "success",
             message: "User registered successfully",
-            // token,
             user: {
-                _id: newUser._id,
+                id: newUser.id,
                 username: newUser.username,
                 email: newUser.email,
             },
@@ -83,56 +78,53 @@ exports.registerUserAcc = async (req, res, next) => {
     }
 };
 
-//REGISTER GUARDIAN ACC
+// REGISTER GUARDIAN ACC
 exports.registerGuardianAcc = async (req, res, next) => {
     try {
-        const { email, fullname, username } = req.body;
-        const userExists = await User.findOne({ email });
+        const { email, fullname, username, password } = req.body;
+
+        const userExists = await User.findUserByEmail(email);
         if (userExists) {
             return next(new createError("Email is already registered as a User!", 400));
         }
-
-        const guardianExists = await Guardian.findOne({ email });
-        if (guardianExists) {
+        const guardianExists = await Guardian.findGuardianByEmailOrUsername(email);
+        if (guardianExists && guardianExists.email === email) {
             return next(new createError("Email is already registered as a Guardian!", 400));
         }
-
-        let usernameExists = await User.findOne({ username });
+        let usernameExists = await User.findUserByUsername(username);
         if (!usernameExists) {
-            usernameExists = await Guardian.findOne({ username });
-        }
-
-        if (usernameExists) {
+            usernameExists = await Guardian.findGuardianByEmailOrUsername(username);
+            if (usernameExists && usernameExists.username === username) {
+                return next(new createError("Username already been registered", 400));
+            }
+        } else {
             return next(new createError("Username already been registered", 400));
         }
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 12);
+        const hashedPassword = await bcrypt.hash(password, 12);
         const verificationToken = crypto.randomBytes(16).toString("hex");
         const tokenExpirationDate = new Date(Date.now() + 5 * 60 * 1000); // 5 mins from now
-        console.log("Expiry:", tokenExpirationDate);
 
-        const newGuardian = await Guardian.create({
+        // Create guardian
+        const newGuardian = await Guardian.createGuardian({
             email,
             password: hashedPassword,
             fullname,
             username,
-            verificationToken, // Store the verification token directly in the user document
-            tokenExpires: tokenExpirationDate,
+            verification_token: verificationToken,
+            token_expires: tokenExpirationDate,
             verified: false,
         });
 
+        // Send verification email
         const link = `http://localhost:5000/api/auth/confirmEmail/${verificationToken}`;
-        console.log("Verification link: " + link);
-
-        // Send email
         await verifyEmail(newGuardian.email, link);
 
         res.status(201).json({
             status: "success",
             message: "Guardian registered successfully",
-            verificationToken,
             user: {
-                _id: newGuardian._id,
+                id: newGuardian.id,
                 username: newGuardian.username,
                 email: newGuardian.email,
             },
@@ -142,16 +134,16 @@ exports.registerGuardianAcc = async (req, res, next) => {
     }
 };
 
-// LOGIN USER
+// LOGIN USER/GUARDIAN
 exports.logIn = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        let user = await User.findOne({ email });
+        let user = await User.findUserByEmail(email);
         let role = "user";
 
         if (!user) {
-            user = await Guardian.findOne({ email });
+            user = await Guardian.findGuardianByEmailOrUsername(email);
             role = "guardian";
         }
 
@@ -163,7 +155,7 @@ exports.logIn = async (req, res, next) => {
             return next(new createError("Invalid email or password", 401));
 
         if (user.verified) {
-            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
                 expiresIn: "1d",
             });
 
@@ -172,7 +164,7 @@ exports.logIn = async (req, res, next) => {
                 token,
                 message: "Logged in successfully",
                 user: {
-                    _id: user._id,
+                    id: user.id,
                     username: user.username,
                     fullname: user.fullname,
                     email: user.email,
@@ -180,12 +172,11 @@ exports.logIn = async (req, res, next) => {
                 },
             });
         } else {
-            // User havn't verify their account
-            await exports.resetVerificationToken(user);
+            // User hasn't verified their account
+            await exports.resetVerificationToken(user, role);
             res.status(400).json({
                 status: "error",
-                message:
-                    "You must verify your email. A new verification link has been sent.",
+                message: "You must verify your email. A new verification link has been sent.",
             });
         }
     } catch (error) {
@@ -195,7 +186,6 @@ exports.logIn = async (req, res, next) => {
 
 // SEND EMAIL TO VERIFY
 async function verifyEmail(email, link) {
-
     try {
         let transporter = nodemailer.createTransport({
             service: "gmail",
@@ -208,7 +198,6 @@ async function verifyEmail(email, link) {
             },
         });
 
-        //send email
         let info = await transporter.sendMail({
             from: process.env.EMAIL_USERNAME,
             to: email,
@@ -216,9 +205,8 @@ async function verifyEmail(email, link) {
             text: "Welcome",
             html: `<h4>Verify Your Email Address</h4>
             <a href="${link}">Click this link to activate your account</a>`,
-            //mail body
         });
-        console.log("Mail send successfully: ", info);
+        console.log("Mail sent successfully: ", info);
     } catch (error) {
         console.log("Failed to send email:", error);
         throw error;
@@ -228,23 +216,14 @@ async function verifyEmail(email, link) {
 // ACTIVE ACCOUNT
 exports.confirmEmail = async (req, res) => {
     try {
-        console.log("Accessed confirmEmail with token:", req.params.token);
+        const token = req.params.token;
 
-        // Find user by verification token
-        let user = await User.findOne({
-            verificationToken: req.params.token,
-        });
-
+        // Find user or guardian by verification token
+        let user = await User.findUserByVerificationToken(token);
+        let role = "user";
         if (!user) {
-            user = await Guardian.findOne({
-                verificationToken: req.params.token,
-            });
-        } else {
-            const device = await Device.findById(user.deviceId);
-            if (device) {
-                device.status = 'active';
-                await device.save();
-            }
+            user = await Guardian.findGuardianByEmailOrUsername(token);
+            role = "guardian";
         }
 
         if (!user) {
@@ -252,29 +231,29 @@ exports.confirmEmail = async (req, res) => {
         }
 
         // Check if the token has expired
-        if (user.tokenExpires < new Date()) {
-            // Token has expired
-            console.log("Token has expired, generating a new one.");
-
-            await resetVerificationToken(user);
-            res.status(400).json({
+        if (user.token_expires < new Date()) {
+            await exports.resetVerificationToken(user, role);
+            return res.status(400).json({
                 status: "error",
                 message: "You must verify your email. A new verification link has been sent.",
             });
-
         }
 
         // If the user is already verified
         if (user.verified) {
-            console.log("User already verified.");
             return res.status(400).send("User already verified.");
         }
 
         // Set user to verified and remove the verification token
-        user.verified = true;
-        user.verificationToken = null; // Remove token
-        user.tokenExpires = null; // Clear the expiration date
-        await user.save(); // Save the updated user
+        await (role === "user"
+            ? User.updateUserById(user.id, { verified: true, verification_token: null, token_expires: null })
+            : Guardian.updateGuardianById(user.id, { verified: true, verification_token: null, token_expires: null })
+        );
+
+        // If user, activate device
+        if (role === "user" && user.device_id) {
+            await Device.updateDeviceById(user.device_id, { status: "active" });
+        }
 
         // Redirect to login page after success (frontend route)
         return res.send(`
@@ -307,40 +286,52 @@ exports.confirmEmail = async (req, res) => {
     }
 };
 
-async function resetVerificationToken(user) {
+exports.resetVerificationToken = async (user, role = "user") => {
     const newToken = crypto.randomBytes(16).toString("hex");
     const newExpiry = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
 
-    user.verificationToken = newToken;
-    user.tokenExpires = newExpiry;
-    await user.save();
+    if (role === "user") {
+        await User.updateUserById(user.id, {
+            verification_token: newToken,
+            token_expires: newExpiry,
+        });
+    } else {
+        await Guardian.updateGuardianById(user.id, {
+            verification_token: newToken,
+            token_expires: newExpiry,
+        });
+    }
 
     const link = `http://localhost:5000/api/auth/confirmEmail/${newToken}`;
     await verifyEmail(user.email, link);
-}
+};
 
 // FORGOT PASSWORD
 exports.forgotPassword = async (req, res, next) => {
     const { email } = req.body;
     try {
-        let user = await User.findOne({ email });
+        let user = await User.findUserByEmail(email);
         let role = "user";
 
         if (!user) {
-            user = await Guardian.findOne({ email });
+            user = await Guardian.findGuardianByEmailOrUsername(email);
             role = "guardian";
         }
 
         if (!user) return next(new createError("User not existed! Please Key In A Correct Email.", 404));
 
-        // const tokenEmail = jwt.sign({ id: userExists._id }, process.env.JWT_SECRET, { expiresIn: "5m" });
         const tokenEmail = jwt.sign(
-            { id: user._id },
+            { id: user.id },
             process.env.JWT_SECRET,
             { expiresIn: "5m" }
         );
-        user.tokenEmail = tokenEmail;
-        await user.save();
+
+        // Save tokenEmail to user/guardian
+        if (role === "user") {
+            await User.updateUserById(user.id, { token_email: tokenEmail });
+        } else {
+            await Guardian.updateGuardianById(user.id, { token_email: tokenEmail });
+        }
 
         let transporter = nodemailer.createTransport({
             service: "gmail",
@@ -352,11 +343,9 @@ exports.forgotPassword = async (req, res, next) => {
                 pass: process.env.EMAIL_PASSWORD,
             },
         });
-        console.log("ID:", user._id, "Token:", tokenEmail);
-        const link = `http://localhost:3000/resetPassword/${user._id}/${tokenEmail}/${role}`;
-        console.log("Reset Password link: " + link);
 
-        // Send email
+        const link = `http://localhost:3000/resetPassword/${user.id}/${tokenEmail}/${role}`;
+
         await transporter.sendMail({
             from: process.env.EMAIL_USERNAME,
             to: email,
@@ -366,13 +355,11 @@ exports.forgotPassword = async (req, res, next) => {
             <a href="${link}">${link}</a>`,
         });
 
-        console.log("Reset Password Mail sent successfully");
         res.status(200).json({
             status: "success",
             message: "Password reset email sent successfully",
         });
     } catch (error) {
-        console.log("Failed to send email:", error);
         next(error);
     }
 };
@@ -385,9 +372,9 @@ exports.resetPassword = async (req, res) => {
     try {
         let user;
         if (role === 'user') {
-            user = await User.findById(id);
+            user = await User.findUserById(id);
         } else {
-            user = await Guardian.findById(id);
+            user = await Guardian.findGuardianById(id);
         }
 
         if (!user) {
@@ -395,7 +382,7 @@ exports.resetPassword = async (req, res) => {
         }
 
         // Check if token matches the one stored in DB
-        if (user.tokenEmail !== token) {
+        if (user.token_email !== token) {
             return res.status(403).json({
                 Status: "Error",
                 message: "Invalid or mismatched reset token",
@@ -403,70 +390,71 @@ exports.resetPassword = async (req, res) => {
         }
 
         // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            if (err.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    Status: "Error",
+                    message: "Token expired! Please request a new password reset link again",
+                });
+            }
+            throw err;
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         if (role === 'user') {
-            await User.findByIdAndUpdate(id, {
+            await User.updateUserById(id, {
                 password: hashedPassword,
-                tokenEmail: null,
+                token_email: null,
             });
         } else {
-            await Guardian.findByIdAndUpdate(id, {
+            await Guardian.updateGuardianById(id, {
                 password: hashedPassword,
-                tokenEmail: null,
+                token_email: null,
             });
         }
 
         res.status(200).json({ Status: "Success", message: "Password successfully reset" });
     } catch (err) {
-        console.log(err);
-        if (err.name === "TokenExpiredError") {
-            res.status(401).json({
-                Status: "Error",
-                message: "Token expired! Please request a new password reset link again",
-            });
-        } else {
-            res.status(500).json({ Status: "Error", message: "Failed to reset password" });
-        }
+        res.status(500).json({ Status: "Error", message: "Failed to reset password" });
     }
 };
 
 // GET user profile with device info
 exports.getUserProfile = async (req, res, next) => {
     try {
-        // Extract token from the request headers
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Retrieve user data using the user ID from the decoded token
-        const user = await User.findById(decoded.userId).lean();
+        // Retrieve user data using Supabase model function
+        const user = await User.findUserById(decoded.userId);
         if (!user) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
 
-        // Get device info if deviceId exists
+        // Get device info if device_id exists
         let serialNumber = null;
-        if (user.deviceId) {
-            const device = await Device.findById(user.deviceId).lean();
+        if (user.device_id) {
+            const device = await Device.findDeviceById(user.device_id);
             if (device) {
-                serialNumber = device.serialNumber;
+                serialNumber = device.serial_number;
             }
         }
 
         res.status(200).json({
             status: "success",
             data: {
-                id: user._id,
+                id: user.id,
                 fullname: user.fullname,
                 username: user.username,
                 age: user.age,
                 gender: user.gender,
                 language: user.language,
-                spiritualBeliefs: user.spiritualBeliefs,
-                culturalBackground: user.culturalBackground,
-                allowGuardian: user.allowGuardian,
-                deviceId: user.deviceId || null,
+                spiritualBeliefs: user.spiritual_beliefs,
+                culturalBackground: user.cultural_background,
+                allowGuardian: user.allow_guardian,
+                deviceId: user.device_id || null,
                 serialNumber: serialNumber || null
             }
         });
@@ -488,13 +476,13 @@ exports.updateUserProfile = async (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await User.findById(decoded.userId);
+        const user = await User.findUserById(decoded.userId);
 
         if (!user) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
 
-        // Update fields (add or remove fields as needed)
+        // Prepare update object
         const {
             fullname,
             username,
@@ -505,28 +493,30 @@ exports.updateUserProfile = async (req, res, next) => {
             spiritualBeliefs
         } = req.body;
 
-        if (fullname !== undefined) user.fullname = fullname;
-        if (username !== undefined) user.username = username;
-        if (age !== undefined) user.age = age;
-        if (gender !== undefined) user.gender = gender;
-        if (language !== undefined) user.language = language;
-        if (culturalBackground !== undefined) user.culturalBackground = culturalBackground;
-        if (spiritualBeliefs !== undefined) user.spiritualBeliefs = spiritualBeliefs;
+        const updateObj = {};
+        if (fullname !== undefined) updateObj.fullname = fullname;
+        if (username !== undefined) updateObj.username = username;
+        if (age !== undefined) updateObj.age = age;
+        if (gender !== undefined) updateObj.gender = gender;
+        if (language !== undefined) updateObj.language = language;
+        if (culturalBackground !== undefined) updateObj.cultural_background = culturalBackground;
+        if (spiritualBeliefs !== undefined) updateObj.spiritual_beliefs = spiritualBeliefs;
 
-        await user.save();
+        // Update user in Supabase
+        const updatedUser = await User.updateUserById(user.id, updateObj);
 
         res.status(200).json({
             status: "success",
             message: "Profile updated successfully",
             data: {
-                id: user._id,
-                fullname: user.fullname,
-                username: user.username,
-                age: user.age,
-                gender: user.gender,
-                language: user.language,
-                culturalBackground: user.culturalBackground,
-                spiritualBeliefs: user.spiritualBeliefs
+                id: updatedUser.id,
+                fullname: updatedUser.fullname,
+                username: updatedUser.username,
+                age: updatedUser.age,
+                gender: updatedUser.gender,
+                language: updatedUser.language,
+                culturalBackground: updatedUser.cultural_background,
+                spiritualBeliefs: updatedUser.spiritual_beliefs
             }
         });
     } catch (error) {
@@ -535,13 +525,14 @@ exports.updateUserProfile = async (req, res, next) => {
     }
 };
 
+// CHANGE PASSWORD
 exports.changePassword = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const { currentPassword, newPassword } = req.body;
-        const user = await User.findById(decoded.userId);
+        const user = await User.findUserById(decoded.userId);
 
         if (!user) {
             return res.status(404).json({ status: "error", message: "User not found" });
@@ -549,74 +540,69 @@ exports.changePassword = async (req, res, next) => {
 
         const isMatch = await bcrypt.compare(currentPassword, user.password);
         if (!isMatch) {
-            // Frontend should show Swal error
             return res.status(400).json({ status: "error", message: "Current password is incorrect" });
         }
 
-        user.password = await bcrypt.hash(newPassword, 12);
-        await user.save();
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+        await User.updateUserById(user.id, { password: hashedPassword });
 
-        // Frontend should show Swal success
         res.status(200).json({ status: "success", message: "Password updated successfully" });
     } catch (error) {
         next(error);
     }
 };
 
+// CHANGE DEVICE
 exports.changeDevice = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const { serialNumber } = req.body;
-        const user = await User.findById(decoded.userId);
+        const user = await User.findUserById(decoded.userId);
 
         if (!user) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
 
-        const newDevice = await Device.findOne({ serialNumber, status: "inactive" });
+        const newDevice = await Device.findDeviceBySerialAndStatus(serialNumber, "inactive");
         if (!newDevice) {
-            // Frontend should show Swal error
             return res.status(400).json({ status: "error", message: "Device not found or already in use" });
         }
 
         // Set old device to inactive
-        if (user.deviceId) {
-            await Device.findByIdAndUpdate(user.deviceId, { status: "inactive" });
+        if (user.device_id) {
+            await Device.updateDeviceById(user.device_id, { status: "inactive" });
         }
 
         // Set new device to active
-        newDevice.status = "active";
-        await newDevice.save();
+        await Device.updateDeviceById(newDevice.id, { status: "active" });
 
         // Update user
-        user.deviceId = newDevice._id;
-        await user.save();
+        await User.updateUserById(user.id, { device_id: newDevice.id });
 
-        // Frontend should show Swal success
         res.status(200).json({ status: "success", message: "Device changed successfully" });
     } catch (error) {
         next(error);
     }
 };
 
+// UPDATE GUARDIAN PERMISSION
 exports.updateGuardianPermission = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const { allowGuardian } = req.body;
-        const user = await User.findById(decoded.userId);
+        const user = await User.findUserById(decoded.userId);
 
         if (!user) {
             return res.status(404).json({ status: "error", message: "User not found" });
         }
 
-        user.allowGuardian = !!allowGuardian;
-        await user.save();
+        await User.updateUserById(user.id, { allow_guardian: !!allowGuardian });
 
-        res.status(200).json({ status: "success", message: "Guardian permission updated", allowGuardian: user.allowGuardian });
+        res.status(200).json({ status: "success", message: "Guardian permission updated", allowGuardian: !!allowGuardian });
     } catch (error) {
         next(error);
     }

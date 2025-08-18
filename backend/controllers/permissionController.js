@@ -8,116 +8,58 @@ const jwt = require("jsonwebtoken");
 // GET Get Monitored List
 exports.getMonitoredList = async (req, res, next) => {
     const { guardianId } = req.params;
-
     try {
-        // validate guardian
-        const guardian = await Guardian.findById(guardianId);
+        const guardian = await Guardian.findGuardianById(guardianId);
         if (!guardian) {
             return next(new createError("Guardian not existed.", 404));
         }
-
-        // get all permissions for this guardian
-        const permissions = await Permission.find({ guardianId }).lean();
-        if (!permissions.length) {
-            return res.json([]); // no monitored users
-        }
-
-        // build a map userId → permission object
-        const permissionByUser = permissions.reduce((map, perm) => {
-            map[perm.userId.toString()] = perm;
-            return map;
-        }, {});
-
-        // fetch all those users
-        const userIds = permissions.map(p => p.userId);
-        const users = await User.find({ _id: { $in: userIds } })
-            .lean()
-            .exec();
-
-        // merge in `status`, `updatedAt`, and `requestedAt` fields on each user object
+        const permissions = await Permission.findPermissionsByGuardianId(guardianId);
+        if (!permissions.length) return res.json([]);
+        const userIds = permissions.map(p => p.user_id);
+        const users = await User.findUsersByIds(userIds);
+        const permissionByUser = {};
+        permissions.forEach(perm => { permissionByUser[perm.user_id] = perm; });
         const monitoredList = users.map(u => {
-            const perm = permissionByUser[u._id.toString()];
+            const perm = permissionByUser[u.id];
             return {
                 ...u,
-                id: u._id.toString(),
+                id: u.id,
                 status: perm?.status || null,
-                updatedAt: perm?.updatedAt || null,
-                requestedAt: perm?.requestedAt || null
+                updatedAt: perm?.updated_at || null,
+                requestedAt: perm?.requested_at || null
             };
         });
-
-        // return monitored list
-        if (!monitoredList.length) {
-            return res.json([]);
-        }
         return res.json(monitoredList);
-
     } catch (err) {
-        console.error(err);
         return next(new createError("Server Error", 500));
     }
 };
 
-
 // POST Send Request
 exports.createPermission = async (req, res, next) => {
     const { guardianId, userIdentification, requestMessage } = req.body;
-
     try {
-        // Validate that the user exist
-        const user = await User.findOne({
-            $or: [
-                { email: userIdentification },
-                { username: userIdentification }
-            ]
-        });
-
-        const guardian = await Guardian.findById(guardianId);
-
-        if (!user) {
-            return next(new createError("User not existed.", 404));
-        }
-
-        if (!guardian) {
-            return next(new createError("Guardian not existed.", 404));
-        }
-
-        // Check if user allows guardian requests
-        if (!user.allowGuardian) {
+        const user = await User.findUserByEmail(userIdentification) || await User.findUserByUsername(userIdentification);
+        const guardian = await Guardian.findGuardianById(guardianId);
+        if (!user) return next(new createError("User not existed.", 404));
+        if (!guardian) return next(new createError("Guardian not existed.", 404));
+        if (!user.allow_guardian) {
             return res.status(403).json({
                 status: "error",
                 message: "This user is not accepting guardian requests at the moment."
             });
         }
-
-        const userId = user._id;
-
-        // Check if a permission already exists for this user and guardian 
-        const existingPermission = await Permission.findOne({
-            guardianId,
-            userId
-        });
-        if (existingPermission) {
-            console.log("Existing permission found:", existingPermission);
-            return res.status(200).json(existingPermission);
-        }
-
-        // Create a new pending permission
-        const newPermission = new Permission({
-            guardianId,
-            userId,
+        const existingPermission = await Permission.findPermissionByGuardianAndUser(guardianId, user.id);
+        if (existingPermission) return res.status(200).json(existingPermission);
+        const newPermission = await Permission.createPermission({
+            guardian_id: guardianId,
+            user_id: user.id,
             status: 'pending',
-            requestedAt: new Date(),
-            requestMessage: requestMessage || null,
+            requested_at: new Date(),
+            request_message: requestMessage || null,
         });
-
-        // Save the application to the database
-        const savedApplication = await newPermission.save();
-
-        console.log("New permission created:", savedApplication);
-        return res.status(201).json(savedApplication);
+        return res.status(201).json(newPermission);
     } catch (error) {
-        console.error("Error creating pending permission:", error);
         return res.status(500).json({ error: error.message });
     }
 };
@@ -125,15 +67,10 @@ exports.createPermission = async (req, res, next) => {
 // DELETE delete permission
 exports.deletePermission = async (req, res, next) => {
     const { guardianId, userId } = req.body;
-
     try {
-        const permission = await Permission.findOne({ guardianId, userId });
-        if (!permission) {
-            return next(new createError("Permission not found.", 404));
-        }
-
-        await Permission.deleteOne({ guardianId, userId });
-
+        const permission = await Permission.findPermissionByGuardianAndUser(guardianId, userId);
+        if (!permission) return next(new createError("Permission not found.", 404));
+        await Permission.deletePermissionByGuardianAndUser(guardianId, userId);
         res.json({ message: 'Request / Permission deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -144,30 +81,24 @@ exports.deletePermission = async (req, res, next) => {
 exports.getPendingRequests = async (req, res, next) => {
     const { userId } = req.params;
     try {
-        // Find all permissions for this user with status 'pending'
-        const permissions = await Permission.find({ userId, status: 'pending' }).lean();
+        const permissions = await Permission.findPermissionsByUserIdAndStatus(userId, 'pending');
         if (!permissions.length) return res.json([]);
-        // Optionally, populate guardian info
-        const guardianIds = permissions.map(p => p.guardianId);
-        const guardians = await Guardian.find({ _id: { $in: guardianIds } }).lean();
-        const guardianMap = guardians.reduce((map, g) => {
-            map[g._id.toString()] = g;
-            return map;
-        }, {});
-        // Combine permission and guardian info
+        const guardianIds = permissions.map(p => p.guardian_id);
+        const guardians = await Guardian.findGuardiansByIds(guardianIds);
+        const guardianMap = {};
+        guardians.forEach(g => { guardianMap[g.id] = g; });
         const pendingRequests = permissions.map(p => ({
-            id: p._id.toString(),
-            guardianId: p.guardianId,
-            guardianName: guardianMap[p.guardianId.toString()]?.fullname || '',
-            guardianUsername: guardianMap[p.guardianId.toString()]?.username || '',
-            guardianEmail: guardianMap[p.guardianId.toString()]?.email || '',
-            requestedAt: p.requestedAt,
-            message: p.requestMessage,
+            id: p.id,
+            guardianId: p.guardian_id,
+            guardianName: guardianMap[p.guardian_id]?.fullname || '',
+            guardianUsername: guardianMap[p.guardian_id]?.username || '',
+            guardianEmail: guardianMap[p.guardian_id]?.email || '',
+            requestedAt: p.requested_at,
+            message: p.request_message,
             status: p.status
         }));
         return res.json(pendingRequests);
     } catch (err) {
-        console.error(err);
         return next(new createError("Server Error", 500));
     }
 };
@@ -176,29 +107,22 @@ exports.getPendingRequests = async (req, res, next) => {
 exports.getActiveGuardians = async (req, res, next) => {
     const { userId } = req.params;
     try {
-        // Find all permissions for this user with status 'active'
-        const permissions = await Permission.find({ userId, status: 'active' }).lean();
+        const permissions = await Permission.findPermissionsByUserIdAndStatus(userId, 'active');
         if (!permissions.length) return res.json([]);
-        // Optionally, populate guardian info
-        const guardianIds = permissions.map(p => p.guardianId);
-        const guardians = await Guardian.find({ _id: { $in: guardianIds } }).lean();
-        const guardianMap = guardians.reduce((map, g) => {
-            map[g._id.toString()] = g;
-            return map;
-        }, {});
-        // Combine permission and guardian info
+        const guardianIds = permissions.map(p => p.guardian_id);
+        const guardians = await Guardian.findGuardiansByIds(guardianIds);
+        const guardianMap = {};
+        guardians.forEach(g => { guardianMap[g.id] = g; });
         const activeGuardians = permissions.map(p => ({
-            id: p._id.toString(),
-            guardianId: p.guardianId,
-            guardianName: guardianMap[p.guardianId.toString()]?.fullname || '',
-            guardianEmail: guardianMap[p.guardianId.toString()]?.email || '',
-            guardianUsername: guardianMap[p.guardianId.toString()]?.username || '',
-            accessGrantedDate: p.updatedAt,
-            // Optionally add more fields as needed
+            id: p.id,
+            guardianId: p.guardian_id,
+            guardianName: guardianMap[p.guardian_id]?.fullname || '',
+            guardianEmail: guardianMap[p.guardian_id]?.email || '',
+            guardianUsername: guardianMap[p.guardian_id]?.username || '',
+            accessGrantedDate: p.updated_at,
         }));
         return res.json(activeGuardians);
     } catch (err) {
-        console.error(err);
         return next(new createError("Server Error", 500));
     }
 };
@@ -207,28 +131,18 @@ exports.getActiveGuardians = async (req, res, next) => {
 exports.createActivePermission = async (req, res, next) => {
     const { userId, guardianIdentification } = req.body;
     try {
-        // Find guardian by email or username
-        const guardian = await Guardian.findOne({
-            $or: [
-                { email: guardianIdentification },
-                { username: guardianIdentification }
-            ]
-        });
+        const guardian = await Guardian.findGuardianByEmailOrUsername(guardianIdentification);
         if (!guardian) return next(new createError("Guardian not existed.", 404));
-        // Check if permission already exists
-        const existing = await Permission.findOne({ userId, guardianId: guardian._id });
+        const existing = await Permission.findPermissionByGuardianAndUser(guardian.id, userId);
         if (existing) return res.status(200).json(existing);
-        // Create new permission with status 'active'
-        const newPermission = new Permission({
-            userId,
-            guardianId: guardian._id,
+        const newPermission = await Permission.createPermission({
+            user_id: userId,
+            guardian_id: guardian.id,
             status: 'active',
-            updatedAt: new Date(),
+            updated_at: new Date(),
         });
-        const saved = await newPermission.save();
-        return res.status(201).json(saved);
+        return res.status(201).json(newPermission);
     } catch (err) {
-        console.error(err);
         return next(new createError("Server Error", 500));
     }
 };
@@ -237,9 +151,9 @@ exports.createActivePermission = async (req, res, next) => {
 exports.deleteUserPermission = async (req, res, next) => {
     const { permissionId } = req.body;
     try {
-        const permission = await Permission.findById(permissionId);
+        const permission = await Permission.findPermissionById(permissionId);
         if (!permission) return next(new createError("Permission not found.", 404));
-        await Permission.deleteOne({ _id: permissionId });
+        await Permission.deletePermissionById(permissionId);
         res.json({ message: 'Permission deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -250,11 +164,7 @@ exports.deleteUserPermission = async (req, res, next) => {
 exports.updateRequestStatus = async (req, res, next) => {
     const { permissionId, status } = req.body;
     try {
-        const updated = await Permission.findByIdAndUpdate(
-            permissionId,
-            { status, updatedAt: new Date() },
-            { new: true }
-        );
+        const updated = await Permission.updatePermissionStatusById(permissionId, status);
         if (!updated) return res.status(404).json({ message: 'Permission not found' });
         res.json(updated);
     } catch (err) {
@@ -266,8 +176,7 @@ exports.getActiveGuardianCount = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        const count = await Permission.countDocuments({ userId: decoded.userId, status: "active" });
+        const count = await Permission.countActiveGuardians(decoded.userId);
         res.status(200).json({ status: "success", count });
     } catch (error) {
         next(error);

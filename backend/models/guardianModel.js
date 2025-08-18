@@ -1,17 +1,53 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const supabase = require('../config/supabaseClient');
 
-const guardianSchema = new Schema({
-    email: { type: String, unique: true, required: true, },
-    password: { type: String, required: true },
-    fullname: { type: String },
-    username: { type: String, required: true, },
-    verified: { type: Boolean, default: false },
-    verificationToken: { type: String },
-    tokenExpires: { type: Date, required: false },
-    tokenEmail: { type: String },
-});
+// Insert new guardian
+async function createGuardian(guardianData) {
+    const { data, error } = await supabase
+        .from('guardians')
+        .insert([guardianData])
+        .select()
+        .single();
+    if (error) throw error;
+    return data;
+}
 
-const Guardian = mongoose.model("Guardian", guardianSchema);
+// Find by id
+async function findGuardianById(id) {
+    const { data, error } = await supabase
+        .from('guardians')
+        .select('*')
+        .eq('id', id)
+        .single();
+    if (error) return null;
+    return data;
+}
 
-module.exports = Guardian;
+// Find by email or username
+async function findGuardianByEmailOrUsername(identifier) {
+    const { data, error } = await supabase
+        .from('guardians')
+        .select('*')
+        .or(`email.eq.${identifier},username.eq.${identifier}`)
+        .single();
+    if (error) return null;
+    return data;
+}
+
+// Find by username (exclude current id)
+async function findGuardianByUsernameExcludeId(username, excludeId) {
+    const { data, error } = await supabase
+        .from('guardians')
+        .select('*')
+        .eq('username', username)
+        .neq('id', excludeId)
+        .single();
+    if (error) return null;
+    return data;
+}
+
+module.exports = {
+    createGuardian,
+    findGuardianById,
+    findGuardianByEmailOrUsername,
+    findGuardianByUsernameExcludeId,
+};

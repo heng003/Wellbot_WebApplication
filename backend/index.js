@@ -1,17 +1,12 @@
 require('dotenv').config();
-console.log('Environment Variables:');
-console.log('PORT:', process.env.PORT);
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-
 const express = require("express");
-const mongoose = require("mongoose");
-const mongoURI = process.env.MONGODB_URI;
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
+
 const authRouter = require('./routes/authRoute');
 const profileRouter = require('./routes/profileRoute.js');
-const permissionRouter = require('./routes/permissionRoute')
+const permissionRouter = require('./routes/permissionRoute');
 const fitbitRouter = require('./routes/fitbitRoute');
 const authMiddleware = require('./middleware/authMiddleware');
 
@@ -36,23 +31,16 @@ app.use('/api/profile', authMiddleware, profileRouter);
 app.use('/api/permission', permissionRouter);
 app.use('/api/fitbit', fitbitRouter);
 
-// Handle React routing, return all requests to React app
+// React frontend
 app.get('*', function (req, res) {
 	res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
-// 3. MONGO DB CONNECTION
-mongoose
-	.connect(mongoURI)
-	.then(() => console.log("Connected to MongoDB Atlas"))
-	.catch((err) => console.error("Could not connect to MongoDB Atlas:", err));
-
-// 4. GLOBAL ERROR HANDLER
+// 3. GLOBAL ERROR HANDLER
 app.use((err, req, res, next) => {
 	if (!res.headersSent) {
 		err.statusCode = err.statusCode || 500;
 		err.status = err.status || "error";
-
 		res.status(err.statusCode).json({
 			status: err.status,
 			message: err.message,
@@ -67,5 +55,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
-
-console.log('This is a test change to check Nodemon restart');

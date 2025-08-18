@@ -89,6 +89,32 @@
     opacity: 0.7;
 }
 
+/* Remove hover effect for disabled nav-green-button */
+.nav-green-button[disabled],
+.nav-green-button.disabled {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.nav-green-button[disabled]:hover,
+.nav-green-button.disabled:hover {
+    background-color: #0D9488;
+    opacity: 0.8;
+}
+
+/* Remove hover effect for disabled nav-white-button */
+.nav-white-button[disabled],
+.nav-white-button.disabled {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.nav-white-button[disabled]:hover,
+.nav-white-button.disabled:hover {
+    background-color: #ffffff;
+    opacity: 0.8;
+}
+
 @media (max-width: 991px) {
     .nav-link {
         margin-left: 20px;

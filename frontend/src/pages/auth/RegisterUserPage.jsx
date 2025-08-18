@@ -183,7 +183,7 @@ const RegisterUserPage = () => {
                                     value={formData.age}
                                     onChange={handleInputChange}
                                     className="form-input"
-                                    min="0"
+                                    min="18"
                                     max="120"
                                     required
                                 />

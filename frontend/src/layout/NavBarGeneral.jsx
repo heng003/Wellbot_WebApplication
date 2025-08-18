@@ -63,10 +63,10 @@ const NavBarGeneral = () => {
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 						<ul className="navbar-nav">
 							<li className={`nav-item ${activeItem === "Login" ? "active" : ""}`}>
-								<Link className={isMobile ? "nav-link" : "nav-white-button"} to="/login" onClick={() => handleItemClick("Login")}>Login</Link>
+								<Link className={isMobile ? "nav-link" : "nav-white-button"} to="/login" onClick={() => handleItemClick("Login")} disabled={activeItem === "Login"}>Login</Link>
 							</li>
 							<li className={`nav-item ${activeItem === "Register" ? "active" : ""}`}>
-								<Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("Register")}>Register</Link>
+								<Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("Register")} disabled={activeItem === "Register"}>Register</Link>
 							</li>
 						</ul>
 					</div>
