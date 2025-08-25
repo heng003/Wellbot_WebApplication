@@ -12,24 +12,12 @@ async function createUser(userData) {
     return data;
 }
 
-// Find by email
+// Find user by email
 async function findUserByEmail(email) {
     const { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('email', email)
-        .single();
-
-    if (error) return null;
-    return data;
-}
-
-// Find by username
-async function findUserByUsername(username) {
-    const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('username', username)
         .single();
 
     if (error) return null;
@@ -71,33 +59,6 @@ async function findUsersByIds(ids) {
     return data;
 }
 
-// Check if user exists by email and username
-async function userExists(email, username) {
-    const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .or(`email.eq.${email},username.eq.${username}`)
-        .single();
-
-    if (error) return false;
-    return data !== null;
-}
-
-// Find by id and update
-async function findUserById(id) {
-    const { data, error } = await supabase
-        .from('users')
-        .update({
-            password: hashedPassword,
-            tokenEmail: null
-        })
-        .eq('id', id)
-        .select();
-
-    if (error) return null;
-    return data;
-}
-
 // Update user by id
 async function updateUserById(id, userData) {
     const { data, error } = await supabase
@@ -111,11 +72,25 @@ async function updateUserById(id, userData) {
     return data;
 }
 
+// Update user preference for intervention
+async function updatePreferIntervention(id, preferIntervention) {
+    const { data, error } = await supabase
+        .from('users')
+        .update({ prefer_intervention: preferIntervention })
+        .eq('id', id)
+        .select()
+        .single();
+
+    if (error) throw error;
+    return data;
+}
+
 module.exports = {
     createUser,
     findUserByEmail,
-    findUserByUsername,
     findUserByVerificationToken,
     findUserById,
+    findUsersByIds,
     updateUserById,
+    updatePreferIntervention,
 };

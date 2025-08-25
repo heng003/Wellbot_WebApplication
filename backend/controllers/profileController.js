@@ -30,8 +30,8 @@ exports.getUserProfile = async (req, res, next) => {
             status: "success",
             data: {
                 id: user.id,
-                fullname: user.fullname,
-                username: user.username,
+                fullName: user.full_name,
+                preferName: user.prefer_name,
                 age: user.age,
                 gender: user.gender,
                 language: user.language,
@@ -39,7 +39,8 @@ exports.getUserProfile = async (req, res, next) => {
                 culturalBackground: user.cultural_background,
                 allowGuardian: user.allow_guardian,
                 deviceId: user.device_id || null,
-                serialNumber: serialNumber || null
+                serialNumber: serialNumber || null,
+                preferIntervention: user.prefer_intervention || null,
             }
         });
     } catch (error) {
@@ -64,8 +65,8 @@ exports.updateUserProfile = async (req, res, next) => {
         }
 
         const {
-            fullname,
-            username,
+            fullName,
+            preferName,
             age,
             gender,
             language,
@@ -73,21 +74,9 @@ exports.updateUserProfile = async (req, res, next) => {
             spiritualBeliefs
         } = req.body;
 
-        // Username uniqueness check (exclude current user)
-        if (username !== undefined) {
-            let usernameExists = await User.findUserByUsername(username);
-            if (usernameExists && usernameExists.id !== user.id) {
-                return next(new createError("Username already been registered", 400));
-            }
-            let guardianExists = await Guardian.findGuardianByUsernameExcludeId(username, user.id);
-            if (guardianExists) {
-                return next(new createError("Username already been registered", 400));
-            }
-        }
-
         const updateObj = {};
-        if (fullname !== undefined) updateObj.fullname = fullname;
-        if (username !== undefined) updateObj.username = username;
+        if (fullName !== undefined) updateObj.full_name = fullName;
+        if (preferName !== undefined) updateObj.prefer_name = preferName;
         if (age !== undefined) updateObj.age = age;
         if (gender !== undefined) updateObj.gender = gender;
         if (language !== undefined) updateObj.language = language;
@@ -191,6 +180,30 @@ exports.updateGuardianPermission = async (req, res, next) => {
         await User.updateUserById(user.id, { allow_guardian: !!allowGuardian });
 
         res.status(200).json({ status: "success", message: "Guardian permission updated", allowGuardian: !!allowGuardian });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// PATCH /api/profile/preferIntervention
+exports.updatePreferIntervention = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const { preferIntervention } = req.body;
+        if (!preferIntervention || typeof preferIntervention !== 'object') {
+            return res.status(400).json({ status: "error", message: "Invalid intervention preferences" });
+        }
+
+        const user = await User.findUserById(decoded.userId);
+        if (!user) {
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
+
+        await User.updatePreferIntervention(user.id, preferIntervention);
+
+        res.status(200).json({ status: "success", message: "Intervention preferences updated", preferIntervention });
     } catch (error) {
         next(error);
     }

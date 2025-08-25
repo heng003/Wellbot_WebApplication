@@ -80,7 +80,7 @@ const AccessManagePage = () => {
             if (error.response && error.response.status === 404 && error.response.data.message === "User not existed.") {
                 Swal.fire({
                     title: "User Not Found",
-                    text: "No user found with that email or username. Please check and try again.",
+                    text: "No user found with that email or name. Please check and try again.",
                     icon: "error",
                     confirmButtonColor: "#0D9488",
                 }).then(() => setNewGuardian(''));
@@ -218,7 +218,7 @@ const AccessManagePage = () => {
                     <div className="card-guardian-tracking-header flex justify-between items-start">
                         <div className='card-guardian-tracking-header-left'>
                             <h3 className="card-header-title">{req.guardianName}</h3>
-                            <p className="card-header-content">{req.guardianUsername}</p>
+                            <p className="card-header-content">{req.guardianPreferName}</p>
                             <p className="card-header-content">{req.guardianEmail}</p>
                         </div>
                         <div className="card-guardian-tracking-date flex items-center text-sm text-slate-500">
@@ -263,7 +263,7 @@ const AccessManagePage = () => {
                     <div className="card-guardian-tracking-header flex justify-between items-start">
                         <div className='card-guardian-tracking-header-left'>
                             <h3 className="card-header-title">{g.guardianName}</h3>
-                            <p className="card-header-content">{g.guardianUsername}</p>
+                            <p className="card-header-content">{g.guardianPreferName}</p>
                             <p className="card-header-content">{g.guardianEmail}</p>
                         </div>
                         <button onClick={() => handleRevokeAccess(g.id)} className="white-button" style={{ color: '#dc2626', borderColor: '#fca5a5' }}>
@@ -321,17 +321,17 @@ const AccessManagePage = () => {
                         <h3 className="modal-title">Add New Guardian</h3>
                         <form onSubmit={handleAddGuardian}>
                             <div className="form-group mt-3 gap-1">
-                                <label className="form-label">Email / Username</label>
+                                <label className="form-label">Email / Name</label>
                                 <input
                                     type="text"
                                     value={newGuardian}
                                     onChange={(e) => setNewGuardian(e.target.value)}
                                     className="form-input"
-                                    placeholder="e.g. johndoe@example.com or johndoe123"
+                                    placeholder="e.g. johndoe@example.com or John Doe"
                                     required
                                 />
                                 <p className="form-helper">
-                                    Enter a trusted guardian’s email or username to help monitor your emotional well-being.
+                                    Enter a trusted guardian’s email or name to help monitor your emotional well-being.
                                 </p>
                             </div>
                             <div className="modal-actions">

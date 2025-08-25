@@ -66,8 +66,8 @@ const MonitoredUserPage = () => {
 
     const filteredUsers = monitoredList.filter((user) => {
         const matchesSearch =
-            (user.fullname?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-            (user.username?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (user.fullName?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (user.preferName?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
             (user.email?.toLowerCase() || "").includes(searchTerm.toLowerCase());
 
         const matchesFilter =
@@ -133,7 +133,7 @@ const MonitoredUserPage = () => {
             if (error.response && error.response.status === 404 && error.response.data.message === "User not existed.") {
                 Swal.fire({
                     title: "User Not Found",
-                    text: "No user found with that email or username. Please check and try again.",
+                    text: "No user found with that email or serial number. Please check and try again.",
                     icon: "error",
                     confirmButtonColor: "#0D9488",
                 }).then((result) => {
@@ -325,7 +325,7 @@ const MonitoredUserPage = () => {
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Username</th>
+                                        <th>Prefer Name</th>
                                         <th>Email</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -343,8 +343,8 @@ const MonitoredUserPage = () => {
                                     ) : (
                                         filteredUsers.map(user => (
                                             <tr key={user.id}>
-                                                <td>{user.fullname}</td>
-                                                <td>{user.username}</td>
+                                                <td>{user.fullName}</td>
+                                                <td>{user.preferName}</td>
                                                 <td>{user.email}</td>
                                                 <td>
                                                     <span className={`badge-status ${getStatusClass(user.status)}`}>{user.status}</span>
@@ -381,13 +381,13 @@ const MonitoredUserPage = () => {
                         <h3 className="modal-title">Add New User</h3>
                         <form onSubmit={handleAddUser}>
                             <div className="form-group">
-                                <label className="form-label">Email / Username</label>
+                                <label className="form-label">Email / Well-Bot Serial Number</label>
                                 <input
                                     type="text"
                                     value={newUser}
                                     onChange={(e) => setNewUser(e.target.value)}
                                     className="form-input"
-                                    placeholder="e.g. johndoe@example.com or johndoe123"
+                                    placeholder="e.g. johndoe@example.com or WB12xxx"
                                     required
                                 />
                             </div>
@@ -426,7 +426,7 @@ const MonitoredUserPage = () => {
                 <div className="modal-container">
                     <div className="modal-header">
                         <div>
-                            <h3 className="modal-title">{selectedUser?.fullname}</h3>
+                            <h3 className="modal-title">{selectedUser?.fullName}</h3>
                             <p className="modal-subtitle">{selectedUser?.email}</p>
                         </div>
                         <button onClick={() => setShowViewModal(false)} className="close-button">
@@ -436,8 +436,8 @@ const MonitoredUserPage = () => {
 
                     <div className="modal-grid">
                         <div>
-                            <p className="label">Username</p>
-                            <p className="value">{selectedUser?.username}</p>
+                            <p className="label">Prefer Name</p>
+                            <p className="value">{selectedUser?.preferName}</p>
                         </div>
                         {selectedUser?.status === 'active' &&
                             <div>

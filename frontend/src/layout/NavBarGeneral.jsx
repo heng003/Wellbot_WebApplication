@@ -11,7 +11,9 @@ const NavBarGeneral = () => {
 	useEffect(() => {
 		const determineActiveItem = () => {
 			const path = location.pathname;
-			if (path.includes("register")) {
+			if (path.includes("registerRole")) {
+				return "RegisterRole";
+			} else if (path.includes("register")) {
 				return "Register";
 			} else if (path.includes("/login")) {
 				return "Login";
@@ -65,8 +67,8 @@ const NavBarGeneral = () => {
 							<li className={`nav-item ${activeItem === "Login" ? "active" : ""}`}>
 								<Link className={isMobile ? "nav-link" : "nav-white-button"} to="/login" onClick={() => handleItemClick("Login")} disabled={activeItem === "Login"}>Login</Link>
 							</li>
-							<li className={`nav-item ${activeItem === "Register" ? "active" : ""}`}>
-								<Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("Register")} disabled={activeItem === "Register"}>Register</Link>
+							<li className={`nav-item ${activeItem.includes("Register") ? "active" : ""}`}>
+								<Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("RegisterRole")} disabled={activeItem === "RegisterRole"}>Register</Link>
 							</li>
 						</ul>
 					</div>

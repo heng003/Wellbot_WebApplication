@@ -3,13 +3,13 @@ import { Check, X, Clock } from "lucide-react"; // or from your icons lib
 import { formatDate } from "../utils/dateUtils"; // adjust path as needed
 import "../styles/accessManagePage.css";
 
-const CardGuardianRequest = ({ id, name, username, email, organization, requestedAt, requestMessage, handleRequestResponse }) => {
+const CardGuardianRequest = ({ id, name, preferName, email, requestedAt, requestMessage, handleRequestResponse }) => {
     return (
         <div className="card-guardian-tracking">
             <div className="card-header">
                 <div>
                     <h3 className="card-header-title">{name}</h3>
-                    <p className="card-header-content">{username}</p>
+                    <p className="card-header-content">{preferName}</p>
                     <p className="card-header-content">{email}</p>
                 </div>
                 <div className="card-guardian-tracking-date flex items-center text-sm text-slate-500">

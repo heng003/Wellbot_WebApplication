@@ -3,22 +3,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import axios from 'axios';
 import PopupConsent from '../../components/PopupConsent';
+import { UserPlus } from "lucide-react";
 import '../../styles/registerPage.css';
 
 const RegisterUserPage = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [showConsent, setShowConsent] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
-        fullname: '',
-        username: '',
+        fullName: '',
+        preferName: '',
         age: '',
         gender: '',
-        language: 'english',
+        language: 'English',
         culturalBackground: '',
         spiritualBeliefs: '',
         serialNumber: '',
@@ -47,7 +49,7 @@ const RegisterUserPage = () => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: name === "fullname" ? capitalizeWords(value) : value
+            [name]: name === "fullName" ? capitalizeWords(value) : value
         }));
     };
 
@@ -68,15 +70,9 @@ const RegisterUserPage = () => {
         }
     };
 
-    const handleConsentClick = async (consent) => {
-        setShowConsent(false);
-        setFormData(prev => ({ ...prev, allowGuardian: consent }));
-        await proceedWithLogin();
-    };
-
-
     const proceedWithLogin = async () => {
         try {
+            setLoading(true);
             await axios.post('/api/auth/registerUserAcc', formData);
 
             Swal.fire({
@@ -98,12 +94,12 @@ const RegisterUserPage = () => {
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    fullname: '',
-                    username: '',
+                    fullName: '',
+                    preferName: '',
                     age: '',
                     gender: '',
                     culturalBackground: '',
-                    language: 'english',
+                    language: 'English',
                     spiritualBeliefs: '',
                     serialNumber: '',
                     allowGuardian: false
@@ -121,6 +117,8 @@ const RegisterUserPage = () => {
                     confirmButton: 'my-confirm-button-class'
                 }
             });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -155,8 +153,8 @@ const RegisterUserPage = () => {
                                 <label className="form-label">Full Name</label>
                                 <input
                                     type="text"
-                                    name="fullname"
-                                    value={formData.fullname}
+                                    name="fullName"
+                                    value={formData.fullName}
                                     onChange={handlePersonalInputChange}
                                     className="form-input"
                                     required
@@ -164,11 +162,11 @@ const RegisterUserPage = () => {
                             </div>
 
                             <div>
-                                <label className="form-label">Username</label>
+                                <label className="form-label">Prefer Name</label>
                                 <input
                                     type="text"
-                                    name="username"
-                                    value={formData.username}
+                                    name="preferName"
+                                    value={formData.preferName}
                                     onChange={handleInputChange}
                                     className="form-input"
                                     required
@@ -199,9 +197,8 @@ const RegisterUserPage = () => {
                                     required
                                 >
                                     <option value="">Select gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="prefer-not-to-say">Prefer not to say</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
                                 </select>
                             </div>
 
@@ -214,9 +211,9 @@ const RegisterUserPage = () => {
                                     className="form-input"
                                     required
                                 >
-                                    <option value="english">English</option>
-                                    <option value="malay">Malay</option>
-                                    <option value="chinese">Chinese</option>
+                                    <option value="English">English</option>
+                                    <option value="Malay">Malay</option>
+                                    <option value="Chinese">Chinese</option>
                                 </select>
                             </div>
 
@@ -299,7 +296,10 @@ const RegisterUserPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn-submit">Create Account</button>
+                        <button type="submit" className="btn-submit" disabled={loading}>
+                            {loading && <span className="loader"></span> }
+\                            <span>Create Account</span>
+                        </button>
                     </form>
 
                     <p className="login-redirect">

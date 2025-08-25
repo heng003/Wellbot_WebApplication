@@ -7,13 +7,14 @@ import '../../styles/registerPage.css';
 const RegisterGuardianPage = () => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
-        fullname: '',
-        username: '',
+        fullName: '',
+        preferName: '',
     });
 
     const scrollToTop = () => {
@@ -41,6 +42,7 @@ const RegisterGuardianPage = () => {
 
         try {
             setError('');
+            setLoading(true);
             await axios.post('/api/auth/registerGuardianAcc', formData);
 
             Swal.fire({
@@ -63,16 +65,14 @@ const RegisterGuardianPage = () => {
                     email: '',
                     password: '',
                     confirmPassword: '',
-                    fullname: '',
-                    username: '',
+                    fullName: '',
+                    preferName: '',
                 });
             });
         } catch (error) {
             console.log("Validation errors exist, not showing alert.");
-            // Handle registration error
-            console.error(error); // Log error message
+            console.error(error);
             console.error("Registration Error:", error.response.data);
-            // Handle showing the error message from the backend
             Swal.fire({
                 title: "Error!",
                 text: error.response?.data?.message || "An unknown error occurred",
@@ -84,6 +84,8 @@ const RegisterGuardianPage = () => {
                     confirmButton: 'my-confirm-button-class'
                 }
             });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -115,8 +117,8 @@ const RegisterGuardianPage = () => {
                                 <label className="form-label">Full Name</label>
                                 <input
                                     type="text"
-                                    name="fullname"
-                                    value={formData.fullname}
+                                    name="fullName"
+                                    value={formData.fullName}
                                     onChange={handleInputChange}
                                     className="form-input"
                                     required
@@ -124,11 +126,11 @@ const RegisterGuardianPage = () => {
                             </div>
 
                             <div>
-                                <label className="form-label">Username</label>
+                                <label className="form-label">Prefer Name</label>
                                 <input
                                     type="text"
-                                    name="username"
-                                    value={formData.username}
+                                    name="preferName"
+                                    value={formData.preferName}
                                     onChange={handleInputChange}
                                     className="form-input"
                                     required
@@ -162,7 +164,10 @@ const RegisterGuardianPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn-submit">Create Account</button>
+                        <button type="submit" className="btn-submit" disabled={loading}>
+                            {loading && <span className="loader"></span>}
+                            <span>Create Account</span>
+                        </button>
                     </form>
 
                     <p className="login-redirect mt-2">

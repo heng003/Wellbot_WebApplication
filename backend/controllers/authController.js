@@ -11,25 +11,16 @@ const crypto = require("crypto");
 // REGISTER USER ACC
 exports.registerUserAcc = async (req, res, next) => {
     try {
-        const { email, fullname, username, gender, age, language, culturalBackground, spiritualBeliefs, serialNumber, allowGuardian, password } = req.body;
+        const { email, fullName, preferName, gender, age, language, culturalBackground, spiritualBeliefs, serialNumber, allowGuardian, password } = req.body;
 
-        // Check if email or username exists in users or guardians
+        // Check if email exists
         const userExists = await User.findUserByEmail(email);
         if (userExists) {
             return next(new createError("Email is already registered as a User!", 400));
         }
-        const guardianExists = await Guardian.findGuardianByEmailOrUsername(email);
+        const guardianExists = await Guardian.findGuardianByEmail(email);
         if (guardianExists && guardianExists.email === email) {
             return next(new createError("Email is already registered as a Guardian!", 400));
-        }
-        let usernameExists = await User.findUserByUsername(username);
-        if (!usernameExists) {
-            usernameExists = await Guardian.findGuardianByEmailOrUsername(username);
-            if (usernameExists && usernameExists.username === username) {
-                return next(new createError("Username already been registered", 400));
-            }
-        } else {
-            return next(new createError("Username already been registered", 400));
         }
 
         // Find device by serial number
@@ -46,8 +37,8 @@ exports.registerUserAcc = async (req, res, next) => {
         const newUser = await User.createUser({
             email,
             password: hashedPassword,
-            fullname,
-            username,
+            full_name: fullName,
+            prefer_name: preferName,
             gender,
             age,
             language,
@@ -69,7 +60,7 @@ exports.registerUserAcc = async (req, res, next) => {
             message: "User registered successfully",
             user: {
                 id: newUser.id,
-                username: newUser.username,
+                preferName: newUser.prefer_name,
                 email: newUser.email,
             },
         });
@@ -81,24 +72,15 @@ exports.registerUserAcc = async (req, res, next) => {
 // REGISTER GUARDIAN ACC
 exports.registerGuardianAcc = async (req, res, next) => {
     try {
-        const { email, fullname, username, password } = req.body;
+        const { email, fullName, preferName, password } = req.body;
 
         const userExists = await User.findUserByEmail(email);
         if (userExists) {
             return next(new createError("Email is already registered as a User!", 400));
         }
-        const guardianExists = await Guardian.findGuardianByEmailOrUsername(email);
+        const guardianExists = await Guardian.findGuardianByEmail(email);
         if (guardianExists && guardianExists.email === email) {
             return next(new createError("Email is already registered as a Guardian!", 400));
-        }
-        let usernameExists = await User.findUserByUsername(username);
-        if (!usernameExists) {
-            usernameExists = await Guardian.findGuardianByEmailOrUsername(username);
-            if (usernameExists && usernameExists.username === username) {
-                return next(new createError("Username already been registered", 400));
-            }
-        } else {
-            return next(new createError("Username already been registered", 400));
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -109,8 +91,8 @@ exports.registerGuardianAcc = async (req, res, next) => {
         const newGuardian = await Guardian.createGuardian({
             email,
             password: hashedPassword,
-            fullname,
-            username,
+            full_name: fullName,
+            prefer_name: preferName,
             verification_token: verificationToken,
             token_expires: tokenExpirationDate,
             verified: false,
@@ -125,7 +107,7 @@ exports.registerGuardianAcc = async (req, res, next) => {
             message: "Guardian registered successfully",
             user: {
                 id: newGuardian.id,
-                username: newGuardian.username,
+                preferName: newGuardian.prefer_name,
                 email: newGuardian.email,
             },
         });
@@ -143,7 +125,7 @@ exports.logIn = async (req, res, next) => {
         let role = "user";
 
         if (!user) {
-            user = await Guardian.findGuardianByEmailOrUsername(email);
+            user = await Guardian.findGuardianByEmail(email);
             role = "guardian";
         }
 
@@ -165,8 +147,8 @@ exports.logIn = async (req, res, next) => {
                 message: "Logged in successfully",
                 user: {
                     id: user.id,
-                    username: user.username,
-                    fullname: user.fullname,
+                    preferName: user.prefer_name,
+                    fullName: user.fullName,
                     email: user.email,
                     role,
                 },
@@ -222,7 +204,7 @@ exports.confirmEmail = async (req, res) => {
         let user = await User.findUserByVerificationToken(token);
         let role = "user";
         if (!user) {
-            user = await Guardian.findGuardianByEmailOrUsername(token);
+            user = await Guardian.findGuardianByVerificationToken(token);
             role = "guardian";
         }
 
@@ -314,7 +296,7 @@ exports.forgotPassword = async (req, res, next) => {
         let role = "user";
 
         if (!user) {
-            user = await Guardian.findGuardianByEmailOrUsername(email);
+            user = await Guardian.findGuardianByEmail(email);
             role = "guardian";
         }
 
@@ -446,8 +428,8 @@ exports.getUserProfile = async (req, res, next) => {
             status: "success",
             data: {
                 id: user.id,
-                fullname: user.fullname,
-                username: user.username,
+                fullName: user.full_name,
+                preferName: user.prefer_name,
                 age: user.age,
                 gender: user.gender,
                 language: user.language,
@@ -484,8 +466,8 @@ exports.updateUserProfile = async (req, res, next) => {
 
         // Prepare update object
         const {
-            fullname,
-            username,
+            fullName,
+            preferName,
             age,
             gender,
             language,
@@ -494,8 +476,8 @@ exports.updateUserProfile = async (req, res, next) => {
         } = req.body;
 
         const updateObj = {};
-        if (fullname !== undefined) updateObj.fullname = fullname;
-        if (username !== undefined) updateObj.username = username;
+        if (fullName !== undefined) updateObj.full_name = fullName;
+        if (preferName !== undefined) updateObj.prefer_name = preferName;
         if (age !== undefined) updateObj.age = age;
         if (gender !== undefined) updateObj.gender = gender;
         if (language !== undefined) updateObj.language = language;
@@ -510,8 +492,8 @@ exports.updateUserProfile = async (req, res, next) => {
             message: "Profile updated successfully",
             data: {
                 id: updatedUser.id,
-                fullname: updatedUser.fullname,
-                username: updatedUser.username,
+                fullName: updatedUser.full_name,
+                preferName: updatedUser.prefer_name,
                 age: updatedUser.age,
                 gender: updatedUser.gender,
                 language: updatedUser.language,

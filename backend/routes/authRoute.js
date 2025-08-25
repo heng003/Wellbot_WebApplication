@@ -12,7 +12,7 @@ router.get('/confirmEmail/:token', authController.confirmEmail);
 router.get('/profile', authController.getUserProfile);
 router.put('/profile', authController.updateUserProfile);
 router.post('/changePassword', authController.changePassword);
-router.post('/device/change', authController.changeDevice);
+router.post('/changeDevice', authController.changeDevice);
 router.patch('/guardianPermission', authController.updateGuardianPermission);
 
 module.exports = router;

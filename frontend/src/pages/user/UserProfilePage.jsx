@@ -18,16 +18,6 @@ const UserProfilePage = () => {
     const [serialNumberInput, setSerialNumberInput] = useState('');
     const navigate = useNavigate();
 
-    // const [personalData, setPersonalData] = useState({
-    //     fullname: 'Emma Johnson',
-    //     username: 'emmaj',
-    //     age: 28,
-    //     gender: 'female',
-    //     language: 'english',
-    //     culturalBackground: 'Asian',
-    //     spiritualBeliefs: 'Buddhism'
-    // });
-
     const fetchProfile = async () => {
         const token = localStorage.getItem('token');
         const res = await axios.get('/api/profile/userProfile', {
@@ -64,7 +54,7 @@ const UserProfilePage = () => {
         const { name, value } = e.target;
         setPersonalData(prev => ({
             ...prev,
-            [name]: name === "fullname" ? capitalizeWords(value) : value
+            [name]: name === "fullName" ? capitalizeWords(value) : value
         }));
     };
 
@@ -290,7 +280,7 @@ const UserProfilePage = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('/api/profile/device/change', {
+            const res = await axios.post('/api/profile/changeDevice', {
                 serialNumber: serialNumberInput,
             }, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -363,19 +353,19 @@ const UserProfilePage = () => {
                                     <label className="form-label">Full Name</label>
                                     <input
                                         type="text"
-                                        name="fullname"
-                                        value={personalData.fullname}
+                                        name="fullName"
+                                        value={personalData.fullName}
                                         onChange={handleFullNameInputChange}
                                         className="form-input"
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="form-label">Username</label>
+                                    <label className="form-label">Prefer Name</label>
                                     <input
                                         type="text"
-                                        name="username"
-                                        value={personalData.username}
+                                        name="preferName"
+                                        value={personalData.preferName}
                                         onChange={handlePersonalInputChange}
                                         className="form-input"
                                         required
@@ -403,10 +393,8 @@ const UserProfilePage = () => {
                                         className="form-input"
                                         required
                                     >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
-                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
                                     </select>
                                 </div>
                                 <div>
@@ -477,11 +465,11 @@ const UserProfilePage = () => {
                             <div className="profile-card-content profile-info-grid">
                                 <div>
                                     <span className="profile-label">Full Name</span>
-                                    <span className="profile-value">{personalData.fullname}</span>
+                                    <span className="profile-value">{personalData.fullName}</span>
                                 </div>
                                 <div>
-                                    <span className="profile-label">Username</span>
-                                    <span className="profile-value">{personalData.username}</span>
+                                    <span className="profile-label">Prefer Name</span>
+                                    <span className="profile-value">{personalData.preferName}</span>
                                 </div>
                                 <div>
                                     <span className="profile-label">Age</span>
@@ -515,158 +503,54 @@ const UserProfilePage = () => {
                                 Early Intervention Preference
                             </h2>
                         </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Converse with Context Awareness</span>
-                                <span className="profile-content-subtitle">Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply</span>
+                        {[
+                            { label: "Converse with Context Awareness", value: "converse", subtitle: "Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply" },
+                            { label: "Voice and Image Journaling", value: "journaling", subtitle: "Record your thoughts by speaking and taking an images, making emotional expression easier and more personal without needing to type" },
+                            { label: "Meditation with Calming Music", value: "music", subtitle: "Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance" },
+                            { label: "Guided Breathing Exercise", value: "breathing", subtitle: "Follow step-by-step breathing patterns designed to calm your body and mind, easing anxiety and restoring focus" },
+                            { label: "Make a Gratitude List", value: "gratitude", subtitle: "List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation" },
+                            { label: "Spiritual Quote of the Day", value: "quote", subtitle: "Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day" },
+                            { label: "Plan the Day", value: "plan", subtitle: "Organize your thoughts by creating a quick to-do list, helping you regain a sense of control and structure" },
+                        ].map(pref => (
+                            <div className="profile-card-content profile-card-row-between" key={pref.value}>
+                                <div className="d-flex flex-column">
+                                    <span className="profile-content-title">{pref.label}</span>
+                                    <span className="profile-content-subtitle">{pref.subtitle}</span>
+                                </div>
+                                <div className="profile-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={personalData.preferIntervention?.[pref.value] || false}
+                                        onChange={async e => {
+                                            const updated = {
+                                                ...personalData.preferIntervention,
+                                                [pref.value]: e.target.checked
+                                            };
+                                            setPersonalData(prev => ({
+                                                ...prev,
+                                                preferIntervention: updated
+                                            }));
+                                            // Call backend to update
+                                            try {
+                                                setLoading(true);
+                                                const token = localStorage.getItem('token');
+                                                await axios.patch('/api/profile/preferIntervention', { preferIntervention: updated }, {
+                                                    headers: { Authorization: `Bearer ${token}` }
+                                                });
+                                                setSuccess('Intervention preferences updated!');
+                                            } catch (err) {
+                                                setError('Failed to update intervention preferences');
+                                            } finally {
+                                                setLoading(false);
+                                            }
+                                        }}
+                                        disabled={editingPersonal}
+                                        id={`intervention-${pref.value}`}
+                                    />
+                                    <label htmlFor={`intervention-${pref.value}`}></label>
+                                </div>
                             </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Voice and Image Journaling</span>
-                                <span className="profile-content-subtitle">Record your thoughts by speaking and taking an images, making emotional expression easier and more personal without needing to type</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Meditation with Calming Music</span>
-                                <span className="profile-content-subtitle">Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Guided Breathing Exercise</span>
-                                <span className="profile-content-subtitle">Follow step-by-step breathing patterns designed to calm your body and mind, easing anxiety and restoring focus</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Make a Gratitude List</span>
-                                <span className="profile-content-subtitle">List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Spiritual Quote of the Day</span>
-                                <span className="profile-content-subtitle">Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Spiritual Quote of the Day</span>
-                                <span className="profile-content-subtitle">Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Plan the Day</span>
-                                <span className="profile-content-subtitle">Organize your thoughts by creating a quick to-do list, helping you regain a sense of control and structure</span>
-                            </div>
-                            <div className="profile-switch">
-                                <input
-                                    type="checkbox"
-                                    // checked={!!personalData.allowGuardian}
-                                    // onChange={async (e) => {
-                                    //     const checked = e.target.checked;
-                                    //     await handleGuardianTrackingToggle(checked);
-                                    // }}
-                                    // disabled={editingPersonal}
-                                    id="guardian-tracking-toggle"
-                                />
-                                <label htmlFor="guardian-tracking-toggle"></label>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     {/* Account Settings */}

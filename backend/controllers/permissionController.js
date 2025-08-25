@@ -39,7 +39,7 @@ exports.getMonitoredList = async (req, res, next) => {
 exports.createPermission = async (req, res, next) => {
     const { guardianId, userIdentification, requestMessage } = req.body;
     try {
-        const user = await User.findUserByEmail(userIdentification) || await User.findUserByUsername(userIdentification);
+        const user = await User.findUserByEmail(userIdentification) //|| await User.findUserByUsername(userIdentification);
         const guardian = await Guardian.findGuardianById(guardianId);
         if (!user) return next(new createError("User not existed.", 404));
         if (!guardian) return next(new createError("Guardian not existed.", 404));
@@ -90,8 +90,8 @@ exports.getPendingRequests = async (req, res, next) => {
         const pendingRequests = permissions.map(p => ({
             id: p.id,
             guardianId: p.guardian_id,
-            guardianName: guardianMap[p.guardian_id]?.fullname || '',
-            guardianUsername: guardianMap[p.guardian_id]?.username || '',
+            guardianName: guardianMap[p.guardian_id]?.full_name || '',
+            guardianPreferName: guardianMap[p.guardian_id]?.prefer_name || '',
             guardianEmail: guardianMap[p.guardian_id]?.email || '',
             requestedAt: p.requested_at,
             message: p.request_message,
@@ -116,9 +116,9 @@ exports.getActiveGuardians = async (req, res, next) => {
         const activeGuardians = permissions.map(p => ({
             id: p.id,
             guardianId: p.guardian_id,
-            guardianName: guardianMap[p.guardian_id]?.fullname || '',
+            guardianName: guardianMap[p.guardian_id]?.full_name || '',
             guardianEmail: guardianMap[p.guardian_id]?.email || '',
-            guardianUsername: guardianMap[p.guardian_id]?.username || '',
+            guardianPreferName: guardianMap[p.guardian_id]?.prefer_name || '',
             accessGrantedDate: p.updated_at,
         }));
         return res.json(activeGuardians);
@@ -131,7 +131,7 @@ exports.getActiveGuardians = async (req, res, next) => {
 exports.createActivePermission = async (req, res, next) => {
     const { userId, guardianIdentification } = req.body;
     try {
-        const guardian = await Guardian.findGuardianByEmailOrUsername(guardianIdentification);
+        const guardian = await Guardian.findGuardianByEmailOrFullName(guardianIdentification);
         if (!guardian) return next(new createError("Guardian not existed.", 404));
         const existing = await Permission.findPermissionByGuardianAndUser(guardian.id, userId);
         if (existing) return res.status(200).json(existing);

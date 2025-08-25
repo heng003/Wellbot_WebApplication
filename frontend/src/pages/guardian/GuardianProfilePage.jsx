@@ -52,7 +52,7 @@ const GuardianProfilePage = () => {
         const { name, value } = e.target;
         setPersonalData(prev => ({
             ...prev,
-            [name]: name === "fullname" ? capitalizeWords(value) : value
+            [name]: name === "fullName" ? capitalizeWords(value) : value
         }));
     };
 
@@ -207,19 +207,19 @@ const GuardianProfilePage = () => {
                                     <label className="form-label">Full Name</label>
                                     <input
                                         type="text"
-                                        name="fullname"
-                                        value={personalData.fullname}
+                                        name="fullName"
+                                        value={personalData.fullName}
                                         onChange={handleFullNameInputChange}
                                         className="form-input"
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="form-label">Username</label>
+                                    <label className="form-label">Prefer Name</label>
                                     <input
                                         type="text"
-                                        name="username"
-                                        value={personalData.username}
+                                        name="preferName"
+                                        value={personalData.preferName}
                                         onChange={handlePersonalInputChange}
                                         className="form-input"
                                         required
@@ -247,11 +247,11 @@ const GuardianProfilePage = () => {
                             <div className="profile-card-content guardian-profile-info">
                                 <div>
                                     <span className="profile-label">Full Name</span>
-                                    <span className="profile-value">{personalData.fullname}</span>
+                                    <span className="profile-value">{personalData.fullName}</span>
                                 </div>
                                 <div>
-                                    <span className="profile-label">Username</span>
-                                    <span className="profile-value">{personalData.username}</span>
+                                    <span className="profile-label">Prefer Name</span>
+                                    <span className="profile-value">{personalData.preferName}</span>
                                 </div>
                             </div>
                         )}
