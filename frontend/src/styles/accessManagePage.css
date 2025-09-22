@@ -4,6 +4,7 @@
     flex-direction: column;
     padding-inline: 4em;
     padding-block: 3em;
+    background-color: #F4F7FE;
 }
 
 .main-content {

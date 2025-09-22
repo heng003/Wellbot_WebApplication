@@ -4,16 +4,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/font-awesome/css/font-awesome.min.css';
+// import '../node_modules/font-awesome/css/font-awesome.min.css';
 // import { AuthProvider } from './AuthContext/AuthContext';
 axios.defaults.baseURL = 'http://localhost:5000';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* <AuthProvider> */}
-      <App />
-    {/* </AuthProvider> */}
-  </React.StrictMode>
+	<React.StrictMode>
+		{/* <AuthProvider> */}
+		<App />
+		{/* </AuthProvider> */}
+	</React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

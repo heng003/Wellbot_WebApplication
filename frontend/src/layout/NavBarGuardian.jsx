@@ -57,7 +57,7 @@ const NavBarGuardian = () => {
                         <img
                             src="/Images/logo.png"
                             alt="Logo"
-                            height="40"
+                            width="45"
                         />
                         {!isMobile && <span className="nav-title">Well-Bot</span>}
                     </Link>
