@@ -46,9 +46,28 @@ async function updateDeviceById(id, deviceData) {
     return data;
 }
 
+async function findDeviceBySerialNum(serialNumber) {
+    const { data, error } = await supabase
+        .from('devices')
+        .select('*')
+        .eq('serial_number', serialNumber)
+        .single();
+    if (error) return null;
+    return data;
+}
+
+async function getDeviveList() {
+    const { data, error } = await supabase
+        .from('devices')
+        .select('*');
+    if (error) return null;
+    return data;
+}
 module.exports = {
     createDevice,
     findDeviceBySerialAndStatus,
     findDeviceById,
     updateDeviceById,
+    findDeviceBySerialNum,
+    getDeviveList,
 };

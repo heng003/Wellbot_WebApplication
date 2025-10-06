@@ -297,8 +297,8 @@ const RegisterUserPage = () => {
                         </div>
 
                         <button type="submit" className="btn-submit" disabled={loading}>
-                            {loading && <span className="loader"></span> }
-\                            <span>Create Account</span>
+                            {loading && <span className="loader"></span>}
+                            <span>Create Account</span>
                         </button>
                     </form>
 

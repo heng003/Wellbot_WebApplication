@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { User, Edit, Save, Lock, Eye, EyeOff, Smartphone, Shield, Bot } from 'lucide-react';
+import { User, Edit, Save, Lock, Eye, EyeOff, Shield, Bot } from 'lucide-react';
 import '../../styles/profilePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfilePage = () => {
     const [personalData, setPersonalData] = useState({});
@@ -280,7 +280,7 @@ const UserProfilePage = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('/api/profile/changeDevice', {
+            await axios.post('/api/profile/changeDevice', {
                 serialNumber: serialNumberInput,
             }, {
                 headers: { Authorization: `Bearer ${token}` }

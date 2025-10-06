@@ -5,12 +5,25 @@ const cors = require("cors");
 const path = require('path');
 
 const authRouter = require('./routes/authRoute');
-const profileRouter = require('./routes/profileRoute.js');
+const profileRouter = require('./routes/profileRoute');
 const permissionRouter = require('./routes/permissionRoute');
 const fitbitRouter = require('./routes/fitbitRoute');
+const emotionRouter = require('./routes/emotionRoute');
 const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
+
+const jwt = require("jsonwebtoken");
+
+const secret = process.env.JWT_SECRET;
+const anon = process.env.ANON_KEY;
+const service = process.env.SUPABASE_SERVICE_ROLE_KEY;
+try {
+  console.log("ANON_KEY:", jwt.verify(anon, secret));
+  console.log("SERVICE_ROLE_KEY:", jwt.verify(service, secret));
+} catch (e) {
+  console.error("❌ Invalid:", e.message);
+}
 
 // 1. MIDDLEWARES
 app.use(cors({
@@ -30,6 +43,7 @@ app.use('/api', authMiddleware);
 app.use('/api/profile', authMiddleware, profileRouter);
 app.use('/api/permission', permissionRouter);
 app.use('/api/fitbit', fitbitRouter);
+app.use('/api/emotion', emotionRouter);
 
 // React frontend
 app.get('*', function (req, res) {

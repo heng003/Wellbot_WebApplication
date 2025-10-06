@@ -1,5 +1,4 @@
 const axios = require('axios');
-const User = require('../models/userModel');
 const qs = require('qs');
 
 const CLIENT_ID = process.env.FITBIT_CLIENT_ID;

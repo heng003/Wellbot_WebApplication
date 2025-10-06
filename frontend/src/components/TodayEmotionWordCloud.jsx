@@ -23,8 +23,8 @@ const TodayEmotionWordCloud = () => {
 		<div className="dashboard-wordcloud">
 			<WordCloud
 				data={data}
-				height={300}
-				width={200}
+				height={500}
+				width={600}
 				fontSize={fontSize}
 			/>
 		</div>

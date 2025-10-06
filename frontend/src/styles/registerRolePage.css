@@ -59,6 +59,8 @@
 }
 
 .green-button {
+    display: flex;
+    align-items: center;
     background-color: #0D9488;
     font-weight: 500;
     color: #FFFFFF;

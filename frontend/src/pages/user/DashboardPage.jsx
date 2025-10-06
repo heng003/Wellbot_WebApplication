@@ -1,5 +1,9 @@
 import React from "react";
 import '../../styles/dashboardPage.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useState } from "react";
+import { useEmotions } from "../../hooks/useEmotions";
 import MiniCalendar from "../../dashboard/calendar/MiniCalendar";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
@@ -16,69 +20,108 @@ import TaskCard from "../../dashboard/default/TaskCard";
 import tableDataCheck from "../../dashboard/variables/tableDataCheck.json";
 import tableDataComplex from "../../dashboard/variables/tableDataComplex.json";
 
+// import Swal from 'sweetalert2';
+// import axios from 'axios';
+import { getIdFromToken } from '../../utils/auth';
+
+const emotionConfig = {
+	Happy: {
+		icon: (
+			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
+				<circle cx="12" cy="12" r="10" fill="#0D9488" />
+				<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
+				<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
+				<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
+			</svg>
+		),
+		trend: "up",
+	},
+	Sad: {
+		icon: (
+			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
+				<circle cx="12" cy="12" r="10" fill="#2563EB" />
+				<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#DBEAFE" strokeWidth="1.5" fill="none" />
+				<circle cx="9" cy="10" r="1" fill="#DBEAFE" />
+				<circle cx="15" cy="10" r="1" fill="#DBEAFE" />
+			</svg>
+		),
+		trend: "down",
+	},
+	Fear: {
+		icon: (
+			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
+				<circle cx="12" cy="12" r="10" fill="#EAB308" />
+				<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
+				<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
+				<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
+			</svg>
+		),
+		trend: "up",
+	},
+	Angry: {
+		icon: (
+			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
+				<circle cx="12" cy="12" r="10" fill="#DC2626" />
+				<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#FEE2E2" strokeWidth="1.5" fill="none" />
+				<circle cx="9" cy="10" r="1" fill="#FEE2E2" />
+				<circle cx="15" cy="10" r="1" fill="#FEE2E2" />
+			</svg>
+		),
+		trend: "down",
+	},
+};
+
 const DashboardPage = () => {
+	const token = localStorage.getItem('token');
+	const userId = getIdFromToken();
+	const [startDate, setStartDate] = useState(new Date());
+	const [endDate, setEndDate] = useState(new Date());
+
+	const { emotions, timeSeries, loading } = useEmotions(
+		token,
+		userId,
+		startDate.toISOString().slice(0, 10),
+		endDate.toISOString().slice(0, 10)
+	);
+
+	if (emotions && emotions.length > 0) {
+		console.log("Emotions:", emotions[0].emotion_label);
+	} else {
+		console.log("No emotions data yet");
+	}
+
+
 	return (
 		<div className="main-container">
+
+			<div>
+				<div className="flex gap-4 mb-4">
+					<DatePicker selected={startDate} onChange={(d) => setStartDate(d)} />
+					<DatePicker selected={endDate} onChange={(d) => setEndDate(d)} />
+				</div>
+
+				{loading ? <p>Loading...</p> : <p>Data Loaded ✅</p>}
+			</div>
 			{/* Card widget and word cloud responsive layout */}
 
 			<div className="dashboard-flex-row ">
 				<div className="dashboard-widget-grid">
-					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="#0D9488" />
-								<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
-								<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
-							</svg>
-						}
-						title={"Happy"}
-						subtitle={"30"}
-						trend="up"
-						trendValue={"+2.45%"}
-					/>
-					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="#2563EB" />
-								<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#DBEAFE" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#DBEAFE" />
-								<circle cx="15" cy="10" r="1" fill="#DBEAFE" />
-							</svg>
-						}
-						title={"Sad"}
-						subtitle={"5"}
-						trend="down"
-						trendValue={"-1.20%"}
-					/>
-					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="#EAB308" />
-								<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
-								<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
-							</svg>
-					}
-						title={"Fear"}
-						subtitle={"15"}
-						trend="up"
-						trendValue={"+0.80%"}
-					/>
-					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="#DC2626" />
-								<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#FEE2E2" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#FEE2E2" />
-								<circle cx="15" cy="10" r="1" fill="#FEE2E2" />
-							</svg>
-						}
-						title={"Angry"}
-						subtitle={"50"}
-						trend="down"
-						trendValue={"-3.10%"}
-					/>
+					{emotions && emotions.map((e) => {
+						const config = emotionConfig[e.emotion_label] || {};
+						return (
+							<Widget
+								key={e.emotion_label}
+								icon={config.icon}
+								title={e.emotion_label}
+								subtitle={e.count}
+								trend={config.trend}
+								trendValue={
+									// Example: trend value from avg_confidence
+									`${(e.avg_confidence * 100).toFixed(1)}%`
+								}
+							/>
+						);
+					})}
 				</div>
 				<TodayEmotionWordCloud />
 			</div>
@@ -86,7 +129,9 @@ const DashboardPage = () => {
 			{/* Charts */}
 
 			<div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-				<EmotionalScore />
+				<EmotionalScore
+					timeSeries={timeSeries}
+				/>
 				<EmotionalDistribution />
 			</div>
 

@@ -13,9 +13,10 @@
     "frontend": "cd frontend && npm start",
     "backend": "cd backend && nodemon index.js",
     "start": "concurrently \"npm run backend\" \"npm run frontend\""
+
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.1"
   },
   "main": "index.js",
