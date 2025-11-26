@@ -11,7 +11,7 @@ const EmotionalDistribution = () => {
     <Card extra="flex flex-col bg-white w-full rounded-3xl py-6 px-2 text-center">
       <div className="mb-auto flex items-center justify-between px-6">
         <h2 className="text-lg font-bold text-navy-700">
-          Weekly Revenue
+          Daily Emotional Trend
         </h2>
         <button className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 !transition !duration-200 hover:bg-gray-100 active:bg-gray-200">
           <MdBarChart className="h-6 w-6" />

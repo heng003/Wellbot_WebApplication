@@ -104,7 +104,7 @@ const MonitoredUserPage = () => {
                     title: 'Request Sent',
                     text: 'Monitoring request has been sent successfully.',
                     icon: 'success',
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetchMonitoredList();
@@ -119,7 +119,7 @@ const MonitoredUserPage = () => {
                     title: 'Already Exists',
                     text: `A monitoring request or permission for this user already exists (status: ${existing.status}).`,
                     icon: 'info',
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setNewUser('');
@@ -135,7 +135,7 @@ const MonitoredUserPage = () => {
                     title: "User Not Found",
                     text: "No user found with that email or serial number. Please check and try again.",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setNewUser('');
@@ -146,7 +146,7 @@ const MonitoredUserPage = () => {
                     title: "Error!",
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 });
             }
         }
@@ -171,7 +171,7 @@ const MonitoredUserPage = () => {
                         : 'Do you want to remove this user from your monitored list?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: "#0D9488",
+            confirmButtonColor: "var(--primary-color)",
             cancelButtonColor: "#FFF",
             confirmButtonText: 'Yes, remove',
             cancelButtonText: 'Cancel',
@@ -203,7 +203,7 @@ const MonitoredUserPage = () => {
                                 ? 'Revoked permission has been removed.'
                                 : 'User has been removed from your monitored list.',
                     icon: 'success',
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                     confirmButtonText: 'Ok',
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -218,7 +218,7 @@ const MonitoredUserPage = () => {
                 title: 'Error',
                 text: 'Failed to delete user. Please try again later.',
                 icon: 'error',
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
                 confirmButtonText: 'Ok',
             });
         }
@@ -316,7 +316,7 @@ const MonitoredUserPage = () => {
                                 <strong>No monitored users found.</strong>
                                 <br />
                                 You haven’t added any users to monitor yet, and no monitoring requests have been sent.<br />
-                                Click <span style={{ color: '#0D9488', fontWeight: 'bold' }}>"Add User"</span> to start monitoring someone.
+                                Click <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>"Add User"</span> to start monitoring someone.
                             </div>
                         </div>
                     ) : (

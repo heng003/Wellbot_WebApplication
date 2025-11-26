@@ -1,5 +1,4 @@
 import React from "react";
-import '../../styles/dashboardPage.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
@@ -28,7 +27,7 @@ const emotionConfig = {
 	Happy: {
 		icon: (
 			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="#0D9488" />
+				<circle cx="12" cy="12" r="10" fill="var(--primary-color)" />
 				<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
 				<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
 				<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
@@ -76,6 +75,7 @@ const DashboardPage = () => {
 	const userId = getIdFromToken();
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const { emotions, timeSeries, loading } = useEmotions(
 		token,
@@ -93,6 +93,45 @@ const DashboardPage = () => {
 
 	return (
 		<div className="main-container">
+			<div className="mb-8">
+				<h1 className="page-title">
+					Emotional Dashboard
+				</h1>
+				<p className="page-subtitle">
+					Track and analyze your emotional patterns
+				</p>
+			</div>
+
+			<div className="bg-white dark:bg-navy-800 rounded-2xl p-4 mb-6 shadow-md">
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+					<div className="flex flex-col">
+						<label className="mb-2 text-sm text-gray-600">From Date</label>
+						<DatePicker
+							selected={startDate}
+							onChange={(d) => setStartDate(d)}
+							className="w-full p-2 border rounded"
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label className="mb-2 text-sm text-gray-600">To Date</label>
+						<DatePicker
+							selected={endDate}
+							onChange={(d) => setEndDate(d)}
+							className="w-full p-2 border rounded"
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label className="mb-2 text-sm text-gray-600">Search</label>
+						<input
+							type="text"
+							label="Search emotions..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							className="w-full"
+						/>
+					</div>
+				</div>
+			</div>
 
 			<div>
 				<div className="flex gap-4 mb-4">
@@ -123,7 +162,7 @@ const DashboardPage = () => {
 						);
 					})}
 				</div>
-				<TodayEmotionWordCloud />
+				{/* <TodayEmotionWordCloud /> */}
 			</div>
 
 			{/* Charts */}

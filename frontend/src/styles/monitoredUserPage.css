@@ -6,7 +6,7 @@
 }
 
 .swal2-cancel.swal-cancel-white:focus {
-    outline: 2px solid #0D9488 !important;
+    outline: 2px solid var(--primary-color) !important;
 }
 
 .main-container {
@@ -92,7 +92,7 @@
     border-radius: 8px;
     background: white;
     border: 1px solid #e5e7eb;
-    transition: transform 0.2s ease;
+    transition: transform 0.05s ease;
 }
 
 .stat-card:hover {
@@ -220,7 +220,7 @@
 }
 
 .action-text.view {
-    color: #0D9488;
+    color: var(--primary-color);
 }
 
 .action-text.remove {
@@ -390,7 +390,7 @@
 
 .long-green-button {
     width: 100%;
-    background-color: #0D9488;
+    background-color: var(--primary-color);
     font-weight: 500;
     color: #FFFFFF;
     border: 2px;

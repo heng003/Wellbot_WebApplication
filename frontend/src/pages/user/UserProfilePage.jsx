@@ -92,7 +92,7 @@ const UserProfilePage = () => {
                 title: "Success",
                 text: "Personal information updated successfully!",
                 icon: "success",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } catch (err) {
             setError('Failed to update profile');
@@ -100,7 +100,7 @@ const UserProfilePage = () => {
                 title: "Error",
                 text: err.response?.data?.message || "Failed to update profile",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } finally {
             setLoading(false);
@@ -114,7 +114,7 @@ const UserProfilePage = () => {
                 title: "Error",
                 text: "New passwords do not match",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -124,7 +124,7 @@ const UserProfilePage = () => {
                 title: "Error",
                 text: "Password must be at least 8 characters long",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -144,7 +144,7 @@ const UserProfilePage = () => {
                 title: "Success",
                 text: "Password changed successfully!",
                 icon: "success",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to change password');
@@ -152,7 +152,7 @@ const UserProfilePage = () => {
                 title: "Error",
                 text: err.response?.data?.message || "Failed to change password",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } finally {
             setLoading(false);
@@ -176,7 +176,7 @@ const UserProfilePage = () => {
                     title: "Success",
                     text: "Guardian tracking enabled",
                     icon: "success",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 });
             } catch (err) {
                 setError('Failed to enable guardian tracking');
@@ -184,7 +184,7 @@ const UserProfilePage = () => {
                     title: "Error",
                     text: err.response?.data?.message || "Failed to enable guardian tracking",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 });
             }
         } else {
@@ -201,7 +201,7 @@ const UserProfilePage = () => {
                         showCancelButton: true,
                         confirmButtonText: "Go to Access Management",
                         cancelButtonText: "Cancel",
-                        confirmButtonColor: "#0D9488",
+                        confirmButtonColor: "var(--primary-color)",
                         cancelButtonColor: "#FFF",
                         customClass: {
                             cancelButton: 'swal-cancel-white'
@@ -223,7 +223,7 @@ const UserProfilePage = () => {
                     title: "Error",
                     text: err.response?.data?.message || "Failed to disable guardian tracking",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 });
             }
         }
@@ -244,7 +244,7 @@ const UserProfilePage = () => {
                 title: "Success",
                 text: "Guardian tracking disabled",
                 icon: "success",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } catch (err) {
             setError('Failed to disable guardian tracking');
@@ -252,7 +252,7 @@ const UserProfilePage = () => {
                 title: "Error",
                 text: err.response?.data?.message || "Failed to disable guardian tracking",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         }
     };
@@ -272,7 +272,7 @@ const UserProfilePage = () => {
                 title: "Device Error",
                 text: "The new serial number cannot be the same as the current one.",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -291,14 +291,14 @@ const UserProfilePage = () => {
                 title: "Success",
                 text: "Device changed successfully!",
                 icon: "success",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } catch (err) {
             Swal.fire({
                 title: "Device Error",
                 text: err.response?.data?.message || "Failed to change device",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } finally {
             setLoading(false);
@@ -332,10 +332,10 @@ const UserProfilePage = () => {
                     {/* Personal Information */}
                     <div className="profile-card">
                         <div className="profile-card-header">
-                            <h2>
+                            <div className="flex flex-row justify-center">
                                 <User size={25} className="profile-icon" />
                                 Personal Information
-                            </h2>
+                            </div>
                             {!editingPersonal && (
                                 <button
                                     onClick={() => setEditingPersonal(true)}
@@ -498,10 +498,10 @@ const UserProfilePage = () => {
                     {/* Early Intervention */}
                     <div className="profile-card">
                         <div className="profile-card-header">
-                            <h2>
+                            <div className="flex flex-row justify-center">
                                 <Shield size={25} className="profile-icon" />
                                 Early Intervention Preference
-                            </h2>
+                            </div>
                         </div>
                         {[
                             { label: "Converse with Context Awareness", value: "converse", subtitle: "Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply" },
@@ -556,10 +556,10 @@ const UserProfilePage = () => {
                     {/* Account Settings */}
                     <div className="profile-card">
                         <div className="profile-card-header">
-                            <h2>
+                            <div className="flex flex-row justify-center">
                                 <Lock size={25} className="profile-icon" />
                                 Account Settings
-                            </h2>
+                            </div>
                         </div>
                         <div className="profile-card-content profile-card-row-between">
                             <div className="d-flex flex-column">
@@ -572,7 +572,7 @@ const UserProfilePage = () => {
                                 disabled={editingPersonal}
                             >
                                 <Edit size={16} />
-                                Change Password
+                                Reset Password
                             </button>
                         </div>
                         <div className="profile-card-content profile-card-row-between">
@@ -594,10 +594,10 @@ const UserProfilePage = () => {
                     {/* Guardian Tracking */}
                     <div className="profile-card">
                         <div className="profile-card-header">
-                            <h2>
+                            <div className="flex flex-row justify-center">
                                 <Shield size={25} className="profile-icon" />
                                 Guardian Tracking
-                            </h2>
+                            </div>
                         </div>
                         <div className="profile-card-content profile-card-row-between">
                             <div className="d-flex flex-column">
@@ -637,7 +637,7 @@ const UserProfilePage = () => {
                     </div>
                 </div>
             </main >
-            {/* Change Password Modal */}
+            {/* Reset Password Modal */}
             {
                 showPasswordModal && (
                     <div className="modal-overlay">

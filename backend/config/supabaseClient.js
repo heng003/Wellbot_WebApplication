@@ -1,14 +1,25 @@
 const { createClient } = require('@supabase/supabase-js');
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function testConnection() {
-  const { data, error } = await supabase.from('users').select('*').limit(1);
-  if (error) {
-    console.error('Supabase connection failed:', error.message);
-  } else {
-    console.log('Supabase connection successful!', data);
-  }
+	try {
+		const { data, error } = await supabase.from('users').select('*').limit(1);
+		if (error) {
+			console.error('Supabase connection failed:', error.message || error);
+		} else {
+			console.log('Supabase connection successful!', data);
+		}
+	} catch (err) {
+		console.error('Supabase client error:', err && err.message ? err.message : err);
+	}
 }
-testConnection();
+
+if (process.env.NODE_ENV !== 'production') {
+	testConnection();
+}
 
 module.exports = supabase;

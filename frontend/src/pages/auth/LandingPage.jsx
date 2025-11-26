@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import CardFeature from "../../components/CardFeature";
 import "../../styles/landingPage.css";
 import FitbitLoginButton from "../../components/FitbitLoginButton";
+import NavBarGeneral from "../../layout/NavBarGeneral";
+import NavBarDark from "../../layout/NavBarDark";
 
 const LandingPage = () => {
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
+    const [showNav, setShowNav] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -14,6 +17,18 @@ const LandingPage = () => {
 
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    useEffect(() => {
+        const onScroll = () => {
+            // show navbar when user scrolls down a bit, hide at top
+            setShowNav(window.scrollY > 20);
+        };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        // initialize
+        onScroll();
+        return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     const featureCardData = [
@@ -36,21 +51,23 @@ const LandingPage = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
-            {/* <Header /> */}
-
+            <div className={`landing-navbar ${showNav ? 'visible' : ''}`}>
+                <NavBarGeneral />
+            </div>
 
             <main className="flex-grow">
-                <section className='landing-session landing-bg-section justify-content-between align-items-center'>
-                    <div className="landing-grid">
+                <section className='landing-bg-section'>
+                    <NavBarDark />
+                    <div className='landing-session landing-top-session-padding justify-content-between align-items-center flex-column'>
                         <div className="align-content-center">
                             <h1 className="landing-white-title">
-                                Enhance Your Emotional Wellness with Well-Bot
+                                Enhance Your Emotional Wellness <span className="landing-white-special-title">with Well-Bot</span>
                             </h1>
                             <p className="landing-white-subtitle">
-                                Track, understand, and improve your emotional well-being with our cutting-edge wellness insight system.
+                                Discover a smarter way to understand your feelings and take charge of your mental well-being. Well-Bot helps you track emotional patterns, gain meaningful insights, and build healthier habits through daily reflections and intelligent analysis.
                             </p>
                         </div>
-                        <div className="align-content-center">
+                        <div className="align-content-center" style={{width: "90%", marginTop: '3em'}}>
                             <div className="emotion-card animate-transition">
                                 <div className="card-header">
                                     <h3 className="black">Today's Emotions</h3>
@@ -72,7 +89,7 @@ const LandingPage = () => {
                     <div className='features-grid'>
                         <div className="feature-card grey-border">
                             <img
-                                src="/Images/watch.png"
+                                src="/Images/icon_watch.png"
                                 alt="Watch"
                                 height="50"
                                 width="50"
@@ -84,7 +101,7 @@ const LandingPage = () => {
                         </div>
                         <div className="feature-card grey-border">
                             <img
-                                src="/Images/camera.png"
+                                src="/Images/icon_cam.png"
                                 alt="Camera"
                                 height="50"
                                 width="50"
@@ -96,11 +113,10 @@ const LandingPage = () => {
                         </div>
                         <div className="feature-card grey-border">
                             <img
-                                src="/Images/mic.png"
+                                src="/Images/icon_mic.png"
                                 alt="Mic"
                                 height="50"
-                                width="42"
-                                style={{ paddingBlock: '8.33px' }}
+                                width="50"
                             />
                             <div className="column-center gap-2">
                                 <p className='landing-title-small'>Well-Bot Microphone</p>

@@ -243,7 +243,7 @@ exports.confirmEmail = async (req, res) => {
                 <head>
                     <meta http-equiv="refresh" content="2;url=http://localhost:3000/login" />
                     <style>
-                        body { font-family: Arial, sans-serif; background: #f8fafc; color: #0d9488; text-align: center; padding-top: 80px; }
+                        body { font-family: "Plus Jakarta Sans", sans-serif; background: #f8fafc; color: var(--primary-color); text-align: center; padding-top: 80px; }
                         .card { background: #fff; display: inline-block; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(16,24,40,0.08); }
                         h2 { margin-bottom: 1rem; }
                         p { color: #475569; }

@@ -90,7 +90,7 @@ const GuardianProfilePage = () => {
                 title: "Success",
                 text: "Personal information updated successfully!",
                 icon: "success",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } catch (err) {
             setError('Failed to update profile');
@@ -98,7 +98,7 @@ const GuardianProfilePage = () => {
                 title: "Error",
                 text: err.response?.data?.message || "Failed to update profile",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } finally {
             setLoading(false);
@@ -112,7 +112,7 @@ const GuardianProfilePage = () => {
                 title: "Error",
                 text: "New passwords do not match",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -122,7 +122,7 @@ const GuardianProfilePage = () => {
                 title: "Error",
                 text: "Password must be at least 8 characters long",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -142,7 +142,7 @@ const GuardianProfilePage = () => {
                 title: "Success",
                 text: "Password changed successfully!",
                 icon: "success",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to change password');
@@ -150,7 +150,7 @@ const GuardianProfilePage = () => {
                 title: "Error",
                 text: err.response?.data?.message || "Failed to change password",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         } finally {
             setLoading(false);
@@ -186,10 +186,10 @@ const GuardianProfilePage = () => {
                     {/* Personal Information */}
                     <div className="profile-card">
                         <div className="profile-card-header">
-                            <h2>
+                            <div className="flex flex-row justify-center">
                                 <User size={25} className="profile-icon" />
                                 Personal Information
-                            </h2>
+                            </div>
                             {!editingPersonal && (
                                 <button
                                     onClick={() => setEditingPersonal(true)}
@@ -260,10 +260,10 @@ const GuardianProfilePage = () => {
                     {/* Account Settings */}
                     <div className="profile-card">
                         <div className="profile-card-header">
-                            <h2>
+                            <div className="flex flex-row justify-center">
                                 <Lock size={25} className="profile-icon" />
                                 Account Settings
-                            </h2>
+                            </div>
                         </div>
                         <div className="profile-card-content profile-card-row-between">
                             <div className="d-flex flex-column">
@@ -276,17 +276,17 @@ const GuardianProfilePage = () => {
                                 disabled={editingPersonal}
                             >
                                 <Edit size={16} />
-                                Change Password
+                                Reset Password
                             </button>
                         </div>
                     </div>
                 </div>
             </main>
-            {/* Change Password Modal */}
+            {/* Reset Password Modal */}
             {showPasswordModal && (
                 <div className="modal-overlay">
                     <div className="modal-container">
-                        <h3 className="modal-title mb-4">Change Password</h3>
+                        <h3 className="modal-title mb-4">Reset Password</h3>
                         <form onSubmit={handlePasswordSubmit} className="profile-form-vertical">
                             <div>
                                 <label className="form-label">Current Password</label>

@@ -33,7 +33,7 @@ const ForgotPasswordPage = () => {
                     imageHeight: 200,
                     imageAlt: "email",
                     confirmButtonText: "OK",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         title: 'swal-title-class-login',
                         confirmButton: 'swal-confirm-button-class',
@@ -50,7 +50,7 @@ const ForgotPasswordPage = () => {
                     title: "Error!",
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         title: 'swal-title-class',
                         confirmButton: 'my-confirm-button-class'

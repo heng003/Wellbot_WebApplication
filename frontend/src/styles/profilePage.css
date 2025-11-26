@@ -37,6 +37,8 @@
     padding-inline: 1.5em;
     border-bottom: 1px solid #e3e3e3;
     height: 10vh;
+    font-size: 0.95em;
+    font-weight: 600;
 }
 
 .profile-card-content {
@@ -54,7 +56,7 @@
 }
 
 .profile-icon {
-    color: #0d9488;
+    color: var(--primary-color);
     margin-right: 0.5rem;
 }
 
@@ -69,8 +71,8 @@
 }
 
 .btn-outline {
-    color: #0d9488;
-    border: 1px solid #0d9488;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
     display: flex;
     align-items: center;
     gap: 0.3em;
@@ -133,7 +135,7 @@
 }
 
 .input:focus {
-    border-color: #0d9488;
+    border-color: var(--primary-color);
     outline: none;
 }
 
@@ -178,7 +180,7 @@
 .profile-value {
     color: #0f172a;
     font-weight: 550;
-    font-size: 0.95em;
+    font-size: 0.9em;
 }
 
 .span-2 {
@@ -253,7 +255,7 @@
 }
 
 .profile-switch input[type="checkbox"]:checked+label {
-    background: #0d9488;
+    background: var(--primary-color);
 }
 
 .profile-switch label::after {
@@ -309,7 +311,7 @@
 
 .loader {
     border: 3px solid #f3f3f3;
-    border-top: 3px solid #0d9488;
+    border-top: 3px solid var(--primary-color);
     border-radius: 50%;
     width: 18px;
     height: 18px;

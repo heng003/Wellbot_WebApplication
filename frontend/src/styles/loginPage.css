@@ -24,7 +24,7 @@
 	background-color: #fff;
 	border-radius: 0.75rem;
 	box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.3);
-	transition: transform 0.2s ease;
+	transition: transform 0.1s ease;
 }
 
 @keyframes fadeIn {
@@ -112,18 +112,18 @@
 }
 
 .link {
-	color: #0D9488;
+	color: var(--primary-color);
 	text-decoration: none;
 }
 
 .link:hover {
-	color: #14B8A6;
+	opacity: 0.8;
 	text-decoration: underline;
 }
 
 .btn-submit {
 	width: 100%;
-	background-color: #0D9488;
+	background: var(--button-gradient);
 	color: white;
 	padding: 0.7rem;
 	border: none;
@@ -137,7 +137,6 @@
 }
 
 .btn-submit:hover {
-	background-color: #14B8A6;
 	opacity: 0.7;
 }
 

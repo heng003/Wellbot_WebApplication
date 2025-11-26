@@ -26,6 +26,16 @@
 	}
 }
 
+:root {
+	--primary-color: #603CFF;
+	--secondary-dark-color: #11047A;
+	--secondary-light-color: #C1D6FA;
+	--background-color: #F4F7FE;
+	--button-gradient: linear-gradient(15.46deg, rgb(74, 37, 225) 26.3%, rgb(123, 90, 255) 86.4%);
+	--font-size-md: 1rem;
+	--font-size-lg: 2rem;
+}
+
 input.defaultCheckbox::before {
 	content: url(../src/svg/checked.svg);
 	color: white;
@@ -43,7 +53,7 @@ input:checked.defaultCheckbox::before {
 
 body {
 	margin: 0;
-	font-family: "Poppins";
+	font-family: "Plus Jakarta Sans", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -55,4 +65,39 @@ code {
 
 p {
 	margin: 0 !important;
+}
+
+.collapse {
+	all: unset;
+}
+
+html, body, #root {
+	height: 100%;
+}
+
+.app-with-sidebar {
+	background-color: var(--background-color);
+	margin-left: 280px;
+	transition: margin-left .2s ease;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Make main content area grow to fill remaining vertical space */
+.app-with-sidebar > * {
+	min-height: 0;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+ul {
+	padding-left: 0.7rem;
+}
+
+.text-gray-300 {
+	color: #A3AED0;
 }

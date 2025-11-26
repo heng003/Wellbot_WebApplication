@@ -40,7 +40,7 @@ const NavBarGeneral = () => {
 
 	return (
 		<div className="navbarContainer">
-			<nav className="navbar navbar-expand-lg bg-body-tertiary">
+			<nav className="navbar navbar-expand-lg">
 				<div className="container-fluid" style={{ padding: "0 2.5em" }}>
 					<button
 						className="navbar-toggler"
@@ -58,8 +58,9 @@ const NavBarGeneral = () => {
 							src="/Images/logo.png"
 							alt="Logo"
 							width="45"
+							style={{ borderRadius: 10 }}
 						/>
-						{!isMobile && <span className="nav-title">Well-Bot</span>}
+						{!isMobile && <span className="nav-title">Well<span class="font-medium">-Bot</span></span>}
 					</Link>
 					<div className="collapse navbar-collapse" id="navbarNav">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>

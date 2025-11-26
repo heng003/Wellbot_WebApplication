@@ -30,7 +30,7 @@ const ResetPasswordPage = () => {
                 title: "Error",
                 text: "New passwords do not match",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -40,7 +40,7 @@ const ResetPasswordPage = () => {
                 title: "Error",
                 text: "Password must be at least 8 characters long",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             return;
         }
@@ -52,7 +52,7 @@ const ResetPasswordPage = () => {
                     text: "Your password has been reset successfully.",
                     icon: "success",
                     confirmButtonText: "OK",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         confirmButton: 'my-confirm-button-class-success'
                     }
@@ -74,7 +74,7 @@ const ResetPasswordPage = () => {
                 text: error.response.data.message,
                 icon: "error",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title-class',
                     confirmButton: 'my-confirm-button-class'

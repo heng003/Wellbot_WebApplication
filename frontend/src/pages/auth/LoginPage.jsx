@@ -52,7 +52,7 @@ const LoginPage = () => {
                     text: errors.response.data?.message,
                     icon: "error",
                     confirmButtonText: "OK",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 });
                 setErrors({ form: "Login Failed: " + errors.response.data.message });
             } finally {

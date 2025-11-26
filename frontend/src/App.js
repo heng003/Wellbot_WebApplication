@@ -1,35 +1,42 @@
 import "./App.css";
 import {
-	BrowserRouter as Router,
 	Route,
 	Routes,
 	useLocation,
 } from "react-router-dom";
+import { useShowSidebar } from "./hooks/useShowSidebar";
+// Layouts
 import NavBarGeneral from "./layout/NavBarGeneral";
-import NavBarGuardian from "./layout/NavBarGuardian";
-import NavBarUser from "./layout/NavBarUser";
+import Sidebar from "./layout/sb";
 import Footer from "./layout/Footer.jsx";
+// General Pages
 import LandingPage from "./pages/auth/LandingPage";
 import RegisterRolePage from "./pages/auth/RegisterRolePage";
 import RegisterUserPage from "./pages/auth/RegisterUserPage";
 import RegisterGuardianPage from "./pages/auth/RegisterGuardianPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage.jsx";
 import LoginPage from "./pages/auth/LoginPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
-import MonitoredUserPage from "./pages/guardian/MonitoredUserPage";
+// User Pages
 import AccessManagePage from "./pages/user/AccessManagePage";
 import UserProfilePage from "./pages/user/UserProfilePage";
-import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
 import DashboardPage from "./pages/user/DashboardPage.jsx";
-import ShowNavbar from "./ShowNavbarFooter/ShowNavbar";
-import ShowFooter from "./ShowNavbarFooter/ShowFooter";
-import ResetPasswordPage from "./pages/auth/ResetPasswordPage.jsx";
+import JournalPage from "./pages/user/JournalPage.jsx";
+// Guardian Pages
+import MonitoredUserPage from "./pages/guardian/MonitoredUserPage";
+import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
 // import FitbitCallback from "./RegisterAcc/FitbitCallback";
 
 function App() {
+
+	const showSidebar = useShowSidebar();
+	const location = useLocation();
+
 	return (
 		<>
-			<Router>
-				<CustomNavbar />
+			{showSidebar && <Sidebar />}
+			<div className={showSidebar ? "app-with-sidebar" : ""}>
+				<CustomNavbar location={location} />
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					<Route path="/registerRole" element={<RegisterRolePage />} />
@@ -37,36 +44,40 @@ function App() {
 					<Route path="/registerGuardian" element={<RegisterGuardianPage />} />
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />
 					<Route path="/user/accessManage" element={<AccessManagePage />} />
 					<Route path="/user/profile" element={<UserProfilePage />} />
-					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
 					<Route path="/user/dashboard" element={<DashboardPage />} />
+					<Route path="/user/activities/journal" element={<JournalPage />} />
+					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />
+					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
 					<Route path="/resetPassword/:id/:token/:role" element={<ResetPasswordPage />} />
 					{/* <Route path="/callback" element={<FitbitCallback />} /> */}
 				</Routes>
-				<ShowFooter>
-					<Footer />
-				</ShowFooter>
-			</Router>
+			</div>
+			<CustomFooter location={location} />
 		</>
 	);
 }
 
-// helper function to determine navbar to render
-function CustomNavbar() {
-	const location = useLocation();
+function CustomNavbar({ location }) {
+	if (location.pathname === "/") return null;
 
-	const isGuardianPage = location.pathname.startsWith("/guardian");
-	const isUserPage = location.pathname.startsWith("/user");
-
-	if (isGuardianPage) {
-		return <NavBarGuardian />;
-	} else if (isUserPage) {
-		return <NavBarUser />;
-	} else {
-		return <NavBarGeneral />;
+	if (
+		location.pathname.startsWith("/guardian") ||
+		location.pathname.startsWith("/user")
+	) {
+		return null;
 	}
+
+	return <NavBarGeneral />;
+}
+
+function CustomFooter({ location }) {
+	const showFooter =
+		location.pathname.includes("login") ||
+		location.pathname.includes("register");
+
+	return showFooter ? <Footer /> : null;
 }
 
 export default App;

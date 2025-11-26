@@ -59,7 +59,7 @@ const AccessManagePage = () => {
                     title: 'Access Granted',
                     text: 'The Guardian is being granted permission to access your emotional data.',
                     icon: 'success',
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 }).then(() => {
                     setNewGuardian('');
                     setShowAddGuardianModal(false);
@@ -70,7 +70,7 @@ const AccessManagePage = () => {
                     title: 'Already Exists',
                     text: `A monitoring request or permission for this user already exists (status: ${response.data.status}).`,
                     icon: 'info',
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 }).then(() => {
                     setNewGuardian('');
                     setShowAddGuardianModal(false);
@@ -82,14 +82,14 @@ const AccessManagePage = () => {
                     title: "User Not Found",
                     text: "No user found with that email or name. Please check and try again.",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 }).then(() => setNewGuardian(''));
             } else {
                 Swal.fire({
                     title: "Error!",
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
-                    confirmButtonColor: "#0D9488",
+                    confirmButtonColor: "var(--primary-color)",
                 });
             }
         }
@@ -103,7 +103,7 @@ const AccessManagePage = () => {
             text: 'Do you want to revoke this guardian\'s access?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: "#0D9488",
+            confirmButtonColor: "var(--primary-color)",
             cancelButtonColor: "#FFF",
             confirmButtonText: 'Yes, revoke',
             cancelButtonText: 'Cancel',
@@ -124,7 +124,7 @@ const AccessManagePage = () => {
                 title: 'Revoked',
                 text: 'Guardian access has been revoked.',
                 icon: 'success',
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             fetchGuardianData();
         } catch (error) {
@@ -132,7 +132,7 @@ const AccessManagePage = () => {
                 title: "Error!",
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         }
     };
@@ -150,7 +150,7 @@ const AccessManagePage = () => {
                 title: 'Accepted',
                 text: 'Guardian request has been accepted.',
                 icon: 'success',
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             fetchGuardianData();
         } catch (error) {
@@ -158,7 +158,7 @@ const AccessManagePage = () => {
                 title: "Error!",
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         }
     };
@@ -176,7 +176,7 @@ const AccessManagePage = () => {
                 title: 'Rejected',
                 text: 'Guardian request has been rejected.',
                 icon: 'success',
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
             fetchGuardianData();
         } catch (error) {
@@ -184,7 +184,7 @@ const AccessManagePage = () => {
                 title: "Error!",
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
             });
         }
     };
@@ -255,7 +255,7 @@ const AccessManagePage = () => {
                         <strong>No active guardians.</strong>
                         <br />
                         You haven't granted access to any guardians yet.<br />
-                        Click <span style={{ color: '#0D9488', fontWeight: 'bold' }}>"Add Guardian"</span> to add trusred person to monitor your emotional well-being.
+                        Click <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>"Add Guardian"</span> to add trusred person to monitor your emotional well-being.
                     </div>
                 </div>
             ) : activeGuardians.map(g => (
@@ -295,7 +295,7 @@ const AccessManagePage = () => {
                     </div>
                 </div>
                 <div className="page-container">
-                    <div className="mb-6">
+                    <div className="mb-1">
                         <div className="tab-buttons">
                             <button
                                 className={`tab-btn${activeTab === 'requests' ? ' active' : ''}`}

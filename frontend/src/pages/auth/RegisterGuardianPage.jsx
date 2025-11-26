@@ -47,13 +47,13 @@ const RegisterGuardianPage = () => {
 
             Swal.fire({
                 title: "Check Your Email",
-                titleColor: "#0D9488",
+                titleColor: "var(--primary-color)",
                 text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 5 minutes.",
                 imageUrl: "Images/checkEmail.gif",
                 imageHeight: 200,
                 imageAlt: "email",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title-class',
                     confirmButton: 'swal-confirm-button-class'
@@ -78,7 +78,7 @@ const RegisterGuardianPage = () => {
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
                 confirmButtonText: "OK",
-                confirmButtonColor: "#0D9488",
+                confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title-class',
                     confirmButton: 'my-confirm-button-class'
