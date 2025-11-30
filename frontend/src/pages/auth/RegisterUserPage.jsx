@@ -302,9 +302,9 @@ const RegisterUserPage = () => {
                         </button>
                     </form>
 
-                    <p className="login-redirect">
+                    <p className="redirect-container">
                         Already have an account?{' '}
-                        <Link to="/login" className="login-link" onClick={scrollToTop}>
+                        <Link to="/login" className="redirect-link" onClick={scrollToTop}>
                             Login here
                         </Link>
                     </p>

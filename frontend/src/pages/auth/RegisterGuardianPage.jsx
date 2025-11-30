@@ -170,9 +170,9 @@ const RegisterGuardianPage = () => {
                         </button>
                     </form>
 
-                    <p className="login-redirect mt-2">
+                    <p className="redirect-container mt-2">
                         Already have an account?{' '}
-                        <Link to="/login" className="login-link" onClick={scrollToTop}>
+                        <Link to="/login" className="redirect-link" onClick={scrollToTop}>
                             Login here
                         </Link>
                     </p>

@@ -39,15 +39,13 @@ const LoginPage = () => {
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {
-                    navigate('/user/accessManage');
+                    navigate('/user/dashboard');
                 } else if (userRole === 'guardian') {
                     navigate('/guardian/monitoredUser');
                 }
 
             } catch (errors) {
                 Swal.fire({
-                    // "Login Failed", 
-                    // error.response.data.message, "error"
                     title: "Login Failed",
                     text: errors.response.data?.message,
                     icon: "error",
@@ -108,8 +106,8 @@ const LoginPage = () => {
                         <div className="form-options mb-3">
                             <div className="checkbox-wrapper">
                             </div>
-                            <div className="redirect-link">
-                                <Link to="/forgotPassword" className="link">
+                            <div className="redirect-container">
+                                <Link to="/forgotPassword" className="redirect-link">
                                     Forgot your password?
                                 </Link>
                             </div>

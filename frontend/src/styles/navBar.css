@@ -59,7 +59,7 @@
     background: var(--button-gradient);
     margin-left: 2.5em;
     font-weight: 500;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     border: 2px;
     border-radius: 6px;
     font-size: 0.9em;

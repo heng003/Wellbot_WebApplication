@@ -9,22 +9,6 @@
     outline: 2px solid var(--primary-color) !important;
 }
 
-.main-container {
-    display: flex;
-    flex-direction: column;
-    padding-inline: 4em;
-    padding-block: 3em;
-}
-
-.main-content {
-    flex-grow: 1;
-    padding: 20px;
-}
-
-.top-bar {
-    margin-bottom: 24px;
-}
-
 .status-active {
     background-color: #d1fae5;
     color: #065f46;

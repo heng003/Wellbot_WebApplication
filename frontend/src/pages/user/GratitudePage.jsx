@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles/journalPage.css';
 import J2 from "../../assets/journals/J2.png";
 import J3 from "../../assets/journals/J3.png";
 import J4 from "../../assets/journals/J4.png";
@@ -10,19 +9,19 @@ import { useNavigate } from 'react-router-dom';
 import JournalCard from '../../dashboard/card/JournalCard';
 import HistoryCard from '../../components/HistoryCard';
 
-const JournalPage = () => {
+const GratitudePage = () => {
 
     return (
         <>
-            <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" style={{padding: "3em"}}>
+            <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" style={{padding: "3em"}}>
                 <div className="col-span-2">
                     <div className="top-bar header-section flex-column">
                         <div>
-                            <h1 className="page-title">Journal</h1>
-                            <p className="page-subtitle">Capture your thoughts and memories</p>
+                            <h1 className="page-title">Moments of Gratitude</h1>
+                            <p className="page-subtitle">Express appreciation for the people who matter</p>
                         </div>
                     </div>
-                    <div className="z-20 grid gap-4 grid-cols-2 lg:grid-cols-3">
+                    <div className="z-20 grid gap-5 grid-cols-2 lg:grid-cols-3">
                         <JournalCard
                             title="Happy Day"
                             date="25 September 2025"
@@ -58,4 +57,4 @@ const JournalPage = () => {
     );
 };
 
-export default JournalPage;
+export default GratitudePage;

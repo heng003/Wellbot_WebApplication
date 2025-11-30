@@ -140,20 +140,20 @@ ul {
     list-style: disc;
 }
 
-.login-redirect {
+.redirect-container {
 	padding-top: 0.5rem;
 	text-align: center;
 	font-size: 0.8rem;
 }
 
-.login-link {
-	color: var(--primary-color);
-	text-decoration: none;
+.redirect-link {
+	color: var(--primary-color) !important;
+	text-decoration: none !important;
 }
 
-.login-link:hover {
+.redirect-link:hover {
 	opacity: 0.7;
-	text-decoration: underline;
+	text-decoration: underline !important;
 }
 
 .popup-consent-overlay {

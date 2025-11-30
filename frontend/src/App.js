@@ -7,7 +7,7 @@ import {
 import { useShowSidebar } from "./hooks/useShowSidebar";
 // Layouts
 import NavBarGeneral from "./layout/NavBarGeneral";
-import Sidebar from "./layout/sb";
+import Sidebar from "./layout/Sidebar.jsx";
 import Footer from "./layout/Footer.jsx";
 // General Pages
 import LandingPage from "./pages/auth/LandingPage";
@@ -22,6 +22,7 @@ import AccessManagePage from "./pages/user/AccessManagePage";
 import UserProfilePage from "./pages/user/UserProfilePage";
 import DashboardPage from "./pages/user/DashboardPage.jsx";
 import JournalPage from "./pages/user/JournalPage.jsx";
+import GratitudePage from "./pages/user/GratitudePage.jsx";
 // Guardian Pages
 import MonitoredUserPage from "./pages/guardian/MonitoredUserPage";
 import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
@@ -48,6 +49,7 @@ function App() {
 					<Route path="/user/profile" element={<UserProfilePage />} />
 					<Route path="/user/dashboard" element={<DashboardPage />} />
 					<Route path="/user/activities/journal" element={<JournalPage />} />
+					<Route path="/user/activities/gratitude" element={<GratitudePage />} />
 					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />
 					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
 					<Route path="/resetPassword/:id/:token/:role" element={<ResetPasswordPage />} />

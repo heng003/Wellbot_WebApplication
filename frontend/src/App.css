@@ -5,18 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
-	.dark\:text-white {
-		color: inherit !important;
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	.dark\:bg-white {
-		color: inherit !important;
-	}
-}
-
 @layer base {
 	html {
 		font-family: 'DM Sans', sans-serif !important;
@@ -30,10 +18,14 @@
 	--primary-color: #603CFF;
 	--secondary-dark-color: #11047A;
 	--secondary-light-color: #C1D6FA;
-	--background-color: #F4F7FE;
+	--background-color: #F5F8FF;
 	--button-gradient: linear-gradient(15.46deg, rgb(74, 37, 225) 26.3%, rgb(123, 90, 255) 86.4%);
 	--font-size-md: 1rem;
 	--font-size-lg: 2rem;
+	--happy-color: #7852FF;
+	--sad-color: #69C2FF;
+	--angry-color: #FF8AB1;
+	--fear-color: #AAAEC2;
 }
 
 input.defaultCheckbox::before {
@@ -71,7 +63,9 @@ p {
 	all: unset;
 }
 
-html, body, #root {
+html,
+body,
+#root {
 	height: 100%;
 }
 
@@ -85,13 +79,13 @@ html, body, #root {
 }
 
 /* Make main content area grow to fill remaining vertical space */
-.app-with-sidebar > * {
+.app-with-sidebar>* {
 	min-height: 0;
 }
 
 a {
-  text-decoration: none !important;
-  color: inherit !important;
+	text-decoration: inherit !important;
+	color: inherit !important;
 }
 
 ul {
@@ -100,4 +94,69 @@ ul {
 
 .text-gray-300 {
 	color: #A3AED0;
+}
+
+.mt-6 {
+	margin-top: 1.5rem;
+}
+
+.mb-4 {
+	margin-bottom: 1rem;
+}
+
+.mb-6 {
+	margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+	margin-bottom: 2rem;
+}
+
+.p-6 {
+	padding: 1.5rem;
+}
+
+.p-4 {
+	padding: 1rem;
+}
+
+.py-8 {
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+
+.space-y-4>*+* {
+	margin-top: 1rem;
+}
+
+.flex {
+	display: flex;
+}
+
+.items-center {
+	align-items: center;
+}
+
+.items-start {
+	align-items: flex-start;
+}
+
+.gap-3 {
+	gap: 0.75rem;
+}
+
+.gap-2 {
+	gap: 0.5rem;
+}
+
+.grid {
+	display: grid;
+}
+
+.grid-cols-1 {
+	grid-template-columns: 1fr;
+}
+
+.md\:grid-cols-2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 }

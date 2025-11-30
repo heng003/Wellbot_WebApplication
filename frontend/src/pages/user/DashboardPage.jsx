@@ -27,7 +27,7 @@ const emotionConfig = {
 	Happy: {
 		icon: (
 			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="var(--primary-color)" />
+				<circle cx="12" cy="12" r="10" fill="var(--happy-color)" />
 				<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
 				<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
 				<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
@@ -38,7 +38,7 @@ const emotionConfig = {
 	Sad: {
 		icon: (
 			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="#2563EB" />
+				<circle cx="12" cy="12" r="10" fill="var(--sad-color)" />
 				<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#DBEAFE" strokeWidth="1.5" fill="none" />
 				<circle cx="9" cy="10" r="1" fill="#DBEAFE" />
 				<circle cx="15" cy="10" r="1" fill="#DBEAFE" />
@@ -46,27 +46,27 @@ const emotionConfig = {
 		),
 		trend: "down",
 	},
-	Fear: {
-		icon: (
-			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="#EAB308" />
-				<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
-				<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
-				<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
-			</svg>
-		),
-		trend: "up",
-	},
 	Angry: {
 		icon: (
 			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="#DC2626" />
+				<circle cx="12" cy="12" r="10" fill="var(--angry-color)" />
 				<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#FEE2E2" strokeWidth="1.5" fill="none" />
 				<circle cx="9" cy="10" r="1" fill="#FEE2E2" />
 				<circle cx="15" cy="10" r="1" fill="#FEE2E2" />
 			</svg>
 		),
 		trend: "down",
+	},
+	Fear: {
+		icon: (
+			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
+				<circle cx="12" cy="12" r="10" fill="var(--fear-color)" />
+				<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
+				<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
+				<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
+			</svg>
+		),
+		trend: "up",
 	},
 };
 
@@ -161,6 +161,62 @@ const DashboardPage = () => {
 							/>
 						);
 					})}
+					<Widget
+						icon={
+							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" fill="var(--happy-color)" />
+								<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
+								<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
+								<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
+							</svg>
+						}
+						title={"Happy"}
+						subtitle={"30"}
+						trend="up"
+						trendValue={"+2.45%"}
+					/>
+					<Widget
+						icon={
+							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" fill="var(--sad-color)" />
+								<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#DBEAFE" strokeWidth="1.5" fill="none" />
+								<circle cx="9" cy="10" r="1" fill="#DBEAFE" />
+								<circle cx="15" cy="10" r="1" fill="#DBEAFE" />
+							</svg>
+						}
+						title={"Sad"}
+						subtitle={"5"}
+						trend="down"
+						trendValue={"-1.20%"}
+					/>
+					<Widget
+						icon={
+							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" fill="var(--fear-color)" />
+								<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
+								<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
+								<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
+							</svg>
+						}
+						title={"Fear"}
+						subtitle={"15"}
+						trend="up"
+						trendValue={"+0.80%"}
+					/>
+					<Widget
+						icon={
+							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<circle cx="12" cy="12" r="10" fill="var(--angry-color)" />
+								<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#FEE2E2" strokeWidth="1.5" fill="none" />
+								<circle cx="9" cy="10" r="1" fill="#FEE2E2" />
+								<circle cx="15" cy="10" r="1" fill="#FEE2E2" />
+							</svg>
+						}
+						title={"Angry"}
+						subtitle={"50"}
+						trend="down"
+						trendValue={"-3.10%"}
+					/>
 				</div>
 				{/* <TodayEmotionWordCloud /> */}
 			</div>

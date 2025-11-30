@@ -2,7 +2,7 @@
 .main-container {
     display: flex;
     flex-direction: column;
-    padding-inline: 4em;
+    padding-inline: 3em;
     padding-block: 3em;
     background-color: var(--background-color);
     /* height: 100vh; */
@@ -308,69 +308,4 @@ textarea:focus {
 
 .rounded-lg {
     border-radius: 0.5rem;
-}
-
-.mt-6 {
-    margin-top: 1.5rem;
-}
-
-.mb-4 {
-    margin-bottom: 1rem;
-}
-
-.mb-6 {
-    margin-bottom: 1.5rem;
-}
-
-.mb-8 {
-    margin-bottom: 2rem;
-}
-
-.p-6 {
-    padding: 1.5rem;
-}
-
-.p-4 {
-    padding: 1rem;
-}
-
-.py-8 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
-.space-y-4>*+* {
-    margin-top: 1rem;
-}
-
-.flex {
-    display: flex;
-}
-
-.items-center {
-    align-items: center;
-}
-
-.items-start {
-    align-items: flex-start;
-}
-
-.gap-3 {
-    gap: 0.75rem;
-}
-
-.gap-2 {
-    gap: 0.5rem;
-}
-
-.grid {
-    display: grid;
-}
-
-.grid-cols-1 {
-    grid-template-columns: 1fr;
-}
-
-.md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
 }

@@ -98,10 +98,10 @@ const ForgotPasswordPage = () => {
                         </div>
                     </form>
 
-                    <div className="signup-link">
+                    <div className="redirect-container">
                         <p>
                             Don't have an account?{' '}
-                            <Link to="/registerRole" className="link">
+                            <Link to="/registerRole" className="redirect-link">
                                 Sign up
                             </Link>
                         </p>
