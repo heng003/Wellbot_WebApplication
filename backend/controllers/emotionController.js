@@ -11,30 +11,107 @@ exports.getEmotionsByDate = async (req, res) => {
             return res.status(400).json({ error: "User ID is required" });
         }
 
-        // Default: today
-        const start = startDate ? new Date(startDate) : new Date();
-        const end = endDate ? new Date(endDate) : start;
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: "startDate and endDate are required" });
+        }
 
-        // Normalize to whole-day range
-        start.setHours(0, 0, 0, 0);
-        end.setHours(0, 0, 0, 0);
-        end.setDate(end.getDate() + 1); // exclusive upper bound
+        // Parse YYYY-MM-DD into local Date (avoid UTC shift)
+        const parseLocalDate = (s) => {
+            const [y, m, d] = s.split('-').map(Number);
+            if (!y || !m || !d) throw new Error(`Invalid date format: ${s}`);
+            return new Date(y, m - 1, d, 0, 0, 0, 0);
+        };
 
-        const emotions = await Emotion.getEmotionsSummary(
-            userId,
-            start.toISOString(),
-            end.toISOString()
-        );
+        const start = parseLocalDate(startDate);
+        const end = parseLocalDate(endDate);
 
-        const timeSeries = await Emotion.getEmotionsTimeSeries(
-            userId,
-            start.toISOString(),
-            end.toISOString()
-        );
+        // Normalize to whole-day range and convert to ISO for model
+        end.setHours(23, 59, 59, 999);
+        const startISO = start.toISOString();
+        const endISO = end.toISOString();
 
-        res.json({ emotions, timeSeries });
+        const emotions = await Emotion.getEmotionsSummary(userId, startISO, endISO);
+        const timeSeries = await Emotion.getEmotionsTimeSeries(userId, startISO, endISO);
+
+        return res.json({ emotions, timeSeries });
+
     } catch (err) {
-        console.error("getEmotionsByDate error:", err.message);
-        res.status(500).json({ error: "Server error" });
+        console.error("getEmotionsByDate error:", err);
+        return res.status(500).json({ error: err.message || "Server error" });
+    }
+};
+
+exports.getEmotionalScoreTrend = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { startDate, endDate, bucketType = 'day' } = req.query;
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: 'startDate and endDate are required' });
+        }
+
+        console.log('Fetching trend for:', { userId, startDate, endDate, bucketType });
+
+        const dailyData = await Emotion.getDailyAggregates(
+            userId,
+            startDate,
+            endDate,
+            bucketType
+        );
+
+        // Calculate trend metrics
+        const currentScore = dailyData.length > 0 
+            ? dailyData[dailyData.length - 1].avgScore 
+            : 0;
+
+        const previousScore = dailyData.length > 1 
+            ? dailyData[dailyData.length - 2].avgScore 
+            : currentScore;
+
+        const trendDirection = currentScore > previousScore 
+            ? 'up' 
+            : currentScore < previousScore 
+            ? 'down' 
+            : 'stable';
+
+        const trendPercentage = previousScore !== 0
+            ? Math.abs(((currentScore - previousScore) / previousScore) * 100).toFixed(2)
+            : 0;
+
+        return res.json({
+            currentScore,
+            trendDirection,
+            trendPercentage,
+            dailyData,
+        });
+    } catch (err) {
+        console.error('Error fetching trend:', err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getEmotionCountsByDate = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { startDate, endDate } = req.query; // These are STRINGS "YYYY-MM-DD"
+
+        if (!userId) {
+            return res.status(400).json({ error: 'User ID is required' });
+        }
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: 'startDate and endDate are required' });
+        }
+
+        console.log('Controller received:', { userId, startDate, endDate });
+
+        // Pass the strings to the service. The service will handle conversion.
+        const counts = await Emotion.getEmotionCountsByDay(userId, startDate, endDate);
+        
+        return res.json({ dailyCounts: counts });
+
+    } catch (err) {
+        console.error('getEmotionCountsByDate error:', err);
+        res.status(500).json({ error: err.message, stack: err.stack });
     }
 };

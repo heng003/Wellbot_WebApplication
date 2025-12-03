@@ -6,6 +6,7 @@ import DashIcon from "../icons/DashIcon";
 import ProfileIcon from "../icons/ProfileIcon";
 import TablesIcon from "../icons/TablesIcon";
 import KanbanIcon from "../icons/KanbanIcon";
+import LogOutIcon from "../icons/LogOutIcon";
 
 export const routes = [
     {
@@ -42,7 +43,6 @@ export const routes = [
         role: "user",
         name: "Activities",
         activeKey: "Activities",
-        // no parent path; has subitems below
         children: [
             { name: 'Journal', activeKey: 'Journal', path: '/user/activities/journal' },
             { name: 'Gratitude', activeKey: 'Gratitude', path: '/user/activities/gratitude' },
@@ -62,6 +62,13 @@ export const routes = [
         activeKey: "Profile",
         path: "/user/profile",
         icon: <ProfileIcon />
+    },
+    {
+        role: "user",
+        name: "Log Out",
+        path: "/",
+        icon: <LogOutIcon />,
+        logout: true
     }
 ];
 

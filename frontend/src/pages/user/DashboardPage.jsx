@@ -8,8 +8,6 @@ import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import PieChartCard from "../../dashboard/default/PieChartCard";
 
-import { columnsDataCheck, columnsDataComplex } from "../../dashboard/variables/columnsData";
-
 import Widget from "../../dashboard/widget/Widget";
 import TodayEmotionWordCloud from "../../components/TodayEmotionWordCloud";
 import CheckTable from "../../dashboard/default/CheckTable";
@@ -19,53 +17,31 @@ import TaskCard from "../../dashboard/default/TaskCard";
 import tableDataCheck from "../../dashboard/variables/tableDataCheck.json";
 import tableDataComplex from "../../dashboard/variables/tableDataComplex.json";
 
+import HappyIcon from "../../icons/HappyIcon";
+import SadIcon from "../../icons/SadIcon";
+import AngryIcon from "../../icons/AngryIcon";
+import FearIcon from "../../icons/FearIcon";
+import '../../styles/dashboardPage.css';
+
 // import Swal from 'sweetalert2';
 // import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
 
 const emotionConfig = {
 	Happy: {
-		icon: (
-			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="var(--happy-color)" />
-				<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
-				<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
-				<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
-			</svg>
-		),
+		icon: <HappyIcon />,
 		trend: "up",
 	},
 	Sad: {
-		icon: (
-			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="var(--sad-color)" />
-				<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#DBEAFE" strokeWidth="1.5" fill="none" />
-				<circle cx="9" cy="10" r="1" fill="#DBEAFE" />
-				<circle cx="15" cy="10" r="1" fill="#DBEAFE" />
-			</svg>
-		),
+		icon: <SadIcon />,
 		trend: "down",
 	},
 	Angry: {
-		icon: (
-			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="var(--angry-color)" />
-				<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#FEE2E2" strokeWidth="1.5" fill="none" />
-				<circle cx="9" cy="10" r="1" fill="#FEE2E2" />
-				<circle cx="15" cy="10" r="1" fill="#FEE2E2" />
-			</svg>
-		),
+		icon: <AngryIcon />,
 		trend: "down",
 	},
 	Fear: {
-		icon: (
-			<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none">
-				<circle cx="12" cy="12" r="10" fill="var(--fear-color)" />
-				<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
-				<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
-				<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
-			</svg>
-		),
+		icon: <FearIcon />,
 		trend: "up",
 	},
 };
@@ -73,15 +49,14 @@ const emotionConfig = {
 const DashboardPage = () => {
 	const token = localStorage.getItem('token');
 	const userId = getIdFromToken();
-	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
-	const [searchTerm, setSearchTerm] = useState("");
+	// const [startDate, setStartDate] = useState(new Date());
+	// const [endDate, setEndDate] = useState(new Date());
 
 	const { emotions, timeSeries, loading } = useEmotions(
 		token,
 		userId,
-		startDate.toISOString().slice(0, 10),
-		endDate.toISOString().slice(0, 10)
+		"29-11-2025",
+		"30-11-2025"
 	);
 
 	if (emotions && emotions.length > 0) {
@@ -89,7 +64,6 @@ const DashboardPage = () => {
 	} else {
 		console.log("No emotions data yet");
 	}
-
 
 	return (
 		<div className="main-container">
@@ -101,47 +75,6 @@ const DashboardPage = () => {
 					Track and analyze your emotional patterns
 				</p>
 			</div>
-
-			<div className="bg-white dark:bg-navy-800 rounded-2xl p-4 mb-6 shadow-md">
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-					<div className="flex flex-col">
-						<label className="mb-2 text-sm text-gray-600">From Date</label>
-						<DatePicker
-							selected={startDate}
-							onChange={(d) => setStartDate(d)}
-							className="w-full p-2 border rounded"
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label className="mb-2 text-sm text-gray-600">To Date</label>
-						<DatePicker
-							selected={endDate}
-							onChange={(d) => setEndDate(d)}
-							className="w-full p-2 border rounded"
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label className="mb-2 text-sm text-gray-600">Search</label>
-						<input
-							type="text"
-							label="Search emotions..."
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							className="w-full"
-						/>
-					</div>
-				</div>
-			</div>
-
-			<div>
-				<div className="flex gap-4 mb-4">
-					<DatePicker selected={startDate} onChange={(d) => setStartDate(d)} />
-					<DatePicker selected={endDate} onChange={(d) => setEndDate(d)} />
-				</div>
-
-				{loading ? <p>Loading...</p> : <p>Data Loaded ✅</p>}
-			</div>
-			{/* Card widget and word cloud responsive layout */}
 
 			<div className="dashboard-flex-row ">
 				<div className="dashboard-widget-grid">
@@ -161,108 +94,70 @@ const DashboardPage = () => {
 							/>
 						);
 					})}
-					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="var(--happy-color)" />
-								<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="#DCFCE7" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#DCFCE7" />
-								<circle cx="15" cy="10" r="1" fill="#DCFCE7" />
-							</svg>
-						}
+					{/* <Widget
+						icon={<HappyIcon />}
 						title={"Happy"}
 						subtitle={"30"}
 						trend="up"
 						trendValue={"+2.45%"}
 					/>
 					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="var(--sad-color)" />
-								<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#DBEAFE" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#DBEAFE" />
-								<circle cx="15" cy="10" r="1" fill="#DBEAFE" />
-							</svg>
-						}
+						icon={<SadIcon />}
 						title={"Sad"}
 						subtitle={"5"}
 						trend="down"
 						trendValue={"-1.20%"}
 					/>
 					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="var(--fear-color)" />
-								<path d="M8 15s1.5-1.5 4-1.5 4 1.5 4 1.5" stroke="#FEF9C3" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#FEF9C3" />
-								<circle cx="15" cy="10" r="1" fill="#FEF9C3" />
-							</svg>
-						}
+						icon={<AngryIcon />}
 						title={"Fear"}
 						subtitle={"15"}
 						trend="up"
 						trendValue={"+0.80%"}
 					/>
 					<Widget
-						icon={
-							<svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<circle cx="12" cy="12" r="10" fill="var(--angry-color)" />
-								<path d="M8 16s1.5-2 4-2 4 2 4 2" stroke="#FEE2E2" strokeWidth="1.5" fill="none" />
-								<circle cx="9" cy="10" r="1" fill="#FEE2E2" />
-								<circle cx="15" cy="10" r="1" fill="#FEE2E2" />
-							</svg>
-						}
+						icon={<FearIcon />}
 						title={"Angry"}
 						subtitle={"50"}
 						trend="down"
 						trendValue={"-3.10%"}
-					/>
+					/> */}
 				</div>
 				{/* <TodayEmotionWordCloud /> */}
 			</div>
 
 			{/* Charts */}
 
-			<div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-				<EmotionalScore
-					timeSeries={timeSeries}
-				/>
+			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 mt-3">
+				<EmotionalScore />
 				<EmotionalDistribution />
 			</div>
 
 			{/* Tables & Charts */}
 
-			<div className="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
+			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 mt-3">
 				{/* Check Table */}
-				<div>
-					<CheckTable
-						columnsData={columnsDataCheck}
-						tableData={tableDataCheck}
-					/>
-				</div>
+				<ComplexTable />
 
-				{/* Traffic chart & Pie Chart */}
+				<DailyTraffic />
 
-				<div className="grid grid-cols-1 gap-5 rounded-[20px] md:grid-cols-2">
-					<DailyTraffic />
-					<PieChartCard />
-				</div>
+				<PieChartCard />
 
 				{/* Complex Table , Task & Calendar */}
-
+				{/* 
 				<ComplexTable
 					columnsData={columnsDataComplex}
 					tableData={tableDataComplex}
-				/>
+				/> */}
 
 				{/* Task chart & Calendar */}
 
-				<div className="grid grid-cols-1 gap-5 rounded-[20px] md:grid-cols-2">
+				{/* <div className="grid grid-cols-1 gap-5 rounded-[20px] md:grid-cols-2">
 					<TaskCard />
 					<div className="grid grid-cols-1 rounded-[20px]">
 						<MiniCalendar />
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

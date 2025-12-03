@@ -61,8 +61,8 @@ export const columnsDataComplex = [
     accessor: "name",
   },
   {
-    Header: "STATUS",
-    accessor: "status",
+    Header: "MOOD FLOW",
+    accessor: "mood",
   },
   {
     Header: "DATE",

@@ -184,7 +184,7 @@ const GuardianProfilePage = () => {
 
                 <div className="profile-section">
                     {/* Personal Information */}
-                    <div className="profile-card">
+                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                         <div className="profile-card-header">
                             <div className="flex flex-row justify-center">
                                 <User size={25} className="profile-icon" />
@@ -258,7 +258,7 @@ const GuardianProfilePage = () => {
                     </div>
 
                     {/* Account Settings */}
-                    <div className="profile-card">
+                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                         <div className="profile-card-header">
                             <div className="flex flex-row justify-center">
                                 <Lock size={25} className="profile-icon" />

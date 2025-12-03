@@ -9,6 +9,8 @@ const profileRouter = require('./routes/profileRoute');
 const permissionRouter = require('./routes/permissionRoute');
 const fitbitRouter = require('./routes/fitbitRoute');
 const emotionRouter = require('./routes/emotionRoute');
+const journalRouter = require('./routes/journalRoute');
+const interventionRouter = require('./routes/interventionRoute');
 const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
@@ -32,6 +34,8 @@ app.use('/api/profile', authMiddleware, profileRouter);
 app.use('/api/permission', permissionRouter);
 app.use('/api/fitbit', fitbitRouter);
 app.use('/api/emotion', emotionRouter);
+app.use('/api/journal', journalRouter);
+app.use('/api/intervention', interventionRouter);
 
 // React frontend
 app.get('*', function (req, res) {

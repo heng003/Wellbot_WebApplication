@@ -22,14 +22,14 @@
 	--button-gradient: linear-gradient(15.46deg, rgb(74, 37, 225) 26.3%, rgb(123, 90, 255) 86.4%);
 	--font-size-md: 1rem;
 	--font-size-lg: 2rem;
-	--happy-color: #7852FF;
-	--sad-color: #69C2FF;
-	--angry-color: #FF8AB1;
-	--fear-color: #AAAEC2;
+	--happy-color: #519AF6;
+	--sad-color: #69D5C5;
+	--angry-color: #7E6FEE;
+	--fear-color: #EA5E8F;
 }
 
 input.defaultCheckbox::before {
-	content: url(../src/svg/checked.svg);
+	content: url(../src/assets/svg/checked.svg);
 	color: white;
 	opacity: 0;
 	height: 16px;
@@ -41,6 +41,24 @@ input.defaultCheckbox::before {
 
 input:checked.defaultCheckbox::before {
 	opacity: 1;
+}
+
+.apexcharts-tooltip{
+	color: #fff !important;
+	background: rgba(30, 30, 30, 0.8) !important;
+}
+
+.apexcharts-tooltip-active {
+	z-index: 1000 !important;
+}
+
+.apexcharts-tooltip-title {
+	background: inherit !important;
+}
+
+.apexcharts-xaxistooltip {
+	color: #fff !important;
+	background: rgba(30, 30, 30, 0.8) !important;
 }
 
 body {
@@ -157,6 +175,8 @@ ul {
 	grid-template-columns: 1fr;
 }
 
-.md\:grid-cols-2 {
-	grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (min-width: 768px) {
+	.md\:grid-cols-2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }

@@ -64,7 +64,12 @@ export function SidebarLinks(props) {
 				// If no children, render as before
 				if (!hasChildren) {
 					return (
-						<Link key={index} to={route.path} style={{ textDecoration: "none" }}>
+						<Link key={index} to={route.path} style={{ textDecoration: "none" }}
+							onClick={() => {
+								if (route.logout) {
+									localStorage.removeItem("token");
+								}
+							}}>
 							<div className="relative mb-3 flex hover:cursor-pointer">
 								<li className="my-[3px] flex cursor-pointer items-center px-3">
 									<span className={`${parentActive ? "font-light text-brand-400" : "font-bold text-gray-300"}`}>
@@ -99,7 +104,7 @@ export function SidebarLinks(props) {
 											<span className={`${parentActive ? "font-light text-brand-400" : "font-bold text-gray-300"}`}>
 												{route.icon}
 											</span>
-											<p className={`leading-1 flex ${parentActive ? "font-light text-500" : "text-gray-300"}`} style={{paddingLeft: '0.8rem', fontSize: '0.92rem'}}>
+											<p className={`leading-1 flex ${parentActive ? "font-light text-500" : "text-gray-300"}`} style={{ paddingLeft: '0.8rem', fontSize: '0.92rem' }}>
 												{route.name}
 											</p>
 										</div>

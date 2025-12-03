@@ -330,7 +330,7 @@ const UserProfilePage = () => {
 
                 <div className="profile-section">
                     {/* Personal Information */}
-                    <div className="profile-card">
+                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                         <div className="profile-card-header">
                             <div className="flex flex-row justify-center">
                                 <User size={25} className="profile-icon" />
@@ -496,7 +496,7 @@ const UserProfilePage = () => {
                     </div>
 
                     {/* Early Intervention */}
-                    <div className="profile-card">
+                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                         <div className="profile-card-header">
                             <div className="flex flex-row justify-center">
                                 <Shield size={25} className="profile-icon" />
@@ -554,7 +554,7 @@ const UserProfilePage = () => {
                     </div>
 
                     {/* Account Settings */}
-                    <div className="profile-card">
+                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                         <div className="profile-card-header">
                             <div className="flex flex-row justify-center">
                                 <Lock size={25} className="profile-icon" />
@@ -592,7 +592,7 @@ const UserProfilePage = () => {
                     </div>
 
                     {/* Guardian Tracking */}
-                    <div className="profile-card">
+                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                         <div className="profile-card-header">
                             <div className="flex flex-row justify-center">
                                 <Shield size={25} className="profile-icon" />
@@ -638,8 +638,7 @@ const UserProfilePage = () => {
                 </div>
             </main >
             {/* Reset Password Modal */}
-            {
-                showPasswordModal && (
+            {showPasswordModal && (
                     <div className="modal-overlay">
                         <div className="modal-container">
                             <h3 className="modal-title mb-4">Change Password</h3>

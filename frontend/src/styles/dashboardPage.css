@@ -1,9 +1,9 @@
 /* Responsive layout for dashboard widgets and wordcloud */
-.dashboard-flex-row {
+/* .dashboard-flex-row {
 	display: flex;
 	flex-direction: column;
 	gap: 1.25rem;
-}
+} */
 
 .dashboard-widget-grid {
 	width: 100%;
@@ -20,13 +20,12 @@
 	justify-content: center;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 700px) {
 	.dashboard-flex-row {
 		flex-direction: row;
 	}
 
 	.dashboard-widget-grid {
-		width: 80%;
 		grid-template-columns: 1fr 1fr;
 	}
 
