@@ -39,10 +39,31 @@ exports.updateJournal = async (req, res) => {
     try {
         const { id } = req.params;
         const payload = req.body; // title, body, mood, topics, created_at, fav
-        const updated = await journalModel.updateJournal(id, payload);
+        const updated = await Journal.updateJournal(id, payload);
         return(res.json(updated));
     } catch (err) {
         console.error('Error updating journal:', err);
         res.status(500).json({ error: err.message });
+    }
+};
+
+exports.createJournal = async (req, res) => {
+    try {
+        const payload = req.body;
+        const newJournal = await Journal.createJournal(payload);
+        return res.status(201).json({ data: newJournal });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+exports.deleteJournal = async (req, res) => {
+    // FIX: Ensure you extract the ID correctly based on how you send it (body or params)
+    const { journalId } = req.body; 
+    try {
+        await Journal.deleteJournal(journalId); // FIX Here
+        res.json({ message: 'Journal deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };

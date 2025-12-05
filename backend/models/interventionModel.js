@@ -5,12 +5,12 @@ async function findInterventionsByUserId(userId) {
         .from('intervention_log')
         .select('*')
         .eq('user_id', userId)
-        // order by timestamp column (matches schema)
-        .order('timestamp', { ascending: false });
+        .order('timestamp', { ascending: false })
+        .limit(2500); 
     if (error) throw error;
     return data;
 }
 
 module.exports = {
-    findInterventionsByUserId,
-}
+    findInterventionsByUserId
+};

@@ -16,18 +16,21 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
         if (onEdit) onEdit();
     };
 
-	const date = created_at ? new Date(created_at).toISOString().split('T')[0]: created_at;
-	const time = created_at ? new Date(created_at).toTimeString().slice(0, 5) : '';
+    const date = created_at ? new Date(created_at).toISOString().split('T')[0] : created_at;
+    const time = created_at ? new Date(created_at).toTimeString().slice(0, 5) : '';
 
     return (
         <>
-            <Card extra="flex flex-col w-full !p-4 bg-white">
+            <Card extra="flex flex-col w-full !p-4 bg-white cursor-pointer" onClick={() => setOpenModal(true)}>
                 <div className="relative">
                     <img src={image} className="mb-3 rounded-xl w-full" alt="" />
 
                     <button
-                        onClick={handleFavClick}
-                        className="absolute top-3 right-3 bg-white p-2 rounded-full"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleFavClick();
+                        }}
+                        className="absolute top-3 right-3 bg-white p-2 rounded-full hover:opacity-80"
                     >
                         {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
                     </button>
@@ -40,23 +43,25 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
                     <span>{date} · {time}</span>
                 </div>
 
-                <button
+                {/* <button
                     onClick={() => setOpenModal(true)}
-                    className="linear bg-brand-900 text-white rounded-xl px-4 py-2"
+                    className="linear bg-brand-900 text-white rounded-xl px-4 py-2 hover:opacity-80"
                 >
                     View
-                </button>
+                </button> */}
             </Card>
 
             {openModal && (
                 <JournalModal
-                    id={id}
-                    title={title}
-                    content={content}
-                    created_at={created_at}
-                    fav={isFav}
+                    initialData={{
+                        id,
+                        title,
+                        body: content,
+                        created_at,
+                        fav: isFav
+                    }}
                     image={image}
-                    onEdit={onEdit}
+                    onUpdate={onEdit}
                     onClose={() => setOpenModal(false)}
                     openInitially={true}
                 />

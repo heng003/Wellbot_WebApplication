@@ -6,16 +6,32 @@ const tokenHeader = () => {
 };
 
 export const fetchJournals = async (userId) => {
-	const res = await axios.get(`/api/journal/${userId}`, tokenHeader());
-	return res.data;
+	const response = await axios.get(`/api/journal/${userId}`, tokenHeader());
+	return response.data;
 };
 
 export const toggleFav = async (journalId, fav) => {
-	const res = await axios.patch(`/api/journal/${journalId}/fav`, { fav }, tokenHeader());
-	return res.data;
+	const response = await axios.patch(`/api/journal/${journalId}/fav`, { fav }, tokenHeader());
+	return response.data;
 };
 
 export const updateJournal = async (journalId, payload) => {
-	const res = await axios.patch(`/api/journal/${journalId}`, payload, tokenHeader());
-	return res.data;
+	const response = await axios.patch(`/api/journal/${journalId}`, payload, tokenHeader());
+	return response.data;
+};
+
+export const createJournal = async (userId, text, fav) => {
+	const response = await axios.post(
+		`/api/journal/create`,
+		{ user_id: userId, text, fav },
+		tokenHeader()
+	);
+	return response.data;
+};
+
+export const deleteJournal = async (journalId) => {
+	const response = await axios.delete(`/api/journal/delete/${journalId}`,
+		tokenHeader()
+	);
+	return response.data;
 };

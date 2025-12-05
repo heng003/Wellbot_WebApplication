@@ -1,185 +1,201 @@
 import { useState, useEffect } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
 import { CalendarIcon } from "lucide-react";
-import { toggleFav, updateJournal } from "../services/journalService";
+import Swal from "sweetalert2";
+import { updateJournal, createJournal, deleteJournal } from "../services/journalService";
 
-const JournalModal = ({
-    id,
-    title,
-    content,
-    created_at,
-    fav,
-    image,
-    onClose,
-    onEdit, // callback to parent to refresh
-    openInitially = false
-}) => {
+const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = false }) => {
+    const isEditingExisting = !!initialData;
 
     const [show, setShow] = useState(openInitially);
-    const [isFav, setIsFav] = useState(fav || false);
-    const [editMode, setEditMode] = useState(false);
+    const [editMode, setEditMode] = useState(!initialData);
+    const [loading, setLoading] = useState(false);
 
-    // Editable fields
-    const [editTitle, setEditTitle] = useState(title);
-    const [editContent, setEditContent] = useState(content);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [isFav, setIsFav] = useState(false);
 
-    const dateObj = new Date(created_at);
-    const initialDate = dateObj.toISOString().split("T")[0];
-    const initialTime = dateObj.toTimeString().slice(0, 5);
-    const [editDate, setEditDate] = useState(initialDate);
-    const [editTime, setEditTime] = useState(initialTime);
+    const [dateVal, setDateVal] = useState("");
+    const [timeVal, setTimeVal] = useState("");
 
+    // Load Initial Data
     useEffect(() => {
-        setShow(openInitially);
-    }, [openInitially]);
+        if (initialData) {
+            setTitle(initialData.title);
+            setContent(initialData.body);
+            setIsFav(initialData.fav);
+
+            const dt = new Date(initialData.created_at);
+            setDateVal(dt.toISOString().split("T")[0]);
+            setTimeVal(dt.toTimeString().slice(0, 5));
+        } else {
+            const now = new Date();
+            setDateVal(now.toISOString().split("T")[0]);
+            setTimeVal(now.toTimeString().slice(0, 5));
+        }
+    }, [initialData]);
 
     const close = () => {
         setShow(false);
-        setEditMode(false);
         if (onClose) onClose();
     };
 
-    // ESC close
     useEffect(() => {
-        const handleEsc = (e) => {
-            if (e.key === "Escape") close();
-        };
-        if (show) window.addEventListener("keydown", handleEsc);
-        return () => window.removeEventListener("keydown", handleEsc);
-    }, [show]);
+        const esc = (e) => e.key === "Escape" && close();
+        window.addEventListener("keydown", esc);
+        return () => window.removeEventListener("keydown", esc);
+    }, []);
 
-    // Toggle favourite
-    const handleFavClick = async () => {
-        const newFav = !isFav;
-        setIsFav(newFav);
-        await toggleFav(id, newFav);
-        if (onEdit) onEdit();
-    };
-
-    // Save journal edit
+    // Save/Add
     const handleSave = async () => {
-        const merged = new Date(`${editDate}T${editTime}:00`);
-        const payload = {
-            title: editTitle,
-            body: editContent,
-            created_at: merged.toISOString()
-        };
+        if (!title.trim() || !content.trim()) return;
 
-        await updateJournal(id, payload);
-        if (onEdit) onEdit();
+        setLoading(true);
+        const combined = new Date(`${dateVal}T${timeVal}:00`);
 
-        setEditMode(false);
-        close();
+        try {
+            if (initialData) {
+                await updateJournal(initialData.id, {
+                    title,
+                    body: content,
+                    fav: isFav,
+                    created_at: combined.toISOString(),
+                });
+
+                Swal.fire("Updated!", "Your journal entry has been updated.", "success");
+            } else {
+                await createJournal({
+                    title,
+                    body: content,
+                    fav: isFav,
+                    created_at: combined.toISOString(),
+                    image,
+                });
+
+                Swal.fire("Created!", "Your new journal entry has been added.", "success");
+            }
+
+            if (onUpdate) onUpdate();
+            close();
+        } catch (error) {
+            Swal.fire("Error", "Failed to save journal entry.", "error");
+        }
+
+        setLoading(false);
     };
 
-    if (!show) return null;
+    // Delete
+    const handleDelete = async () => {
+        const res = await Swal.fire({
+            title: "Delete journal?",
+            text: "This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Delete",
+            confirmButtonColor: "#d33",
+        });
 
-    return (
+        if (!res.isConfirmed) return;
+
+        try {
+            await deleteJournal(initialData.id);
+            Swal.fire("Deleted", "Your journal entry has been removed.", "success");
+
+            if (onUpdate) onUpdate();
+            close();
+        } catch (err) {
+            Swal.fire("Error", "Failed to delete entry.", "error");
+        }
+    };
+
+    return !show ? null : (
         <div className="modal-overlay">
-            <div className="modal-container">
+            <div className="modal-container overflow-hidden">
 
-                {!editMode ? (
-                    <>
-                        {/* VIEW MODE */}
-                        <h3 className="modal-title mb-4">{title}</h3>
+                {/* HEADER */}
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="modal-title">
+                        {isEditingExisting ? (editMode ? "Edit Journal" : title) : "New Journal"}
+                    </h3>
+                    <button onClick={close} className="p-2 rounded-full bg-gray-100 hover:opacity-80 text-gray-500">
+                        <MdClose className="text-xl" />
+                    </button>
+                </div>
 
-                        <div className="relative w-full">
-                            <img src={image} className="mb-3 rounded-xl w-full" alt="" />
-                            <button
-                                onClick={handleFavClick}
-                                className="absolute top-3 right-3 bg-white p-2 rounded-full"
-                            >
-                                {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
-                            </button>
-                        </div>
+                <div className="max-h-[75vh] overflow-y-auto">
+                    <div className="relative mb-4">
+                        <img src={image} className="rounded-xl w-full" alt="" />
+                        <button
+                            className="absolute top-3 right-3 bg-white p-2 rounded-full hover:opacity-80"
+                            onClick={() => setIsFav(!isFav)}
+                        >
+                            {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
+                        </button>
+                    </div>
 
-                        <div className="profile-form-vertical">
-                            <div>
-                                <label className="form-label">Date & Time</label>
-                                <p className="form-display-box flex gap-1">
-                                    <CalendarIcon size={16} />
-                                    {initialDate} · {initialTime}
-                                </p>
-                            </div>
-
-                            <div>
-                                <label className="form-label">Content</label>
-                                <p className="form-display-box whitespace-pre-line">{content}</p>
-                            </div>
-
-                            <div className="profile-form-actions">
-                                <button
-                                    className="green-button btn-primary"
-                                    onClick={() => setEditMode(true)}
-                                >
-                                    Edit
-                                </button>
-                                <button className="white-button btn-outline" onClick={close}>
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        {/* EDIT MODE */}
-                        <h3 className="modal-title mb-4">Edit Journal</h3>
-
-                        <div className="relative w-full">
-                            <img src={image} className="mb-3 rounded-xl w-full" alt="" />
-                        </div>
-
-                        <div className="profile-form-vertical">
+                    <div className="profile-form-vertical">
+                        {/* Title */}
+                        {editMode && (
                             <div>
                                 <label className="form-label">Title</label>
                                 <input
                                     type="text"
                                     className="form-input"
-                                    value={editTitle}
-                                    onChange={(e) => setEditTitle(e.target.value)}
+                                    value={title}
+                                    disabled={!editMode}
+                                    onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
+                        )}
 
-                            <div>
-                                <label className="form-label">Date</label>
-                                <input
-                                    type="date"
-                                    className="form-input"
-                                    value={editDate}
-                                    onChange={(e) => setEditDate(e.target.value)}
-                                />
-                            </div>
-
-                            <div>
-                                <label className="form-label">Time</label>
-                                <input
-                                    type="time"
-                                    className="form-input"
-                                    value={editTime}
-                                    onChange={(e) => setEditTime(e.target.value)}
-                                />
-                            </div>
-
-                            <div>
-                                <label className="form-label">Content</label>
-                                <textarea
-                                    className="form-input h-32"
-                                    value={editContent}
-                                    onChange={(e) => setEditContent(e.target.value)}
-                                />
-                            </div>
-
-                            <div className="profile-form-actions">
-                                <button className="green-button btn-primary" onClick={handleSave}>
-                                    Save
-                                </button>
-                                <button className="white-button btn-outline" onClick={close}>
-                                    Cancel
-                                </button>
-                            </div>
+                        {/* Date + Time */}
+                        <div>
+                            <label className="form-label">Date & Time</label>
+                            {editMode ? (
+                                <div className="flex gap-3">
+                                    <input type="date" className="form-input" value={dateVal} onChange={(e) => setDateVal(e.target.value)} />
+                                    <input type="time" className="form-input" value={timeVal} onChange={(e) => setTimeVal(e.target.value)} />
+                                </div>
+                            ) : (
+                                <p className="form-display-box flex items-center gap-1">
+                                    <CalendarIcon size={16} />
+                                    {dateVal} · {timeVal}
+                                </p>
+                            )}
                         </div>
-                    </>
-                )}
+
+                        {/* Content */}
+                        <div>
+                            <label className="form-label">Content</label>
+                            {editMode ? (
+                                <textarea className="form-input h-32" value={content} onChange={(e) => setContent(e.target.value)} />
+                            ) : (
+                                <p className="form-display-box whitespace-pre-line">{content}</p>
+                            )}
+                        </div>
+
+                        {/* ACTION BUTTONS */}
+                        <div className="profile-form-actions pb-1">
+                            {editMode ? (
+                                <>
+                                    <button className="green-button btn-primary" onClick={handleSave}>
+                                        {loading ? "Saving..." : "Save"}
+                                    </button>
+                                    <button className="white-button btn-outline" onClick={close}>Cancel</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button className="green-button btn-primary" onClick={() => setEditMode(true)}>Edit</button>
+                                    {initialData && (
+                                        <button className="white-button btn-outline" onClick={handleDelete}>Delete</button>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

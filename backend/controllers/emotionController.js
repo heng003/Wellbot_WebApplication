@@ -50,7 +50,7 @@ exports.getEmotionalScoreTrend = async (req, res) => {
             return res.status(400).json({ error: 'startDate and endDate are required' });
         }
 
-        console.log('Fetching trend for:', { userId, startDate, endDate, bucketType });
+        // console.log('Fetching trend for:', { userId, startDate, endDate, bucketType });
 
         const dailyData = await Emotion.getDailyAggregates(
             userId,
@@ -60,19 +60,19 @@ exports.getEmotionalScoreTrend = async (req, res) => {
         );
 
         // Calculate trend metrics
-        const currentScore = dailyData.length > 0 
-            ? dailyData[dailyData.length - 1].avgScore 
+        const currentScore = dailyData.length > 0
+            ? dailyData[dailyData.length - 1].avgScore
             : 0;
 
-        const previousScore = dailyData.length > 1 
-            ? dailyData[dailyData.length - 2].avgScore 
+        const previousScore = dailyData.length > 1
+            ? dailyData[dailyData.length - 2].avgScore
             : currentScore;
 
-        const trendDirection = currentScore > previousScore 
-            ? 'up' 
-            : currentScore < previousScore 
-            ? 'down' 
-            : 'stable';
+        const trendDirection = currentScore > previousScore
+            ? 'up'
+            : currentScore < previousScore
+                ? 'down'
+                : 'stable';
 
         const trendPercentage = previousScore !== 0
             ? Math.abs(((currentScore - previousScore) / previousScore) * 100).toFixed(2)
@@ -107,11 +107,33 @@ exports.getEmotionCountsByDate = async (req, res) => {
 
         // Pass the strings to the service. The service will handle conversion.
         const counts = await Emotion.getEmotionCountsByDay(userId, startDate, endDate);
-        
+
         return res.json({ dailyCounts: counts });
 
     } catch (err) {
         console.error('getEmotionCountsByDate error:', err);
         res.status(500).json({ error: err.message, stack: err.stack });
+    }
+};
+
+exports.getEmotionalLogs = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { startDate, endDate } = req.query;
+
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is required" });
+        }
+
+        const data = await Emotion.getEmotionalLogsFromDb(
+            userId,
+            startDate,
+            endDate
+        );
+
+        return res.status(200).json({ data });
+    } catch (err) {
+        console.error("Error fetching emotional logs:", err);
+        return res.status(500).json({ error: "Server Error" });
     }
 };

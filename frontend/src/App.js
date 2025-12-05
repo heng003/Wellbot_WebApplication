@@ -20,7 +20,9 @@ import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 // User Pages
 import AccessManagePage from "./pages/user/AccessManagePage";
 import UserProfilePage from "./pages/user/UserProfilePage";
-import DashboardPage from "./pages/user/DashboardPage.jsx";
+import MainDashboardPage from "./pages/user/MainDashboardPage.jsx";
+import EmotionDashboardPage from "./pages/user/EmotionDashboardPage.jsx";
+import InterventionDashboardPage from "./pages/user/InterventionDashboardPage.jsx";
 import JournalPage from "./pages/user/JournalPage.jsx";
 import GratitudePage from "./pages/user/GratitudePage.jsx";
 // Guardian Pages
@@ -47,7 +49,9 @@ function App() {
 					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
 					<Route path="/user/accessManage" element={<AccessManagePage />} />
 					<Route path="/user/profile" element={<UserProfilePage />} />
-					<Route path="/user/dashboard" element={<DashboardPage />} />
+					<Route path="/user/dashboard/main" element={<MainDashboardPage />} />
+					<Route path="/user/dashboard/emotion" element={<EmotionDashboardPage />} />
+					<Route path="/user/dashboard/intervention" element={<InterventionDashboardPage />} />
 					<Route path="/user/activities/journal" element={<JournalPage />} />
 					<Route path="/user/activities/gratitude" element={<GratitudePage />} />
 					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />

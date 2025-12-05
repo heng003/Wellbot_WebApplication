@@ -10,6 +10,7 @@ const permissionRouter = require('./routes/permissionRoute');
 const fitbitRouter = require('./routes/fitbitRoute');
 const emotionRouter = require('./routes/emotionRoute');
 const journalRouter = require('./routes/journalRoute');
+const gratitudeRouter = require('./routes/gratitudeRoute');
 const interventionRouter = require('./routes/interventionRoute');
 const authMiddleware = require('./middleware/authMiddleware');
 
@@ -35,6 +36,7 @@ app.use('/api/permission', permissionRouter);
 app.use('/api/fitbit', fitbitRouter);
 app.use('/api/emotion', emotionRouter);
 app.use('/api/journal', journalRouter);
+app.use('/api/gratitude', gratitudeRouter);
 app.use('/api/intervention', interventionRouter);
 
 // React frontend

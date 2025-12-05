@@ -26,7 +26,6 @@ export const useEmotionalData = (startDate, endDate, bucketType = 'day') => {
 					: new Date(date).toISOString().split('T')[0];
 			};
 
-			// ONLY fetch trend data
 			const trendRes = await axios.get(
 				`/api/emotion/getTrend/${userId}?startDate=${formatDate(
 					startDate

@@ -11,7 +11,7 @@ import PieChartCard from "../../dashboard/default/PieChartCard";
 import Widget from "../../dashboard/widget/Widget";
 import TodayEmotionWordCloud from "../../components/TodayEmotionWordCloud";
 import CheckTable from "../../dashboard/default/CheckTable";
-import ComplexTable from "../../dashboard/default/ComplexTable";
+import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
 import TaskCard from "../../dashboard/default/TaskCard";
 import tableDataCheck from "../../dashboard/variables/tableDataCheck.json";
@@ -46,7 +46,7 @@ const emotionConfig = {
 	},
 };
 
-const DashboardPage = () => {
+const MainDashboardPage = () => {
 	const token = localStorage.getItem('token');
 	const userId = getIdFromToken();
 	// const [startDate, setStartDate] = useState(new Date());
@@ -69,10 +69,10 @@ const DashboardPage = () => {
 		<div className="main-container">
 			<div className="mb-8">
 				<h1 className="page-title">
-					Emotional Dashboard
+					Main Dashboard
 				</h1>
 				<p className="page-subtitle">
-					Track and analyze your emotional patterns
+					Track and analyze your emotional patterns and interactions with Well-Bot
 				</p>
 			</div>
 
@@ -137,15 +137,15 @@ const DashboardPage = () => {
 
 			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 mt-3">
 				{/* Check Table */}
-				<ComplexTable />
-
-				<DailyTraffic />
+				<RecentActivitiesTable />
 
 				<PieChartCard />
 
+				<DailyTraffic />
+
 				{/* Complex Table , Task & Calendar */}
 				{/* 
-				<ComplexTable
+				<RecentActivitiesTable
 					columnsData={columnsDataComplex}
 					tableData={tableDataComplex}
 				/> */}
@@ -163,4 +163,4 @@ const DashboardPage = () => {
 	);
 };
 
-export default DashboardPage;
+export default MainDashboardPage;

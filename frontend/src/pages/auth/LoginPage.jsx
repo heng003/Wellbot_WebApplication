@@ -39,7 +39,7 @@ const LoginPage = () => {
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {
-                    navigate('/user/dashboard');
+                    navigate('/user/dashboard/main');
                 } else if (userRole === 'guardian') {
                     navigate('/guardian/monitoredUser');
                 }

@@ -37,6 +37,11 @@ export const routes = [
         name: "Dashboard",
         activeKey: "Dashboard",
         path: "/user/dashboard",
+        children: [
+            { name: 'Main Dashboard', activeKey: 'Main', path: '/user/dashboard/main' },
+            { name: 'Emotion Dashboard', activeKey: 'Emotion', path: '/user/dashboard/emotion' },
+            { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/user/dashboard/intervention' },
+        ],
         icon: <DashIcon />
     },
     {

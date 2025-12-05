@@ -9,7 +9,7 @@ import J5 from "../assets/journals/J5.png";
 import J6 from "../assets/journals/J6.png";
 import { CalendarIcon } from "lucide-react";
 
-const MyFavCard = ({ favs, onEdit }) => {
+const MyFavJournalList = ({ favs, onEdit }) => {
     const [openJournal, setOpenJournal] = useState(null);
 
     const journalImages = [J1, J2, J3, J4, J5, J6];
@@ -63,7 +63,7 @@ const MyFavCard = ({ favs, onEdit }) => {
 
             {openJournal && (
                 <JournalModal
-                    {...openJournal}
+                    initialData={openJournal}
                     fav={openJournal.fav}
                     onEdit={onEdit}
                     onClose={() => setOpenJournal(null)}
@@ -74,4 +74,4 @@ const MyFavCard = ({ favs, onEdit }) => {
     );
 };
 
-export default MyFavCard;
+export default MyFavJournalList;

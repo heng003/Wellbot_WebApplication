@@ -163,8 +163,6 @@ async function getDailyAggregates(userId, start, end) {
     const endDate = new Date(end);
     endDate.setHours(23, 59, 59, 999);
 
-    console.log('startDate:', startDate.toISOString(), 'endDate:', endDate.toISOString());
-
     const { data, error } = await supabase
         .from("emotional_log")
         .select("timestamp, confidence_score, emotional_score")
@@ -388,6 +386,37 @@ async function getEmotionCountsByDay(userId, startInput, endInput) {
     return result;
 }
 
+async function getEmotionalLogsFromDb(userId, startDate, endDate) {
+    let query = supabase
+        .from('emotional_log')
+        .select('id, timestamp, emotion_label, confidence_score, emotional_score')
+        .eq('user_id', userId)
+        .order('timestamp', { ascending: false });
+
+    // Apply date filter
+    if (startDate && endDate) {
+        // Validation regex for YYYY-MM-DD
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        
+        if (dateRegex.test(startDate) && dateRegex.test(endDate)) {
+            // Manually construct ISO strings to lock the time range to UTC boundaries
+            // This assumes your DB stores timestamps in UTC (Standard practice)
+            const startISO = `${startDate}T00:00:00.000Z`;
+            const endISO = `${endDate}T23:59:59.999Z`;
+
+            query = query
+                .gte("timestamp", startISO)
+                .lte("timestamp", endISO);
+        }
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+
+    return data;
+}
+
 module.exports = {
     findEmotionsByDate,
     findTimeSeries,
@@ -395,4 +424,5 @@ module.exports = {
     getEmotionsTimeSeries,
     getDailyAggregates,
     getEmotionCountsByDay,
+    getEmotionalLogsFromDb,
 };

@@ -1,9 +1,8 @@
 const supabase = require('../config/supabaseClient');
 
-async function getJournalsByUser(userId) {
-	// returns all journals for a user ordered by created_at desc
+async function getGratitudesByUser(userId) {
 	const { data, error } = await supabase
-		.from('wb_journal')
+		.from('wb_gratitude_item')
 		.select('*')
 		.eq('user_id', userId)
 		.order('created_at', { ascending: false });
@@ -12,9 +11,9 @@ async function getJournalsByUser(userId) {
 	return data;
 }
 
-async function getJournalById(id) {
+async function getGratitudeById(id) {
 	const { data, error } = await supabase
-		.from('wb_journal')
+		.from('wb_gratitude_item')
 		.select('*')
 		.eq('id', id)
 		.single();
@@ -23,11 +22,11 @@ async function getJournalById(id) {
 	return data;
 }
 
-async function toggleFav(journalId, fav) {
+async function toggleFav(gratitudeId, fav) {
 	const { data, error } = await supabase
-		.from('wb_journal')
+		.from('wb_gratitude_item')
 		.update({ fav: !!fav, updated_at: new Date().toISOString() })
-		.eq('id', journalId)
+		.eq('id', gratitudeId)
 		.select()
 		.single();
 
@@ -35,21 +34,18 @@ async function toggleFav(journalId, fav) {
 	return data;
 }
 
-async function updateJournal(journalId, { title, body, mood, topics, created_at, fav }) {
+async function updateGratitude(gratitudeId, { text, created_at, fav }) {
 	const patch = {
 		updated_at: new Date().toISOString(),
 	};
-	if (title !== undefined) patch.title = title;
-	if (body !== undefined) patch.body = body;
-	if (mood !== undefined) patch.mood = mood;
-	if (topics !== undefined) patch.topics = topics;
+	if (text !== undefined) patch.text = text;
 	if (created_at !== undefined) patch.created_at = new Date(created_at).toISOString();
 	if (fav !== undefined) patch.fav = !!fav;
 
 	const { data, error } = await supabase
-		.from('wb_journal')
+		.from('wb_gratitude_item')
 		.update(patch)
-		.eq('id', journalId)
+		.eq('id', gratitudeId)
 		.select()
 		.single();
 
@@ -57,18 +53,18 @@ async function updateJournal(journalId, { title, body, mood, topics, created_at,
 	return data;
 }
 
-async function createJournal({ user_id, text, fav }) {
-	const journal = {
+async function createGratitude({ user_id, text, fav }) {
+	const gratitude = {
 		created_at: new Date().toISOString(),
 	};
 
-	if (user_id !== undefined) journal.user_id = user_id;
-	if (text !== undefined) journal.text = text;
-	if (fav !== undefined) journal.fav = !!fav;
+	if (user_id !== undefined) gratitude.user_id = user_id;
+	if (text !== undefined) gratitude.text = text;
+	if (fav !== undefined) gratitude.fav = !!fav;
 
 	const { data, error } = await supabase
-		.from('wb_journal')
-		.insert([journal])
+		.from('wb_gratitude_item')
+		.insert([gratitude])
 		.select()
 		.single();
 
@@ -76,19 +72,19 @@ async function createJournal({ user_id, text, fav }) {
 	return data;
 }
 
-async function deleteJournal(journalId) {
+async function deleteGratitude(gratitudeId) {
     const { error } = await supabase
-        .from('wb_journal')
+        .from('wb_gratitude_item')
         .delete()
-        .eq('id', journalId);
+        .eq('id', gratitudeId);
     if (error) throw error;
 }
 
 module.exports = {
-	getJournalsByUser,
-	getJournalById,
+	getGratitudesByUser,
+	getGratitudeById,
 	toggleFav,
-	updateJournal,
-	createJournal,
-	deleteJournal
+	updateGratitude,
+	createGratitude,
+	deleteGratitude,
 };
