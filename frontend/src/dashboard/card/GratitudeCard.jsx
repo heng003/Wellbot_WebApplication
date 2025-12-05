@@ -29,14 +29,14 @@ const GratitudeCard = ({ data, onEdit }) => {
 
     return (
         <>
-            <Card extra="flex flex-col w-full !p-4 min-h-[50px] hover:shadow-lg transition-all duration-200 cursor-pointer" onClick={() => setShowModal(true)}>
+            <Card extra="flex flex-col w-full !p-4 hover:shadow-lg transition-all duration-200 cursor-pointer" onClick={() => setShowModal(true)}>
                 <div className="mb-2">
-                    <p className="text-base font-medium text-navy-700 leading-relaxed">
+                    <p className="text-base font-medium text-navy-700">
                         {text}
                     </p>
                 </div>
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2 text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-lg w-fit">
+                <div className="flex justify-between items-center mt-1">
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
                         <CalendarIcon size={16} />
                         <span>{dateStr} • {timeStr}</span>
                     </div>
@@ -50,12 +50,6 @@ const GratitudeCard = ({ data, onEdit }) => {
                         {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
                     </button>
                 </div>
-
-                {updated_at && (
-                    <div className="mt-2 text-[10px] text-gray-400 text-right italic">
-                        Edited
-                    </div>
-                )}
             </Card>
 
             {showModal && (

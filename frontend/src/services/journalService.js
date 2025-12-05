@@ -16,14 +16,18 @@ export const toggleFav = async (journalId, fav) => {
 };
 
 export const updateJournal = async (journalId, payload) => {
-	const response = await axios.patch(`/api/journal/${journalId}`, payload, tokenHeader());
+	const response = await axios.patch(
+		`/api/journal/${journalId}`,
+		payload,
+		tokenHeader()
+	);
 	return response.data;
 };
 
-export const createJournal = async (userId, text, fav) => {
+export const createJournal = async ({ user_id, title, body, fav }) => {
 	const response = await axios.post(
 		`/api/journal/create`,
-		{ user_id: userId, text, fav },
+		{ user_id, title, body, fav },
 		tokenHeader()
 	);
 	return response.data;

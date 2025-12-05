@@ -5,8 +5,8 @@ const gratitudeController = require("../controllers/gratitudeController");
 
 router.get("/:userId", gratitudeController.getGratitudesByUser);
 router.patch("/:id/fav", gratitudeController.updateGratitudeFav);
-router.patch("/update/:id", gratitudeController.updateGratitude);
+router.patch("/update/:gratitudeId", gratitudeController.updateGratitude);
 router.post("/create", gratitudeController.createGratitude);
-router.delete('/delete', gratitudeController.deleteGratitude);
+router.delete('/delete/:gratitudeId', gratitudeController.deleteGratitude);
 
 module.exports = router;

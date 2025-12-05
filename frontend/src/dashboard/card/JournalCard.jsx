@@ -21,7 +21,7 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
 
     return (
         <>
-            <Card extra="flex flex-col w-full !p-4 bg-white cursor-pointer" onClick={() => setOpenModal(true)}>
+            <Card extra="flex flex-col w-full !p-4 bg-white hover:shadow-lg cursor-pointer" onClick={() => setOpenModal(true)}>
                 <div className="relative">
                     <img src={image} className="mb-3 rounded-xl w-full" alt="" />
 
@@ -38,9 +38,9 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
 
                 <p className="font-bold text-navy-700">{title}</p>
 
-                <div className="flex items-center gap-2 text-sm text-gray-400 mt-1 mb-3">
+                <div className="flex items-center gap-2 text-xs text-gray-400 mt-2 mb-1">
                     <CalendarIcon size={16} />
-                    <span>{date} · {time}</span>
+                    <span>{date} • {time}</span>
                 </div>
 
                 {/* <button

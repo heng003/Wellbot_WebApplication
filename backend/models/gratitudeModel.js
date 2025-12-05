@@ -61,6 +61,7 @@ async function createGratitude({ user_id, text, fav }) {
 	if (user_id !== undefined) gratitude.user_id = user_id;
 	if (text !== undefined) gratitude.text = text;
 	if (fav !== undefined) gratitude.fav = !!fav;
+	console.log('gratitude.fav', gratitude.fav);
 
 	const { data, error } = await supabase
 		.from('wb_gratitude_item')

@@ -35,9 +35,9 @@ exports.updateGratitudeFav = async (req, res) => {
 
 exports.updateGratitude = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { gratitudeId } = req.params;
         const payload = req.body;
-        const updated = await Gratitude.updateGratitude(id, payload);
+        const updated = await Gratitude.updateGratitude(gratitudeId, payload);
         return res.json(updated);
     } catch (err) {
         console.error("Update Error:", err);
@@ -48,6 +48,7 @@ exports.updateGratitude = async (req, res) => {
 exports.createGratitude = async (req, res) => {
     try {
         const payload = req.body;
+        console.log('payload', payload);
         const newGratitude = await Gratitude.createGratitude(payload);
         return res.status(201).json({ data: newGratitude });
     } catch (error) {
@@ -57,7 +58,7 @@ exports.createGratitude = async (req, res) => {
 
 exports.deleteGratitude = async (req, res) => {
     // FIX: Ensure you extract the ID correctly based on how you send it (body or params)
-    const { gratitudeId } = req.body; 
+    const { gratitudeId } = req.params; 
     try {
         await Gratitude.deleteGratitude(gratitudeId); // FIX Here
         res.json({ message: 'Gratitude deleted' });

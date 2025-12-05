@@ -58,7 +58,7 @@ const GratitudePage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {/* Loading State Handling */}
 
-                    <div className="col-span-2 grid gap-4 grid-cols-2 xl:grid-cols-3">
+                    <div className="col-span-2 grid gap-4 grid-cols-2">
                             {gratitudes.map((item) => (
                                 <GratitudeCard
                                     key={item.id}

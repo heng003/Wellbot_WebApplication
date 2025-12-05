@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 import DropdownIcon from "../icons/DropdownIcon";
 
 export function SidebarLinks(props) {
@@ -65,11 +66,31 @@ export function SidebarLinks(props) {
 				if (!hasChildren) {
 					return (
 						<Link key={index} to={route.path} style={{ textDecoration: "none" }}
-							onClick={() => {
+							onClick={async (e) => {
 								if (route.logout) {
-									localStorage.removeItem("token");
+									e.preventDefault(); // prevent navigation
+
+									const result = await Swal.fire({
+										title: "Log Out?",
+										text: "Are you sure you want to log out?",
+										icon: "warning",
+										showCancelButton: true,
+										confirmButtonText: "Yes, Log Out",
+										cancelButtonText: "Cancel",
+										confirmButtonColor: "var(--primary-color)",
+										customClass: {
+											title: 'swal-title-class-login',
+											confirmButton: 'swal-confirm-button-class',
+										}
+									});
+
+									if (result.isConfirmed) {
+										localStorage.removeItem("token");
+										window.location.href = route.path; // redirect to "/"
+									}
 								}
-							}}>
+							}}
+						>
 							<div className="relative mb-3 flex hover:cursor-pointer">
 								<li className="my-[3px] flex cursor-pointer items-center px-3">
 									<span className={`${parentActive ? "font-light text-brand-400" : "font-bold text-gray-300"}`}>

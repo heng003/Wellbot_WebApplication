@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { HiX } from "react-icons/hi";
 import Links from "../components/SidebarLinks";
-import SidebarCard from "../components/SidebarCard";
 import DashIcon from "../icons/DashIcon";
 import ProfileIcon from "../icons/ProfileIcon";
 import TablesIcon from "../icons/TablesIcon";
@@ -116,10 +115,6 @@ const Sidebar = () => {
             <ul className="mb-auto pt-1">
                 <Links routes={routes} />
             </ul>
-
-            {/* <div className="flex justify-center">
-                <SidebarCard />
-            </div> */}
 
         </div>
     );

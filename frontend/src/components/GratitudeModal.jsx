@@ -94,7 +94,7 @@ const GratitudeModal = ({
                 await updateGratitude(initialData.id, payload);
             } else {
                 // CREATE
-                await createGratitude(userId, text, combinedDate.toISOString(), isFav);
+                await createGratitude(userId, text, isFav);
             }
 
             if (onUpdate) onUpdate();

@@ -11,7 +11,6 @@ exports.getJournalsByUser = async (req, res) => {
             id: j.id,
             title: j.title,
             body: j.body,
-            mood: j.mood,
             created_at: j.created_at,
             fav: j.fav
         }));
@@ -25,10 +24,10 @@ exports.getJournalsByUser = async (req, res) => {
 
 exports.updateJournalFav = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { journalId } = req.params;
         const { fav } = req.body;
-        const updated = await Journal.toggleFav(id, fav);
-        return(res.json(updated));
+        const updated = await Journal.toggleFav(journalId, fav);
+        return (res.json(updated));
     } catch (err) {
         console.error('Error toggling fav:', err);
         res.status(500).json({ error: err.message });
@@ -37,12 +36,12 @@ exports.updateJournalFav = async (req, res) => {
 
 exports.updateJournal = async (req, res) => {
     try {
-        const { id } = req.params;
-        const payload = req.body; // title, body, mood, topics, created_at, fav
-        const updated = await Journal.updateJournal(id, payload);
-        return(res.json(updated));
+        const { journalId } = req.params;
+        const payload = req.body;
+        const updated = await Journal.updateJournal(journalId, payload);
+        return res.json(updated);
     } catch (err) {
-        console.error('Error updating journal:', err);
+        console.error("Error updating journal:", err);
         res.status(500).json({ error: err.message });
     }
 };
@@ -53,13 +52,14 @@ exports.createJournal = async (req, res) => {
         const newJournal = await Journal.createJournal(payload);
         return res.status(201).json({ data: newJournal });
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+        console.error("Error creating journal:", error);
+        res.status(500).json({ error: error.message });
     }
 };
 
 exports.deleteJournal = async (req, res) => {
     // FIX: Ensure you extract the ID correctly based on how you send it (body or params)
-    const { journalId } = req.body; 
+    const { journalId } = req.params;
     try {
         await Journal.deleteJournal(journalId); // FIX Here
         res.json({ message: 'Journal deleted' });

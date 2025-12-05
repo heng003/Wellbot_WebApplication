@@ -4,8 +4,10 @@ import { MdClose } from "react-icons/md";
 import { CalendarIcon } from "lucide-react";
 import Swal from "sweetalert2";
 import { updateJournal, createJournal, deleteJournal } from "../services/journalService";
+import { getIdFromToken } from "../utils/auth";
 
 const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = false }) => {
+    const userId = getIdFromToken();
     const isEditingExisting = !!initialData;
 
     const [show, setShow] = useState(openInitially);
@@ -66,13 +68,11 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                 Swal.fire("Updated!", "Your journal entry has been updated.", "success");
             } else {
                 await createJournal({
+                    user_id: userId,
                     title,
                     body: content,
-                    fav: isFav,
-                    created_at: combined.toISOString(),
-                    image,
+                    fav: isFav
                 });
-
                 Swal.fire("Created!", "Your new journal entry has been added.", "success");
             }
 
@@ -127,8 +127,9 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                     <div className="relative mb-4">
                         <img src={image} className="rounded-xl w-full" alt="" />
                         <button
-                            className="absolute top-3 right-3 bg-white p-2 rounded-full hover:opacity-80"
+                            className={`absolute top-3 right-3 bg-white p-2 rounded-full ${editMode ? "hover:opacity-80 cursor-pointer" : ""}`}
                             onClick={() => setIsFav(!isFav)}
+                            disabled={!editMode}
                         >
                             {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
                         </button>
@@ -150,30 +151,31 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                         )}
 
                         {/* Date + Time */}
-                        <div>
-                            <label className="form-label">Date & Time</label>
-                            {editMode ? (
+                        {(editMode && !show) ? (
+                            <div>
+                                <label className="form-label">Date & Time</label>
                                 <div className="flex gap-3">
                                     <input type="date" className="form-input" value={dateVal} onChange={(e) => setDateVal(e.target.value)} />
                                     <input type="time" className="form-input" value={timeVal} onChange={(e) => setTimeVal(e.target.value)} />
                                 </div>
-                            ) : (
-                                <p className="form-display-box flex items-center gap-1">
-                                    <CalendarIcon size={16} />
-                                    {dateVal} · {timeVal}
-                                </p>
-                            )}
-                        </div>
+                            </div>
+                        ) : !show && (
+                            <p className="form-display-box flex items-center gap-1">
+                                <CalendarIcon size={16} />
+                                {dateVal} · {timeVal}
+                            </p>
+                        )}
+
 
                         {/* Content */}
-                        <div>
-                            <label className="form-label">Content</label>
-                            {editMode ? (
+                        {editMode ? (
+                            <div>
+                                <label className="form-label">Content</label>
                                 <textarea className="form-input h-32" value={content} onChange={(e) => setContent(e.target.value)} />
-                            ) : (
-                                <p className="form-display-box whitespace-pre-line">{content}</p>
-                            )}
-                        </div>
+                            </div>
+                        ) : (
+                            <p className="form-display-box whitespace-pre-line">{content}</p>
+                        )}
 
                         {/* ACTION BUTTONS */}
                         <div className="profile-form-actions pb-1">

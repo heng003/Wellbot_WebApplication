@@ -35,21 +35,20 @@ async function toggleFav(journalId, fav) {
 	return data;
 }
 
-async function updateJournal(journalId, { title, body, mood, topics, created_at, fav }) {
+async function updateJournal(journalId, { title, body, created_at, fav }) {
 	const patch = {
 		updated_at: new Date().toISOString(),
 	};
+
 	if (title !== undefined) patch.title = title;
 	if (body !== undefined) patch.body = body;
-	if (mood !== undefined) patch.mood = mood;
-	if (topics !== undefined) patch.topics = topics;
 	if (created_at !== undefined) patch.created_at = new Date(created_at).toISOString();
 	if (fav !== undefined) patch.fav = !!fav;
 
 	const { data, error } = await supabase
-		.from('wb_journal')
+		.from("wb_journal")
 		.update(patch)
-		.eq('id', journalId)
+		.eq("id", journalId)
 		.select()
 		.single();
 
@@ -57,17 +56,18 @@ async function updateJournal(journalId, { title, body, mood, topics, created_at,
 	return data;
 }
 
-async function createJournal({ user_id, text, fav }) {
+async function createJournal({ user_id, title, body, fav }) {
 	const journal = {
 		created_at: new Date().toISOString(),
+		fav: fav ?? false,
 	};
 
 	if (user_id !== undefined) journal.user_id = user_id;
-	if (text !== undefined) journal.text = text;
-	if (fav !== undefined) journal.fav = !!fav;
+	if (title !== undefined) journal.title = title;
+	if (body !== undefined) journal.body = body;
 
 	const { data, error } = await supabase
-		.from('wb_journal')
+		.from("wb_journal")
 		.insert([journal])
 		.select()
 		.single();
