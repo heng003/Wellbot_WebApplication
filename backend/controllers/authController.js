@@ -7,6 +7,7 @@ const Device = require("../models/deviceModel");
 const createError = require("../utils/appError");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const baseUrl = process.env.BASE_URL || "http://localhost:5000";
 
 // REGISTER USER ACC
 exports.registerUserAcc = async (req, res, next) => {
@@ -52,7 +53,7 @@ exports.registerUserAcc = async (req, res, next) => {
         });
 
         // Send verification email
-        const link = `http://localhost:5000/api/auth/confirmEmail/${verificationToken}`;
+        const link = `${baseUrl}/api/auth/confirmEmail/${verificationToken}`;
         await verifyEmail(newUser.email, link);
 
         res.status(201).json({
@@ -99,7 +100,7 @@ exports.registerGuardianAcc = async (req, res, next) => {
         });
 
         // Send verification email
-        const link = `http://localhost:5000/api/auth/confirmEmail/${verificationToken}`;
+        const link = `${baseUrl}/api/auth/confirmEmail/${verificationToken}`;
         await verifyEmail(newGuardian.email, link);
 
         res.status(201).json({
@@ -284,7 +285,7 @@ exports.resetVerificationToken = async (user, role = "user") => {
         });
     }
 
-    const link = `http://localhost:5000/api/auth/confirmEmail/${newToken}`;
+    const link = `${baseUrl}/api/auth/confirmEmail/${newToken}`;
     await verifyEmail(user.email, link);
 };
 

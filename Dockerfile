@@ -20,7 +20,7 @@ COPY backend/ ./backend
 COPY --from=build-frontend /app/frontend/build ./frontend/build
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 8080
 
 # Command to run the application
 CMD ["node", "backend/index.js"]

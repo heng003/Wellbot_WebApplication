@@ -8,7 +8,7 @@ import axios from 'axios';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 // import '../node_modules/font-awesome/css/font-awesome.min.css';
 
-axios.defaults.baseURL = process.env.WELLBOT_BACKEND_URL || 'http://localhost:5000';
+axios.defaults.baseURL = process.env.REACT_APP_WELLBOT_BACKEND_URL || 'http://localhost:5000';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
