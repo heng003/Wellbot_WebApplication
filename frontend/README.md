@@ -1,70 +1,18 @@
-# Getting Started with Create React App
+## 🚀 Deployment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is deployed to **Google Cloud Run** using the Google Cloud CLI (`gcloud`).
 
-## Available Scripts
+### Configuration
+* **Project ID:** `consummate-link-474700-p6`
+* **Region:** `asia-south1`
+* **Service Name:** `well-bot-website`
 
-In the project directory, you can run:
+### 1. Build and Push Image
+Run this command from the root directory to build the Docker image and upload it to the Google Artifact Registry:
 
-### `npm start`
+gcloud builds submit --tag asia-south1-docker.pkg.dev/consummate-link-474700-p6/cloud-run-source-deploy/well-bot-website
 
-Runs the app in the development mode.\
-Open [http://localhost:5000](http://localhost:5000) to view it in your browser.
+### 2. Deploy to Cloud Run
+Run this command to deploy the image to a managed Cloud Run instance. This includes the --allow-unauthenticated flag, making the URL publicly accessible:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `public` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+gcloud run deploy well-bot-website --image asia-south1-docker.pkg.dev/consummate-link-474700-p6/cloud-run-source-deploy/well-bot-website --platform managed --region asia-south1 --allow-unauthenticated --set-env-vars "SUPABASE_URL=https://otymmdatyozfljzsqrhy.supabase.co,JWT_SECRET=Rz9Fgqv8bYkmnLkV7wTxm3oPiUZrNWfKnxPL12345,ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNzU4OTYzMjk0LCJleHAiOjIwNzQ1MzkyOTR9.b44mdZV7Fp97VaS9eJgiFYSF0q-980RdHLtqGqDqKgM,SUPABASE_SERVICE_ROLE_KEY=sb_publishable_T3WPHIBl_b_-WTPWjZiG-g_S2K5Esjv,EMAIL_USERNAME=noreplywellbot@gmail.com,EMAIL_PASSWORD=cfil izwb evyp nquf"
