@@ -5,7 +5,9 @@ import Card from "../card";
 import BarChart from "../charts/BarChart";
 import { getIdFromToken } from "../../utils/auth";
 
-const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate }) => {
+const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+	const currentUserId = getIdFromToken();
+    const targetUserId = propUserId || currentUserId;
 	// Check mode
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
@@ -72,7 +74,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate 
 		try {
 			setLoading(true);
 			const token = localStorage.getItem("token");
-			const userId = getIdFromToken();
+			const userId = targetUserId;
 			const startStr = formatLocalDate(start);
 			const endStr = formatLocalDate(end);
 

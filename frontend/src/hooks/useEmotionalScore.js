@@ -1,8 +1,7 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
-import { getIdFromToken } from '../utils/auth';
 
-export const useEmotionalData = (startDate, endDate, bucketType = 'day') => {
+export const useEmotionalScore = (targetUserId, startDate, endDate, bucketType = 'day') => {
 	const [trendData, setTrendData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -13,7 +12,7 @@ export const useEmotionalData = (startDate, endDate, bucketType = 'day') => {
 			setError(null);
 
 			const token = localStorage.getItem('token');
-			const userId = getIdFromToken();
+			const userId = targetUserId;
 
 			if (!startDate || !endDate) {
 				setTrendData(null);

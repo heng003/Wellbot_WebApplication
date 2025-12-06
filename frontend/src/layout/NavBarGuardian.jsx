@@ -69,7 +69,7 @@ const NavBarGuardian = () => {
                                     to="/guardian/monitoredUser"
                                     onClick={() => handleItemClick("Management")}
                                 >
-                                    User Management
+                                    User Care Panel
                                 </Link>
                             </li>
 

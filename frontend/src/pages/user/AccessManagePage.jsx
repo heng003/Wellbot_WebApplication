@@ -214,7 +214,7 @@ const AccessManagePage = () => {
                     </div>
                 </div>
             ) : pendingRequests.map(req => (
-                <div key={req.id} className="card card-guardian-tracking">
+                <div key={req.id} className="card-guardian-tracking">
                     <div className="card-guardian-tracking-header flex justify-between items-start">
                         <div className='card-guardian-tracking-header-left'>
                             <h3 className="card-header-title">{req.guardianName}</h3>
@@ -259,7 +259,7 @@ const AccessManagePage = () => {
                     </div>
                 </div>
             ) : activeGuardians.map(g => (
-                <div key={g.id} className="card card-guardian-tracking">
+                <div key={g.id} className="card-guardian-tracking">
                     <div className="card-guardian-tracking-header flex justify-between items-start">
                         <div className='card-guardian-tracking-header-left'>
                             <h3 className="card-header-title">{g.guardianName}</h3>
@@ -285,7 +285,7 @@ const AccessManagePage = () => {
                 <div className="top-bar">
                     <div className="header-section">
                         <div>
-                            <h1 className="page-title">Guardian Access Management</h1>
+                            <h1 className="page-title">Data Access Control</h1>
                             <p className="page-subtitle">Manage who can access your emotional wellness data and track your progress</p>
                         </div>
                         <button className="green-button" onClick={() => setShowAddGuardianModal(true)}>

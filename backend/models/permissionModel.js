@@ -97,6 +97,23 @@ async function countActiveGuardians(userId) {
     return count;
 }
 
+async function findPermissionUserDataByGuardianId(guardianId) {
+    const { data, error } = await supabase
+        .from('permissions')
+        .select(`
+                user_id,
+                users (
+                    id,
+                    full_name,
+                    email
+                )
+            `)
+        .eq('guardian_id', guardianId)
+        .eq('status', 'active');
+    if (error) return [];
+    return data;
+}
+
 module.exports = {
     createPermission,
     findPermissionByGuardianAndUser,
@@ -107,4 +124,5 @@ module.exports = {
     findPermissionsByUserIdAndStatus,
     updatePermissionStatusById,
     countActiveGuardians,
+    findPermissionUserDataByGuardianId
 };

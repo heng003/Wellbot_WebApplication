@@ -66,8 +66,8 @@ const MonitoredUserPage = () => {
 
     const filteredUsers = monitoredList.filter((user) => {
         const matchesSearch =
-            (user.fullName?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
-            (user.preferName?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (user.full_name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+            (user.prefer_name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
             (user.email?.toLowerCase() || "").includes(searchTerm.toLowerCase());
 
         const matchesFilter =
@@ -235,7 +235,7 @@ const MonitoredUserPage = () => {
                 <div className="top-bar">
                     <div className="header-section">
                         <div>
-                            <h1 className="page-title">Monitored User Management</h1>
+                            <h1 className="page-title">User Care Panel</h1>
                             <p className="page-subtitle">Manage Well-Bot users under your care</p>
                         </div>
                         <button className="green-button" onClick={() => setShowAddUserModal(true)}>
@@ -343,8 +343,8 @@ const MonitoredUserPage = () => {
                                     ) : (
                                         filteredUsers.map(user => (
                                             <tr key={user.id}>
-                                                <td>{user.fullName}</td>
-                                                <td>{user.preferName}</td>
+                                                <td>{user.full_name}</td>
+                                                <td>{user.prefer_name}</td>
                                                 <td>{user.email}</td>
                                                 <td>
                                                     <span className={`badge-status ${getStatusClass(user.status)}`}>{user.status}</span>
@@ -426,7 +426,7 @@ const MonitoredUserPage = () => {
                 <div className="modal-container">
                     <div className="modal-header">
                         <div>
-                            <h3 className="modal-title">{selectedUser?.fullName}</h3>
+                            <h3 className="modal-title">{selectedUser?.full_name}</h3>
                             <p className="modal-subtitle">{selectedUser?.email}</p>
                         </div>
                         <button onClick={() => setShowViewModal(false)} className="close-button">
@@ -437,7 +437,7 @@ const MonitoredUserPage = () => {
                     <div className="modal-grid">
                         <div>
                             <p className="label">Prefer Name</p>
-                            <p className="value">{selectedUser?.preferName}</p>
+                            <p className="value">{selectedUser?.prefer_name}</p>
                         </div>
                         {selectedUser?.status === 'active' &&
                             <div>
@@ -472,7 +472,7 @@ const MonitoredUserPage = () => {
                     </div>
 
                     <div className="modal-actions">
-                        {selectedUser?.status === 'active' && <button className="long-green-button">View Emotional History</button>}
+                        {selectedUser?.status === 'active' && <button className="long-green-button">View Data</button>}
                         <button onClick={() => handleRemoveUser(selectedUser)} className="long-white-button" style={{ color: '#dc2626', borderColor: '#fca5a5' }}>
                             {selectedUser?.status === 'pending'
                                 ? 'Cancel Request'

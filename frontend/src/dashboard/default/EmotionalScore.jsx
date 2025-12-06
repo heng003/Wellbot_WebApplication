@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { getIdFromToken } from "../../utils/auth";
 import {
 	MdArrowDropUp,
 	MdArrowDropDown,
@@ -7,9 +8,12 @@ import {
 } from "react-icons/md";
 import Card from "../card";
 import LineChart from "../charts/LineChart";
-import { useEmotionalData } from "../../hooks/useEmotionalData";
+import { useEmotionalScore } from "../../hooks/useEmotionalScore";
 
-const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate }) => {
+const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+	const currentUserId = getIdFromToken();
+    const targetUserId = propUserId || currentUserId;
+
 	// Check if the component is being controlled by a parent dashboard
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
@@ -77,7 +81,8 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate }) => {
 		}
 	}, [timeRange, customStart, customEnd, getDateRange, isControlled]);
 
-	const { trendData, loading, refetch } = useEmotionalData(
+	const { trendData, loading, refetch } = useEmotionalScore(
+		targetUserId,
 		dateRange.start,
 		dateRange.end,
 		bucketType

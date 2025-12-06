@@ -56,7 +56,7 @@ const GratitudeModal = ({
         };
         if (show) window.addEventListener("keydown", handleEsc);
         return () => window.removeEventListener("keydown", handleEsc);
-    }, [show]);
+    }, [show, close]);
 
     // Toggle Favorite
     const handleFavToggle = async () => {

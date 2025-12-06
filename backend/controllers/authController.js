@@ -148,7 +148,7 @@ exports.logIn = async (req, res, next) => {
                 user: {
                     id: user.id,
                     preferName: user.prefer_name,
-                    fullName: user.fullName,
+                    fullName: user.full_name,
                     email: user.email,
                     role,
                 },

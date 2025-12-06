@@ -12,8 +12,8 @@ import { getIdFromToken } from "../../utils/auth";
 
 const columnHelper = createColumnHelper();
 
-const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate }) => {
-    const userId = getIdFromToken();
+const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+    const userId = propUserId || getIdFromToken();
     const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
     // --- State ---
@@ -176,10 +176,6 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate }) => {
                                             >
                                                 <div className="items-center justify-between text-xs text-gray-200">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
-                                                    {{
-                                                        asc: " 🔼",
-                                                        desc: " 🔽",
-                                                    }[header.column.getIsSorted()] ?? null}
                                                 </div>
                                             </th>
                                         ))}

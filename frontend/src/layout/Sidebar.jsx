@@ -1,19 +1,32 @@
 import { useEffect, useState } from "react";
 import { HiX } from "react-icons/hi";
 import Links from "../components/SidebarLinks";
-import DashIcon from "../icons/DashIcon";
+import HomeIcon from "../icons/HomeIcon";
 import ProfileIcon from "../icons/ProfileIcon";
 import TablesIcon from "../icons/TablesIcon";
 import KanbanIcon from "../icons/KanbanIcon";
 import LogOutIcon from "../icons/LogOutIcon";
+import ChartIcon from "../icons/ChartIcon";
 
 export const routes = [
     {
         role: "guardian",
-        name: "User Management",
+        name: "User Care Panel",
         activeKey: "Management",
         path: "/guardian/monitoredUser",
-        icon: <DashIcon />
+        icon: <HomeIcon />
+    },
+    {
+        role: "guardian",
+        name: "Dashboard",
+        activeKey: "Dashboard",
+        path: "/guardian/dashboard",
+        children: [
+            { name: 'Main Dashboard', activeKey: 'Main', path: '/guardian/dashboard/main' },
+            { name: 'Emotional Dashboard', activeKey: 'Emotion', path: '/guardian/dashboard/emotion' },
+            { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/guardian/dashboard/activity' },
+        ],
+        icon: <ChartIcon />
     },
     {
         role: "guardian",
@@ -29,6 +42,13 @@ export const routes = [
         path: "/guardian/profile",
         icon: <ProfileIcon />
     },
+    {
+        role: "guardian",
+        name: "Log Out",
+        path: "/",
+        icon: <LogOutIcon />,
+        logout: true
+    },
 
     // User routes
     {
@@ -38,10 +58,10 @@ export const routes = [
         path: "/user/dashboard",
         children: [
             { name: 'Main Dashboard', activeKey: 'Main', path: '/user/dashboard/main' },
-            { name: 'Emotion Dashboard', activeKey: 'Emotion', path: '/user/dashboard/emotion' },
-            { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/user/dashboard/intervention' },
+            { name: 'Emotional Dashboard', activeKey: 'Emotion', path: '/user/dashboard/emotion' },
+            { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/user/dashboard/activity' },
         ],
-        icon: <DashIcon />
+        icon: <HomeIcon />
     },
     {
         role: "user",

@@ -57,10 +57,39 @@ async function findGuardianByVerificationToken(token) {
     return data;
 }
 
+// Find by ids
+async function findGuardiansByIds(ids) {
+    const { data, error } = await supabase
+        .from('guardians')
+        .select('*')
+        .in('id', ids);
+
+    if (error) {
+        console.error(error);
+        return null;
+    }
+
+    return data;
+}
+
+async function updateGuardianById(id, userData) {
+    const { data, error } = await supabase
+        .from('guardians')
+        .update(userData)
+        .eq('id', id)
+        .select()
+        .single();
+
+    if (error) throw error;
+    return data;
+}
+
 module.exports = {
     createGuardian,
     findGuardianById,
     findGuardianByEmail,
     findGuardianByEmailOrFullName,
-    findGuardianByVerificationToken
+    findGuardianByVerificationToken,
+    findGuardiansByIds,
+    updateGuardianById
 };

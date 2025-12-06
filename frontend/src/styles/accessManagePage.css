@@ -39,6 +39,9 @@
 
 /* ===== Buttons ===== */
 .white-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     background-color: #ffffff;
     font-weight: 500;
     color: #000000;

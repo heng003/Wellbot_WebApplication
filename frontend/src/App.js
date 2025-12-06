@@ -22,12 +22,15 @@ import AccessManagePage from "./pages/user/AccessManagePage";
 import UserProfilePage from "./pages/user/UserProfilePage";
 import MainDashboardPage from "./pages/user/MainDashboardPage.jsx";
 import EmotionDashboardPage from "./pages/user/EmotionDashboardPage.jsx";
-import InterventionDashboardPage from "./pages/user/InterventionDashboardPage.jsx";
+import ActivityDashboardPage from "./pages/user/ActivityDashboardPage.jsx";
 import JournalPage from "./pages/user/JournalPage.jsx";
 import GratitudePage from "./pages/user/GratitudePage.jsx";
 // Guardian Pages
 import MonitoredUserPage from "./pages/guardian/MonitoredUserPage";
 import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
+import GuardianMainDashboardPage from "./pages/guardian/MainDashboardPage.jsx";
+import GuardianEmotionDashboardPage from "./pages/guardian/EmotionDashboardPage.jsx";
+import GuardianActivityDashboardPage from "./pages/guardian/ActivityDashboardPage.jsx";
 // import FitbitCallback from "./RegisterAcc/FitbitCallback";
 
 function App() {
@@ -51,13 +54,16 @@ function App() {
 					<Route path="/user/profile" element={<UserProfilePage />} />
 					<Route path="/user/dashboard/main" element={<MainDashboardPage />} />
 					<Route path="/user/dashboard/emotion" element={<EmotionDashboardPage />} />
-					<Route path="/user/dashboard/intervention" element={<InterventionDashboardPage />} />
+					<Route path="/user/dashboard/activity" element={<ActivityDashboardPage />} />
 					<Route path="/user/activities/journal" element={<JournalPage />} />
 					<Route path="/user/activities/gratitude" element={<GratitudePage />} />
 					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />
+					<Route path="/guardian/dashboard/main" element={<GuardianMainDashboardPage />} />
+					<Route path="/guardian/dashboard/emotion" element={<GuardianEmotionDashboardPage />} />
+					<Route path="/guardian/dashboard/activity" element={<GuardianActivityDashboardPage />} />
 					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
 					<Route path="/resetPassword/:id/:token/:role" element={<ResetPasswordPage />} />
-					{/* <Route path="/callback" element={<FitbitCallback />} /> */}
+					{/* <Route path="/callback" element={<FitbitCallback />} /> */}s
 				</Routes>
 			</div>
 			<CustomFooter location={location} />

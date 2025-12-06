@@ -97,6 +97,7 @@ exports.getPendingRequests = async (req, res, next) => {
             message: p.request_message,
             status: p.status
         }));
+        console.log('pendingRequests', pendingRequests);
         return res.json(pendingRequests);
     } catch (err) {
         return next(new createError("Server Error", 500));
@@ -180,5 +181,25 @@ exports.getActiveGuardianCount = async (req, res, next) => {
         res.status(200).json({ status: "success", count });
     } catch (error) {
         next(error);
+    }
+};
+
+// GET /api/permission/guardian/monitor
+exports.getActiveWards = async (req, res, next) => {
+    try {
+        const { guardianId } = req.params;
+
+        if (!guardianId) {
+            return res.status(400).json({ error: "Guardian ID is required" });
+        }
+
+        const permissions = await Permission.findPermissionUserDataByGuardianId(guardianId);
+        // Flatten the structure
+        const wards = permissions.map(item => item.users);
+
+        return res.status(200).json({ data: wards });
+    } catch (err) {
+        console.error("Error fetching wards:", err);
+        return next(new createError("Server Error", 500));
     }
 };

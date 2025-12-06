@@ -47,7 +47,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
         const esc = (e) => e.key === "Escape" && close();
         window.addEventListener("keydown", esc);
         return () => window.removeEventListener("keydown", esc);
-    }, []);
+    }, [close]);
 
     // Save/Add
     const handleSave = async () => {

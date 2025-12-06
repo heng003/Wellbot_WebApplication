@@ -101,6 +101,22 @@
     color: #1e293b;
 }
 
+.happy-gradient {
+    background: linear-gradient(to left, #d9e2f9, var(--happy-color));
+}
+
+.sad-gradient {
+    background: linear-gradient(to left, #bff5e8, var(--sad-color));
+}
+
+.angry-gradient {
+    background: linear-gradient(to left, #e1c6f9, var(--angry-color));
+}
+
+.fear-gradient {
+    background: linear-gradient(to left, #ffcefc, var(--fear-color));
+}
+
 .teal {
     background: linear-gradient(to right, #f0fdfa, #ccfbf1);
 }
@@ -279,12 +295,10 @@
 .modal-container {
     background: white;
     border-radius: 12px;
-    padding: 2em;
     max-width: 700px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    margin: 1rem;
 }
 
 .add-user-container {
@@ -302,6 +316,8 @@
     justify-content: space-between;
     align-items: flex-start !important;
     margin-bottom: 24px;
+    padding: 2em !important;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
 }
 
 .modal-title {
@@ -338,9 +354,9 @@
 
 .modal-grid {
     display: grid;
+    padding-inline: 2em !important;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 24px;
-    margin-bottom: 24px;
 }
 
 .label {
@@ -368,8 +384,8 @@
 .modal-actions {
     display: flex;
     justify-content: center;
+    padding: 2em !important;
     gap: 12px;
-    margin-top: 24px;
 }
 
 .long-green-button {
@@ -385,8 +401,7 @@
 }
 
 .long-green-button:hover {
-    background-color: #14B8A6;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .long-white-button {

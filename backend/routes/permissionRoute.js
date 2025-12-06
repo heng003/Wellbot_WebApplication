@@ -12,5 +12,6 @@ router.post('/user/createActivePermission', permissionController.createActivePer
 router.delete('/user/deletePermission', permissionController.deleteUserPermission);
 router.patch('/user/updateRequestStatus', permissionController.updateRequestStatus);
 router.get('/user/activeCount', permissionController.getActiveGuardianCount);
+router.get('/guardian/getActiveWards/:guardianId', permissionController.getActiveWards);
 
 module.exports = router;

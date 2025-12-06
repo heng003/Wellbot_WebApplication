@@ -1,7 +1,5 @@
 import React from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
 import { useEmotions } from "../../hooks/useEmotions";
 import MiniCalendar from "../../dashboard/calendar/MiniCalendar";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
@@ -10,12 +8,8 @@ import PieChartCard from "../../dashboard/default/PieChartCard";
 
 import Widget from "../../dashboard/widget/Widget";
 import TodayEmotionWordCloud from "../../components/TodayEmotionWordCloud";
-import CheckTable from "../../dashboard/default/CheckTable";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
-import TaskCard from "../../dashboard/default/TaskCard";
-import tableDataCheck from "../../dashboard/variables/tableDataCheck.json";
-import tableDataComplex from "../../dashboard/variables/tableDataComplex.json";
 
 import HappyIcon from "../../icons/HappyIcon";
 import SadIcon from "../../icons/SadIcon";
@@ -29,20 +23,16 @@ import { getIdFromToken } from '../../utils/auth';
 
 const emotionConfig = {
 	Happy: {
-		icon: <HappyIcon />,
-		trend: "up",
+		icon: <HappyIcon />
 	},
 	Sad: {
-		icon: <SadIcon />,
-		trend: "down",
+		icon: <SadIcon />
 	},
 	Angry: {
-		icon: <AngryIcon />,
-		trend: "down",
+		icon: <AngryIcon />
 	},
 	Fear: {
-		icon: <FearIcon />,
-		trend: "up",
+		icon: <FearIcon />
 	},
 };
 
@@ -51,12 +41,13 @@ const MainDashboardPage = () => {
 	const userId = getIdFromToken();
 	// const [startDate, setStartDate] = useState(new Date());
 	// const [endDate, setEndDate] = useState(new Date());
+	const today = new Date().toISOString().slice(0, 10);
 
 	const { emotions, timeSeries, loading } = useEmotions(
 		token,
 		userId,
-		"29-11-2025",
-		"30-11-2025"
+		today,
+		today,
 	);
 
 	if (emotions && emotions.length > 0) {
@@ -86,7 +77,6 @@ const MainDashboardPage = () => {
 								icon={config.icon}
 								title={e.emotion_label}
 								subtitle={e.count}
-								trend={config.trend}
 								trendValue={
 									// Example: trend value from avg_confidence
 									`${(e.avg_confidence * 100).toFixed(1)}%`
@@ -94,34 +84,6 @@ const MainDashboardPage = () => {
 							/>
 						);
 					})}
-					{/* <Widget
-						icon={<HappyIcon />}
-						title={"Happy"}
-						subtitle={"30"}
-						trend="up"
-						trendValue={"+2.45%"}
-					/>
-					<Widget
-						icon={<SadIcon />}
-						title={"Sad"}
-						subtitle={"5"}
-						trend="down"
-						trendValue={"-1.20%"}
-					/>
-					<Widget
-						icon={<AngryIcon />}
-						title={"Fear"}
-						subtitle={"15"}
-						trend="up"
-						trendValue={"+0.80%"}
-					/>
-					<Widget
-						icon={<FearIcon />}
-						title={"Angry"}
-						subtitle={"50"}
-						trend="down"
-						trendValue={"-3.10%"}
-					/> */}
 				</div>
 				{/* <TodayEmotionWordCloud /> */}
 			</div>
