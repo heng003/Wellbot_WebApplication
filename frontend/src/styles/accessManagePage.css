@@ -178,10 +178,11 @@
     margin-top: 1rem;
 }
 
-.form-group {
+.modal-form {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    padding: 2em;
+    gap: 0.5em;
 }
 
 input[type="email"],

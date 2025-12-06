@@ -444,8 +444,3 @@
     background: #fff;
     box-shadow: none;
 }
-
-.add-user-container .form-group {
-    gap: 0;
-    margin-block: 1.5em;
-}

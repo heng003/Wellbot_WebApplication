@@ -317,10 +317,10 @@ const AccessManagePage = () => {
             </main>
             {showAddGuardianModal && (
                 <div className="modal-overlay">
-                    <div className="add-user-container">
-                        <h3 className="modal-title">Add New Guardian</h3>
+                    <div className="modal-container">
+                        <h3 className="modal-header modal-title">Add New Guardian</h3>
                         <form onSubmit={handleAddGuardian}>
-                            <div className="form-group mt-3 gap-1">
+                            <div className="modal-form">
                                 <label className="form-label">Email / Name</label>
                                 <input
                                     type="text"
