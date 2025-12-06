@@ -17,12 +17,13 @@ const authMiddleware = require('./middleware/authMiddleware');
 const app = express();
 
 // 1. MIDDLEWARES
-// app.use(cors({
-// 	origin: 'http://localhost:3000',
-// 	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-// 	credentials: true,
-// }));
-app.use(cors());
+// use this to deploy
+app.use(cors({
+	origin: 'http://localhost:3000',
+	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+	credentials: true,
+}));
+// app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -66,6 +67,10 @@ app.use((err, req, res, next) => {
 
 // Server listen
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-	console.log(`Well-Bot is listening on port ${PORT}`);
+// use this to deploy
+// app.listen(PORT, '0.0.0.0', () => {
+// 	console.log(`Well-Bot is listening on port ${PORT}`);
+// });
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
