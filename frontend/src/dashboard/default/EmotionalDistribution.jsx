@@ -7,8 +7,9 @@ import { getIdFromToken } from "../../utils/auth";
 
 const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
 	const currentUserId = getIdFromToken();
-    const targetUserId = propUserId || currentUserId;
-	// Check mode
+	const targetUserId = propUserId || currentUserId;
+
+	// Check mode: Controlled (props provided) vs Uncontrolled (internal state)
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
 	const [timeRange, setTimeRange] = useState("thisMonth");
@@ -16,7 +17,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 	const [customEnd, setCustomEnd] = useState(null);
 	const [showDatePicker, setShowDatePicker] = useState(false);
 
-	// Internal state, syncs with props if controlled
+	// Internal state for date range
 	const [dateRange, setDateRange] = useState({
 		start: isControlled ? propStartDate : null,
 		end: isControlled ? propEndDate : null
@@ -24,9 +25,10 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 
 	const [dailyCounts, setDailyCounts] = useState([]);
 	const [loading, setLoading] = useState(false);
+
+	// Pagination state
 	const maxWindow = 10;
 	const [startIndex, setStartIndex] = useState(0);
-	const today = new Date();
 
 	// --- SYNC PROPS ---
 	useEffect(() => {
@@ -35,6 +37,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 		}
 	}, [propStartDate, propEndDate, isControlled]);
 
+	// Calculate date range based on selection
 	const getDateRange = useCallback((range = timeRange, cs = customStart, ce = customEnd) => {
 		const now = new Date();
 		let start, end;
@@ -54,7 +57,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 		return { start, end };
 	}, [timeRange, customStart, customEnd]);
 
-	// Internal date logic (only if not controlled)
+	// Update internal date range if not controlled
 	useEffect(() => {
 		if (!isControlled) {
 			const { start, end } = getDateRange(timeRange, customStart, customEnd);
@@ -74,19 +77,24 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 		try {
 			setLoading(true);
 			const token = localStorage.getItem("token");
-			const userId = targetUserId;
 			const startStr = formatLocalDate(start);
 			const endStr = formatLocalDate(end);
 
 			const res = await axios.get(
-				`/api/emotion/getCountsByDate/${userId}?startDate=${startStr}&endDate=${endStr}`,
+				`/api/emotion/getCountsByDate/${targetUserId}?startDate=${startStr}&endDate=${endStr}`,
 				{ headers: { Authorization: `Bearer ${token}` } }
 			);
 
+			// UPDATED: Handle the new response format { dailyCounts: [...] }
 			const payload = res.data || {};
 			const counts = Array.isArray(payload.dailyCounts) ? payload.dailyCounts : [];
-			counts.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+			// Sort by date to ensure chart flows left-to-right
+			counts.sort((a, b) => new Date(a.day) - new Date(b.day));
+
 			setDailyCounts(counts);
+
+			// Auto-scroll to the end (latest dates)
 			const total = counts.length;
 			setStartIndex(Math.max(0, total - maxWindow));
 		} catch (err) {
@@ -113,26 +121,30 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 		}
 	};
 
-	const EMOTIONS = ["FEAR", "ANGRY", "SAD", "HAPPY"];
+	// UPDATED: Match the keys returned by your API (lowercase)
+	// API returns: happy, sad, angry, fear
+	const EMOTION_KEYS = ["fear", "angry", "sad", "happy"];
+	const LABELS = ["Fear", "Angry", "Sad", "Happy"]; // For Legend/Tooltip
 	const COLORS = ["#EA5E8F", "#7E6FEE", "#69D5C5", "#519AF6"];
 
-	const visible = useMemo(() => {
+	const visibleData = useMemo(() => {
 		return dailyCounts.slice(startIndex, startIndex + maxWindow);
 	}, [dailyCounts, startIndex, maxWindow]);
 
 	const categories = useMemo(() => {
-		return visible.map((d) => {
-			const dt = new Date(d.date);
+		return visibleData.map((d) => {
+			// UPDATED: Use 'day' property from API
+			const dt = new Date(d.day);
 			return dt.toLocaleDateString("en-GB", { day: '2-digit', month: 'short' });
 		});
-	}, [visible]);
+	}, [visibleData]);
 
 	const series = useMemo(() => {
-		return EMOTIONS.map((label) => ({
-			name: label,
-			data: visible.map((d) => d[label] || 0),
+		return EMOTION_KEYS.map((key, index) => ({
+			name: LABELS[index], // Display Name
+			data: visibleData.map((d) => Number(d[key]) || 0), // Data Accessor
 		}));
-	}, [visible]);
+	}, [visibleData]);
 
 	const chartOptions = {
 		chart: { type: "bar", stacked: true, toolbar: { show: false } },
@@ -177,7 +189,6 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 							</button>
 							{showDatePicker && (
 								<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[180px] text-sm">
-									{/* Date picker UI code... */}
 									<p className="font-semibold mb-2">Date Range</p>
 									<div className="flex justify-between mb-2">
 										<label className="p-1">From:</label>
@@ -193,7 +204,6 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 						</div>
 					</div>
 				) : (
-					// In Controlled mode, just show simple pagination or nothing
 					<div className="flex items-center gap-2">
 						<button onClick={() => shiftPage("left")} disabled={!canPageLeft} className={`px-2 py-1 rounded ${canPageLeft ? "bg-gray-200" : "bg-gray-100 opacity-50"}`}>◀</button>
 						<button onClick={() => shiftPage("right")} disabled={!canPageRight} className={`px-2 py-1 rounded ${canPageRight ? "bg-gray-200" : "bg-gray-100 opacity-50"}`}>▶</button>
@@ -204,10 +214,12 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 			<div className="md:mt-16 lg:mt-0">
 				<div className="h-[250px] w-full xl:h-[350px]">
 					{loading ? (
-						<p className="text-gray-400">Loading...</p>
+						<div className="flex h-full items-center justify-center">
+							<p className="text-gray-400">Loading data...</p>
+						</div>
 					) : !dailyCounts.length ? (
-						<div className="text-gray-400 text-center py-8">
-							<p>No data available</p>
+						<div className="flex h-full items-center justify-center">
+							<p className="text-gray-400">No data available for this period</p>
 						</div>
 					) : (
 						<BarChart chartData={series} chartOptions={chartOptions} />

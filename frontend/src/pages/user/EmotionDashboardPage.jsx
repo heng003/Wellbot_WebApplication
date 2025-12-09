@@ -25,8 +25,8 @@ const EmotionalDashboardPage = () => {
                         Track and analyze your emotional patterns
                     </p>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl bg-white p-2 shadow-sm dark:bg-navy-800">
-                    <MdOutlineCalendarToday className="text-gray-600" />
+                <div className="flex items-center gap-2 rounded-xl bg-white p-2 shadow-sm">
+                    <MdOutlineCalendarToday className="ml-3 text-gray-600" />
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {

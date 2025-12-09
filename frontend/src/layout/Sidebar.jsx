@@ -28,13 +28,13 @@ export const routes = [
         ],
         icon: <ChartIcon />
     },
-    {
-        role: "guardian",
-        name: "Analytics",
-        activeKey: "Analytics",
-        path: "/guardian/analytics",
-        icon: <TablesIcon />
-    },
+    // {
+    //     role: "guardian",
+    //     name: "Analytics",
+    //     activeKey: "Analytics",
+    //     path: "/guardian/analytics",
+    //     icon: <TablesIcon />
+    // },
     {
         role: "guardian",
         name: "Profile",

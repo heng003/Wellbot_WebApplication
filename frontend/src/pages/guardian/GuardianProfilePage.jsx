@@ -286,71 +286,74 @@ const GuardianProfilePage = () => {
             {showPasswordModal && (
                 <div className="modal-overlay">
                     <div className="modal-container">
-                        <h3 className="modal-title mb-4">Reset Password</h3>
-                        <form onSubmit={handlePasswordSubmit} className="profile-form-vertical">
-                            <div>
-                                <label className="form-label">Current Password</label>
-                                <div className="input-password">
-                                    <input
-                                        type={showCurrentPassword ? "text" : "password"}
-                                        name="currentPassword"
-                                        value={passwordData.currentPassword}
-                                        onChange={handlePasswordInputChange}
-                                        className="form-input"
-                                        required
-                                    />
-                                    <button
-                                        type="button"
-                                        className="input-eye"
-                                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                    >
-                                        {showCurrentPassword ? <Eye size={16} /> : <EyeOff size={16} />}
-                                    </button>
+                        <h3 className="modal-header modal-title">Reset Password</h3>
+                        <form onSubmit={handlePasswordSubmit}>
+                            <div className="modal-form">
+                                <div>
+                                    <label className="form-label">Current Password</label>
+                                    <div className="input-password">
+                                        <input
+                                            type={showCurrentPassword ? "text" : "password"}
+                                            name="currentPassword"
+                                            value={passwordData.currentPassword}
+                                            onChange={handlePasswordInputChange}
+                                            className="form-input"
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            className="input-eye"
+                                            onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                        >
+                                            {showCurrentPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="form-label">New Password</label>
+                                    <div className="input-password">
+                                        <input
+                                            type={showNewPassword ? "text" : "password"}
+                                            name="newPassword"
+                                            value={passwordData.newPassword}
+                                            onChange={handlePasswordInputChange}
+                                            className="form-input"
+                                            required
+                                            minLength={8}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="input-eye"
+                                            onClick={() => setShowNewPassword(!showNewPassword)}
+                                        >
+                                            {showNewPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="form-label">Confirm New Password</label>
+                                    <div className="input-password">
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            name="confirmPassword"
+                                            value={passwordData.confirmPassword}
+                                            onChange={handlePasswordInputChange}
+                                            className="form-input"
+                                            required
+                                            minLength={8}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="input-eye"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        >
+                                            {showConfirmPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <label className="form-label">New Password</label>
-                                <div className="input-password">
-                                    <input
-                                        type={showNewPassword ? "text" : "password"}
-                                        name="newPassword"
-                                        value={passwordData.newPassword}
-                                        onChange={handlePasswordInputChange}
-                                        className="form-input"
-                                        required
-                                        minLength={8}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="input-eye"
-                                        onClick={() => setShowNewPassword(!showNewPassword)}
-                                    >
-                                        {showNewPassword ? <Eye size={16} /> : <EyeOff size={16} />}
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <label className="form-label">Confirm New Password</label>
-                                <div className="input-password">
-                                    <input
-                                        type={showConfirmPassword ? "text" : "password"}
-                                        name="confirmPassword"
-                                        value={passwordData.confirmPassword}
-                                        onChange={handlePasswordInputChange}
-                                        className="form-input"
-                                        required
-                                        minLength={8}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="input-eye"
-                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    >
-                                        {showConfirmPassword ? <Eye size={16} /> : <EyeOff size={16} />}
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="profile-form-actions">
+
+                            <div className="modal-actions">
                                 <button
                                     type="submit"
                                     disabled={loading}

@@ -1,60 +1,19 @@
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { useEmotions } from "../../hooks/useEmotions";
 import MiniCalendar from "../../dashboard/calendar/MiniCalendar";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import PieChartCard from "../../dashboard/default/PieChartCard";
 
-import Widget from "../../dashboard/widget/Widget";
 import TodayEmotionWordCloud from "../../components/TodayEmotionWordCloud";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
 
-import HappyIcon from "../../icons/HappyIcon";
-import SadIcon from "../../icons/SadIcon";
-import AngryIcon from "../../icons/AngryIcon";
-import FearIcon from "../../icons/FearIcon";
+import DisplayWidgets from "../../components/DisplayWidgets"
+
 import '../../styles/dashboardPage.css';
 
-// import Swal from 'sweetalert2';
-// import axios from 'axios';
-import { getIdFromToken } from '../../utils/auth';
-
-const emotionConfig = {
-	Happy: {
-		icon: <HappyIcon />
-	},
-	Sad: {
-		icon: <SadIcon />
-	},
-	Angry: {
-		icon: <AngryIcon />
-	},
-	Fear: {
-		icon: <FearIcon />
-	},
-};
-
 const MainDashboardPage = () => {
-	const token = localStorage.getItem('token');
-	const userId = getIdFromToken();
-	// const [startDate, setStartDate] = useState(new Date());
-	// const [endDate, setEndDate] = useState(new Date());
-	const today = new Date().toISOString().slice(0, 10);
-
-	const { emotions, timeSeries, loading } = useEmotions(
-		token,
-		userId,
-		today,
-		today,
-	);
-
-	if (emotions && emotions.length > 0) {
-		console.log("Emotions:", emotions[0].emotion_label);
-	} else {
-		console.log("No emotions data yet");
-	}
 
 	return (
 		<div className="main-container">
@@ -68,23 +27,7 @@ const MainDashboardPage = () => {
 			</div>
 
 			<div className="dashboard-flex-row ">
-				<div className="dashboard-widget-grid">
-					{emotions && emotions.map((e) => {
-						const config = emotionConfig[e.emotion_label] || {};
-						return (
-							<Widget
-								key={e.emotion_label}
-								icon={config.icon}
-								title={e.emotion_label}
-								subtitle={e.count}
-								trendValue={
-									// Example: trend value from avg_confidence
-									`${(e.avg_confidence * 100).toFixed(1)}%`
-								}
-							/>
-						);
-					})}
-				</div>
+				<DisplayWidgets />
 				{/* <TodayEmotionWordCloud /> */}
 			</div>
 

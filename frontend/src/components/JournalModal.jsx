@@ -111,7 +111,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
 
     return !show ? null : (
         <div className="modal-overlay">
-            <div className="modal-container overflow-hidden">
+            <div className="modal-container overflow-hidden" style={{padding: "2em"}}>
 
                 {/* HEADER */}
                 <div className="flex justify-between items-center mb-4">

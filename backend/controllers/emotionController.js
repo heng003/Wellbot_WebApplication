@@ -61,11 +61,11 @@ exports.getEmotionalScoreTrend = async (req, res) => {
 
         // Calculate trend metrics
         const currentScore = dailyData.length > 0
-            ? dailyData[dailyData.length - 1].avgScore
+            ? dailyData[dailyData.length - 1].avgScore  // ✅ Corrected
             : 0;
 
         const previousScore = dailyData.length > 1
-            ? dailyData[dailyData.length - 2].avgScore
+            ? dailyData[dailyData.length - 2].avgScore  // ✅ Corrected
             : currentScore;
 
         const trendDirection = currentScore > previousScore

@@ -3,12 +3,19 @@ const createError = require("../utils/appError");
 const Intervention = require("../models/interventionModel");
 
 // GET Interventions by User ID
-exports.getInterventionsByUser = async (req, res, next) => {
-    const { userId } = req.params;
+exports.getInterventionsByUser = async (req, res) => {
     try {
-        const interventions = await Intervention.findInterventionsByUserId(userId);
+        const { userId } = req.params;
+        const { startDate, endDate } = req.query;
+
+        const interventions = await Intervention.findInterventionsByUserId(
+            userId,
+            startDate,
+            endDate
+        );
+
         return res.json({ data: interventions });
     } catch (err) {
-        return res.status(500).json({ error: err.message, stack: err.stack });
+        return res.status(500).json({ error: err.message });
     }
 };

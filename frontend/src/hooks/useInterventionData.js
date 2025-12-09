@@ -46,8 +46,9 @@ export const getStartEndDate = (refDate, range) => {
  * @param {string} timeRange - "weekly", "monthly", "yearly", or "all"
  * @param {Date} referenceDate - The anchor date (default: today)
  */
-export const useInterventionData = (userId, timeRange = "all", referenceDate) => {
-    // Default referenceDate to today if not provided, memoized to prevent loops if passed inline
+export const useInterventionData = (userId, timeRange = "all", referenceDate, customRange = null) => {
+
+    // Memoize reference date
     const validRefDate = referenceDate instanceof Date ? referenceDate : new Date();
 
     const [data, setData] = useState([]);
@@ -63,28 +64,48 @@ export const useInterventionData = (userId, timeRange = "all", referenceDate) =>
             const token = localStorage.getItem("token");
             let url = `/api/intervention/${userId}`;
 
-            // Only append query params if not fetching "all" history
+            // --- FIX START ---
             if (timeRange !== "all") {
-                const { start, end } = getStartEndDate(validRefDate, timeRange);
+                let start, end;
+
+                // 1. Priority: Use customRange if provided (Controlled Mode)
+                if (timeRange === "custom" && customRange?.start && customRange?.end) {
+                    start = new Date(customRange.start);
+                    end = new Date(customRange.end);
+                }
+                // 2. Fallback: Use helper calculation (Date Picker Mode)
+                else {
+                    const dates = getStartEndDate(validRefDate, timeRange);
+                    start = dates.start;
+                    end = dates.end;
+                }
+
                 const startStr = formatLocalDate(start);
                 const endStr = formatLocalDate(end);
                 url += `?startDate=${startStr}&endDate=${endStr}`;
             }
+            // --- FIX END ---
 
             const res = await axios.get(url, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            // Handle different API response structures ({ data: [...] } or [...])
             const rawData = res.data?.data || res.data || [];
-            setData(rawData);
+
+            const normalized = rawData.map(item => ({
+                ...item,
+                timestamp: item.ts || null
+            }));
+
+            setData(normalized);
+
         } catch (err) {
             console.error("Failed to fetch intervention logs", err);
             setError(err);
         } finally {
             setLoading(false);
         }
-    }, [userId, timeRange, validRefDate]); // Dependencies ensure refetch on change
+    }, [userId, timeRange, validRefDate, customRange]); // Add customRange to dependencies
 
     useEffect(() => {
         fetchData();

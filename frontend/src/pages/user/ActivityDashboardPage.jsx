@@ -27,7 +27,7 @@ const ActivityDashboardPage = () => {
 
                 {/* Global Date Picker */}
                 <div className="flex items-center gap-2 rounded-xl bg-white p-2 shadow-sm">
-                    <MdOutlineCalendarToday className="text-gray-600" />
+                    <MdOutlineCalendarToday className="ml-3 text-gray-600" />
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -38,7 +38,7 @@ const ActivityDashboardPage = () => {
                         startDate={startDate}
                         endDate={endDate}
                         selectsRange
-                        className="bg-transparent text-sm font-medium text-gray-600 outline-none dark:text-gray-300 w-[210px] pl-2"
+                        className="bg-transparent text-sm font-medium text-gray-600 outline-none w-[210px] pl-2"
                         dateFormat="dd MMM yyyy"
                         placeholderText="Select Date Range"
                     />

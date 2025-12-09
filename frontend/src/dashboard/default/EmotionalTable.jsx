@@ -88,7 +88,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
             const rows = Array.isArray(payload) ? payload : [];
 
             // Sort by timestamp desc
-            rows.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            rows.sort((a, b) => new Date(b.ts) - new Date(a.ts));
             setData(rows);
         } catch (e) {
             console.error("Failed to fetch emotional logs", e);
@@ -105,8 +105,8 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
 
     // --- Columns ---
     const columns = [
-        columnHelper.accessor("timestamp", {
-            id: "timestamp",
+        columnHelper.accessor("ts", {
+            id: "ts",
             header: () => <p className="text-sm font-bold text-gray-600">TIMESTAMP</p>,
             cell: (info) => <p className="text-sm font-bold text-navy-700">{formatDateTime(info.getValue())}</p>,
         }),

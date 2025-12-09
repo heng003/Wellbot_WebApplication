@@ -639,10 +639,11 @@ const UserProfilePage = () => {
             </main >
             {/* Reset Password Modal */}
             {showPasswordModal && (
-                    <div className="modal-overlay">
-                        <div className="modal-container">
-                            <h3 className="modal-title mb-4">Change Password</h3>
-                            <form onSubmit={handlePasswordSubmit} className="profile-form-vertical">
+                <div className="modal-overlay">
+                    <div className="modal-container">
+                        <h3 className="modal-header modal-title mb-4">Change Password</h3>
+                        <form onSubmit={handlePasswordSubmit}>
+                            <div className="modal-form">
                                 <div>
                                     <label className="form-label">Current Password</label>
                                     <div className="input-password">
@@ -705,27 +706,28 @@ const UserProfilePage = () => {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="profile-form-actions">
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="green-button btn-primary"
-                                    >
-                                        {loading ? <span className="loader"></span> : <Save size={16} />}
-                                        <span className="mt-1">Update Password</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={closeModals}
-                                        className="white-button btn-outline"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div className="modal-actions">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="green-button btn-primary"
+                                >
+                                    {loading ? <span className="loader"></span> : <Save size={16} />}
+                                    <span className="mt-1">Update Password</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={closeModals}
+                                    className="white-button btn-outline"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                )
+                </div>
+            )
             }
 
             {/* Change Device Modal */}
@@ -733,9 +735,9 @@ const UserProfilePage = () => {
                 showDeviceModal && (
                     <div className="modal-overlay">
                         <div className="modal-container">
-                            <h3 className="modal-title mb-4">Change Well-Bot Device</h3>
-                            <form onSubmit={handleDeviceChange} className="profile-form-vertical">
-                                <div>
+                            <h3 className="modal-header modal-title mb-4">Change Well-Bot Device</h3>
+                            <form onSubmit={handleDeviceChange}>
+                                <div className="modal-form">
                                     <label className="form-label">New Device Serial Number</label>
                                     <input
                                         type="text"
@@ -746,7 +748,7 @@ const UserProfilePage = () => {
                                         required
                                     />
                                 </div>
-                                <div className="profile-form-actions">
+                                <div className="modal-actions">
                                     <button
                                         type="submit"
                                         className="green-button btn-primary"

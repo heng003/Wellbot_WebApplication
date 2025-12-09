@@ -316,7 +316,8 @@
     justify-content: space-between;
     align-items: flex-start !important;
     margin-bottom: 24px;
-    padding: 2em !important;
+    padding-block: 1.5em !important;
+    padding-inline: 2em !important;
     border-bottom: 1px solid rgba(0,0,0,0.1) !important;
 }
 
@@ -383,7 +384,7 @@
 /* Actions */
 .modal-actions {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     padding: 2em !important;
     gap: 12px;
 }
