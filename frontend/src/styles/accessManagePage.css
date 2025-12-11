@@ -5,7 +5,11 @@
     padding-inline: 3em;
     padding-block: 3em;
     background-color: var(--background-color);
-    /* height: 100vh; */
+    height: 100vh;
+}
+
+.main-container-bg {
+    background-color: var(--background-color);
 }
 
 .main-content {

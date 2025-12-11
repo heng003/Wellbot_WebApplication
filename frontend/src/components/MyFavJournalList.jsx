@@ -63,6 +63,7 @@ const MyFavJournalList = ({ favs, onEdit }) => {
 
             {openJournal && (
                 <JournalModal
+                    image={openJournal.image}
                     initialData={openJournal}
                     fav={openJournal.fav}
                     onEdit={onEdit}

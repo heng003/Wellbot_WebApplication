@@ -48,7 +48,7 @@ const JournalPage = () => {
 
     return (
         <>
-            <main style={{ padding: "3em" }}>
+            <main className="main-container-bg" style={{ padding: "3em" }}>
                 <div className="top-bar">
                     <div className="header-section">
                         <div>

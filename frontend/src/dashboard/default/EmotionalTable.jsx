@@ -118,11 +118,6 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
                 return <p className={`text-sm font-bold ${getEmotionColor(val)} capitalize`}>{val}</p>;
             },
         }),
-        columnHelper.accessor("emotional_score", {
-            id: "emotional_score",
-            header: () => <p className="text-sm font-bold text-gray-600">MOOD SCORE</p>,
-            cell: (info) => <p className="text-sm font-bold text-navy-700">{info.getValue() != null ? `${info.getValue()}%` : "-"}</p>,
-        }),
         columnHelper.accessor("confidence_score", {
             id: "confidence_score",
             header: () => <p className="text-sm font-bold text-gray-600">CONFIDENCE</p>,
@@ -131,6 +126,11 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
                 const display = val !== null && val !== undefined ? Math.round(val * 100) + "%" : "-";
                 return <p className="text-sm font-bold text-navy-700">{display}</p>;
             },
+        }),
+        columnHelper.accessor("emotional_score", {
+            id: "emotional_score",
+            header: () => <p className="text-sm font-bold text-gray-600">MOOD SCORE</p>,
+            cell: (info) => <p className="text-sm font-bold text-navy-700">{info.getValue() != null ? `${info.getValue()}%` : "-"}</p>,
         }),
     ];
 

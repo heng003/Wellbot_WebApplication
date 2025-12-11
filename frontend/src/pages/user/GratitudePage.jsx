@@ -34,7 +34,7 @@ const GratitudePage = () => {
     const favs = gratitudes?.filter(j => j?.fav === true) || [];
 
     return (
-        <div style={{ padding: "3em" }}>
+        <div className="main-container-bg" style={{ padding: "3em" }}>
             <div className="top-bar">
                 <div className="header-section">
                     <div>

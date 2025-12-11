@@ -137,7 +137,7 @@ const GratitudeModal = ({
             <div className="modal-container overflow-hidden">
 
                 {/* HEADER */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="modal-header">
                     <h3 className="modal-title">
                         {initialData ? (editMode ? "Edit Gratitude" : "Gratitude Moment") : "New Moment"}
                     </h3>
@@ -148,7 +148,7 @@ const GratitudeModal = ({
                 </div>
 
                 <div className="max-h-[75vh] overflow-y-auto">
-                    <div className="profile-form-vertical">
+                    <div className="modal-form">
                         {/* CONTENT */}
                         <div>
                             <label className="form-label">Content</label>
@@ -169,7 +169,7 @@ const GratitudeModal = ({
                         {/* DATE & TIME */}
                         {initialData && (
                             <div>
-                                <label className="form-label">Date & Time</label>
+                                <label className={`form-label ${editMode ? "" : "mt-4"}`}>Date & Time</label>
                                 {editMode ? (
                                     <div className="flex gap-3">
                                         <input
@@ -194,38 +194,40 @@ const GratitudeModal = ({
                             </div>
                         )}
 
-                        {/* FAV BUTTON */}
-                        <div className="flex gap-2">
-                            <button onClick={handleFavToggle} className="p-2 rounded-full bg-gray-100 hover:opacity-80">
-                                {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
-                            </button>
-                        </div>
+                        <div className="profile-form-actions mt-4 mb-4">
+                            {/* ACTION BUTTONS */}
+                            <div className="w-full flex justify-between items-center">
+                                {editMode ? (
+                                    <div className="flex gap-3">
+                                        <button onClick={handleSave} className="green-button btn-primary">
+                                            {loading ? "Saving..." : "Save"}
+                                        </button>
 
-                        {/* ACTION BUTTONS */}
-                        <div className="profile-form-actions">
-                            {editMode ? (
-                                <>
-                                    <button onClick={handleSave} className="green-button btn-primary">
-                                        {loading ? "Saving..." : "Save"}
-                                    </button>
-
-                                    <button onClick={close} className="white-button btn-outline">
-                                        Cancel
-                                    </button>
-                                </>
-                            ) : (
-                                <div className="flex gap-3">
+                                        <button onClick={close} className="white-button btn-outline">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex gap-3">
                                     <button
-                                        className="green-button btn-primary"
-                                        onClick={() => setEditMode(true)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button className="white-button btn-outline" onClick={handleDelete}>
-                                        Delete
+                                            className="green-button btn-primary"
+                                            onClick={() => setEditMode(true)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button className="white-button btn-outline" onClick={handleDelete}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
+                                {/* FAV BUTTON */}
+                                <div>
+                                    <button onClick={handleFavToggle} disabled={!editMode} className={`p-2 rounded-full bg-gray-100 ${editMode ? "hover:opacity-80 cursor-pointer" : ""}`}>
+                                        {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
                                     </button>
                                 </div>
-                            )}
+                            </div>
+
                         </div>
 
                     </div>

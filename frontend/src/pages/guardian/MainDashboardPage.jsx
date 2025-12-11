@@ -58,15 +58,19 @@ const MainDashboardPage = () => {
     return (
         <div className="main-container">
             <div className="mb-8">
-                <div>
-                    <h1 className="page-title">
-                        Main Dashboard
-                    </h1>
-                    <p className="page-subtitle">
-                        Monitor the well-being of your connected users.
-                    </p>
+                <div className="flex justify-between">
+                    <div>
+                        <h1 className="page-title">
+                            Main Dashboard
+                        </h1>
+                        <p className="page-subtitle">
+                            Monitor the well-being of your connected users.
+                        </p>
+                    </div>
+                    <div className="flex">
+                        <button className="green-button">Generate Report</button>
+                    </div>
                 </div>
-
                 {/* User Selector */}
                 <div className="mt-4 md:mt-0">
                     {loadingWards ? (
