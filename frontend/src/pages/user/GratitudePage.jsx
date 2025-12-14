@@ -55,7 +55,7 @@ const GratitudePage = () => {
                     <div className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent"></div>
                 </div>
             ) : gratitudes.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className={`grid gap-4 ${favs.length > 0 ? "col-span-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3" : "col-span-3 grid-cols-3"}`}>
                     {/* Loading State Handling */}
 
                     <div className="col-span-2 grid gap-4 grid-cols-2">

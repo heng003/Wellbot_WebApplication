@@ -253,7 +253,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 						<p className="text-sm text-gray-500">No data for this period</p>}
 			</div>
 
-			<div className="rounded-2xl py-3 shadow-2xl shadow-shadow-500 overflow-y-auto max-h-[160px]">
+			<div className="rounded-2xl py-3 shadow-2xl shadow-shadow-500 overflow-y-auto">
 				{distribution.map((item, index) => (
 					<div key={index} className="flex flex-row justify-between items-center mb-2 px-2">
 						<div className="flex items-center">

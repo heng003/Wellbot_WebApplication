@@ -16,15 +16,19 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
         if (onEdit) onEdit();
     };
 
-    const date = created_at ? new Date(created_at).toISOString().split('T')[0] : created_at;
-    const time = created_at ? new Date(created_at).toTimeString().slice(0, 5) : '';
+    const dateObj = new Date(created_at);
+    const dateStr = dateObj.toLocaleDateString("en-US", {
+        month: 'short', day: 'numeric', year: 'numeric'
+    });
+    const timeStr = dateObj.toLocaleTimeString("en-US", {
+        hour: '2-digit', minute: '2-digit'
+    });
 
     return (
         <>
-            <Card extra="flex flex-col w-full !p-4 bg-white hover:shadow-lg cursor-pointer" onClick={() => setOpenModal(true)}>
+            <Card extra="flex flex-col w-full !p-4 bg-white hover:shadow-lg cursor-pointer gap-1" onClick={() => setOpenModal(true)}>
                 <div className="relative">
-                    <img src={image} className="mb-3 rounded-xl w-full" alt="" />
-
+                    <img src={image} className="rounded-xl w-full" alt="" />
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
@@ -38,17 +42,12 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
 
                 <p className="font-bold text-navy-700">{title}</p>
 
-                <div className="flex items-center gap-2 text-xs text-gray-400 mt-2 mb-1">
-                    <CalendarIcon size={16} />
-                    <span>{date} • {time}</span>
-                </div>
+                <div className="flex-1" />
 
-                {/* <button
-                    onClick={() => setOpenModal(true)}
-                    className="linear bg-brand-900 text-white rounded-xl px-4 py-2 hover:opacity-80"
-                >
-                    View
-                </button> */}
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <CalendarIcon size={16} />
+                    <span>{dateStr} • {timeStr}</span>
+                </div>
             </Card>
 
             {openModal && (

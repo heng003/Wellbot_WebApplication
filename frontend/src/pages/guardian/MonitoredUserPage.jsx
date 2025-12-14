@@ -6,8 +6,10 @@ import '../../styles/monitoredUserPage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 const MonitoredUserPage = () => {
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState('all');
     const [selectedUser, setSelectedUser] = useState(null);
@@ -228,6 +230,13 @@ const MonitoredUserPage = () => {
         setSelectedUser(user);
         setShowViewModal(true);
     }
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
     return (
         <>
@@ -472,7 +481,15 @@ const MonitoredUserPage = () => {
                     </div>
 
                     <div className="modal-actions">
-                        {selectedUser?.status === 'active' && <button className="long-green-button">View Data</button>}
+                        {selectedUser?.status === 'active' &&
+                            <button
+                                onClick={() => {
+                                    scrollToTop();
+                                    navigate('/guardian/dashboard/main');
+                                }}
+                                className="long-green-button">
+                                View Dashboard
+                            </button>}
                         <button onClick={() => handleRemoveUser(selectedUser)} className="long-white-button" style={{ color: '#dc2626', borderColor: '#fca5a5' }}>
                             {selectedUser?.status === 'pending'
                                 ? 'Cancel Request'

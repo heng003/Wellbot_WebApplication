@@ -25,56 +25,20 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	const [bucketType, setBucketType] = useState("day");
 
 	const today = new Date();
-	// Helper to get start of current month
-	const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
-	// Initial date state depends on mode
-	const [dateRange, setDateRange] = useState({
-		start: isControlled ? propStartDate : startOfMonth,
-		end: isControlled ? propEndDate : today
-	});
+	const getDefaultRange = () => {
+		const start = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0, 0);
+		return { start, end: today };
+	};
 
 	const chartContainerRef = useRef(null);
 
-	// --- EFFECT: Sync with Parent Props (Controlled Mode) ---
-	useEffect(() => {
-		if (isControlled) {
-			setDateRange({ start: propStartDate, end: propEndDate });
-		}
-	}, [propStartDate, propEndDate, isControlled]);
-
-	// Calculate dates based on dropdown selection
-	const getDateRange = useCallback((range, cStart, cEnd) => {
-		const now = new Date();
-		let start, end;
-
-		switch (range) {
-			case "thisMonth":
-				start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
-				end = now;
-				break;
-			case "lastMonth":
-				start = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0, 0);
-				end = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
-				break;
-			case "custom":
-				start = cStart ? new Date(cStart) : new Date(now.getFullYear(), now.getMonth(), now.getDate());
-				end = cEnd ? new Date(cEnd) : now;
-				break;
-			default:
-				start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
-				end = now;
-		}
-		return { start, end };
-	}, []);
-
 	// --- EFFECT: Handle Internal Date Logic (Standalone Mode) ---
-	useEffect(() => {
-		if (!isControlled) {
-			const { start, end } = getDateRange(timeRange, customStart, customEnd);
-			setDateRange({ start, end });
+	const [dateRange, setDateRange] = useState(() => {
+		if (isControlled) {
+			return { start: propStartDate, end: propEndDate };
 		}
-	}, [timeRange, customStart, customEnd, getDateRange, isControlled]);
+		return getDefaultRange();
+	});
 
 	// Fetch Data
 	const { trendData, loading, refetch } = useEmotionalScore(
@@ -87,7 +51,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	// Refetch when dependencies change
 	useEffect(() => {
 		refetch();
-	}, [refetch]);
+	}, [targetUserId, dateRange.start, dateRange.end, bucketType]);
 
 	// --- Logic for Shifting Time Window (Pagination) ---
 	const shiftWindow = (direction) => {
@@ -116,24 +80,12 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		setDateRange({ start: newStart, end: newEnd });
 	};
 
-	// Determine if we can page left/right based on data availability
-	const earliestAvailable = trendData?.dailyData && trendData.dailyData.length > 0
-		? new Date(trendData.dailyData[0].date)
-		: null;
-
-	const canShiftLeft = useMemo(() => {
-		if (!dateRange.start) return false;
-		if (!earliestAvailable) return true;
-		return dateRange.start.getTime() > earliestAvailable.getTime();
-	}, [dateRange.start, earliestAvailable]);
-
 	const canShiftRight = useMemo(() => {
 		if (!dateRange.end) return false;
 		const now = new Date();
 		// Allow shifting right if end date is not today (with small buffer)
 		return dateRange.end.getTime() < (now.getTime() - 60000);
 	}, [dateRange.end]);
-
 
 	// --- Chart Data Preparation ---
 	const formatTimeLabel = (dateStr, bucket) => {
@@ -182,7 +134,6 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		chart: {
 			type: "line",
 			toolbar: { show: false },
-			zoom: { enabled: false }
 		},
 		dataLabels: { enabled: false },
 		stroke: { curve: "smooth" },
@@ -204,7 +155,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				}
 			}
 		},
-		grid: { show: true, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
+		grid: { show: true, padding: { left: 30, right: 30 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
 		xaxis: {
 			categories: chartData.categories,
 			labels: { style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
@@ -212,12 +163,14 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 			axisTicks: { show: false },
 			tooltip: { enabled: false }
 		},
-		yaxis: { show: false }, // Hide Y Axis for cleaner look
+		yaxis: { show: false },
 	}), [chartData.categories, bucketType, trendData]);
 
-	// UI Handlers
-	const handleTimeRangeChange = (range) => {
-		setTimeRange(range);
+	const handleApplyCustomRange = () => {
+		if (customStart && customEnd) {
+			setDateRange({ start: customStart, end: customEnd });
+		}
+
 		setShowDatePicker(false);
 	};
 
@@ -226,7 +179,12 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		setShowRangePicker(false);
 	};
 
-	// Calculate Trend Value safely
+	const hasData = useMemo(() => {
+		if (!trendData?.dailyData || trendData.dailyData.length === 0) return false;
+		// Check if there is at least one valid data point
+		return trendData.dailyData.some(d => d.avgScore !== null || d.count > 0);
+	}, [trendData]);
+
 	const trendValue = Number(trendData?.trendPercentage) || 0;
 
 	return (
@@ -242,12 +200,11 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 							<MdOutlineCalendarToday />
 							<span className="text-sm font-medium text-gray-600">
 								{timeRange === "thisMonth" && "This Month"}
-								{timeRange === "lastMonth" && "Last Month"}
 								{timeRange === "custom" && "Custom Range"}
 							</span>
 						</button>
 						{showDatePicker && (
-							<div className="absolute left-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm">
+							<div className="absolute left-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
 								<p className="font-semibold mb-2">Date Range</p>
 								<div>
 									<div className="flex flex-col justify-content-start">
@@ -272,7 +229,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 										/>
 									</div>
 									<button
-										onClick={() => handleTimeRangeChange("custom")}
+										onClick={handleApplyCustomRange}
 										className="w-full bg-brand-500 text-white rounded py-1 mt-2 hover:bg-brand-600 transition"
 									>
 										Apply
@@ -318,41 +275,39 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						<p className="text-3xl font-bold text-navy-700">
 							{loading ? "..." : `${Math.round(trendData?.currentScore || 0)}`}
 						</p>
-
-						<div className="flex flex-row items-center mt-1">
-							{/* Logic for Trend Icon */}
-							{trendData?.trendDirection === "up" && (
-								<MdArrowDropUp className="font-medium text-green-500 h-5 w-5" />
-							)}
-							{trendData?.trendDirection === "down" && (
-								<MdArrowDropDown className="font-medium text-red-500 h-5 w-5" />
-							)}
-
-							{/* Logic for Trend Text */}
-							<p className={`text-sm font-bold ${trendData?.trendDirection === "up" ? "text-green-500" :
-								trendData?.trendDirection === "down" ? "text-red-500" : "text-gray-500"
-								}`}>
-								{trendData?.trendDirection === "stable"
-									? "No change"
-									: `${trendValue}%`
-								}
-							</p>
-						</div>
+						{hasData && (
+							<div className="flex flex-row items-center justify-center mt-1">
+								{trendData?.trendDirection === "up" && (
+									<>
+										<MdArrowDropUp className="font-medium text-green-500" />
+										<p className="text-sm font-bold text-green-500">+{trendData.trendPercentage}%</p>
+									</>
+								)}
+								{trendData?.trendDirection === "down" && (
+									<>
+										<MdArrowDropDown className="font-medium text-red-500" />
+										<p className="text-sm font-bold text-red-500">{trendData.trendPercentage}%</p>
+									</>
+								)}
+								{trendData?.trendDirection === "stable" && (
+									<p className="text-sm font-bold text-gray-500">No change</p>
+								)}
+							</div>
+						)}
 					</div>
 
 					{!isControlled && (
 						<div className="flex items-center gap-1">
 							<button
 								onClick={() => shiftWindow("left")}
-								disabled={!canShiftLeft}
-								className={`p-1 rounded ${canShiftLeft ? 'hover:bg-gray-100 text-gray-600' : 'text-gray-300 cursor-not-allowed'}`}
+								className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-100"
 							>
 								◀
 							</button>
 							<button
-								onClick={() => shiftWindow("right")}
 								disabled={!canShiftRight}
-								className={`p-1 rounded ${canShiftRight ? 'hover:bg-gray-100 text-gray-600' : 'text-gray-300 cursor-not-allowed'}`}
+								onClick={() => shiftWindow("right")}
+								className={`px-2 py-1 rounded ${canShiftRight ? 'bg-gray-200 hover:bg-gray-100' : 'bg-gray-100 opacity-50 cursor-not-allowed'}`}
 							>
 								▶
 							</button>
@@ -366,11 +321,11 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						<div className="flex h-full items-center justify-center">
 							<p className="text-gray-400 animate-pulse">Loading data...</p>
 						</div>
-					) : chartData.series && chartData.series.length > 0 && chartData.series[0].data.length > 0 ? (
-						// ^^^ FIXED LINE: Check if series exists AND has items before checking data
+					) : hasData ? (
 						<LineChart
 							options={options}
 							series={chartData.series}
+							enableZoom={false}
 						/>
 					) : (
 						<div className="flex h-full items-center justify-center bg-gray-50 rounded-lg">

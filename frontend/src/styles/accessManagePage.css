@@ -6,6 +6,7 @@
     padding-block: 3em;
     background-color: var(--background-color);
     height: 100vh;
+    height: max-content;
 }
 
 .main-container-bg {

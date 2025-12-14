@@ -126,8 +126,8 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 	};
 
 	return (
-		<Card extra="col-span-1 pb-7 p-[20px]">
-			<div className="flex flex-row justify-between align-start ml-1 pt-2">
+		<Card extra="col-span-1 p-[20px]">
+			<div className="flex flex-row justify-between align-start ml-1 pt-2 pb-6">
 				<div>
 					<p className="text-sm font-medium leading-4 text-gray-600">
 						{isControlled ? "Activity Frequency" : `${timeRange.charAt(0).toUpperCase() + timeRange.slice(1)} Activity`}
@@ -142,7 +142,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 
 				{/* Hide Controls if Controlled */}
 				{!isControlled && (
-					<div className="mb-6 flex items-center justify-center gap-2">
+					<div className="mb-6 flex items-center justify-center pb-10 gap-2">
 						<select
 							value={timeRange}
 							onChange={(e) => setTimeRange(e.target.value)}
@@ -217,7 +217,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 				)}
 			</div>
 
-			<div className="h-[300px] w-full pt-10 pb-0">
+			<div className="h-[300px] w-full pt-15 pb-0">
 				{!loading && (
 					<BarChart chartData={series} chartOptions={chartOptions} />
 				)}

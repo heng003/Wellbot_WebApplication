@@ -11,22 +11,18 @@ import EmotionalTable from "../../dashboard/default/EmotionalTable";
 
 const EmotionalDashboardPage = () => {
     // Default to the last 30 days
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 30)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
     const [endDate, setEndDate] = useState(new Date());
 
     return (
         <div className="main-container">
-            <div className="flex justify-between mb-8">
+            <div className="header-section">
                 <div>
-                    <h1 className="page-title">
-                        Emotional Dashboard
-                    </h1>
-                    <p className="page-subtitle">
-                        Track and analyze your emotional patterns
-                    </p>
+                    <h1 className="page-title">Emotional Dashboard</h1>
+                    <p className="page-subtitle">Track and analyze your emotional patterns</p>
                 </div>
-                <div className="flex items-center gap-2 rounded-xl bg-white p-2 shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-600" />
+                <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
+                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -37,7 +33,7 @@ const EmotionalDashboardPage = () => {
                         startDate={startDate}
                         endDate={endDate}
                         selectsRange
-                        className="bg-transparent text-sm font-medium text-gray-600 outline-none w-[200px]"
+                        className="bg-transparent text-sm font-medium outline-none w-[200px] text-gray-700"
                         dateFormat="dd MMM yyyy"
                         placeholderText="Select Date Range"
                     />
@@ -45,13 +41,13 @@ const EmotionalDashboardPage = () => {
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-1 gap-3 mt-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 mt-3 lg:grid-cols-2">
                 <EmotionalScore startDate={startDate} endDate={endDate} />
                 <EmotionalDistribution startDate={startDate} endDate={endDate} />
             </div>
 
             {/* Table Row */}
-            <div className="grid grid-cols-1 gap-3 mt-3">
+            <div className="grid grid-cols-1 gap-3 mt-3 pb-10">
                 <EmotionalTable startDate={startDate} endDate={endDate} />
             </div>
         </div>

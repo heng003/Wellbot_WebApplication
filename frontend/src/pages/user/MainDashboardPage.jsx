@@ -33,36 +33,21 @@ const MainDashboardPage = () => {
 
 			{/* Charts */}
 
-			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 mt-3">
+			<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
 				<EmotionalScore />
 				<EmotionalDistribution />
 			</div>
 
-			{/* Tables & Charts */}
-
-			<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 mt-3">
-				{/* Check Table */}
+			{/* Tables */}
+			<div className="mt-3">
 				<RecentActivitiesTable />
+			</div>
 
-				<PieChartCard />
-
+			{/* Charts */}
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
 				<DailyTraffic />
 
-				{/* Complex Table , Task & Calendar */}
-				{/* 
-				<RecentActivitiesTable
-					columnsData={columnsDataComplex}
-					tableData={tableDataComplex}
-				/> */}
-
-				{/* Task chart & Calendar */}
-
-				{/* <div className="grid grid-cols-1 gap-5 rounded-[20px] md:grid-cols-2">
-					<TaskCard />
-					<div className="grid grid-cols-1 rounded-[20px]">
-						<MiniCalendar />
-					</div>
-				</div> */}
+				<PieChartCard />
 			</div>
 		</div>
 	);

@@ -29,17 +29,19 @@ const GratitudeCard = ({ data, onEdit }) => {
 
     return (
         <>
-            <Card extra="flex flex-col w-full !p-4 hover:shadow-lg transition-all duration-200 cursor-pointer" onClick={() => setShowModal(true)}>
-                <div className="mb-2">
+            <Card extra="flex flex-col justify-between w-full h-full !p-4 hover:shadow-lg transition-all duration-200 cursor-pointer" onClick={() => setShowModal(true)}>
+                <div>
                     <p className="text-base font-medium text-navy-700">
                         {text}
                     </p>
                 </div>
+
                 <div className="flex justify-between items-center mt-1">
                     <div className="flex items-center gap-2 text-xs text-gray-400">
                         <CalendarIcon size={16} />
                         <span>{dateStr} • {timeStr}</span>
                     </div>
+
                     <button
                         onClick={(e) => {
                             e.stopPropagation();

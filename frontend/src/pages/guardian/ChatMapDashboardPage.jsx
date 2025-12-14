@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { fetchActiveWards } from "../../services/guardianDashboardService";
-import { getIdFromToken } from "../../utils/auth";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdFileDownload, MdOutlineCalendarToday } from "react-icons/md";
+import { fetchActiveWards } from "../../services/guardianDashboardService";
+import { fetchUserEmbeddings } from "../../services/guardianDashboardService";
+import { getIdFromToken } from "../../utils/auth";
 
 // Components
-import EmotionalScore from "../../dashboard/default/EmotionalScore";
-import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
-import EmotionalTable from "../../dashboard/default/EmotionalTable";
+import Card from "../../dashboard/card";
+import EmbeddingVisualizer from "../../components/EmbeddingVisualizer";
 
-const EmotionDashboardPage = () => {
+// Icon
+import { MdOutlineCalendarToday } from "react-icons/md";
+
+const ChatMapDashboardPage = () => {
     const guardianId = getIdFromToken();
 
     const [wards, setWards] = useState([]);
     const [selectedWardId, setSelectedWardId] = useState("");
     const [loadingWards, setLoadingWards] = useState(true);
 
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 30)));
     const [endDate, setEndDate] = useState(new Date());
+    const [embeddings, setEmbeddings] = useState([]);
 
     // Fetch Wards on Mount
     useEffect(() => {
@@ -38,12 +41,25 @@ const EmotionDashboardPage = () => {
         loadWards();
     }, [guardianId]);
 
+    useEffect(() => {
+        if (!selectedWardId) return;
+        const loadEmbeddings = async () => {
+            try {
+                const data = await fetchUserEmbeddings(selectedWardId, startDate, endDate);
+                setEmbeddings(data || []);
+            } catch (error) {
+                console.error("Failed to fetch embeddings", error);
+            }
+        };
+        loadEmbeddings();
+    }, [selectedWardId, startDate, endDate]);
+
     return (
         <div className="main-container">
             <div className="header-section">
                 <div>
-                    <h1 className="page-title">Emotional Dashboard</h1>
-                    <p className="page-subtitle">Monitor the emotional patterns of your connected users</p>
+                    <h1 className="page-title">ChatMap Dashboard</h1>
+                    <p className="page-subtitle">Visualizing your monitored user's conversation message, clustered by emotional.</p>
                 </div>
                 <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
                     <MdOutlineCalendarToday className="ml-3 text-gray-700" />
@@ -90,13 +106,10 @@ const EmotionDashboardPage = () => {
 
             {selectedWardId ? (
                 <>
-                    <div className="grid grid-cols-1 gap-3 mt-3 md:grid-cols-2">
-                        <EmotionalScore userId={selectedWardId} startDate={startDate} endDate={endDate} />
-                        <EmotionalDistribution userId={selectedWardId} startDate={startDate} endDate={endDate} />
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-3 mt-3 pb-10">
-                        <EmotionalTable userId={selectedWardId} startDate={startDate} endDate={endDate} />
+                    <div className="mt-2 py-4">
+                        <Card extra="p-4">
+                            <EmbeddingVisualizer rawEmbeddings={embeddings} />
+                        </Card>
                     </div>
                 </>
             ) : (
@@ -110,4 +123,4 @@ const EmotionDashboardPage = () => {
     );
 };
 
-export default EmotionDashboardPage;
+export default ChatMapDashboardPage;

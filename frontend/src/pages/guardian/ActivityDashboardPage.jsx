@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchActiveWards } from "../../services/guardianPermissionService";
+import { fetchActiveWards } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,13 +12,12 @@ import DailyTraffic from "../../dashboard/default/DailyTraffic";
 
 const ActivityDashboardPage = () => {
     const guardianId = getIdFromToken();
-    const token = localStorage.getItem('token');
 
     const [wards, setWards] = useState([]);
     const [selectedWardId, setSelectedWardId] = useState("");
     const [loadingWards, setLoadingWards] = useState(true);
 
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 30)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
     const [endDate, setEndDate] = useState(new Date());
 
     // Fetch Wards on Mount
@@ -41,18 +40,13 @@ const ActivityDashboardPage = () => {
 
     return (
         <div className="main-container">
-            <div className="flex justify-between">
+            <div className="header-section">
                 <div>
-                    <h1 className="page-title">
-                        Activity Dashboard
-                    </h1>
-                    <p className="page-subtitle">
-                        Monitor the daily activities and moods evolve of your connected users.
-                    </p>
+                    <h1 className="page-title">Activity Dashboard</h1>
+                    <p className="page-subtitle">Monitor the daily activities and moods evolve of your connected users</p>
                 </div>
-
-                <div className="flex items-center gap-2 rounded-xl bg-white p-2 shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-600" />
+                <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
+                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -63,12 +57,13 @@ const ActivityDashboardPage = () => {
                         startDate={startDate}
                         endDate={endDate}
                         selectsRange
-                        className="bg-transparent text-sm font-medium text-gray-600 outline-none w-[200px]"
+                        className="bg-transparent text-sm font-medium outline-none w-[200px] text-gray-700"
                         dateFormat="dd MMM yyyy"
                         placeholderText="Select Date Range"
                     />
                 </div>
             </div>
+
             {/* User Selector */}
             <div className="mt-4 mb-2 md:mt-0">
                 {loadingWards ? (
@@ -83,7 +78,7 @@ const ActivityDashboardPage = () => {
                         >
                             {wards.map((ward) => (
                                 <option key={ward.id} value={ward.id}>
-                                    {ward.name || ward.email}
+                                    {ward.full_name || ward.email}
                                 </option>
                             ))}
                         </select>
@@ -95,17 +90,13 @@ const ActivityDashboardPage = () => {
 
             {selectedWardId ? (
                 <>
-                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 mb-3">
-                        <div className="md:col-span-2">
-                            <DailyTraffic userId={selectedWardId} startDate={startDate} endDate={endDate} />
-                        </div>
-                        <div className="md:col-span-1">
-                            <PieChartCard userId={selectedWardId} startDate={startDate} endDate={endDate} />
-                        </div>
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mb-3">
+                        <DailyTraffic userId={selectedWardId} startDate={startDate} endDate={endDate} />
+                        <PieChartCard userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
 
                     {/* Bottom Row: Full Table */}
-                    <div className="grid grid-cols-1">
+                    <div className="grid grid-cols-1 pb-10">
                         <RecentActivitiesTable userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
                 </>

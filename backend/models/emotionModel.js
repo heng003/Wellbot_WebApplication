@@ -21,7 +21,7 @@ async function getEmotionsTimeSeries(userId, start, end) {
         p_user: userId,
         p_start: start,
         p_end: end,
-        p_interval: '1 hour' 
+        p_interval: '1 hour'
     });
 
     if (error) throw error;
@@ -66,23 +66,32 @@ async function getEmotionsTimeSeries(userId, start, end) {
 // }
 
 // Get daily aggregated emotional scores with optional bucketing + fill missing buckets (and copy previous value)
-async function getDailyAggregates(userId, start, end, bucketType = 'day') {
+async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day') {
     // 1. Map bucketType to SQL Interval
     let sqlInterval;
     switch (bucketType) {
         case '15min': sqlInterval = '15 minutes'; break;
         case '30min': sqlInterval = '30 minutes'; break;
-        case 'hour':  sqlInterval = '1 hour'; break;
+        case 'hour': sqlInterval = '1 hour'; break;
         case '2hour': sqlInterval = '2 hours'; break;
-        case 'day':   sqlInterval = '1 day'; break;
-        default:      sqlInterval = '1 day';
+        case 'day': sqlInterval = '1 day'; break;
+        case 'month': sqlInterval = '1 month'; break;
+        default: sqlInterval = '1 day';
     }
+
+    const p_start = startDate
+        ? new Date(startDate + 'T00:00:00.000Z').toISOString()
+        : null;
+
+    const p_end = endDate
+        ? new Date(endDate + 'T23:59:59.999Z').toISOString()
+        : null;
 
     // 2. Call the RPC
     const { data: aggregatedData, error } = await supabase.rpc("get_emotional_aggregates_dynamic", {
         p_user: userId,
-        p_start: start,
-        p_end: end,
+        p_start,
+        p_end,
         p_interval: sqlInterval
     });
 
@@ -91,13 +100,18 @@ async function getDailyAggregates(userId, start, end, bucketType = 'day') {
     // --- HELPER: Create a stable key ignoring timezone shifts ---
     const getBucketKey = (dateInput) => {
         const d = new Date(dateInput);
+        
+        if (bucketType === 'month') {
+            // Returns "YYYY-MM" (e.g., "2025-11")
+            return d.toISOString().slice(0, 7); 
+        }
+        
         if (bucketType === 'day') {
-            // Returns "YYYY-MM-DD" based on the raw date value
-            // We use .toISOString() and split, but we ensure we treat input as UTC first if needed
-            // Safer approach: string match the date part
+            // Returns "YYYY-MM-DD"
             return d.toISOString().split('T')[0];
-        } 
-        // For hours/minutes, we return "YYYY-MM-DDTHH:mm"
+        }
+        
+        // For hours/minutes: "YYYY-MM-DDTHH:mm"
         return d.toISOString().slice(0, 16);
     };
 
@@ -106,22 +120,25 @@ async function getDailyAggregates(userId, start, end, bucketType = 'day') {
     (aggregatedData || []).forEach(row => {
         // We force the DB timestamp to be treated as UTC to prevent the "-8 hours" shift
         // If row.bucket is "2025-12-09 00:00:00", adding "Z" forces it to be read as UTC.
-        const dbTime = row.bucket.endsWith('Z') || row.bucket.includes('+') 
-            ? row.bucket 
-            : row.bucket + 'Z'; 
-            
+        const dbTime = row.bucket.endsWith('Z') || row.bucket.includes('+')
+            ? row.bucket
+            : row.bucket + 'Z';
+
         const key = getBucketKey(dbTime);
         dataMap.set(key, row);
     });
 
     const result = [];
-    let cursor = new Date(start);
-    const endDate = new Date(end);
-    endDate.setHours(23, 59, 59, 999);
+    let cursor = new Date(startDate);
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999);
 
     // Helper to advance cursor
     const advanceCursor = (date) => {
-        if (bucketType === 'day') date.setDate(date.getDate() + 1);
+        if (bucketType === 'month') {
+            date.setMonth(date.getMonth() + 1);
+        }
+        else if (bucketType === 'day') date.setDate(date.getDate() + 1);
         else if (bucketType === '2hour') date.setHours(date.getHours() + 2);
         else if (bucketType === 'hour') date.setHours(date.getHours() + 1);
         else if (bucketType === '30min') date.setMinutes(date.getMinutes() + 30);
@@ -132,10 +149,10 @@ async function getDailyAggregates(userId, start, end, bucketType = 'day') {
     let lastAvgScore = 0;
     let lastAvgConf = 0;
 
-    while (cursor <= endDate) {
+    while (cursor <= end) {
         // Generate the key for the current loop position
-        const key = getBucketKey(cursor);
-        
+        const key = getBucketKey(cursor.toISOString());
+
         // LOOKUP using the simple string key
         const row = dataMap.get(key);
 
@@ -148,8 +165,8 @@ async function getDailyAggregates(userId, start, end, bucketType = 'day') {
             lastAvgScore = avgScore;
             lastAvgConf = avgConfidence;
         } else {
-            avgScore = lastAvgScore;
-            avgConfidence = lastAvgConf;
+            avgScore = null;
+            avgConfidence = null;
             count = 0;
         }
 

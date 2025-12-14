@@ -7,6 +7,7 @@ import TablesIcon from "../icons/TablesIcon";
 import KanbanIcon from "../icons/KanbanIcon";
 import LogOutIcon from "../icons/LogOutIcon";
 import ChartIcon from "../icons/ChartIcon";
+import ReportIcon from "../icons/ReportIcon";
 
 export const routes = [
     {
@@ -25,16 +26,17 @@ export const routes = [
             { name: 'Main Dashboard', activeKey: 'Main', path: '/guardian/dashboard/main' },
             { name: 'Emotional Dashboard', activeKey: 'Emotion', path: '/guardian/dashboard/emotion' },
             { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/guardian/dashboard/activity' },
+            { name: 'ChatMap Dashboard', activeKey: 'ChatMap', path: '/guardian/dashboard/chatMap' },
         ],
         icon: <ChartIcon />
     },
-    // {
-    //     role: "guardian",
-    //     name: "Analytics",
-    //     activeKey: "Analytics",
-    //     path: "/guardian/analytics",
-    //     icon: <TablesIcon />
-    // },
+    {
+        role: "guardian",
+        name: "Report",
+        activeKey: "Report",
+        path: "/guardian/report",
+        icon: <TablesIcon />
+    },
     {
         role: "guardian",
         name: "Profile",
@@ -60,6 +62,7 @@ export const routes = [
             { name: 'Main Dashboard', activeKey: 'Main', path: '/user/dashboard/main' },
             { name: 'Emotional Dashboard', activeKey: 'Emotion', path: '/user/dashboard/emotion' },
             { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/user/dashboard/activity' },
+            { name: 'ChatMap Dashboard', activeKey: 'ChatMap', path: '/user/dashboard/chatMap' },
         ],
         icon: <HomeIcon />
     },
@@ -79,6 +82,13 @@ export const routes = [
         activeKey: "Access",
         path: "/user/accessManage",
         icon: <TablesIcon />
+    },
+    {
+        role: "user",
+        name: "Report",
+        activeKey: "Report",
+        path: "/user/report",
+        icon: <ReportIcon />
     },
     {
         role: "user",

@@ -12,6 +12,7 @@ const emotionRouter = require('./routes/emotionRoute');
 const journalRouter = require('./routes/journalRoute');
 const gratitudeRouter = require('./routes/gratitudeRoute');
 const interventionRouter = require('./routes/interventionRoute');
+const embeddingRouter = require('./routes/embeddingRoute');
 const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
@@ -40,7 +41,7 @@ app.use('/api/emotion', emotionRouter);
 app.use('/api/journal', journalRouter);
 app.use('/api/gratitude', gratitudeRouter);
 app.use('/api/intervention', interventionRouter);
-
+app.use('/api/embedding', embeddingRouter);
 // React frontend
 // app.get('*', function (req, res) {
 // 	res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));

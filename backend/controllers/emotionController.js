@@ -50,8 +50,6 @@ exports.getEmotionalScoreTrend = async (req, res) => {
             return res.status(400).json({ error: 'startDate and endDate are required' });
         }
 
-        // console.log('Fetching trend for:', { userId, startDate, endDate, bucketType });
-
         const dailyData = await Emotion.getDailyAggregates(
             userId,
             startDate,
@@ -61,11 +59,11 @@ exports.getEmotionalScoreTrend = async (req, res) => {
 
         // Calculate trend metrics
         const currentScore = dailyData.length > 0
-            ? dailyData[dailyData.length - 1].avgScore  // ✅ Corrected
+            ? dailyData[dailyData.length - 1].avgScore
             : 0;
 
         const previousScore = dailyData.length > 1
-            ? dailyData[dailyData.length - 2].avgScore  // ✅ Corrected
+            ? dailyData[0].avgScore
             : currentScore;
 
         const trendDirection = currentScore > previousScore

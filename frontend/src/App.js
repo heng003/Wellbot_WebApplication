@@ -23,14 +23,18 @@ import UserProfilePage from "./pages/user/UserProfilePage";
 import MainDashboardPage from "./pages/user/MainDashboardPage.jsx";
 import EmotionDashboardPage from "./pages/user/EmotionDashboardPage.jsx";
 import ActivityDashboardPage from "./pages/user/ActivityDashboardPage.jsx";
+import ChatMapDashboardPage from "./pages/user/ChatMapDashboardPage.jsx";
 import JournalPage from "./pages/user/JournalPage.jsx";
 import GratitudePage from "./pages/user/GratitudePage.jsx";
+import ReportPage from "./pages/user/ReportPage.jsx";
 // Guardian Pages
 import MonitoredUserPage from "./pages/guardian/MonitoredUserPage";
 import GuardianProfilePage from "./pages/guardian/GuardianProfilePage.jsx";
 import GuardianMainDashboardPage from "./pages/guardian/MainDashboardPage.jsx";
 import GuardianEmotionDashboardPage from "./pages/guardian/EmotionDashboardPage.jsx";
 import GuardianActivityDashboardPage from "./pages/guardian/ActivityDashboardPage.jsx";
+import GuardianChatMapDashboardPage from "./pages/guardian/ChatMapDashboardPage.jsx";
+import GuardianReportPage from "./pages/guardian/ReportPage.jsx";
 // import FitbitCallback from "./RegisterAcc/FitbitCallback";
 
 function App() {
@@ -55,12 +59,16 @@ function App() {
 					<Route path="/user/dashboard/main" element={<MainDashboardPage />} />
 					<Route path="/user/dashboard/emotion" element={<EmotionDashboardPage />} />
 					<Route path="/user/dashboard/activity" element={<ActivityDashboardPage />} />
+					<Route path="/user/dashboard/chatMap" element={<ChatMapDashboardPage />} />
 					<Route path="/user/activities/journal" element={<JournalPage />} />
 					<Route path="/user/activities/gratitude" element={<GratitudePage />} />
+					<Route path="/user/report" element={<ReportPage />} />
 					<Route path="/guardian/monitoredUser" element={<MonitoredUserPage />} />
 					<Route path="/guardian/dashboard/main" element={<GuardianMainDashboardPage />} />
 					<Route path="/guardian/dashboard/emotion" element={<GuardianEmotionDashboardPage />} />
 					<Route path="/guardian/dashboard/activity" element={<GuardianActivityDashboardPage />} />
+					<Route path="/guardian/dashboard/chatMap" element={<GuardianChatMapDashboardPage />} />
+					<Route path="/guardian/report" element={<GuardianReportPage />} />
 					<Route path="/guardian/profile" element={<GuardianProfilePage />} />
 					<Route path="/resetPassword/:id/:token/:role" element={<ResetPasswordPage />} />
 					{/* <Route path="/callback" element={<FitbitCallback />} /> */}s

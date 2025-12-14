@@ -43,6 +43,41 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
         return d.toLocaleDateString("en-GB", { day: '2-digit', month: '2-digit', year: '2-digit' }) + " " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
+    const formatDuration = (val) => {
+		if (!val) return "-";
+
+		// Handle object format (some DB drivers return { minutes: 30 })
+		if (typeof val === 'object' && val !== null) {
+			const parts = [];
+			if (val.hours) parts.push(`${val.hours}hr`);
+			if (val.minutes) parts.push(`${val.minutes}mins`);
+			if (val.seconds) parts.push(`${val.seconds}s`);
+			return parts.join(' ') || "0s";
+		}
+
+		const str = String(val);
+
+		// Handle HH:MM:SS string format (standard Postgres output)
+		if (str.includes(':')) {
+			const parts = str.split(':');
+			if (parts.length === 3) {
+				const h = parseInt(parts[0], 10);
+				const m = parseInt(parts[1], 10);
+				const s = parseInt(parts[2], 10);
+
+				const result = [];
+				if (h > 0) result.push(`${h}hr`);
+				if (m > 0) result.push(`${m}mins`);
+				if (s > 0) result.push(`${s}s`);
+
+				return result.join(' ') || "0s";
+			}
+		}
+
+		// Handle "X minutes" string format fallback
+		return str.replace('minutes', 'mins').replace('minute', 'min').replace('seconds', 's');
+	};
+
     const columns = [
         columnHelper.accessor("intervention_type", {
             header: "ACTIVITY",
@@ -54,7 +89,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
         }),
         columnHelper.accessor("duration", {
             header: "DURATION",
-            cell: info => <p className="text-sm font-bold text-navy-700">{info.getValue() || "-"}</p>
+            cell: info => <p className="text-sm font-bold text-navy-700">{formatDuration(info.getValue()) || "-"}</p>
         }),
         columnHelper.accessor("mood_rating", {
             header: "MOOD FLOW",
@@ -87,7 +122,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
     const rowsToDisplay = isControlled ? table.getRowModel().rows : table.getRowModel().rows.slice(0, 5);
 
     return (
-        <Card extra={"col-span-2 w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
+        <Card extra={"col-span-1 lg:col-span-2 w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between pt-4">
                 <div className="text-xl font-bold text-navy-700">
                     {isControlled ? "Activity Logs" : "Recent Activities"}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { fetchActiveWards } from "../../services/guardianPermissionService";
+import { fetchActiveWards } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
+import { useEmotions } from "../../hooks/useEmotions";
 
 // Components
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
@@ -9,7 +10,6 @@ import PieChartCard from "../../dashboard/default/PieChartCard";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
 import Widget from "../../dashboard/widget/Widget";
-import { useEmotions } from "../../hooks/useEmotions";
 
 // Icons
 import HappyIcon from "../../icons/HappyIcon";
@@ -50,14 +50,12 @@ const MainDashboardPage = () => {
         loadWards();
     }, [guardianId]);
 
-    // Fetch Emotion Widgets Data for Selected Ward
-    // Note: You must ensure useEmotions accepts userId as 2nd arg
     const today = new Date().toISOString().slice(0, 10);
     const { emotions } = useEmotions(token, selectedWardId, today, today);
 
     return (
         <div className="main-container">
-            <div className="mb-8">
+            <div>
                 <div className="flex justify-between">
                     <div>
                         <h1 className="page-title">
@@ -67,9 +65,7 @@ const MainDashboardPage = () => {
                             Monitor the well-being of your connected users.
                         </p>
                     </div>
-                    <div className="flex">
-                        <button className="green-button">Generate Report</button>
-                    </div>
+
                 </div>
                 {/* User Selector */}
                 <div className="mt-4 md:mt-0">
@@ -85,7 +81,7 @@ const MainDashboardPage = () => {
                             >
                                 {wards.map((ward) => (
                                     <option key={ward.id} value={ward.id}>
-                                        {ward.name || ward.email}
+                                        {ward.full_name || ward.email}
                                     </option>
                                 ))}
                             </select>
@@ -99,9 +95,9 @@ const MainDashboardPage = () => {
             {selectedWardId ? (
                 <>
                     {/* Widgets Row */}
-                    <div className="dashboard-widget-grid mb-5">
-                        {emotions && emotions.map((e) => {
-                            const config = emotionConfig[e.emotion_label] || {};
+                    { emotions && (<div className="dashboard-widget-grid mt-4">
+                        { emotions.map((e) => {
+                            const config = emotionConfig[e.emotion_label] || {}
                             return (
                                 <Widget
                                     key={e.emotion_label}
@@ -110,19 +106,22 @@ const MainDashboardPage = () => {
                                     subtitle={e.count}
                                     trendValue={`${(e.avg_confidence * 100).toFixed(1)}%`}
                                 />
-                            );
+                            )
                         })}
-                    </div>
+                    </div>)}
 
                     {/* Charts Row */}
-                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <EmotionalScore userId={selectedWardId} />
                         <EmotionalDistribution userId={selectedWardId} />
                     </div>
 
-                    {/* Complex Data Row */}
-                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 mt-3">
+                    <div className="mt-3">
                         <RecentActivitiesTable userId={selectedWardId} />
+                    </div>
+
+                    {/* Complex Data Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
                         <DailyTraffic userId={selectedWardId} />
                         <PieChartCard userId={selectedWardId} />
                     </div>

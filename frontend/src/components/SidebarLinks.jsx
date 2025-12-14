@@ -27,7 +27,7 @@ export function SidebarLinks(props) {
 
 		if (isGuardian) {
 			if (path.includes("monitoredUser")) return "Management";
-			if (path.includes("analytics")) return "Analytics";
+			if (path.includes("report")) return "Report";
 			if (path.includes("profile")) return "Profile";
 			return "";
 		}
@@ -35,6 +35,7 @@ export function SidebarLinks(props) {
 		if (isUser) {
 			if (path.includes("dashboard")) return "Dashboard";
 			if (path.includes("accessManage")) return "Access";
+			if (path.includes("report")) return "Report";
 			if (path.includes("profile")) return "Profile";
 			return "";
 		}
