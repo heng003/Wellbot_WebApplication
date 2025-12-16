@@ -19,20 +19,24 @@ export const useEmotionalScore = (targetUserId, startDate, endDate, bucketType =
 				return;
 			}
 
-			// Helper to format date objects to YYYY-MM-DD for API URL
 			const formatDate = (date) => {
-				if (!date) return '';
-				// If it's already a string, assume it's correct
-				if (typeof date === 'string') return date.split('T')[0];
-				// If it's a Date object
-				return date.toISOString().split('T')[0];
+				if (!date) return "";
+				// If it's already a string (YYYY-MM-DD), return it
+				if (typeof date === 'string') return date;
+
+				// Construct YYYY-MM-DD manually using local time
+				const d = new Date(date);
+				const year = d.getFullYear();
+				const month = String(d.getMonth() + 1).padStart(2, '0');
+				const day = String(d.getDate()).padStart(2, '0');
+				return `${year}-${month}-${day}`;
 			};
 
-			const sDate = formatDate(startDate);
-			const eDate = formatDate(endDate);
+			const startStr = formatDate(startDate);
+			const endStr = formatDate(endDate);
 
 			const trendRes = await axios.get(
-				`/api/emotion/getTrend/${userId}?startDate=${sDate}&endDate=${eDate}&bucketType=${bucketType}`,
+				`/api/emotion/getTrend/${userId}?startDate=${startStr}&endDate=${endStr}&bucketType=${bucketType}`,
 				{ headers: { Authorization: `Bearer ${token}` } }
 			);
 

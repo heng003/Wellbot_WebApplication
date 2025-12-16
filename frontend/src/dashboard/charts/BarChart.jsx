@@ -5,6 +5,7 @@ class BarChart extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			height: this.props.height || "100%",
 			chartData: [],
 			chartOptions: {},
 		};
@@ -24,7 +25,7 @@ class BarChart extends Component {
 				series={this.state.chartData}
 				type="bar"
 				width="100%"
-				height="100%"
+				height={this.state.height}
 			/>
 		);
 	}

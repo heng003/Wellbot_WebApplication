@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { fetchActiveWards } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
-import { useEmotions } from "../../hooks/useEmotions";
 
 // Components
+import DisplayWidgets from "../../components/DisplayWidgets";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import PieChartCard from "../../dashboard/default/PieChartCard";
@@ -11,22 +11,8 @@ import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
 import Widget from "../../dashboard/widget/Widget";
 
-// Icons
-import HappyIcon from "../../icons/HappyIcon";
-import SadIcon from "../../icons/SadIcon";
-import AngryIcon from "../../icons/AngryIcon";
-import FearIcon from "../../icons/FearIcon";
-
-const emotionConfig = {
-    Happy: { icon: <HappyIcon /> },
-    Sad: { icon: <SadIcon /> },
-    Angry: { icon: <AngryIcon /> },
-    Fear: { icon: <FearIcon /> },
-};
-
 const MainDashboardPage = () => {
     const guardianId = getIdFromToken();
-    const token = localStorage.getItem('token');
 
     const [wards, setWards] = useState([]);
     const [selectedWardId, setSelectedWardId] = useState("");
@@ -49,9 +35,6 @@ const MainDashboardPage = () => {
         };
         loadWards();
     }, [guardianId]);
-
-    const today = new Date().toISOString().slice(0, 10);
-    const { emotions } = useEmotions(token, selectedWardId, today, today);
 
     return (
         <div className="main-container">
@@ -94,24 +77,12 @@ const MainDashboardPage = () => {
 
             {selectedWardId ? (
                 <>
-                    {/* Widgets Row */}
-                    { emotions && (<div className="dashboard-widget-grid mt-4">
-                        { emotions.map((e) => {
-                            const config = emotionConfig[e.emotion_label] || {}
-                            return (
-                                <Widget
-                                    key={e.emotion_label}
-                                    icon={config.icon}
-                                    title={e.emotion_label}
-                                    subtitle={e.count}
-                                    trendValue={`${(e.avg_confidence * 100).toFixed(1)}%`}
-                                />
-                            )
-                        })}
-                    </div>)}
+                    <div className="dashboard-flex-row mt-3">
+                        <DisplayWidgets userId={selectedWardId} />
+                    </div>
 
                     {/* Charts Row */}
-                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
                         <EmotionalScore userId={selectedWardId} />
                         <EmotionalDistribution userId={selectedWardId} />
                     </div>

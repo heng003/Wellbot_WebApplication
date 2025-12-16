@@ -52,7 +52,6 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs)
 
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 14;
-    const maxContentWidth = pageWidth - (margin * 2);
     let yPos = 20;
 
     // --- COLOR PALETTE (Light Theme) ---
@@ -80,45 +79,53 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs)
     doc.setFontSize(14);
     doc.setTextColor(...primaryColor);
     doc.text("Visual Analytics Overview", margin, yPos);
-    yPos += 10;
+    yPos += 15;
 
-    // Configuration for Charts (Fixed Aspect Ratio Logic)
-    const maxWidth = maxContentWidth;
-    const maxHeight = 100; // Max height to ensure it fits nicely on page
+    const addTitle = (title) => {
+        doc.setFontSize(9);
+        doc.setTextColor(0, 0, 0); // black
+        doc.text(title, margin, yPos);
+        yPos += 2;
+    }
 
     const addChartToPdf = (imgData) => {
         if (!imgData) return;
 
-        // 1. Get original dimensions to calculate aspect ratio
+        // 1. Get image dimensions
         const props = doc.getImageProperties(imgData);
         const ratio = props.width / props.height;
 
-        // 2. Calculate dimensions to fit within maxWidth/maxHeight
+        // 2. Get page size
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+
+        // 3. Max width = full page width minus margins
+        const maxWidth = pageWidth - margin * 2;
+
+        // 4. Scale image to max width, keep aspect ratio
         let w = maxWidth;
         let h = w / ratio;
 
-        // If height exceeds limit, scale down by height
-        if (h > maxHeight) {
-            h = maxHeight;
-            w = h * ratio;
-        }
-
-        // 3. Auto-Page Break if chart won't fit
-        if (yPos + h > 280) {
+        // 5. Auto page break if image exceeds page height
+        if (yPos + h > pageHeight - margin) {
             doc.addPage();
-            yPos = 20;
+            yPos = margin;
         }
 
-        // 4. Horizontal Centering
-        const xPos = margin + (maxWidth - w) / 2;
+        // 6. Center horizontally
+        const xPos = margin;
 
-        // Add Image
+        // 7. Add image
         doc.addImage(imgData, 'PNG', xPos, yPos, w, h);
-        yPos += h + 30; // Spacing
+
+        // 8. Advance cursor
+        yPos += h + 25;
     };
 
     // Add charts sequentially
     if (images.pieChart) addChartToPdf(images.pieChart);
+    if (images.widgets) addTitle("Emotion Summary");
+    if (images.widgets) addChartToPdf(images.widgets);
     if (images.scoreChart) addChartToPdf(images.scoreChart);
     if (images.distChart) addChartToPdf(images.distChart);
 

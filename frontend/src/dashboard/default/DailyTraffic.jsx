@@ -10,7 +10,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
 	// --- State ---
-	const [timeRange, setTimeRange] = useState("weekly");
+	const [timeRange, setTimeRange] = useState("monthly");
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [referenceDate, setReferenceDate] = useState(new Date());
 	const [tempInput, setTempInput] = useState("");
@@ -59,12 +59,18 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 			end = rangeData.end;
 		}
 
+		const today = new Date();
+		today.setHours(23, 59, 59, 999);
+		if (end > today) {
+			end = today;
+		}
+
 		// Iterate through days to build chart
 		const iter = new Date(start);
 		while (iter <= end) {
 			const key = formatLocalDate(iter);
 			// Label: DD/MM
-			const label = `${iter.getDate()}/${iter.getMonth() + 1}`;
+			const label = iter.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
 			categories.push(label);
 			counts.push(countMap[key] || 0);
 			iter.setDate(iter.getDate() + 1);
@@ -218,8 +224,14 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 			</div>
 
 			<div className="h-[300px] w-full pt-15 pb-0">
-				{!loading && (
+				{loading ? (
+					<p className="text-sm text-gray-500">Loading...</p>
+				) : totalActivity > 0 ? (
 					<BarChart chartData={series} chartOptions={chartOptions} />
+				) : (
+					<div className="flex h-[220px] w-full items-center justify-center mt-4">
+						<p className="text-sm text-gray-500">No data available for this period</p>
+					</div>
 				)}
 			</div>
 		</Card>

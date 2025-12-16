@@ -158,7 +158,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 		xaxis: {
 			categories,
 			show: false,
-			labels: { show: true, style: { colors: "#A3AED0", fontSize: "14px", fontWeight: "500" } },
+			labels: { show: true, style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
 			axisBorder: { show: false },
 			axisTicks: { show: false },
 		},
@@ -244,16 +244,16 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 				)}
 			</div>
 
-			<div className="md:mt-16 lg:mt-0">
-				<div className="h-[250px] w-full xl:h-[350px]">
-					{loading ? (
+			<div className="md:mt-10 lg:mt-0">
+				<div className="h-[250px] w-full xl:h-[300px]">
+				{loading ? (
 						<div className="flex h-full items-center justify-center">
 							<p className="text-gray-400 animate-pulse">Loading data...</p>
 						</div>
 					) : hasData ? (
 						<BarChart chartData={series} chartOptions={chartOptions} />
 					) : (
-						<div className="flex h-full items-center justify-center bg-gray-50 rounded-lg">
+						<div className="flex h-full items-center justify-center rounded-lg">
 							<p className="text-gray-400">No data available for this period</p>
 						</div>
 					)}

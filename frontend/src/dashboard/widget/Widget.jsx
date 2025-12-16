@@ -24,7 +24,7 @@ const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 				</div>
 				{percent !== undefined && (
 					<div className="ml-8 flex items-end justify-center gap-4">
-						<p className="text-sm font-bold">{`${Math.ceil(Number(percent) || 0)}%`}</p>
+						<p className="text-sm font-bold text-gray-700">{`${Math.ceil(Number(percent) || 0)}%`}</p>
 						<GaugeIcon
 							percent={percent}
 							color1={gaugeColors?.[0]}

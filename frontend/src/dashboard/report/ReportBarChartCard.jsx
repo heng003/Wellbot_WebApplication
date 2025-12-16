@@ -9,9 +9,6 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
     const [dailyCounts, setDailyCounts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const LABELS = ["Happy", "Sad", "Angry", "Fear"];
-    const COLORS = ["#519AF6", "#69D5C5", "#7E6FEE", "#EA5E8F"];
-
     // --- Data Fetching ---
     useEffect(() => {
         const fetchCounts = async () => {
@@ -53,7 +50,7 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
     }, [startDate, endDate, userId]);
 
     // --- Data Processing (Aggregation) ---
-    const { chartData, chartOptions, hasData } = useMemo(() => {
+    const { chartData, chartOptions, hasData, distribution } = useMemo(() => {
         const EMOTION_KEYS = ["fear", "angry", "sad", "happy"];
         const LABELS = ["Fear", "Angry", "Sad", "Happy"];
         const COLORS = ["#EA5E8F", "#7E6FEE", "#69D5C5", "#519AF6"];
@@ -61,18 +58,33 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
         let processedData = [];
         let categories = [];
 
-        // Check if there is ANY data (non-zero counts) in the whole dataset
-        const totalCount = dailyCounts.reduce((sum, day) => {
-            const daySum = EMOTION_KEYS.reduce((s, k) => s + (Number(day[k]) || 0), 0);
-            return sum + daySum;
-        }, 0);
+        // 1. Calculate Totals for Distribution Legend
+        const emotionTotals = {};
+        let grandTotal = 0;
 
-        const dataExists = totalCount > 0;
+        dailyCounts.forEach(day => {
+            EMOTION_KEYS.forEach(k => {
+                const val = Number(day[k]) || 0;
+                emotionTotals[k] = (emotionTotals[k] || 0) + val;
+                grandTotal += val;
+            });
+        });
 
+        const dataExists = grandTotal > 0;
+
+        // 2. Prepare Distribution List (Sorted by count)
+        const distData = EMOTION_KEYS.map((key, index) => ({
+            label: LABELS[index],
+            color: COLORS[index],
+            count: emotionTotals[key] || 0,
+            percentage: grandTotal > 0 ? Math.round(((emotionTotals[key] || 0) / grandTotal) * 100) : 0
+        }));
+
+        distData.sort((a, b) => b.count - a.count);
+
+        // 3. Prepare Chart Data
         if (bucketType === "month") {
-            // Aggregate Daily -> Monthly
             const monthlyMap = new Map();
-
             dailyCounts.forEach(day => {
                 const date = new Date(day.day);
                 const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -110,21 +122,21 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
             tooltip: { theme: "dark" },
             xaxis: {
                 categories,
-                show: false,
+                show: true,
                 labels: { show: true, style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
                 axisBorder: { show: false },
                 axisTicks: { show: false },
             },
             yaxis: { show: false },
-            grid: { show: false, padding: { left: 30, right: 30 } },
+            grid: { show: false },
             fill: { type: "solid", colors: COLORS },
             colors: COLORS,
             legend: { show: false },
             dataLabels: { enabled: false },
-            plotOptions: { bar: { borderRadius: 10, columnWidth: "20px" } },
+            plotOptions: { bar: { borderRadius: 4, columnWidth: "20px" } },
         };
 
-        return { chartData: series, chartOptions: options, hasData: dataExists };
+        return { chartData: series, chartOptions: options, hasData: dataExists, distribution: distData };
     }, [dailyCounts, bucketType]);
 
     return (
@@ -133,7 +145,7 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
                 <div>
                     <h4 className="text-lg font-bold text-navy-700">Emotional Distribution</h4>
                 </div>
-                {hasData && (
+                {/* {hasData && (
                     <div className="flex gap-3">
                         {LABELS.map((label, i) => (
                             <div key={label} className="flex flex-row items-center gap-1 whitespace-nowrap">
@@ -142,22 +154,48 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
                             </div>
                         ))}
                     </div>
-                )}
+                )} */}
             </div>
 
-            <div className="h-[250px] w-full mt-4">
+            <div className="min-h-[250px] w-full mt-4">
                 {loading ? (
                     <div className="flex h-full items-center justify-center">
                         <p className="text-gray-400">Loading data...</p>
                     </div>
                 ) : hasData ? (
-                    <BarChart chartData={chartData} chartOptions={chartOptions} />
+                    <BarChart height={"320px"} chartData={chartData} chartOptions={chartOptions} />
                 ) : (
-                    <div className="flex h-full items-center justify-center">
+                    <div className="flex min-h-[200px] h-full items-center justify-center">
                         <p className="text-sm text-gray-500">No data available for this period</p>
                     </div>
                 )}
             </div>
+
+            {hasData && (
+                <div className="mt-2 rounded-2xl py-3 overflow-y-auto">
+                    {distribution.map((item, index) => (
+                        <div key={index} className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
+                            {/* Color Indicator */}
+                            <div className="col-span-1 flex items-center justify-center">
+                                <div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
+                            </div>
+
+                            {/* Label */}
+                            <div className="col-span-7 pl-2 overflow-hidden flex items-center">
+                                <p className="text-md font-normal text-gray-600 truncate leading-8" title={item.label}>
+                                    {item.label}
+                                </p>
+                            </div>
+
+                            {/* Stats */}
+                            <div className="col-span-4 flex justify-end items-center gap-2 whitespace-nowrap">
+                                <p className="text-sm font-bold text-navy-700">{item.percentage}%</p>
+                                <p className="text-xs text-gray-400 w-8 text-right">({item.count})</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </Card>
     );
 };

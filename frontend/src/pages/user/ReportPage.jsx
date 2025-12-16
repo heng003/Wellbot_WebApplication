@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import html2canvas from "html2canvas";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 import { getIdFromToken } from "../../utils/auth"; // You might need a helper for name
 
 // Chart Components
+import ReportDisplayWidgets from "../../dashboard/report/ReportDisplayWidgets";
 import ReportPieChartCard from "../../dashboard/report/ReportPieChartCard";
 import ReportBarChartCard from "../../dashboard/report/ReportBarChartCard";
 import ReportLineChartCard from "../../dashboard/report/ReportLineChartCard";
@@ -61,18 +62,24 @@ const ReportPage = () => {
     // --- 2. DATE LOGIC ---
     const { startDate, endDate } = useMemo(() => {
         const start = new Date(selectedDate);
-        const end = new Date(selectedDate);
+        let end = new Date(selectedDate);
 
         start.setHours(0, 0, 0, 0);
-        end.setHours(23, 59, 59, 999);
 
         if (reportType === 'month') {
             start.setDate(1);
-            end.setMonth(start.getMonth() + 1, 0);
+            end = new Date(start.getFullYear(), start.getMonth() + 1, 0, 23, 59, 59, 999);
         } else {
             start.setMonth(0, 1);
-            end.setMonth(11, 31);
+            end = new Date(start.getFullYear(), 11, 31, 23, 59, 59, 999);
         }
+
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+        if (end > today) {
+            end = today;
+        }
+
         return { startDate: start, endDate: end };
     }, [selectedDate, reportType]);
 
@@ -146,11 +153,12 @@ const ReportPage = () => {
                     }
                 };
 
+                const widgets = pdfConfig.widgets ? await capture("report-widgets") : null;
                 const scoreChart = pdfConfig.score ? await capture("report-score-chart") : null;
                 const distChart = pdfConfig.dist ? await capture("report-dist-chart") : null;
                 const pieChart = pdfConfig.activity ? await capture("report-pie-chart") : null;
 
-                const images = { scoreChart, distChart, pieChart };
+                const images = { widgets, scoreChart, distChart, pieChart };
                 const finalEmoLogs = pdfConfig.emotionalTable ? emotionalLogs : [];
                 const finalActLogs = pdfConfig.activityTable ? activityLogs : [];
 
@@ -254,6 +262,14 @@ const ReportPage = () => {
 
                             {fileFormat === 'pdf' ? (
                                 <div className="space-y-3">
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('widgets')}>
+                                        <span className="text-sm text-navy-700">Emotion Summary</span>
+                                        {pdfConfig.widgets ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                    </div>
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activity')}>
+                                        <span className="text-sm text-navy-700">Activity Chart</span>
+                                        {pdfConfig.activity ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                    </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('score')}>
                                         <span className="text-sm text-navy-700">Score Chart</span>
                                         {pdfConfig.score ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
@@ -261,10 +277,6 @@ const ReportPage = () => {
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('dist')}>
                                         <span className="text-sm text-navy-700">Distribution Chart</span>
                                         {pdfConfig.dist ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
-                                    </div>
-                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activity')}>
-                                        <span className="text-sm text-navy-700">Activity Chart</span>
-                                        {pdfConfig.activity ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('emotionalTable')}>
                                         <span className="text-sm text-navy-700">Emotional Logs Table</span>
@@ -293,7 +305,7 @@ const ReportPage = () => {
                         <button
                             onClick={handleGenerate}
                             disabled={isGenerating}
-                            className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-brand-500 text-white opacity-70 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 text-white'}`}
+                            className={`w-full flex items-center justify-center gap-2 my-3 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-brand-500 text-white opacity-70 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 text-white'}`}
                         >
                             {isGenerating ? (
                                 <span>Generating...</span>
@@ -327,23 +339,23 @@ const ReportPage = () => {
                                 <span className="font-bold text-navy-700">{emotionalLogs?.length || 0}</span>
                             </div>
                             <div className="bg-gray-100 p-3 rounded-lg mt-4 text-gray-700 text-xs">
-                                <p>The preview on the left shows your data for the selected range. Items grayed out will be excluded from the PDF based on your selection.</p>
+                                <p>The preview on below shows your data for the selected range. Items grayed out will be excluded from the PDF based on your selection.</p>
                             </div>
                         </div>
                     </Card>
-                    <div
-                        id="report-pie-chart"
-                        className={!pdfConfig.activity && fileFormat === 'pdf' ? "opacity-40 grayscale" : ""}
-                    >
-                        <ReportPieChartCard userId={userId} startDate={startDate} endDate={endDate} />
-                    </div>
+                    <Card extra="p-2 pb-4 h-fit">
+                        <h4 className="p-4 text-lg font-bold text-navy-700">Emotion Summary</h4>
+                        <div id="report-widgets" >
+                            <ReportDisplayWidgets userId={userId} startDate={startDate} endDate={endDate} />
+                        </div>
+                    </Card>
                 </div>
             </div>
             <div className="mt-6 space-y-6">
-                <div
-                    id="report-score-chart"
-                    className={!pdfConfig.score && fileFormat === 'pdf' ? "opacity-40 grayscale" : ""}
-                >
+                <div id="report-pie-chart" className={!pdfConfig.activity || fileFormat === 'csv' ? "opacity-40 grayscale" : ""} >
+                    <ReportPieChartCard userId={userId} startDate={startDate} endDate={endDate} />
+                </div>
+                <div id="report-score-chart" className={!pdfConfig.score || fileFormat === 'csv' ? "opacity-40 grayscale" : ""} >
                     <ReportLineChartCard
                         userId={userId}
                         startDate={startDate}
@@ -351,10 +363,7 @@ const ReportPage = () => {
                         bucketType={reportType === 'year' ? 'month' : 'day'}
                     />
                 </div>
-                <div
-                    id="report-dist-chart"
-                    className={!pdfConfig.dist && fileFormat === 'pdf' ? "opacity-40 grayscale" : ""}
-                >
+                <div id="report-dist-chart" className={!pdfConfig.dist || fileFormat === 'csv' ? "opacity-40 grayscale" : ""}>
                     <ReportBarChartCard
                         userId={userId}
                         startDate={startDate}

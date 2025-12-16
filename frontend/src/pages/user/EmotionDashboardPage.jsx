@@ -11,7 +11,7 @@ import EmotionalTable from "../../dashboard/default/EmotionalTable";
 
 const EmotionalDashboardPage = () => {
     // Default to the last 30 days
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
 
     return (
@@ -47,7 +47,7 @@ const EmotionalDashboardPage = () => {
             </div>
 
             {/* Table Row */}
-            <div className="grid grid-cols-1 gap-3 mt-3 pb-10">
+            <div className="grid grid-cols-1 gap-3 mt-3">
                 <EmotionalTable startDate={startDate} endDate={endDate} />
             </div>
         </div>

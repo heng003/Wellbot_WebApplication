@@ -3,7 +3,6 @@ import LineChart from "../charts/LineChart";
 import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
 import { useEmotionalData } from "../../hooks/useEmotionalData.js";
-import { MdArrowDropUp, MdArrowDropDown } from "react-icons/md";
 
 const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketType }) => {
     const userId = propUserId || getIdFromToken();
@@ -58,7 +57,23 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
 
     }, [trendData, activeBucketType, loading]);
 
-    // 4. Chart Configuration
+    // 4. Calculate Averages
+    const { avgMood, avgConf } = useMemo(() => {
+        if (!trendData?.dailyData || trendData.dailyData.length === 0) return { avgMood: 0, avgConf: 0 };
+
+        const validMoods = trendData.dailyData.filter(d => d.avgScore !== null);
+        const validConfs = trendData.dailyData.filter(d => d.avgConfidence !== null);
+
+        const totalMood = validMoods.reduce((sum, d) => sum + Number(d.avgScore), 0);
+        const totalConf = validConfs.reduce((sum, d) => sum + Number(d.avgConfidence), 0);
+
+        return {
+            avgMood: validMoods.length ? Math.round(totalMood / validMoods.length) : 0,
+            avgConf: validConfs.length ? Math.round((totalConf / validConfs.length) * 100) : 0
+        };
+    }, [trendData]);
+
+    // 5. Chart Configuration
     const options = useMemo(() => ({
         legend: { show: false },
         theme: { mode: "light" },
@@ -68,7 +83,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
             animations: { enabled: false }
         },
         dataLabels: { enabled: false },
-        stroke: { curve: "smooth", width: 3 },
+        stroke: { curve: "smooth" },
         tooltip: {
             style: { fontSize: "12px", backgroundColor: "#000000" },
             theme: 'dark',
@@ -84,7 +99,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
             axisBorder: { show: false },
             axisTicks: { show: false },
         },
-        yaxis: { show: false },
+        yaxis: { show: true, min: 0, max: 100, labels: { style: { colors: "#A3AED0", fontSize: "12px" } } },
     }), [chartData.categories]);
 
     // Helper to check if we actually have NON-NULL data points to show
@@ -100,56 +115,61 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
         <Card extra="col-span-1 rounded-[20px] p-3 h-full">
             <div className="flex flex-row justify-between px-3 pt-2">
                 <div>
-                    <h4 className="text-lg font-bold text-navy-700">Emotional Score</h4>
+                    <h4 className="text-lg font-bold text-navy-700">Emotional Trends</h4>
                 </div>
             </div>
-            {hasData ? (
-                <div className="flex flex-col px-3 mt-4">
-                    <div className="flex justify-between items-start gap-2 mb-2">
-                        <div className="flex">
-                            <div>
-                                <p className="text-sm text-gray-600">Current Score</p>
-                                <p className="text-3xl font-bold text-navy-700">
-                                    {loading ? "..." : `${Math.round(trendData?.currentScore || 0)}`}
+
+            <div className="flex flex-col px-3 mt-4">
+                <div className="min-h-[200px] w-full">
+                    {loading ? (
+                        <div className="flex h-full items-center justify-center">
+                            <p className="text-sm text-gray-500">Loading...</p>
+                        </div>
+                    ) : hasData ? (
+                        <LineChart height={"320px"} options={options} series={chartData.series} />
+                    ) : (
+                        <div className="flex min-h-[200px] items-center justify-center">
+                            <p className="text-sm text-gray-500">No data available for this period</p>
+                        </div>
+                    )}
+                </div>
+
+                {hasData && (
+                    <div className="mt-2 rounded-2xl py-3">
+                        {/* Mood Score Legend & Avg */}
+                        <div className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
+                            <div className="col-span-1 flex items-center justify-center">
+                                <div className="w-2 h-2 rounded-full bg-[#4318FF]"></div>
+                            </div>
+                            <div className="col-span-6 pl-2 overflow-hidden flex items-center">
+                                <p className="text-md font-normal text-gray-600 truncate leading-8" title={"Mood Score"}>
+                                    Mood Score
                                 </p>
                             </div>
-                            <div className="flex items-center mt-6">
-                                {trendData?.trendDirection === "up" && <MdArrowDropUp className="text-green-500 h-6 w-6" />}
-                                {trendData?.trendDirection === "down" && <MdArrowDropDown className="text-red-500 h-6 w-6" />}
-                                <span className={`text-sm font-bold ${trendData?.trendDirection === "up" ? "text-green-500" :
-                                    trendData?.trendDirection === "down" ? "text-red-500" : "text-gray-500"
-                                    }`}>
-                                    {trendData?.trendDirection === "stable" ? "No change" : `${trendValue}%`}
-                                </span>
+                            <div className="col-span-5 flex justify-end items-center gap-2 whitespace-nowrap">
+                                <p className="text-sm font-bold text-navy-700">{avgMood}%</p>
+                                <p className="text-xs text-gray-400 w-8 text-right">{"(average)"}</p>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-1 mt-1">
-                            <div className="flex flex-row items-center gap-2 whitespace-nowrap">
-                                <div className="w-2 h-2 rounded-full bg-[#4318FF] shrink-0"></div>
-                                <span className="text-xs text-gray-600 font-medium">Mood Score</span>
-                            </div>
-                            <div className="flex flex-row items-center gap-2 whitespace-nowrap">
-                                <div className="w-2 h-2 rounded-full bg-[#6AD2FF] shrink-0"></div>
-                                <span className="text-xs text-gray-600 font-medium">Confidence</span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="h-[250px] w-full">
-                        {loading ? (
-                            <div className="flex h-full items-center justify-center">
-                                <p className="text-sm text-gray-500">Loading...</p>
+                        {/* Confidence Legend & Avg */}
+                        <div className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
+                            <div className="col-span-1 flex items-center justify-center">
+                                <div className="w-2 h-2 rounded-full bg-[#6AD2FF]"></div>
                             </div>
-                        ) : (
-                            <LineChart options={options} series={chartData.series} />
-                        )}
+                            <div className="col-span-6 pl-2 overflow-hidden flex items-center">
+                                <p className="text-md font-normal text-gray-600 truncate leading-8" title={"Confidence"}>
+                                    Confidence
+                                </p>
+                            </div>
+                            <div className="col-span-5 flex justify-end items-center gap-2 whitespace-nowrap">
+                                <p className="text-sm font-bold text-navy-700">{avgConf}%</p>
+                                <p className="text-xs text-gray-400 w-8 text-right">{"(average)"}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <div className="flex h-[220px] w-full items-center justify-center mt-4">
-                    <p className="text-sm text-gray-500">No data available for this period</p>
-                </div>
-            )}
+                )}
+            </div>
         </Card>
     );
 };

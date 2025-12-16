@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { getIdFromToken } from "../../utils/auth";
 import {
 	MdArrowDropUp,
@@ -39,6 +39,12 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		}
 		return getDefaultRange();
 	});
+
+	useEffect(() => {
+		if (isControlled) {
+			setDateRange({ start: propStartDate, end: propEndDate });
+		}
+	}, [propStartDate, propEndDate, isControlled]);
 
 	// Fetch Data
 	const { trendData, loading, refetch } = useEmotionalScore(
@@ -158,7 +164,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		grid: { show: true, padding: { left: 30, right: 30 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
 		xaxis: {
 			categories: chartData.categories,
-			labels: { style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
+			labels: { rotate: -45, style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
 			axisBorder: { show: false },
 			axisTicks: { show: false },
 			tooltip: { enabled: false }
@@ -185,10 +191,8 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		return trendData.dailyData.some(d => d.avgScore !== null || d.count > 0);
 	}, [trendData]);
 
-	const trendValue = Number(trendData?.trendPercentage) || 0;
-
 	return (
-		<Card extra="!p-[20px] text-center col-span-1 min-h-[350px]">
+		<Card extra="!p-[20px] text-center col-span-1">
 			{/* Header */}
 			<div className="flex justify-between items-center px-3">
 				{!isControlled ? (
@@ -239,7 +243,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						)}
 					</div>
 				) : (
-					<h2 className="text-lg font-bold text-navy-700">Emotional Trends</h2>
+					<h2 className="text-lg font-bold text-navy-700">Emotional Score</h2>
 				)}
 
 				<div className="relative">
@@ -269,13 +273,13 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 			{/* Content */}
 			<div className="flex h-full w-full flex-col px-3 mt-4">
 				{/* Statistics Row */}
-				<div className="flex flex-row justify-between items-start mb-4">
-					<div className="flex flex-col items-start">
-						<p className="text-sm text-gray-600">Current Score</p>
-						<p className="text-3xl font-bold text-navy-700">
-							{loading ? "..." : `${Math.round(trendData?.currentScore || 0)}`}
-						</p>
-						{hasData && (
+				{hasData && (
+					<div className="flex flex-row justify-between items-start mb-4">
+						<div className="flex flex-col items-start">
+							<p className="text-sm text-gray-600">Current Score</p>
+							<p className="text-3xl font-bold text-navy-700">
+								{loading ? "..." : `${Math.round(trendData?.currentScore || 0)}`}
+							</p>
 							<div className="flex flex-row items-center justify-center mt-1">
 								{trendData?.trendDirection === "up" && (
 									<>
@@ -293,30 +297,30 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 									<p className="text-sm font-bold text-gray-500">No change</p>
 								)}
 							</div>
+						</div>
+
+						{!isControlled && (
+							<div className="flex items-center gap-1">
+								<button
+									onClick={() => shiftWindow("left")}
+									className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-100"
+								>
+									◀
+								</button>
+								<button
+									disabled={!canShiftRight}
+									onClick={() => shiftWindow("right")}
+									className={`px-2 py-1 rounded ${canShiftRight ? 'bg-gray-200 hover:bg-gray-100' : 'bg-gray-100 opacity-50 cursor-not-allowed'}`}
+								>
+									▶
+								</button>
+							</div>
 						)}
 					</div>
-
-					{!isControlled && (
-						<div className="flex items-center gap-1">
-							<button
-								onClick={() => shiftWindow("left")}
-								className="px-2 py-1 rounded bg-gray-200 hover:bg-gray-100"
-							>
-								◀
-							</button>
-							<button
-								disabled={!canShiftRight}
-								onClick={() => shiftWindow("right")}
-								className={`px-2 py-1 rounded ${canShiftRight ? 'bg-gray-200 hover:bg-gray-100' : 'bg-gray-100 opacity-50 cursor-not-allowed'}`}
-							>
-								▶
-							</button>
-						</div>
-					)}
-				</div>
+				)}
 
 				{/* Chart Area */}
-				<div className="h-[250px] w-full" ref={chartContainerRef}>
+				<div className="min-h-[250px] w-full" ref={chartContainerRef}>
 					{loading ? (
 						<div className="flex h-full items-center justify-center">
 							<p className="text-gray-400 animate-pulse">Loading data...</p>
@@ -325,10 +329,9 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						<LineChart
 							options={options}
 							series={chartData.series}
-							enableZoom={false}
 						/>
 					) : (
-						<div className="flex h-full items-center justify-center bg-gray-50 rounded-lg">
+						<div className="flex h-full items-center justify-center rounded-lg">
 							<p className="text-gray-400">No data available for this period</p>
 						</div>
 					)}

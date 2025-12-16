@@ -163,7 +163,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 		<Card extra="col-span-1 rounded-[20px] p-3">
 			<div className="flex flex-row justify-between px-3 pt-2">
 				<div>
-					<h4 className="text-lg font-bold text-navy-700">Intervention Types</h4>
+					<h4 className="text-lg font-bold text-navy-700">Activity Types</h4>
 				</div>
 
 				{!isControlled && (
@@ -253,7 +253,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 						<p className="text-sm text-gray-500">No data for this period</p>}
 			</div>
 
-			<div className="rounded-2xl py-3 shadow-2xl shadow-shadow-500 overflow-y-auto">
+			<div className="rounded-2xl py-3 px-3 shadow-2xl shadow-shadow-500 overflow-y-auto">
 				{distribution.map((item, index) => (
 					<div key={index} className="flex flex-row justify-between items-center mb-2 px-2">
 						<div className="flex items-center">

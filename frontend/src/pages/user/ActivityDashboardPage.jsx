@@ -10,7 +10,7 @@ import DailyTraffic from "../../dashboard/default/DailyTraffic";
 
 const ActivityDashboardPage = () => {
     // Default to the last 30 days
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
 
     return (
@@ -46,7 +46,7 @@ const ActivityDashboardPage = () => {
             </div>
 
             {/* Bottom Row: Full Table */}
-            <div className="grid grid-cols-1 pb-10">
+            <div className="grid grid-cols-1">
                 <RecentActivitiesTable startDate={startDate} endDate={endDate} />
             </div>
         </div>

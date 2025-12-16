@@ -1,11 +1,9 @@
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import MiniCalendar from "../../dashboard/calendar/MiniCalendar";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import PieChartCard from "../../dashboard/default/PieChartCard";
 
-import TodayEmotionWordCloud from "../../components/TodayEmotionWordCloud";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
 
@@ -26,7 +24,7 @@ const MainDashboardPage = () => {
 				</p>
 			</div>
 
-			<div className="dashboard-flex-row ">
+			<div className="dashboard-flex-row">
 				<DisplayWidgets />
 				{/* <TodayEmotionWordCloud /> */}
 			</div>

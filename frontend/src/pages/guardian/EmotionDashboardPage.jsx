@@ -17,7 +17,7 @@ const EmotionDashboardPage = () => {
     const [selectedWardId, setSelectedWardId] = useState("");
     const [loadingWards, setLoadingWards] = useState(true);
 
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
 
     // Fetch Wards on Mount
@@ -95,7 +95,7 @@ const EmotionDashboardPage = () => {
                         <EmotionalDistribution userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3 mt-3 pb-10">
+                    <div className="grid grid-cols-1 gap-3 mt-3">
                         <EmotionalTable userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
                 </>

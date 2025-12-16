@@ -50,7 +50,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
 		if (typeof val === 'object' && val !== null) {
 			const parts = [];
 			if (val.hours) parts.push(`${val.hours}hr`);
-			if (val.minutes) parts.push(`${val.minutes}mins`);
+			if (val.minutes) parts.push(`${val.minutes}min`);
 			if (val.seconds) parts.push(`${val.seconds}s`);
 			return parts.join(' ') || "0s";
 		}
@@ -67,7 +67,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
 
 				const result = [];
 				if (h > 0) result.push(`${h}hr`);
-				if (m > 0) result.push(`${m}mins`);
+				if (m > 0) result.push(`${m}min`);
 				if (s > 0) result.push(`${s}s`);
 
 				return result.join(' ') || "0s";
@@ -75,7 +75,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
 		}
 
 		// Handle "X minutes" string format fallback
-		return str.replace('minutes', 'mins').replace('minute', 'min').replace('seconds', 's');
+		return str.replace('minutes', 'min').replace('minute', 'min').replace('seconds', 's');
 	};
 
     const columns = [
@@ -122,13 +122,13 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
     const rowsToDisplay = isControlled ? table.getRowModel().rows : table.getRowModel().rows.slice(0, 5);
 
     return (
-        <Card extra={"col-span-1 lg:col-span-2 w-full h-full px-6 pb-6 sm:overflow-x-auto"}>
-            <div className="relative flex items-center justify-between pt-4">
+        <Card extra={"col-span-1 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
+            <div className="relative flex items-center justify-between">
                 <div className="text-xl font-bold text-navy-700">
                     {isControlled ? "Activity Logs" : "Recent Activities"}
                 </div>
             </div>
-            <div className={`${isControlled ? "max-h-[300px] overflow-y-auto" : "mt-8 overflow-x-hidden"}`}>
+            <div className={`${isControlled ? "max-h-[400px] overflow-y-auto" : "mt-2 overflow-x-hidden"}`}>
                 {loading ?
                     <p className="text-gray-500">Loading...</p>
                     : (
@@ -150,7 +150,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
                                 {rowsToDisplay.map(row => (
                                     <tr key={row.id}>
                                         {row.getVisibleCells().map(cell => (
-                                            <td key={cell.id} className="min-w-[150px] border-white/0 py-3 pr-4">
+                                            <td key={cell.id} className="min-w-[180px] border-white/0 py-3 pr-4">
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         ))}

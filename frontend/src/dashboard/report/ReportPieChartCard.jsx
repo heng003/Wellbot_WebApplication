@@ -78,11 +78,11 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
                 </div>
             </div>
 
-            <div className="mb-auto flex h-[220px] w-full items-center justify-center mt-4">
+            <div className="mb-auto flex min-h-[220px] w-full items-center justify-center mt-4">
                 {loading ? (
                     <p className="text-sm text-gray-500">Loading...</p>
                 ) : chartData.length > 0 ? (
-                    <PieChart options={chartOptions} series={chartData} />
+                    <PieChart height={"250px"} options={chartOptions} series={chartData} />
                 ) : (
                     <p className="text-sm text-gray-500">No data available for this period</p>
                 )}
@@ -91,7 +91,6 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
             {chartData.length > 0 && (
                 <div className="rounded-2xl py-3">
                     {distribution.map((item, index) => (
-                        // FIX: Increased min-height and padding to prevent PDF overlap
                         <div key={index} className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
 
                             {/* Color Indicator (Col 1) */}
@@ -101,13 +100,11 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
 
                             {/* Label (Col 2-8) - Truncated */}
                             <div className="col-span-7 pl-2 overflow-hidden flex items-center">
-                                {/* Increased line-height to prevent clipping in PDF */}
-                                <p className="text-sm font-normal text-gray-600 truncate leading-8" title={item.label}>
+                                <p className="text-md font-normal text-gray-700 truncate leading-8" title={item.label}>
                                     {item.label}
                                 </p>
                             </div>
 
-                            {/* Stats (Col 9-12) - Right aligned, no wrap */}
                             <div className="col-span-4 flex justify-end items-center gap-2 whitespace-nowrap">
                                 <p className="text-sm font-bold text-navy-700">{item.percentage}%</p>
                                 <p className="text-xs text-gray-400 w-8 text-right">({item.count})</p>

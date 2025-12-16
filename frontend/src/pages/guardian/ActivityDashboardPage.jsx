@@ -17,7 +17,7 @@ const ActivityDashboardPage = () => {
     const [selectedWardId, setSelectedWardId] = useState("");
     const [loadingWards, setLoadingWards] = useState(true);
 
-    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 15)));
+    const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
 
     // Fetch Wards on Mount
@@ -96,7 +96,7 @@ const ActivityDashboardPage = () => {
                     </div>
 
                     {/* Bottom Row: Full Table */}
-                    <div className="grid grid-cols-1 pb-10">
+                    <div className="grid grid-cols-1">
                         <RecentActivitiesTable userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
                 </>
