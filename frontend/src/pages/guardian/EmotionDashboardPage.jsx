@@ -3,12 +3,14 @@ import { fetchActiveWards } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { MdFileDownload, MdOutlineCalendarToday } from "react-icons/md";
+import { MdOutlineCalendarToday } from "react-icons/md";
 
 // Components
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalTable from "../../dashboard/default/EmotionalTable";
+import HoverTooltip from "../../components/HoverTooltip";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 
 const EmotionDashboardPage = () => {
     const guardianId = getIdFromToken();
@@ -46,7 +48,9 @@ const EmotionDashboardPage = () => {
                     <p className="page-subtitle">Monitor the emotional patterns of your connected users</p>
                 </div>
                 <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    <HoverTooltip content="Select custom date range for overall dashboard">
+                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    </HoverTooltip>
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {

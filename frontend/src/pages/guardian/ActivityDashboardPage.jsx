@@ -9,6 +9,8 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import PieChartCard from "../../dashboard/default/PieChartCard";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
+import HoverTooltip from "../../components/HoverTooltip";
 
 const ActivityDashboardPage = () => {
     const guardianId = getIdFromToken();
@@ -46,7 +48,9 @@ const ActivityDashboardPage = () => {
                     <p className="page-subtitle">Monitor the daily activities and moods evolve of your connected users</p>
                 </div>
                 <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    <HoverTooltip content="Select custom date range for overall dashboard">
+                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    </HoverTooltip>
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -95,9 +99,12 @@ const ActivityDashboardPage = () => {
                         <PieChartCard userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
 
-                    {/* Bottom Row: Full Table */}
                     <div className="grid grid-cols-1">
                         <RecentActivitiesTable userId={selectedWardId} startDate={startDate} endDate={endDate} />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3 mt-3">
+                        <MoodActivityCorrelation userId={selectedWardId} startDate={startDate} endDate={endDate} />
                     </div>
                 </>
             ) : (

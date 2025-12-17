@@ -210,10 +210,22 @@ async function getEmotionalLogsFromDb(userId, startDate, endDate) {
     return data;
 }
 
+async function getMoodActivityCorrelation(userId, startDate, endDate) {
+    const { data, error } = await supabase.rpc("get_mood_activity_correlation", {
+        p_user: userId,
+        p_start: startDate,
+        p_end: endDate
+    });
+
+    if (error) throw error;
+    return data;
+}
+
 module.exports = {
     getEmotionsSummary,
     getEmotionsTimeSeries,
     getDailyAggregates,
     getEmotionCountsByDay,
     getEmotionalLogsFromDb,
+    getMoodActivityCorrelation,
 };

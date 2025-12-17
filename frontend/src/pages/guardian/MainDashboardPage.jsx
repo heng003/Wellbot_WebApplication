@@ -9,7 +9,7 @@ import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution
 import PieChartCard from "../../dashboard/default/PieChartCard";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
-import Widget from "../../dashboard/widget/Widget";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 
 const MainDashboardPage = () => {
     const guardianId = getIdFromToken();
@@ -77,11 +77,11 @@ const MainDashboardPage = () => {
 
             {selectedWardId ? (
                 <>
-                    <div className="dashboard-flex-row mt-3">
+                    <div className="mt-4">
+                        <h4 className="pl-4 text-lg font-bold text-navy-700">Today's Emotion Count</h4>
                         <DisplayWidgets userId={selectedWardId} />
                     </div>
 
-                    {/* Charts Row */}
                     <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
                         <EmotionalScore userId={selectedWardId} />
                         <EmotionalDistribution userId={selectedWardId} />
@@ -91,10 +91,13 @@ const MainDashboardPage = () => {
                         <RecentActivitiesTable userId={selectedWardId} />
                     </div>
 
-                    {/* Complex Data Row */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
                         <DailyTraffic userId={selectedWardId} />
                         <PieChartCard userId={selectedWardId} />
+                    </div>
+
+                    <div className="mt-3">
+                        <MoodActivityCorrelation userId={selectedWardId} />
                     </div>
                 </>
             ) : (

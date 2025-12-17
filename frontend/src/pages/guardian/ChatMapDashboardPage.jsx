@@ -6,8 +6,9 @@ import { fetchUserEmbeddings } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
 
 // Components
-import Card from "../../dashboard/card";
 import EmbeddingVisualizer from "../../components/EmbeddingVisualizer";
+import MessagePatternInsights from "../../components/MessagePatternInsights";
+import HoverTooltip from "../../components/HoverTooltip";
 
 // Icon
 import { MdOutlineCalendarToday } from "react-icons/md";
@@ -59,10 +60,12 @@ const ChatMapDashboardPage = () => {
             <div className="header-section">
                 <div>
                     <h1 className="page-title">ChatMap Dashboard</h1>
-                    <p className="page-subtitle">Visualizing your monitored user's conversation message, clustered by emotional.</p>
+                    <p className="page-subtitle">Analyze communication habits, identifying emotional triggers, recurring patterns, and message diversity trends.</p>
                 </div>
                 <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    <HoverTooltip content="Select custom date range for overall dashboard">
+                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    </HoverTooltip>
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -73,6 +76,7 @@ const ChatMapDashboardPage = () => {
                         startDate={startDate}
                         endDate={endDate}
                         selectsRange
+                        maxDate={new Date()}
                         className="bg-transparent text-sm font-medium outline-none w-[200px] text-gray-700"
                         dateFormat="dd MMM yyyy"
                         placeholderText="Select Date Range"
@@ -106,10 +110,11 @@ const ChatMapDashboardPage = () => {
 
             {selectedWardId ? (
                 <>
-                    <div className="mt-2 py-4">
-                        <Card extra="p-4">
-                            <EmbeddingVisualizer rawEmbeddings={embeddings} />
-                        </Card>
+                    <div className="mt-2">
+                        <EmbeddingVisualizer rawEmbeddings={embeddings} />
+                    </div>
+                    <div className="mt-3">
+                        <MessagePatternInsights rawEmbeddings={embeddings} />
                     </div>
                 </>
             ) : (

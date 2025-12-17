@@ -1,0 +1,375 @@
+/* Mood Activity Correlation Chart Styles */
+
+.card-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-container:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.card-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 8px 0 0 0;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Chart Wrapper */
+.chart-wrapper {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+/* Color key styles */
+.color-key {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.color-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #eef2ff;
+    padding: 6px 10px;
+    border-radius: 999px;
+    box-shadow: 0 1px 4px rgba(16,24,40,0.04);
+}
+
+.color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.color-item .label {
+    font-size: 12px;
+    color: #111827;
+    font-weight: 700;
+}
+
+/* Axis label styling */
+.recharts-label {
+    font-weight: 700 !important;
+    fill: #000 !important;
+}
+
+/* Y-axis repositioning: center vertically */
+.recharts-yAxis .recharts-label {
+    dominant-baseline: central; /* try to vertically center */
+}
+
+/* Insights Grid */
+.chart-insights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+}
+
+.insight-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    /* color is accepted via CSS variable --activity-color set inline on the card */
+    background: var(--activity-color, linear-gradient(90deg, #3b82f6, #8b5cf6));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.insight-card:hover {
+    background: #ffffff;
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.insight-card:hover::before {
+    transform: scaleX(1);
+}
+
+.insight-card p {
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.insight-card .text-xs {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.insight-card .text-gray-600 {
+    color: #4b5563;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.insight-card .text-sm {
+    color: #1f2937;
+    font-weight: 700;
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+.insight-card .text-gray-500 {
+    color: #6b7280;
+    margin-top: 6px;
+}
+
+.insight-card .text-gray-400 {
+    color: #9ca3af;
+    margin-top: 6px;
+    font-size: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .card-container {
+        padding: 20px;
+    }
+
+    .chart-insights {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+    }
+
+    .insight-card {
+        padding: 12px;
+    }
+
+    .card-title {
+        font-size: 16px;
+    }
+
+    .card-subtitle {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        padding: 16px;
+    }
+
+    .chart-header {
+        flex-direction: column;
+    }
+
+    .chart-insights {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+    }
+
+    .insight-card {
+        padding: 10px;
+    }
+
+    .card-title {
+        font-size: 15px;
+    }
+
+    .insight-card .text-sm {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-container {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .chart-insights {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .insight-card {
+        padding: 8px;
+        border-radius: 6px;
+    }
+
+    .card-title {
+        font-size: 14px;
+    }
+
+    .card-subtitle {
+        display: none;
+    }
+
+    .insight-card .text-xs {
+        font-size: 10px;
+    }
+
+    .insight-card .text-sm {
+        font-size: 13px;
+        margin-top: 6px;
+    }
+}
+
+/* Dark Mode Support (optional) */
+/* @media (prefers-color-scheme: dark) {
+    .card-container {
+        background: #1f2937;
+        border-color: #374151;
+        color: #f3f4f6;
+    }
+
+    .card-title {
+        color: #f3f4f6;
+    }
+
+    .card-subtitle {
+        color: #d1d5db;
+    }
+
+    .chart-wrapper {
+        background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    }
+
+    .insight-card {
+        background: #111827;
+        border-color: #374151;
+    }
+
+    .insight-card:hover {
+        background: #374151;
+        border-color: #4b5563;
+    }
+
+    .insight-card .text-gray-600 {
+        color: #d1d5db;
+    }
+
+    .insight-card .text-sm {
+        color: #f3f4f6;
+    }
+
+    .insight-card .text-gray-500 {
+        color: #9ca3af;
+    }
+} */
+
+/* Recharts Custom Styling */
+.recharts-surface {
+    transition: all 0.3s ease;
+}
+
+/* Remove focus outline when clicking/tapping the chart container */
+.recharts-wrapper:focus,
+.recharts-surface:focus,
+.recharts-wrapper svg:focus,
+.recharts-surface svg:focus {
+    outline: none !important;
+}
+
+/* Prevent SVG from exceeding container width */
+.chart-wrapper svg {
+    max-width: 100%;
+    box-sizing: border-box;
+    display: block;
+}
+
+.recharts-cartesian-axis-tick text {
+    fill: #6b7280;
+    font-size: 12px;
+}
+
+.recharts-legend-wrapper {
+    padding-top: 20px;
+}
+
+.recharts-legend-item-text {
+    color: #1f2937;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Loading and Error States */
+.card-container .flex.justify-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-gray-500 {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.text-red-500 {
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-container {
+    animation: slideIn 0.3s ease-out;
+}
+
+.insight-card {
+    animation: slideIn 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card-container,
+    .insight-card,
+    .card-container:hover,
+    .insight-card:hover {
+        transition: none;
+        transform: none;
+        animation: none;
+    }
+}

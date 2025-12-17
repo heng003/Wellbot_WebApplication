@@ -145,16 +145,6 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
                 <div>
                     <h4 className="text-lg font-bold text-navy-700">Emotional Distribution</h4>
                 </div>
-                {/* {hasData && (
-                    <div className="flex gap-3">
-                        {LABELS.map((label, i) => (
-                            <div key={label} className="flex flex-row items-center gap-1 whitespace-nowrap">
-                                <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: COLORS[i] }}></div>
-                                <span className="text-xs text-gray-600 font-medium">{label}</span>
-                            </div>
-                        ))}
-                    </div>
-                )} */}
             </div>
 
             <div className="min-h-[250px] w-full mt-4">
@@ -182,7 +172,7 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
 
                             {/* Label */}
                             <div className="col-span-7 pl-2 overflow-hidden flex items-center">
-                                <p className="text-md font-normal text-gray-600 truncate leading-8" title={item.label}>
+                                <p className="text-md font-normal text-gray-800 truncate leading-8" title={item.label}>
                                     {item.label}
                                 </p>
                             </div>

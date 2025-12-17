@@ -124,7 +124,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
     return (
         <Card extra={"col-span-1 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
-                <div className="text-xl font-bold text-navy-700">
+                <div className="text-lg font-bold text-navy-700">
                     {isControlled ? "Activity Logs" : "Recent Activities"}
                 </div>
             </div>

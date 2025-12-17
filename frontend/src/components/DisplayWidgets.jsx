@@ -47,7 +47,8 @@ const DisplayWidgets = ({ userId: propUserId }) => {
     }, [emotions]);
 
     return (
-        <div className="dashboard-widget-grid">
+        <div className="dashboard-widget-wrapper">
+            <div className="dashboard-widget-grid">
             {ALL_EMOTIONS.map((label) => {
                 // 2. Find data for this specific emotion
                 const data = emotions?.find((e) => e.emotion_label === label);
@@ -70,11 +71,12 @@ const DisplayWidgets = ({ userId: propUserId }) => {
                         icon={config.icon}
                         title={label}
                         subtitle={count}
-                        percent={rawPercent} // Now sends % of total (e.g., 25.5)
+                        percent={rawPercent} // sends percentage share of today's emotions (e.g., 25.5)
                         gaugeColors={config.colors}
                     />
                 );
             })}
+            </div>
         </div>
     );
 };

@@ -146,7 +146,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
     return (
         <Card extra={"col-span-2 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
-                <div className="text-xl font-bold text-navy-700">
+                <div className="text-lg font-bold text-navy-700">
                     Emotional Logs
                 </div>
             </div>
@@ -164,7 +164,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
                         <p className="text-gray-500 text-center py-4">No records found for this period.</p>
                     </div>
                 ) : (
-                    <div className="max-h-[430px] overflow-y-auto">
+                    <div className="max-h-[330px] overflow-y-auto">
                         <table className="w-full">
                             <thead>
                                 {table.getHeaderGroups().map((headerGroup) => (

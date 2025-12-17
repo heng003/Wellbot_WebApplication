@@ -4,6 +4,7 @@ import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import { useInterventionData, getStartEndDate } from "../../hooks/useInterventionData";
+import HoverTooltip from "../../components/HoverTooltip";
 
 const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
 	const userId = propUserId || getIdFromToken();
@@ -35,7 +36,21 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 	const [chartOptions, setChartOptions] = useState(basePieOptions);
 	const [distribution, setDistribution] = useState([]);
 
-	const COLORS = ["#519AF6", "#69D5C5", "#7E6FEE", "#EA5E8F", "#FF9F68", "#FFD56B", "#A3AED0"];
+	const COLOR_MAP = useMemo(() => ({
+		"Support Chat": "#519AF6",
+		"Journaling": "#69D5C5",
+		"Gratitude": "#EA5E8F",
+		"Meditation with Music": "#FF9F68",
+		"Daily Quote": "#FFD56B"
+	}), []);
+
+	const FIXED_ORDER = useMemo(() => [
+		"Support Chat",
+		"Journaling",
+		"Gratitude",
+		"Meditation with Music",
+		"Daily Quote"
+	], []);
 
 	const formatInputDate = (date, range) => {
 		if (!date) return "";
@@ -88,30 +103,49 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 			}
 		});
 
-		// 3. Build Chart Data (Same as before)
-		const labels = Object.keys(counts);
-		const series = Object.values(counts);
-		const total = series.reduce((a, b) => a + b, 0);
+		const orderedSeries = [];
+		const orderedLabels = [];
+		const orderedColors = [];
 
-		setChartData(series);
+		FIXED_ORDER.forEach(type => {
+			if (counts[type] > 0) {
+				orderedSeries.push(counts[type]);
+				orderedLabels.push(type);
+				orderedColors.push(COLOR_MAP[type]);
+			}
+		});
+
+		// Handle "Unknown" types if any exist (append to end)
+		Object.keys(counts).forEach(type => {
+			if (!FIXED_ORDER.includes(type) && counts[type] > 0) {
+				orderedSeries.push(counts[type]);
+				orderedLabels.push(type);
+				orderedColors.push("#A3AED0"); // Default gray
+			}
+		});
+
+		setChartData(orderedSeries);
 		setChartOptions(prev => ({
 			...prev,
-			labels: labels,
-			colors: COLORS.slice(0, labels.length),
-			fill: { colors: COLORS.slice(0, labels.length) }
+			labels: orderedLabels,
+			colors: orderedColors,
+			fill: { colors: orderedColors }
 		}));
 
-		const distData = labels.map((label, index) => ({
+		const total = orderedSeries.reduce((a, b) => a + b, 0);
+
+		const allPresentKeys = Object.keys(counts);
+
+		const distData = allPresentKeys.map(label => ({
 			label,
 			count: counts[label],
 			percentage: total > 0 ? Math.round((counts[label] / total) * 100) : 0,
-			color: COLORS[index % COLORS.length]
+			color: COLOR_MAP[label] || "#A3AED0"
 		}));
 
+		// Sort descending by count for the list
 		setDistribution(distData.sort((a, b) => b.count - a.count));
-
-		// Add dependencies so it recalculates when date/range changes
-	}, [rawData, referenceDate, timeRange, isControlled, propStartDate, propEndDate]);
+	}, [rawData, referenceDate, timeRange, isControlled, propStartDate, propEndDate, COLOR_MAP, FIXED_ORDER]);
 
 	useEffect(() => {
 		if (showDatePicker) {
@@ -168,23 +202,27 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 
 				{!isControlled && (
 					<div className="mb-6 flex items-center justify-center gap-2">
-						<select
-							value={timeRange}
-							onChange={(e) => setTimeRange(e.target.value)}
-							className="mb-3 flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
-						>
-							<option value="weekly">Weekly</option>
-							<option value="monthly">Monthly</option>
-							<option value="yearly">Yearly</option>
-						</select>
-						<div className="relative mb-3">
-							<button
-								onClick={() => setShowDatePicker(!showDatePicker)}
-								className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100"
-								title={getDateLabel()}
+						<HoverTooltip content="Customize to yearly, monthly, or weekly view">
+							<select
+								value={timeRange}
+								onChange={(e) => setTimeRange(e.target.value)}
+								className="mb-3 flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
 							>
-								<MdOutlineCalendarToday className="h-6 w-6" />
-							</button>
+								<option value="weekly">Weekly</option>
+								<option value="monthly">Monthly</option>
+								<option value="yearly">Yearly</option>
+							</select>
+						</HoverTooltip>
+						<div className="relative mb-3">
+							<HoverTooltip content="Select custom date range">
+								<button
+									onClick={() => setShowDatePicker(!showDatePicker)}
+									className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100"
+									title={getDateLabel()}
+								>
+									<MdOutlineCalendarToday className="h-6 w-6" />
+								</button>
+							</HoverTooltip>
 
 							{/* Date Picker Popover */}
 							{showDatePicker && (
@@ -258,7 +296,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 					<div key={index} className="flex flex-row justify-between items-center mb-2 px-2">
 						<div className="flex items-center">
 							<div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
-							<p className="pl-2 text-sm font-normal text-gray-600 truncate" title={item.label}>
+							<p className="pl-3 text-sm font-normal text-gray-800 truncate" title={item.label}>
 								{item.label}
 							</p>
 						</div>

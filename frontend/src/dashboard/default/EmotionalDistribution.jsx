@@ -3,6 +3,7 @@ import axios from "axios";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import Card from "../card";
 import BarChart from "../charts/BarChart";
+import HoverTooltip from "../../components/HoverTooltip";
 import { getIdFromToken } from "../../utils/auth";
 
 const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
@@ -200,9 +201,11 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 						<button onClick={() => shiftPage("left")} disabled={!canPageLeft} className={`px-2 py-1 rounded ${canPageLeft ? "bg-gray-200 hover:bg-gray-100" : "bg-gray-100 opacity-50"}`}>◀</button>
 						<button onClick={() => shiftPage("right")} disabled={!canPageRight} className={`px-2 py-1 rounded ${canPageRight ? "bg-gray-200 hover:bg-gray-100mo" : "bg-gray-100 opacity-50"}`}>▶</button>
 						<div className="relative">
-							<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
-								<MdOutlineCalendarToday className="h-6 w-6" />
-							</button>
+							<HoverTooltip content="Select custom date range">
+								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
+									<MdOutlineCalendarToday className="h-6 w-6" />
+								</button>
+							</HoverTooltip>
 							{showDatePicker && (
 								<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
 									<p className="font-semibold mb-2">Date Range</p>
@@ -245,13 +248,13 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 			</div>
 
 			<div className="md:mt-10 lg:mt-0">
-				<div className="h-[250px] w-full xl:h-[300px]">
-				{loading ? (
+				<div className="min-h-[250px] w-full">
+					{loading ? (
 						<div className="flex h-full items-center justify-center">
 							<p className="text-gray-400 animate-pulse">Loading data...</p>
 						</div>
 					) : hasData ? (
-						<BarChart chartData={series} chartOptions={chartOptions} />
+						<BarChart chartData={series} chartOptions={chartOptions} height={"300px"} />
 					) : (
 						<div className="flex h-full items-center justify-center rounded-lg">
 							<p className="text-gray-400">No data available for this period</p>

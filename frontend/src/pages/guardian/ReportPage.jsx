@@ -27,6 +27,7 @@ import ReportLineChartCard from "../../dashboard/report/ReportLineChartCard";
 // Hooks for raw data (Tables)
 import { useInterventionData } from "../../hooks/useInterventionData";
 import { useEmotionalLogs } from "../../hooks/useEmotionalLogs";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 
 const ReportPage = () => {
     const location = useLocation();
@@ -52,11 +53,13 @@ const ReportPage = () => {
 
     // PDF Options
     const [pdfConfig, setPdfConfig] = useState({
+        widgets: true,
         score: true,
         dist: true,
         activity: true,
         emotionalTable: true,
-        activityTable: true
+        activityTable: true,
+        mood: true
     });
 
     // CSV Options
@@ -64,6 +67,9 @@ const ReportPage = () => {
         emotionalLogs: true,
         activityLogs: true
     });
+
+    // Mood-Activity Insights from chart
+    const [moodActivityInsights, setMoodActivityInsights] = useState(null);
 
     // --- 2. DATE LOGIC ---
     const { startDate, endDate } = useMemo(() => {
@@ -187,12 +193,13 @@ const ReportPage = () => {
                 const scoreChart = pdfConfig.score ? await capture("report-score-chart") : null;
                 const distChart = pdfConfig.dist ? await capture("report-dist-chart") : null;
                 const pieChart = pdfConfig.activity ? await capture("report-pie-chart") : null;
+                const moodChart = pdfConfig.mood ? await capture("report-mood-chart") : null;
 
-                const images = { widgets, scoreChart, distChart, pieChart };
+                const images = { widgets, scoreChart, distChart, pieChart, moodChart };
                 const finalEmoLogs = pdfConfig.emotionalTable ? emotionalLogs : [];
                 const finalActLogs = pdfConfig.activityTable ? activityLogs : [];
 
-                generatePDFReport(getCurrentUserName(), images, finalEmoLogs, finalActLogs);
+                generatePDFReport(getCurrentUserName(), images, finalEmoLogs, finalActLogs, moodActivityInsights);
 
                 Swal.fire({
                     title: 'Success!',
@@ -334,6 +341,10 @@ const ReportPage = () => {
                                         <span className="text-navy-700">Activity Logs Table</span>
                                         {pdfConfig.activityTable ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
                                     </div>
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
+                                        <span className="text-navy-700">Activity Mood Correlation</span>
+                                        {pdfConfig.mood ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
+                                    </div>
                                 </div>
                             ) : (
                                 <div className="space-y-5 text-sm">
@@ -395,9 +406,9 @@ const ReportPage = () => {
                             </div>
                         </div>
                     </Card>
-                    <Card extra="p-2 pb-4 h-fit">
+                    <Card extra={!pdfConfig.widgets || fileFormat === 'csv' ? "p-2 pb-4 h-fit opacity-40 grayscale" : "p-2 pb-4 h-fit"}>
                         <h4 className="p-4 text-lg font-bold text-navy-700">Emotion Summary</h4>
-                        <div id="report-widgets" >
+                        <div id="report-widgets" className="pb-2">
                             <ReportDisplayWidgets userId={selectedWardId} startDate={startDate} endDate={endDate} />
                         </div>
                     </Card>
@@ -421,6 +432,14 @@ const ReportPage = () => {
                         startDate={startDate}
                         endDate={endDate}
                         bucketType={reportType === 'year' ? 'month' : 'day'}
+                    />
+                </div>
+                <div id="report-mood-chart" className={!pdfConfig.mood || fileFormat === 'csv' ? "opacity-40 grayscale" : ""}>
+                    <MoodActivityCorrelation
+                        userId={selectedWardId}
+                        startDate={startDate}
+                        endDate={endDate}
+                        onInsightsChange={setMoodActivityInsights}
                     />
                 </div>
             </div>

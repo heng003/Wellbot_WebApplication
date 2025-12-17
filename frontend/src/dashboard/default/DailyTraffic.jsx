@@ -4,6 +4,7 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
 import { useInterventionData, formatLocalDate, getStartEndDate } from "../../hooks/useInterventionData";
+import HoverTooltip from "../../components/HoverTooltip";
 
 const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
 	const userId = propUserId || getIdFromToken();
@@ -89,7 +90,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 				axisTicks: { show: false }
 			},
 			yaxis: { show: false },
-			grid: { show: false },
+			grid: { show: false, padding: { left: 20, right: 20 } },
 			fill: {
 				type: "gradient",
 				gradient: {
@@ -149,19 +150,23 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 				{/* Hide Controls if Controlled */}
 				{!isControlled && (
 					<div className="mb-6 flex items-center justify-center pb-10 gap-2">
-						<select
-							value={timeRange}
-							onChange={(e) => setTimeRange(e.target.value)}
-							className="mb-3 flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
-						>
-							<option value="weekly">Weekly</option>
-							<option value="monthly">Monthly</option>
-							<option value="yearly">Yearly</option>
-						</select>
+						<HoverTooltip content="Customize to montly or weekly view">
+							<select
+								value={timeRange}
+								onChange={(e) => setTimeRange(e.target.value)}
+								className="mb-3 flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
+							>
+								<option value="weekly">Weekly</option>
+								<option value="monthly">Monthly</option>
+								{/* <option value="yearly">Yearly</option> */}
+							</select>
+						</HoverTooltip>
 						<div className="relative mb-3">
-							<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
-								<MdOutlineCalendarToday className="h-6 w-6" />
-							</button>
+							<HoverTooltip content="Select custom date range">
+								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
+									<MdOutlineCalendarToday className="h-6 w-6" />
+								</button>
+							</HoverTooltip>
 							{/* Date Picker Popover */}
 							{showDatePicker && (
 								<div className="absolute right-0 top-10 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[220px] text-sm">

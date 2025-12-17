@@ -46,6 +46,7 @@ const ReportPage = () => {
 
     // PDF Options
     const [pdfConfig, setPdfConfig] = useState({
+        widgets: true,
         score: true,
         dist: true,
         activity: true,
@@ -343,9 +344,9 @@ const ReportPage = () => {
                             </div>
                         </div>
                     </Card>
-                    <Card extra="p-2 pb-4 h-fit">
+                    <Card extra={!pdfConfig.widgets || fileFormat === 'csv' ? "p-2 pb-4 h-fit opacity-40 grayscale" : "p-2 pb-4 h-fit"}>
                         <h4 className="p-4 text-lg font-bold text-navy-700">Emotion Summary</h4>
-                        <div id="report-widgets" >
+                        <div id="report-widgets" className="pb-2">
                             <ReportDisplayWidgets userId={userId} startDate={startDate} endDate={endDate} />
                         </div>
                     </Card>

@@ -1,9 +1,11 @@
+import HoverTooltip from "../../components/HoverTooltip";
 import GaugeIcon from "../../icons/GuageIcon";
 import Card from "../card";
 
 const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 	return (
 		<Card extra="!flex-row flex-grow items-center rounded-[20px]">
+
 			<div className="w-full flex justify-between items-center" style={{ paddingInline: "2em", paddingBlock: "0.5em" }}>
 				<div className="flex items-center">
 					<div className="flex h-[90px] w-auto flex-row items-center">
@@ -23,15 +25,17 @@ const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 					</div>
 				</div>
 				{percent !== undefined && (
-					<div className="ml-8 flex items-end justify-center gap-4">
-						<p className="text-sm font-bold text-gray-700">{`${Math.ceil(Number(percent) || 0)}%`}</p>
-						<GaugeIcon
-							percent={percent}
-							color1={gaugeColors?.[0]}
-							color2={gaugeColors?.[1]}
-							color3={gaugeColors?.[2]}
-						/>
-					</div>
+					<HoverTooltip content="Percentage share of total emotions counted">
+						<div className="ml-8 flex flex-col items-center justify-center gap-1">
+							<p className="text-sm font-bold text-gray-700">{`${(Number(percent) || 0).toFixed(1)}%`}</p>
+							<GaugeIcon
+								percent={percent}
+								color1={gaugeColors?.[0]}
+								color2={gaugeColors?.[1]}
+								color3={gaugeColors?.[2]}
+							/>
+						</div>
+					</HoverTooltip>
 				)}
 			</div>
 		</Card>

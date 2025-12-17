@@ -3,11 +3,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import PieChartCard from "../../dashboard/default/PieChartCard";
-
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
-
 import DisplayWidgets from "../../components/DisplayWidgets"
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
+import InfoTooltip from "../../components/InfoTooltip";
+import HoverTooltip from "../../components/HoverTooltip";
+import Card from "../../dashboard/card";
 
 import '../../styles/dashboardPage.css';
 
@@ -24,9 +26,23 @@ const MainDashboardPage = () => {
 				</p>
 			</div>
 
-			<div className="dashboard-flex-row">
+			<div>
+				{/* <div className="flex justify-between pl-4">
+					<HoverTooltip content="Overview of today's emotions">
+						<h4 className="text-lg font-bold text-navy-700">Today Emotions</h4>
+					</HoverTooltip>
+					<InfoTooltip
+						placement="top-right"
+						content={
+							<span>
+								Summary of today's emotion counts<br />
+								<span className="font-bold">Note:</span> Percentages are based on total emotion logs.
+							</span>
+						}
+					/>
+				</div> */}
+				<h4 className="pl-4 text-lg font-bold text-navy-700">Today's Emotion Count</h4>
 				<DisplayWidgets />
-				{/* <TodayEmotionWordCloud /> */}
 			</div>
 
 			{/* Charts */}
@@ -46,6 +62,10 @@ const MainDashboardPage = () => {
 				<DailyTraffic />
 
 				<PieChartCard />
+			</div>
+
+			<div className="mt-3">
+				<MoodActivityCorrelation />
 			</div>
 		</div>
 	);

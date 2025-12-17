@@ -7,10 +7,10 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalTable from "../../dashboard/default/EmotionalTable";
-// import ComplexTable from "../default/components/ComplexTable"; 
+import HoverTooltip from "../../components/HoverTooltip";
 
 const EmotionalDashboardPage = () => {
-    // Default to the last 30 days
+    // Default to the last 15 days
     const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
 
@@ -22,7 +22,9 @@ const EmotionalDashboardPage = () => {
                     <p className="page-subtitle">Track and analyze your emotional patterns</p>
                 </div>
                 <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    <HoverTooltip content="Select custom date range for overall dashboard">
+                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    </HoverTooltip>
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -50,7 +52,7 @@ const EmotionalDashboardPage = () => {
             <div className="grid grid-cols-1 gap-3 mt-3">
                 <EmotionalTable startDate={startDate} endDate={endDate} />
             </div>
-        </div>
+        </div >
     );
 };
 

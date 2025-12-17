@@ -7,6 +7,8 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import PieChartCard from "../../dashboard/default/PieChartCard";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
+import HoverTooltip from "../../components/HoverTooltip";
 
 const ActivityDashboardPage = () => {
     // Default to the last 30 days
@@ -21,7 +23,9 @@ const ActivityDashboardPage = () => {
                     <p className="page-subtitle">Explore how your daily activities and moods evolve</p>
                 </div>
                 <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    <HoverTooltip content="Select custom date range for overall dashboard">
+                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
+                    </HoverTooltip>
                     <DatePicker
                         selected={startDate}
                         onChange={(dates) => {
@@ -48,6 +52,10 @@ const ActivityDashboardPage = () => {
             {/* Bottom Row: Full Table */}
             <div className="grid grid-cols-1">
                 <RecentActivitiesTable startDate={startDate} endDate={endDate} />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 mt-3">
+                <MoodActivityCorrelation startDate={startDate} endDate={endDate} />
             </div>
         </div>
     );

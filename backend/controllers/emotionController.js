@@ -135,3 +135,32 @@ exports.getEmotionalLogs = async (req, res) => {
         return res.status(500).json({ error: "Server Error" });
     }
 };
+
+exports.getMoodActivityCorrelation = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { startDate, endDate } = req.query;
+
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is required" });
+        }
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({ error: "startDate and endDate are required" });
+        }
+
+        const startISO = `${startDate}T00:00:00.000Z`;
+        const endISO = `${endDate}T23:59:59.999Z`;
+
+        const correlation = await Emotion.getMoodActivityCorrelation(
+            userId,
+            startISO,
+            endISO
+        );
+
+        return res.status(200).json({ correlation });
+    } catch (err) {
+        console.error("Error fetching mood-activity correlation:", err);
+        return res.status(500).json({ error: err.message || "Server Error" });
+    }
+};

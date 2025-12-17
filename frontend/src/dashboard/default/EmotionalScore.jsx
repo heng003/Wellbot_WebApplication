@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { getIdFromToken } from "../../utils/auth";
 import {
-	MdArrowDropUp,
-	MdArrowDropDown,
 	MdOutlineCalendarToday,
 	MdBarChart,
 } from "react-icons/md";
 import Card from "../card";
 import LineChart from "../charts/LineChart";
+import HoverTooltip from "../../components/HoverTooltip";
 import { useEmotionalScore } from "../../hooks/useEmotionalScore";
 
 const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
@@ -66,8 +65,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		const startMs = dateRange.start.getTime();
 		const endMs = dateRange.end.getTime();
 		const windowMs = endMs - startMs;
-		// Default to 1 day if window is 0
-		const shiftMs = windowMs || 86400000;
+		const shiftMs = windowMs || 86400000; // Default to 1 day
 
 		let newStart = new Date(startMs + (direction === "left" ? -shiftMs : shiftMs));
 		let newEnd = new Date(endMs + (direction === "left" ? -shiftMs : shiftMs));
@@ -89,7 +87,6 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	const canShiftRight = useMemo(() => {
 		if (!dateRange.end) return false;
 		const now = new Date();
-		// Allow shifting right if end date is not today (with small buffer)
 		return dateRange.end.getTime() < (now.getTime() - 60000);
 	}, [dateRange.end]);
 
@@ -116,22 +113,26 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		// Map ISO dates to readable labels
 		const categories = dailyData.map((d) => formatTimeLabel(d.date, bucketType));
 
-		// Map scores (JSON has avgScore & avgConfidence)
-		const series = [
-			{
-				name: "Mood Score",
-				data: dailyData.map((d) => Math.round(Number(d.avgScore) || 0)),
-				color: "#4318FF"
-			},
-			{
-				name: "Confidence",
-				// Confidence is usually 0.0-1.0, convert to percentage for chart visibility
-				data: dailyData.map((d) => Math.round((Number(d.avgConfidence) || 0) * 100)),
-				color: "#6AD2FF"
-			},
-		];
+		// Define Base Series
+		const moodSeries = {
+			name: "Mood Score",
+			data: dailyData.map((d) => Math.round(Number(d.avgScore) || 0)),
+			color: "#4318FF"
+		};
+
+		const confidenceSeries = {
+			name: "Confidence",
+			data: dailyData.map((d) => Math.round((Number(d.avgConfidence) || 0) * 100)),
+			color: "#6AD2FF"
+		};
+
+		// CONDITIONAL LOGIC:
+		// If propUserId is provided (Guardian View), show both.
+		// If propUserId is missing (User View), show only Mood Score.
+		const series = propUserId ? [moodSeries, confidenceSeries] : [moodSeries];
+
 		return { categories, series };
-	}, [trendData, bucketType]);
+	}, [trendData, bucketType, propUserId]); // Added propUserId dependency
 
 	// Chart Configuration
 	const options = useMemo(() => ({
@@ -148,7 +149,6 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 			theme: 'light',
 			x: {
 				formatter: (val, { dataPointIndex }) => {
-					// Show full date in tooltip
 					if (trendData?.dailyData && trendData.dailyData[dataPointIndex]) {
 						const d = new Date(trendData.dailyData[dataPointIndex].date);
 						return d.toLocaleString("en-GB", {
@@ -161,7 +161,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				}
 			}
 		},
-		grid: { show: true, padding: { left: 30, right: 30 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
+		grid: { show: false, padding: { left: 30, right: 30 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
 		xaxis: {
 			categories: chartData.categories,
 			labels: { rotate: -45, style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
@@ -176,7 +176,6 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		if (customStart && customEnd) {
 			setDateRange({ start: customStart, end: customEnd });
 		}
-
 		setShowDatePicker(false);
 	};
 
@@ -187,7 +186,6 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 
 	const hasData = useMemo(() => {
 		if (!trendData?.dailyData || trendData.dailyData.length === 0) return false;
-		// Check if there is at least one valid data point
 		return trendData.dailyData.some(d => d.avgScore !== null || d.count > 0);
 	}, [trendData]);
 
@@ -197,22 +195,24 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 			<div className="flex justify-between items-center px-3">
 				{!isControlled ? (
 					<div className="relative">
-						<button
-							onClick={() => setShowDatePicker(!showDatePicker)}
-							className="linear mt-1 flex items-center justify-center gap-2 mb-2 rounded-lg bg-lightPrimary p-2 text-gray-600 transition duration-200 hover:cursor-pointer hover:bg-gray-100 active:bg-gray-200"
-						>
-							<MdOutlineCalendarToday />
-							<span className="text-sm font-medium text-gray-600">
-								{timeRange === "thisMonth" && "This Month"}
-								{timeRange === "custom" && "Custom Range"}
-							</span>
-						</button>
+						<HoverTooltip content="Select custom date range">
+							<button
+								onClick={() => setShowDatePicker(!showDatePicker)}
+								className="linear mt-1 flex items-center justify-center gap-2 mb-2 rounded-lg bg-lightPrimary p-2 text-gray-600 transition duration-200 hover:cursor-pointer hover:bg-gray-100 active:bg-gray-200"
+							>
+								<MdOutlineCalendarToday />
+								<span className="text-sm font-medium text-gray-600">
+									{timeRange === "thisMonth" && "This Month"}
+									{timeRange === "custom" && "Custom Range"}
+								</span>
+							</button>
+						</HoverTooltip>
 						{showDatePicker && (
-							<div className="absolute left-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
+							<div className="absolute left-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm">
 								<p className="font-semibold mb-2">Date Range</p>
-								<div>
+								<div style={{ textAlign: "left" }}>
 									<div className="flex flex-col justify-content-start">
-										<label className="text-xs text-gray-500">From</label>
+										<label className="text-xxs text-gray-500">From:</label>
 										<input
 											type="date"
 											value={customStart ? customStart.toISOString().split("T")[0] : ""}
@@ -222,7 +222,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 										/>
 									</div>
 									<div className="flex flex-col justify-content-start">
-										<label className="text-xs text-gray-500">To</label>
+										<label className="text-xxs text-gray-500">To:</label>
 										<input
 											type="date"
 											value={customEnd ? customEnd.toISOString().split("T")[0] : ""}
@@ -247,15 +247,17 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				)}
 
 				<div className="relative">
-					<button
-						onClick={() => setShowRangePicker(!showRangePicker)}
-						className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 !transition !duration-200 hover:bg-gray-100 active:bg-gray-200"
-					>
-						<MdBarChart className="h-6 w-6" />
-					</button>
+					<HoverTooltip content="Customize the chart by selecting desired data interval">
+						<button
+							onClick={() => setShowRangePicker(!showRangePicker)}
+							className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 !transition !duration-200 hover:bg-gray-100 active:bg-gray-200"
+						>
+							<MdBarChart className="h-6 w-6" />
+						</button>
+					</HoverTooltip>
 					{showRangePicker && (
-						<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-2 z-10 text-black min-w-[150px]">
-							<p className="text-xs text-gray-500 mb-1 px-2">Data Interval</p>
+						<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[160px] text-sm">
+							<p className="px-2 font-semibold mb-2">Data Interval</p>
 							{["30min", "hour", "2hour", "day"].map((bucket) => (
 								<button
 									key={bucket}
@@ -275,29 +277,14 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				{/* Statistics Row */}
 				{hasData && (
 					<div className="flex flex-row justify-between items-start mb-4">
-						<div className="flex flex-col items-start">
-							<p className="text-sm text-gray-600">Current Score</p>
-							<p className="text-3xl font-bold text-navy-700">
-								{loading ? "..." : `${Math.round(trendData?.currentScore || 0)}`}
-							</p>
-							<div className="flex flex-row items-center justify-center mt-1">
-								{trendData?.trendDirection === "up" && (
-									<>
-										<MdArrowDropUp className="font-medium text-green-500" />
-										<p className="text-sm font-bold text-green-500">+{trendData.trendPercentage}%</p>
-									</>
-								)}
-								{trendData?.trendDirection === "down" && (
-									<>
-										<MdArrowDropDown className="font-medium text-red-500" />
-										<p className="text-sm font-bold text-red-500">{trendData.trendPercentage}%</p>
-									</>
-								)}
-								{trendData?.trendDirection === "stable" && (
-									<p className="text-sm font-bold text-gray-500">No change</p>
-								)}
+						<HoverTooltip content="Latest mood analyzed">
+							<div className="flex flex-col items-start">
+								<p className="text-sm text-gray-600">Current Score</p>
+								<p className="text-3xl font-bold text-navy-700">
+									{loading ? "..." : `${Math.round(trendData?.currentScore || 0)}%`}
+								</p>
 							</div>
-						</div>
+						</HoverTooltip>
 
 						{!isControlled && (
 							<div className="flex items-center gap-1">

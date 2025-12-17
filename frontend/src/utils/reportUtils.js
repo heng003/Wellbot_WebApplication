@@ -26,6 +26,44 @@ export const computePCA = (vectors) => {
     });
 };
 
+// --- INSIGHTS COMPUTATION ---
+
+/**
+ * Compute mood-activity correlation insights from chart data
+ * @param {Array} correlationData - Array of {name, avgMoodScore, moodChange, activityCount}
+ * @returns {Object} Summary object with insights
+ */
+export const computeMoodActivityInsights = (correlationData) => {
+    if (!correlationData || correlationData.length === 0) return null;
+
+    const byAvg = [...correlationData].sort((a, b) => b.avgMoodScore - a.avgMoodScore);
+    const byChange = [...correlationData].sort((a, b) => b.moodChange - a.moodChange);
+    const byCount = [...correlationData].sort((a, b) => b.activityCount - a.activityCount);
+
+    const topLiked = byAvg[0];
+    const topDuringNegative = byAvg[byAvg.length - 1];
+    const topImprover = byChange[0];
+    const topWorse = byChange[byChange.length - 1];
+    const mostFrequent = byCount[0];
+
+    const totalActivities = correlationData.length;
+    const totalEngagements = correlationData.reduce((sum, d) => sum + (d.activityCount || 0), 0);
+    const avgEngagementPerActivity = totalEngagements > 0 ? Math.round(totalEngagements / totalActivities) : 0;
+    const avgMoodOverall = Math.round(correlationData.reduce((sum, d) => sum + (d.avgMoodScore || 0), 0) / totalActivities);
+
+    return {
+        topLiked,
+        topDuringNegative,
+        topImprover,
+        topWorse,
+        mostFrequent,
+        totalActivities,
+        totalEngagements,
+        avgEngagementPerActivity,
+        avgMoodOverall
+    };
+};
+
 // --- REPORT GENERATION ---
 
 export const generateCSV = (data, filename = "report.csv") => {
@@ -42,12 +80,13 @@ export const generateCSV = (data, filename = "report.csv") => {
 
 /**
  * Generates a PDF report with charts (images) and data tables.
- * * @param {string} userName - Name of the user
- * @param {Object} images - { scoreChart: string(base64), distChart: string(base64), pieChart: string(base64) }
+ * @param {string} userName - Name of the user
+ * @param {Object} images - { scoreChart, distChart, pieChart, moodChart, etc. }
  * @param {Array} emotionalLogs - Array of emotional log objects
  * @param {Array} activityLogs - Array of activity log objects
+ * @param {Object} moodActivityInsights - Optional quick insights from mood-activity correlation
  */
-export const generatePDFReport = (userName, images, emotionalLogs, activityLogs) => {
+export const generatePDFReport = (userName, images, emotionalLogs, activityLogs, moodActivityInsights = null) => {
     const doc = new jsPDF();
 
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -122,13 +161,6 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs)
         yPos += h + 25;
     };
 
-    // Add charts sequentially
-    if (images.pieChart) addChartToPdf(images.pieChart);
-    if (images.widgets) addTitle("Emotion Summary");
-    if (images.widgets) addChartToPdf(images.widgets);
-    if (images.scoreChart) addChartToPdf(images.scoreChart);
-    if (images.distChart) addChartToPdf(images.distChart);
-
     // Helper for Table Page Breaks
     const checkPageBreak = (neededSpace = 30) => {
         if (yPos + neededSpace > 280) {
@@ -136,6 +168,85 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs)
             yPos = 20;
         }
     };
+
+    // Add charts sequentially
+    if (images.pieChart) addChartToPdf(images.pieChart);
+    if (images.widgets) addTitle("Emotion Summary");
+    if (images.widgets) addChartToPdf(images.widgets);
+    if (images.scoreChart) addChartToPdf(images.scoreChart);
+    if (images.distChart) addChartToPdf(images.distChart);
+    if (images.moodChart) addChartToPdf(images.moodChart);
+
+    // --- MOOD-ACTIVITY INSIGHTS SECTION ---
+    if (moodActivityInsights) {
+        const yPosBefore = yPos;
+        checkPageBreak(50);
+        const pageBreakHappened = yPos !== yPosBefore;
+
+        // Add spacing before insights only if no page break
+        if (!pageBreakHappened) {
+            yPos -= 15;
+        }
+
+        doc.setFontSize(12);
+        doc.setTextColor(...primaryColor);
+        doc.text("Quick Insights", margin, yPos);
+        yPos += 8;
+
+        let boxY = yPos;
+
+        // Positive engagement
+        if (moodActivityInsights.topLiked) {
+            doc.setFontSize(9);
+            doc.setTextColor(...primaryColor);
+            doc.text("• When you feel positive:", margin, boxY);
+            boxY += 4;
+            doc.setFontSize(8);
+            doc.setTextColor(...secondaryColor);
+            doc.text(`You engage with ${moodActivityInsights.topLiked.name} (${moodActivityInsights.topLiked.avgMoodScore}% avg)`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
+            boxY += 6;
+        }
+
+        // Mood booster
+        if (moodActivityInsights.topImprover) {
+            doc.setFontSize(9);
+            doc.setTextColor(...primaryColor);
+            doc.text("• Mood booster:", margin, boxY);
+            boxY += 4;
+            doc.setFontSize(8);
+            doc.setTextColor(...secondaryColor);
+            doc.text(`${moodActivityInsights.topImprover.name} increases mood +${moodActivityInsights.topImprover.moodChange}`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
+            boxY += 6;
+        }
+
+        // Consider limiting
+        if (moodActivityInsights.topWorse && moodActivityInsights.topWorse.moodChange < 0) {
+            doc.setFontSize(9);
+            doc.setTextColor(...primaryColor);
+            doc.text("• Consider limiting:", margin, boxY);
+            boxY += 4;
+            doc.setFontSize(8);
+            doc.setTextColor(...secondaryColor);
+            doc.text(`${moodActivityInsights.topWorse.name} may lower mood ${moodActivityInsights.topWorse.moodChange}`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
+            boxY += 6;
+        }
+        // Stats
+        boxY += 2;
+        doc.setFontSize(8);
+        doc.setTextColor(...secondaryColor);
+        const statsLines = [
+            `Total Engagements: ${moodActivityInsights.totalEngagements}`,
+            `Avg Frequency: ${moodActivityInsights.avgEngagementPerActivity} per activity`,
+            `Overall Mood: ${moodActivityInsights.avgMoodOverall}%`,
+            `Activities Tracked: ${moodActivityInsights.totalActivities}`
+        ];
+        statsLines.forEach((line, i) => {
+            doc.text(line, margin, boxY);
+            boxY += 3;
+        });
+
+        yPos = boxY + 25;
+    }
 
     // --- EMOTIONAL LOGS TABLE ---
     if (emotionalLogs && emotionalLogs.length > 0) {
