@@ -40,7 +40,7 @@ const ActivityDashboardPage = () => {
             </div>
 
             {/* Top Row: Charts */}
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mb-3">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3 mb-3">
                 <DailyTraffic startDate={startDate} endDate={endDate} />
                 <PieChartCard startDate={startDate} endDate={endDate} />
             </div>

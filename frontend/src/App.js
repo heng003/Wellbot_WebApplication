@@ -1,4 +1,5 @@
 import "./App.css";
+import { useEffect } from "react";
 import {
 	Route,
 	Routes,
@@ -41,6 +42,10 @@ function App() {
 
 	const showSidebar = useShowSidebar();
 	const location = useLocation();
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
 
 	return (
 		<>

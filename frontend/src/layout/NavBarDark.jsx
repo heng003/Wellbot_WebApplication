@@ -9,6 +9,10 @@ const NavBarDark = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
+    useEffect(() => {
         const determineActiveItem = () => {
             const path = location.pathname;
             if (path.includes("registerRole")) {

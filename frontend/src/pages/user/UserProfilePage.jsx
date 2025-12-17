@@ -507,10 +507,8 @@ const UserProfilePage = () => {
                             { label: "Converse with Context Awareness", value: "converse", subtitle: "Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply" },
                             { label: "Voice and Image Journaling", value: "journaling", subtitle: "Record your thoughts by speaking and taking an images, making emotional expression easier and more personal without needing to type" },
                             { label: "Meditation with Calming Music", value: "music", subtitle: "Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance" },
-                            { label: "Guided Breathing Exercise", value: "breathing", subtitle: "Follow step-by-step breathing patterns designed to calm your body and mind, easing anxiety and restoring focus" },
                             { label: "Make a Gratitude List", value: "gratitude", subtitle: "List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation" },
                             { label: "Spiritual Quote of the Day", value: "quote", subtitle: "Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day" },
-                            { label: "Plan the Day", value: "plan", subtitle: "Organize your thoughts by creating a quick to-do list, helping you regain a sense of control and structure" },
                         ].map(pref => (
                             <div className="profile-card-content profile-card-row-between" key={pref.value}>
                                 <div className="d-flex flex-column">

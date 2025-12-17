@@ -119,7 +119,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		// Map scores (JSON has avgScore & avgConfidence)
 		const series = [
 			{
-				name: "Emotional Score",
+				name: "Mood Score",
 				data: dailyData.map((d) => Math.round(Number(d.avgScore) || 0)),
 				color: "#4318FF"
 			},
@@ -243,7 +243,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						)}
 					</div>
 				) : (
-					<h2 className="text-lg font-bold text-navy-700">Emotional Score</h2>
+					<h2 className="text-lg font-bold text-navy-700">Mood Score</h2>
 				)}
 
 				<div className="relative">
