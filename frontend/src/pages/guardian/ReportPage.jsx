@@ -15,7 +15,7 @@ import {
 import Swal from 'sweetalert2';
 
 // Services & Auth
-import { fetchActiveWards } from "../../services/guardianDashboardService";
+import { fetchActiveWards, fetchUserEmbeddings } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
 
 // Chart Components
@@ -23,11 +23,12 @@ import ReportDisplayWidgets from "../../dashboard/report/ReportDisplayWidgets";
 import ReportPieChartCard from "../../dashboard/report/ReportPieChartCard";
 import ReportBarChartCard from "../../dashboard/report/ReportBarChartCard";
 import ReportLineChartCard from "../../dashboard/report/ReportLineChartCard";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
+import MessagePatternInsights from "../../components/MessagePatternInsights";
 
 // Hooks for raw data (Tables)
 import { useInterventionData } from "../../hooks/useInterventionData";
 import { useEmotionalLogs } from "../../hooks/useEmotionalLogs";
-import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 
 const ReportPage = () => {
     const location = useLocation();
@@ -51,15 +52,18 @@ const ReportPage = () => {
     // Loading State
     const [isGenerating, setIsGenerating] = useState(false);
 
+    const [messageInsightsData, setMessageInsightsData] = useState(null);
+
     // PDF Options
     const [pdfConfig, setPdfConfig] = useState({
         widgets: true,
         score: true,
         dist: true,
         activity: true,
+        mood: true,
+        messages: true,
         emotionalTable: true,
-        activityTable: true,
-        mood: true
+        activityTable: true
     });
 
     // CSV Options
@@ -70,6 +74,7 @@ const ReportPage = () => {
 
     // Mood-Activity Insights from chart
     const [moodActivityInsights, setMoodActivityInsights] = useState(null);
+    const [embeddings, setEmbeddings] = useState([]);
 
     // --- 2. DATE LOGIC ---
     const { startDate, endDate } = useMemo(() => {
@@ -112,6 +117,20 @@ const ReportPage = () => {
         };
         loadWards();
     }, [guardianId, selectedWardId]);
+
+    // Fetch Embeddings for Message Insights
+    useEffect(() => {
+        if (!pdfConfig.messages || !selectedWardId) return;
+        const loadEmbeddings = async () => {
+            try {
+                const data = await fetchUserEmbeddings(selectedWardId, startDate, endDate);
+                setEmbeddings(data || []);
+            } catch (error) {
+                console.error("Failed to fetch embeddings", error);
+            }
+        };
+        loadEmbeddings();
+    }, [pdfConfig.messages, selectedWardId, startDate, endDate]);
 
     // Stable hooks arguments
     const hookRefDate = useMemo(() => new Date(), []);
@@ -196,10 +215,19 @@ const ReportPage = () => {
                 const moodChart = pdfConfig.mood ? await capture("report-mood-chart") : null;
 
                 const images = { widgets, scoreChart, distChart, pieChart, moodChart };
+                const finalMsgInsights = pdfConfig.messages ? messageInsightsData : null;
                 const finalEmoLogs = pdfConfig.emotionalTable ? emotionalLogs : [];
                 const finalActLogs = pdfConfig.activityTable ? activityLogs : [];
 
-                generatePDFReport(getCurrentUserName(), images, finalEmoLogs, finalActLogs, moodActivityInsights);
+                generatePDFReport(
+                    getCurrentUserName(),
+                    images,
+                    moodActivityInsights,
+                    finalMsgInsights,
+                    finalEmoLogs,
+                    finalActLogs,
+                    { start: startDate, end: endDate }
+                );
 
                 Swal.fire({
                     title: 'Success!',
@@ -333,6 +361,14 @@ const ReportPage = () => {
                                         <span className="text-navy-700">Distribution Chart</span>
                                         {pdfConfig.dist ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
                                     </div>
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
+                                        <span className="text-navy-700">Activity Mood Correlation</span>
+                                        {pdfConfig.mood ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
+                                    </div>
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('messages')}>
+                                        <span>Message Patterns</span>
+                                        {pdfConfig.messages ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                    </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('emotionalTable')}>
                                         <span className="text-navy-700">Emotional Logs Table</span>
                                         {pdfConfig.emotionalTable ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
@@ -340,10 +376,6 @@ const ReportPage = () => {
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activityTable')}>
                                         <span className="text-navy-700">Activity Logs Table</span>
                                         {pdfConfig.activityTable ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
-                                    </div>
-                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
-                                        <span className="text-navy-700">Activity Mood Correlation</span>
-                                        {pdfConfig.mood ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-500" />}
                                     </div>
                                 </div>
                             ) : (
@@ -394,6 +426,10 @@ const ReportPage = () => {
                                 </span>
                             </div>
                             <div className="flex justify-between border-b pb-2">
+                                <span>Total Messages</span><
+                                    span className="font-bold text-navy-700">{messageInsightsData?.totalMessages || 0}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
                                 <span>Total Activities</span>
                                 <span className="font-bold text-navy-700">{activityLogs?.length || 0}</span>
                             </div>
@@ -441,6 +477,9 @@ const ReportPage = () => {
                         endDate={endDate}
                         onInsightsChange={setMoodActivityInsights}
                     />
+                </div>
+                <div className={!pdfConfig.messages || fileFormat === 'csv' ? "opacity-40 grayscale" : ""}>
+                    <MessagePatternInsights rawEmbeddings={embeddings} onInsightsCalculated={setMessageInsightsData} />
                 </div>
             </div>
         </div>

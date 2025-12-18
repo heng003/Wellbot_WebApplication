@@ -138,8 +138,8 @@ const EmbeddingVisualizer = ({ rawEmbeddings }) => {
                     <p className="text-lg font-bold">Emotional Clusters</p>
                     <p className="card-subtitle text-sm">Messages clustered by semantic embeddings; points colored by inferred emotion.</p>
                 </div>
-                <div>
-                    <InfoTooltip content={<> 
+                <div className="px-2">
+                    <InfoTooltip content={<>
                         <p className="font-bold">About this chart:</p>
                         <ul className="list-disc pl-4">
                             <li>Each point represents a message.</li>

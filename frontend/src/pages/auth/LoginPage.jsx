@@ -36,6 +36,7 @@ const LoginPage = () => {
                 console.log("Login response:", response);
                 localStorage.setItem('token', response.data.token);
                 console.log("Token stored:", response.data.token);
+                localStorage.setItem('fullName', response.data.user.fullName);
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {

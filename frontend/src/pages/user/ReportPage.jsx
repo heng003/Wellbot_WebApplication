@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import html2canvas from "html2canvas";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,6 +15,7 @@ import Card from "../../dashboard/card";
 import Swal from 'sweetalert2';
 
 // Services & Auth
+import { fetchUserEmbeddings } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth"; // You might need a helper for name
 
 // Chart Components
@@ -22,6 +23,8 @@ import ReportDisplayWidgets from "../../dashboard/report/ReportDisplayWidgets";
 import ReportPieChartCard from "../../dashboard/report/ReportPieChartCard";
 import ReportBarChartCard from "../../dashboard/report/ReportBarChartCard";
 import ReportLineChartCard from "../../dashboard/report/ReportLineChartCard";
+import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
+import MessagePatternInsights from "../../components/MessagePatternInsights";
 
 // Hooks for raw data
 import { useInterventionData } from "../../hooks/useInterventionData";
@@ -30,7 +33,7 @@ import { useEmotionalLogs } from "../../hooks/useEmotionalLogs";
 const ReportPage = () => {
     const userId = getIdFromToken();
     // Assuming you can get the user name from local storage or token, otherwise fetch profile
-    const userName = localStorage.getItem('userName') || "Me";
+    const userName = localStorage.getItem('fullName') || "Me";
 
     // --- 1. CONFIGURATION STATE ---
 
@@ -50,6 +53,8 @@ const ReportPage = () => {
         score: true,
         dist: true,
         activity: true,
+        mood: true,
+        messages: true,
         emotionalTable: true,
         activityTable: true
     });
@@ -59,6 +64,10 @@ const ReportPage = () => {
         emotionalLogs: true,
         activityLogs: true
     });
+
+    const [moodActivityInsights, setMoodActivityInsights] = useState(null);
+    const [embeddings, setEmbeddings] = useState([]);
+    const [messageInsightsData, setMessageInsightsData] = useState(null);
 
     // --- 2. DATE LOGIC ---
     const { startDate, endDate } = useMemo(() => {
@@ -85,6 +94,19 @@ const ReportPage = () => {
     }, [selectedDate, reportType]);
 
     // --- 3. FETCH DATA ---
+    useEffect(() => {
+        if (!pdfConfig.messages || !userId) return;
+        const loadEmbeddings = async () => {
+            try {
+                const data = await fetchUserEmbeddings(userId, startDate, endDate);
+                setEmbeddings(data || []);
+            } catch (error) {
+                console.error("Failed to fetch embeddings", error);
+            }
+        };
+        loadEmbeddings();
+    }, [pdfConfig.messages, userId, startDate, endDate]);
+
     // Stable hooks arguments
     const hookRefDate = useMemo(() => new Date(), []);
     const hookCustomRange = useMemo(() => ({ start: startDate, end: endDate }), [startDate, endDate]);
@@ -158,12 +180,22 @@ const ReportPage = () => {
                 const scoreChart = pdfConfig.score ? await capture("report-score-chart") : null;
                 const distChart = pdfConfig.dist ? await capture("report-dist-chart") : null;
                 const pieChart = pdfConfig.activity ? await capture("report-pie-chart") : null;
+                const moodChart = pdfConfig.mood ? await capture("report-mood-chart") : null;
 
-                const images = { widgets, scoreChart, distChart, pieChart };
+                const images = { widgets, scoreChart, distChart, pieChart, moodChart };
+                const finalMsgInsights = pdfConfig.messages ? messageInsightsData : null;
                 const finalEmoLogs = pdfConfig.emotionalTable ? emotionalLogs : [];
                 const finalActLogs = pdfConfig.activityTable ? activityLogs : [];
 
-                generatePDFReport(userName, images, finalEmoLogs, finalActLogs);
+                generatePDFReport(
+                    userName,
+                    images,
+                    moodActivityInsights,
+                    finalMsgInsights,
+                    finalEmoLogs,
+                    finalActLogs,
+                    { start: startDate, end: endDate }
+                );
 
                 Swal.fire({
                     title: 'Success!',
@@ -279,6 +311,14 @@ const ReportPage = () => {
                                         <span className="text-sm text-navy-700">Distribution Chart</span>
                                         {pdfConfig.dist ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
+                                        <span className="text-sm text-navy-700">Activity Mood Correlation</span>
+                                        {pdfConfig.mood ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                    </div>
+                                    <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('messages')}>
+                                        <span className="text-sm text-navy-700">Message Patterns</span>
+                                        {pdfConfig.messages ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                    </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('emotionalTable')}>
                                         <span className="text-sm text-navy-700">Emotional Logs Table</span>
                                         {pdfConfig.emotionalTable ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
@@ -332,6 +372,10 @@ const ReportPage = () => {
                                 </span>
                             </div>
                             <div className="flex justify-between border-b pb-2">
+                                <span>Total Messages</span><
+                                    span className="font-bold text-navy-700">{messageInsightsData?.totalMessages || 0}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
                                 <span>Total Activities</span>
                                 <span className="font-bold text-navy-700">{activityLogs?.length || 0}</span>
                             </div>
@@ -371,6 +415,17 @@ const ReportPage = () => {
                         endDate={endDate}
                         bucketType={reportType === 'year' ? 'month' : 'day'}
                     />
+                </div>
+                <div id="report-mood-chart" className={!pdfConfig.mood || fileFormat === 'csv' ? "opacity-40 grayscale" : ""}>
+                    <MoodActivityCorrelation
+                        userId={userId}
+                        startDate={startDate}
+                        endDate={endDate}
+                        onInsightsChange={setMoodActivityInsights}
+                    />
+                </div>
+                <div className={!pdfConfig.messages || fileFormat === 'csv' ? "opacity-40 grayscale" : ""}>
+                    <MessagePatternInsights rawEmbeddings={embeddings} onInsightsCalculated={setMessageInsightsData} />
                 </div>
             </div>
         </div>

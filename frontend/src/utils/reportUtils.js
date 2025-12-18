@@ -86,42 +86,77 @@ export const generateCSV = (data, filename = "report.csv") => {
  * @param {Array} activityLogs - Array of activity log objects
  * @param {Object} moodActivityInsights - Optional quick insights from mood-activity correlation
  */
-export const generatePDFReport = (userName, images, emotionalLogs, activityLogs, moodActivityInsights = null) => {
+export const generatePDFReport = (userName, images, moodActivityInsights = null, messagePatternInsights = null, emotionalLogs, activityLogs, dateRange = null) => {
     const doc = new jsPDF();
 
     const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
     const margin = 14;
-    let yPos = 20;
 
     // --- COLOR PALETTE (Light Theme) ---
     const primaryColor = [43, 54, 116]; // Dark Navy for Headers
     const secondaryColor = [100, 100, 100]; // Dark Grey for text
+    const accentColor = [81, 154, 246]; // Brand Blue
 
-    // --- HEADER ---
-    doc.setFontSize(22);
+    // --- 1. TITLE PAGE ---
+    // Background decoration (optional subtle branding line)
+    doc.setDrawColor(...accentColor);
+    doc.setLineWidth(1);
+    doc.line(margin, 40, pageWidth - margin, 40);
+
+    // Title
+    doc.setFontSize(26);
     doc.setTextColor(...primaryColor);
-    doc.text(`Well-Being Report`, margin, yPos);
+    doc.setFont("helvetica", "bold");
+    doc.text("Well-Being Report", pageWidth / 2, 80, { align: "center" });
 
-    yPos += 10;
-    doc.setFontSize(11);
+    // Subtitle / User Info
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "normal");
     doc.setTextColor(...secondaryColor);
-    doc.text(`User: ${userName}`, margin, yPos);
-    doc.text(`Generated: ${new Date().toLocaleDateString()}`, margin, yPos + 6);
-    yPos += 15;
+    doc.text(`Prepared for:`, pageWidth / 2, 100, { align: "center" });
 
-    // Separator Line
-    doc.setDrawColor(200, 200, 200);
-    doc.line(margin, yPos, pageWidth - margin, yPos);
-    yPos += 15;
+    doc.setFontSize(18);
+    doc.setTextColor(...primaryColor);
+    doc.setFont("helvetica", "bold");
+    doc.text(userName, pageWidth / 2, 110, { align: "center" });
+
+    // Date Range
+    if (dateRange && dateRange.start && dateRange.end) {
+        doc.setFontSize(12);
+        doc.setTextColor(...secondaryColor);
+        doc.setFont("helvetica", "normal");
+        const startStr = new Date(dateRange.start).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
+        const endStr = new Date(dateRange.end).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
+        doc.text(`${startStr} - ${endStr}`, pageWidth / 2, 120, { align: "center" });
+    }
+
+    // Generated Date Footer
+    doc.setFontSize(10);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`, pageWidth / 2, pageHeight - 20, { align: "center" });
+
+    // Move to next page for content
+    doc.addPage();
+    let yPos = 20;
+
+    // --- CONTENT HEADER (Small repeated header on content pages) ---
+    /*
+    doc.setFontSize(10);
+    doc.setTextColor(200, 200, 200);
+    doc.text(`Well-Being Report - ${userName}`, pageWidth - margin, 10, { align: "right" });
+    */
 
     // --- VISUAL ANALYTICS SECTION ---
     doc.setFontSize(14);
     doc.setTextColor(...primaryColor);
+    doc.setFont("helvetica", "bold");
     doc.text("Visual Analytics Overview", margin, yPos);
     yPos += 15;
 
     const addTitle = (title) => {
         doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
         doc.setTextColor(0, 0, 0); // black
         doc.text(title, margin, yPos);
         yPos += 2;
@@ -135,18 +170,18 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
         const ratio = props.width / props.height;
 
         // 2. Get page size
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
+        const pW = doc.internal.pageSize.getWidth();
+        const pH = doc.internal.pageSize.getHeight();
 
         // 3. Max width = full page width minus margins
-        const maxWidth = pageWidth - margin * 2;
+        const maxWidth = pW - margin * 2;
 
         // 4. Scale image to max width, keep aspect ratio
         let w = maxWidth;
         let h = w / ratio;
 
         // 5. Auto page break if image exceeds page height
-        if (yPos + h > pageHeight - margin) {
+        if (yPos + h > pH - margin) {
             doc.addPage();
             yPos = margin;
         }
@@ -163,7 +198,8 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
 
     // Helper for Table Page Breaks
     const checkPageBreak = (neededSpace = 30) => {
-        if (yPos + neededSpace > 280) {
+        const pH = doc.internal.pageSize.getHeight();
+        if (yPos + neededSpace > pH - margin) {
             doc.addPage();
             yPos = 20;
         }
@@ -179,17 +215,11 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
 
     // --- MOOD-ACTIVITY INSIGHTS SECTION ---
     if (moodActivityInsights) {
-        const yPosBefore = yPos;
-        checkPageBreak(50);
-        const pageBreakHappened = yPos !== yPosBefore;
+        checkPageBreak(60); // Ensure enough space for insights block
 
-        // Add spacing before insights only if no page break
-        if (!pageBreakHappened) {
-            yPos -= 15;
-        }
-
-        doc.setFontSize(12);
+        doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
+        doc.setFont("helvetica", "bold");
         doc.text("Quick Insights", margin, yPos);
         yPos += 8;
 
@@ -199,10 +229,12 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
         if (moodActivityInsights.topLiked) {
             doc.setFontSize(9);
             doc.setTextColor(...primaryColor);
+            doc.setFont("helvetica", "bold");
             doc.text("• When you feel positive:", margin, boxY);
             boxY += 4;
             doc.setFontSize(8);
             doc.setTextColor(...secondaryColor);
+            doc.setFont("helvetica", "normal");
             doc.text(`You engage with ${moodActivityInsights.topLiked.name} (${moodActivityInsights.topLiked.avgMoodScore}% avg)`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
             boxY += 6;
         }
@@ -211,10 +243,12 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
         if (moodActivityInsights.topImprover) {
             doc.setFontSize(9);
             doc.setTextColor(...primaryColor);
+            doc.setFont("helvetica", "bold");
             doc.text("• Mood booster:", margin, boxY);
             boxY += 4;
             doc.setFontSize(8);
             doc.setTextColor(...secondaryColor);
+            doc.setFont("helvetica", "normal");
             doc.text(`${moodActivityInsights.topImprover.name} increases mood +${moodActivityInsights.topImprover.moodChange}`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
             boxY += 6;
         }
@@ -223,10 +257,12 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
         if (moodActivityInsights.topWorse && moodActivityInsights.topWorse.moodChange < 0) {
             doc.setFontSize(9);
             doc.setTextColor(...primaryColor);
+            doc.setFont("helvetica", "bold");
             doc.text("• Consider limiting:", margin, boxY);
             boxY += 4;
             doc.setFontSize(8);
             doc.setTextColor(...secondaryColor);
+            doc.setFont("helvetica", "normal");
             doc.text(`${moodActivityInsights.topWorse.name} may lower mood ${moodActivityInsights.topWorse.moodChange}`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
             boxY += 6;
         }
@@ -245,15 +281,82 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
             boxY += 3;
         });
 
-        yPos = boxY + 25;
+        yPos = boxY + 15;
+    }
+
+    // --- MESSAGE PATTERN INSIGHTS SECTION ---
+    if (messagePatternInsights) {
+        checkPageBreak(80);
+
+        doc.setFontSize(14);
+        doc.setTextColor(...primaryColor);
+        doc.setFont("helvetica", "bold");
+        doc.text("Message Pattern Insights", margin, yPos);
+        yPos += 8;
+
+        // 1. Stats Row
+        doc.setFontSize(10);
+        doc.setTextColor(...primaryColor);
+        doc.text(`Total Messages: ${messagePatternInsights.totalMessages}`, margin, yPos);
+        doc.text(`Unique Messages: ${messagePatternInsights.uniqueMessages}`, margin + 60, yPos);
+        doc.text(`Diversity: ${messagePatternInsights.uniquePercentage}%`, margin + 120, yPos);
+        yPos += 10;
+
+        // 2. Top Recurring Messages
+        if (messagePatternInsights.topRecurring && messagePatternInsights.topRecurring.length > 0) {
+            doc.setFontSize(11);
+            doc.setTextColor(...primaryColor);
+            doc.text("Top Recurring Messages", margin, yPos);
+            yPos += 6;
+
+            messagePatternInsights.topRecurring.forEach((msg, i) => {
+                checkPageBreak(15);
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                doc.text(`${i + 1}. "${msg.text}"`, margin + 5, yPos);
+
+                doc.setFontSize(8);
+                doc.setTextColor(100, 100, 100);
+                const meta = `Emotion: ${msg.emotion} | Count: ${msg.count} (${msg.percentage}%)`;
+                doc.text(meta, margin + 5, yPos + 4);
+
+                yPos += 10;
+            });
+            yPos += 5;
+        }
+
+        // 3. Emotion Frequency
+        if (messagePatternInsights.emotionFreq) {
+            checkPageBreak(40);
+            doc.setFontSize(11);
+            doc.setTextColor(...primaryColor);
+            doc.text("Chat Emotion Frequency", margin, yPos);
+            yPos += 6;
+
+            const total = messagePatternInsights.totalMessages || 1;
+            const sortedEmotions = Object.entries(messagePatternInsights.emotionFreq)
+                .sort((a, b) => b[1] - a[1]);
+
+            sortedEmotions.forEach(([emotion, count]) => {
+                const pct = Math.round((count / total) * 100);
+                doc.setFontSize(9);
+                doc.setTextColor(50, 50, 50);
+                doc.text(`${emotion}: ${count} (${pct}%)`, margin + 5, yPos);
+                yPos += 5;
+            });
+            yPos += 10;
+        }
     }
 
     // --- EMOTIONAL LOGS TABLE ---
     if (emotionalLogs && emotionalLogs.length > 0) {
-        checkPageBreak();
-        yPos += 10;
+        // Force new page for table
+        doc.addPage();
+        yPos = 20;
+
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
+        doc.setFont("helvetica", "bold");
         doc.text("Emotional History", margin, yPos);
         yPos += 5;
 
@@ -290,13 +393,13 @@ export const generatePDFReport = (userName, images, emotionalLogs, activityLogs,
 
     // --- ACTIVITY LOGS TABLE ---
     if (activityLogs && activityLogs.length > 0) {
-        checkPageBreak();
-
-        // Ensure header doesn't get orphaned at bottom of page
-        if (yPos > 250) { doc.addPage(); yPos = 20; }
+        // Force new page for table
+        doc.addPage();
+        yPos = 20;
 
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
+        doc.setFont("helvetica", "bold");
         doc.text("Intervention Activities", margin, yPos);
         yPos += 5;
 

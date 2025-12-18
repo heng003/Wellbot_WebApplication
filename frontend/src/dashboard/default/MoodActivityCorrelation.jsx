@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import {
     BarChart,
     Bar,
@@ -326,33 +326,75 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
                     </div>
 
                     {/* Footer Insights */}
-                    <div className="chart-insights mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-                        {data.slice(0, 5).map((activity, idx) => {
-                            const activityColor = getActivityColor(activity.name);
-                            return (
-                                <div
-                                    key={idx}
-                                    className="insight-card p-3 bg-gray-50 rounded-lg border border-gray-100"
-                                    style={{ ['--activity-color']: activityColor }}
-                                >
-                                    <p className="text-xs font-semibold text-gray-800 truncate" title={activity.name}>
-                                        {activity.name}
-                                    </p>
-                                    <div className="mt-2">
-                                        <div className="flex items-baseline justify-between">
-                                            <span className="text-sm font-bold text-navy-700">
-                                                {activity.avgMoodScore}% <span className="text-xs font-normal text-gray-500">(average mood)</span>
-                                            </span>
-                                            <span className={`text-xs font-medium ${activity.moodChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                                {activity.moodChange > 0 ? "+" : ""}{activity.moodChange}
-                                            </span>
+                    {/* Footer Insights */}
+                    {onInsightsChange ? (
+                        <div className="mt-4 flex flex-col gap-2">
+                            {data.slice(0, 5).map((activity, idx) => {
+                                const activityColor = getActivityColor(activity.name);
+                                return (
+                                    <div key={idx} className="flex items-center p-2 rounded-lg bg-gray-50 border border-gray-100">
+                                        {/* Color Indicator */}
+                                        <div className="flex-none w-8 flex justify-center">
+                                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: activityColor }}></div>
                                         </div>
-                                        <p className="text-xs text-gray-500 mt-1">Frequency: {activity.activityCount}</p>
+
+                                        {/* Activity Name - Flex-1 with min-w-0 ensures truncation works */}
+                                        <div className="flex-1 min-w-0 px-2 overflow-hidden">
+                                            <p className="text-xs font-semibold text-gray-800 truncate" title={activity.name}>
+                                                {activity.name}
+                                            </p>
+                                        </div>
+
+                                        {/* Metrics - Shrink-0 keeps them valid */}
+                                        <div className="flex-none flex items-center gap-3">
+                                            <div className="text-right w-14">
+                                                <span className="block text-xs font-bold text-navy-700">{activity.avgMoodScore}%</span>
+                                                <span className="block text-[10px] text-gray-500">Avg Mood</span>
+                                            </div>
+                                            <div className="text-right w-10">
+                                                <span className={`block text-xs font-bold ${activity.moodChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                                    {activity.moodChange > 0 ? "+" : ""}{activity.moodChange}
+                                                </span>
+                                                <span className="block text-[10px] text-gray-500">Change</span>
+                                            </div>
+                                            <div className="text-right w-10">
+                                                <span className="block text-xs font-bold text-gray-700">{activity.activityCount}</span>
+                                                <span className="block text-[10px] text-gray-500">Count</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div className="chart-insights mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+                            {data.slice(0, 5).map((activity, idx) => {
+                                const activityColor = getActivityColor(activity.name);
+                                return (
+                                    <div
+                                        key={idx}
+                                        className="insight-card p-3 bg-gray-50 rounded-lg border border-gray-100"
+                                        style={{ ['--activity-color']: activityColor }}
+                                    >
+                                        <p className="text-xs font-semibold text-gray-800 truncate" title={activity.name}>
+                                            {activity.name}
+                                        </p>
+                                        <div className="mt-2">
+                                            <div className="flex items-baseline justify-between">
+                                                <span className="text-sm font-bold text-navy-700">
+                                                    {activity.avgMoodScore}% <span className="text-xs font-normal text-gray-500">(average mood)</span>
+                                                </span>
+                                                <span className={`text-xs font-medium ${activity.moodChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                                    {activity.moodChange > 0 ? "+" : ""}{activity.moodChange}
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-gray-500 mt-1">Frequency: {activity.activityCount}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
 
                     {/* Human-friendly expandable summary */}
                     {data && data.length > 0 && !onInsightsChange && (

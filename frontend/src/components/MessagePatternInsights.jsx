@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Card from "../dashboard/card";
 
-const MessagePatternInsights = ({ rawEmbeddings }) => {
+const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
     const insights = useMemo(() => {
         if (!rawEmbeddings || rawEmbeddings.length === 0) return null;
 
@@ -18,17 +18,17 @@ const MessagePatternInsights = ({ rawEmbeddings }) => {
         // Count message frequencies
         const messageCounts = {};
         const messagesByEmotion = {};
-        
+
         rawEmbeddings.forEach((embedding) => {
             const text = embedding.text_content || "";
             const emotion = getEmotionLabel(text);
-            
+
             // Normalize message (lowercase, trim)
             const normalized = text.toLowerCase().trim();
-            
+
             // Track overall frequency
             messageCounts[normalized] = (messageCounts[normalized] || 0) + 1;
-            
+
             // Track by emotion
             if (!messagesByEmotion[emotion]) {
                 messagesByEmotion[emotion] = {};
@@ -81,6 +81,12 @@ const MessagePatternInsights = ({ rawEmbeddings }) => {
         };
     }, [rawEmbeddings]);
 
+    useEffect(() => {
+        if (onInsightsCalculated && insights) {
+            onInsightsCalculated(insights);
+        }
+    }, [insights, onInsightsCalculated]);
+
     if (!insights) return null;
 
     const emotionColors = {
@@ -120,7 +126,7 @@ const MessagePatternInsights = ({ rawEmbeddings }) => {
             {/* Emotional Pattern Breakdown */}
             <Card extra="p-4">
                 <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-800">Emotion Frequency</h3>
+                    <h3 className="text-lg font-bold text-gray-800">Chat Emotion Frequency</h3>
                     <p className="text-xs text-gray-500">How often each emotion appears in messages</p>
                 </div>
                 <div className="flex flex-col gap-3">
@@ -179,7 +185,7 @@ const MessagePatternInsights = ({ rawEmbeddings }) => {
             ))}
 
             {/* Message Uniqueness & Stats */}
-            <Card extra="p-4">
+            <Card extra={`p-4 ${(Object.keys(insights.topPerEmotion).length + 3) % 2 !== 0 ? 'lg:col-span-2' : ''}`}>
                 <div className="mb-4">
                     <h3 className="text-lg font-bold text-gray-800">Message Statistics</h3>
                     <p className="text-xs text-gray-500">Overall conversation patterns</p>
