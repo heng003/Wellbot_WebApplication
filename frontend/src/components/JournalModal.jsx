@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import { CalendarIcon } from "lucide-react";
@@ -109,9 +110,9 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
         }
     };
 
-    return !show ? null : (
+    return !show ? null : ReactDOM.createPortal(
         <div className="modal-overlay">
-            <div className="modal-container overflow-hidden" style={{padding: "2em"}}>
+            <div className="modal-container overflow-hidden" style={{ padding: "2em" }}>
 
                 {/* HEADER */}
                 <div className="flex justify-between items-center mb-4">
@@ -199,7 +200,8 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                 </div>
 
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

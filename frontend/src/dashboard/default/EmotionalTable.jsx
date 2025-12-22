@@ -126,7 +126,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
     ];
 
     if (propUserId) {
-        columns.add(
+        columns.push(
             columnHelper.accessor("confidence_score", {
                 id: "confidence_score",
                 header: () => <p className="text-sm font-bold text-gray-600">CONFIDENCE</p>,

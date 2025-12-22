@@ -215,73 +215,83 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
     // --- MOOD-ACTIVITY INSIGHTS SECTION ---
     if (moodActivityInsights) {
-        checkPageBreak(60); // Ensure enough space for insights block
+        const yPosBefore = yPos;
+        checkPageBreak(60);
+        const pageBreakHappened = yPos !== yPosBefore;
+
+        // Add spacing before insights only if no page break
+        if (!pageBreakHappened) {
+            yPos -= 15;
+        }
 
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
         doc.setFont("helvetica", "bold");
-        doc.text("Quick Insights", margin, yPos);
+        doc.text("Activity Insights", margin, yPos);
         yPos += 8;
 
-        let boxY = yPos;
-
-        // Positive engagement
-        if (moodActivityInsights.topLiked) {
-            doc.setFontSize(9);
-            doc.setTextColor(...primaryColor);
-            doc.setFont("helvetica", "bold");
-            doc.text("• When you feel positive:", margin, boxY);
-            boxY += 4;
-            doc.setFontSize(8);
-            doc.setTextColor(...secondaryColor);
-            doc.setFont("helvetica", "normal");
-            doc.text(`You engage with ${moodActivityInsights.topLiked.name} (${moodActivityInsights.topLiked.avgMoodScore}% avg)`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
-            boxY += 6;
-        }
-
-        // Mood booster
-        if (moodActivityInsights.topImprover) {
-            doc.setFontSize(9);
-            doc.setTextColor(...primaryColor);
-            doc.setFont("helvetica", "bold");
-            doc.text("• Mood booster:", margin, boxY);
-            boxY += 4;
-            doc.setFontSize(8);
-            doc.setTextColor(...secondaryColor);
-            doc.setFont("helvetica", "normal");
-            doc.text(`${moodActivityInsights.topImprover.name} increases mood +${moodActivityInsights.topImprover.moodChange}`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
-            boxY += 6;
-        }
-
-        // Consider limiting
-        if (moodActivityInsights.topWorse && moodActivityInsights.topWorse.moodChange < 0) {
-            doc.setFontSize(9);
-            doc.setTextColor(...primaryColor);
-            doc.setFont("helvetica", "bold");
-            doc.text("• Consider limiting:", margin, boxY);
-            boxY += 4;
-            doc.setFontSize(8);
-            doc.setTextColor(...secondaryColor);
-            doc.setFont("helvetica", "normal");
-            doc.text(`${moodActivityInsights.topWorse.name} may lower mood ${moodActivityInsights.topWorse.moodChange}`, margin + 2, boxY, { maxWidth: pageWidth - margin * 2 - 2 });
-            boxY += 6;
-        }
-        // Stats
-        boxY += 2;
-        doc.setFontSize(8);
-        doc.setTextColor(...secondaryColor);
-        const statsLines = [
-            `Total Engagements: ${moodActivityInsights.totalEngagements}`,
-            `Avg Frequency: ${moodActivityInsights.avgEngagementPerActivity} per activity`,
-            `Overall Mood: ${moodActivityInsights.avgMoodOverall}%`,
-            `Activities Tracked: ${moodActivityInsights.totalActivities}`
+        // 1. Stats Table
+        const statsData = [
+            ["Total Engagements", moodActivityInsights.totalEngagements],
+            ["Avg Freq / Activity", moodActivityInsights.avgEngagementPerActivity],
+            ["Activities Tracked", moodActivityInsights.totalActivities],
+            ["Overall Mood", `${moodActivityInsights.avgMoodOverall}%`]
         ];
-        statsLines.forEach((line, i) => {
-            doc.text(line, margin, boxY);
-            boxY += 3;
+
+        autoTable(doc, {
+            body: statsData,
+            startY: yPos,
+            theme: 'plain',
+            styles: { fontSize: 10, cellPadding: 2, textColor: secondaryColor },
+            columnStyles: {
+                0: { fontStyle: 'bold', cellWidth: 45 },
+                1: { cellWidth: 40 }
+            },
         });
 
-        yPos = boxY + 15;
+        yPos = doc.lastAutoTable.finalY + 10;
+
+        // 2. Key Insights Table
+        const insightRows = [];
+
+        if (moodActivityInsights.topLiked) {
+            insightRows.push([
+                "When you feel positive",
+                moodActivityInsights.topLiked.name,
+                `${moodActivityInsights.topLiked.avgMoodScore}% Avg Mood`
+            ]);
+        }
+        if (moodActivityInsights.topImprover) {
+            insightRows.push([
+                "Mood Booster",
+                moodActivityInsights.topImprover.name,
+                `+${moodActivityInsights.topImprover.moodChange} Improvement`
+            ]);
+        }
+        if (moodActivityInsights.topWorse && moodActivityInsights.topWorse.moodChange < 0) {
+            insightRows.push([
+                "Consider Limiting",
+                moodActivityInsights.topWorse.name,
+                `${moodActivityInsights.topWorse.moodChange} Impact`
+            ]);
+        }
+
+        if (insightRows.length > 0) {
+            autoTable(doc, {
+                head: [["Insight Type", "Activity", "Impact"]],
+                body: insightRows,
+                startY: yPos,
+                theme: 'striped',
+                headStyles: { fillColor: primaryColor, textColor: 255 },
+                styles: { fontSize: 10, cellPadding: 3 },
+                columnStyles: {
+                    0: { fontStyle: 'bold', cellWidth: 50 },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 40 }
+                }
+            });
+            yPos = doc.lastAutoTable.finalY + 15;
+        }
     }
 
     // --- MESSAGE PATTERN INSIGHTS SECTION ---
@@ -294,35 +304,59 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
         doc.text("Message Pattern Insights", margin, yPos);
         yPos += 8;
 
-        // 1. Stats Row
-        doc.setFontSize(10);
-        doc.setTextColor(...primaryColor);
-        doc.text(`Total Messages: ${messagePatternInsights.totalMessages}`, margin, yPos);
-        doc.text(`Unique Messages: ${messagePatternInsights.uniqueMessages}`, margin + 60, yPos);
-        doc.text(`Diversity: ${messagePatternInsights.uniquePercentage}%`, margin + 120, yPos);
-        yPos += 10;
+        // 1. Stats Table
+        const statsData = [
+            ["Total Messages", messagePatternInsights.totalMessages],
+            ["Unique Messages", messagePatternInsights.uniqueMessages],
+            ["Diversity Score", `${messagePatternInsights.uniquePercentage}%`]
+        ];
 
-        // 2. Top Recurring Messages
+        autoTable(doc, {
+            body: statsData,
+            startY: yPos,
+            theme: 'plain',
+            styles: { fontSize: 10, cellPadding: 2, textColor: secondaryColor },
+            columnStyles: {
+                0: { fontStyle: 'bold', cellWidth: 40 },
+                1: { cellWidth: 50 }
+            },
+        });
+
+        yPos = doc.lastAutoTable.finalY + 10;
+
+        // 2. Top Recurring Messages Table
         if (messagePatternInsights.topRecurring && messagePatternInsights.topRecurring.length > 0) {
+            checkPageBreak(40);
             doc.setFontSize(11);
             doc.setTextColor(...primaryColor);
             doc.text("Top Recurring Messages", margin, yPos);
             yPos += 6;
 
-            messagePatternInsights.topRecurring.forEach((msg, i) => {
-                checkPageBreak(15);
-                doc.setFontSize(9);
-                doc.setTextColor(0, 0, 0);
-                doc.text(`${i + 1}. "${msg.text}"`, margin + 5, yPos);
+            const recurringRows = messagePatternInsights.topRecurring.map((msg, i) => [
+                i + 1,
+                msg.text,
+                msg.emotion,
+                msg.count,
+                `${msg.percentage}%`
+            ]);
 
-                doc.setFontSize(8);
-                doc.setTextColor(100, 100, 100);
-                const meta = `Emotion: ${msg.emotion} | Count: ${msg.count} (${msg.percentage}%)`;
-                doc.text(meta, margin + 5, yPos + 4);
-
-                yPos += 10;
+            autoTable(doc, {
+                head: [["#", "Message", "Emotion", "Count", "Percent"]],
+                body: recurringRows,
+                startY: yPos,
+                theme: 'striped',
+                headStyles: { fillColor: primaryColor, textColor: 255 },
+                styles: { fontSize: 9, cellPadding: 3 },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 'auto', overflow: 'linebreak' }, // Message takes remaining space & breaks
+                    2: { cellWidth: 25 },
+                    3: { cellWidth: 20 },
+                    4: { cellWidth: 20 }
+                }
             });
-            yPos += 5;
+
+            yPos = doc.lastAutoTable.finalY + 10;
         }
 
         // 3. Emotion Frequency

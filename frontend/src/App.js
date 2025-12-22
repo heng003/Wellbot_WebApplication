@@ -100,7 +100,10 @@ function CustomNavbar({ location }) {
 function CustomFooter({ location }) {
 	const showFooter =
 		location.pathname.includes("login") ||
-		location.pathname.includes("register");
+		location.pathname.includes("register") ||
+		location.pathname.includes("resetPassword") ||
+		location.pathname.includes("forgotPassword") ||
+		location.pathname === "/";
 
 	return showFooter ? <Footer /> : null;
 }

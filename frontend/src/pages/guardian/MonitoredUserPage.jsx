@@ -411,7 +411,7 @@ const MonitoredUserPage = () => {
                                     style={{ resize: 'vertical', minHeight: '60px' }}
                                 />
                             </div>
-                            <div className="modal-actions">
+                            <div className="flex justify-between gap-3">
                                 <button type="submit" className="long-green-button">
                                     Send Request
                                 </button>

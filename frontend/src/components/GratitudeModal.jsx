@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { MdClose, MdCalendarToday } from "react-icons/md";
 import { updateGratitude, createGratitude, deleteGratitude } from "../services/gratitudeService";
@@ -132,7 +133,7 @@ const GratitudeModal = ({
 
     if (!show) return null;
 
-    return (
+    return ReactDOM.createPortal(
         <div className="modal-overlay">
             <div className="modal-container overflow-hidden">
 
@@ -209,7 +210,7 @@ const GratitudeModal = ({
                                     </div>
                                 ) : (
                                     <div className="flex gap-3">
-                                    <button
+                                        <button
                                             className="green-button btn-primary"
                                             onClick={() => setEditMode(true)}
                                         >
@@ -233,7 +234,8 @@ const GratitudeModal = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

@@ -64,6 +64,7 @@ const AccessManagePage = () => {
                     setNewGuardian('');
                     setShowAddGuardianModal(false);
                     fetchGuardianData();
+                    setActiveTab('active');
                 });
             } else if (response.status === 200) {
                 Swal.fire({

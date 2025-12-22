@@ -240,10 +240,10 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
                                 <div className="color-dot" style={{ background: '#10b981' }}></div>
                                 <div className="label">Improves Mood (Positive Mood Change)</div>
                             </div>
-                            <div className="color-item">
+                            {/* <div className="color-item">
                                 <div className="color-dot" style={{ background: '#f59e0b' }}></div>
                                 <div className="label">Neutral (No Mood Change)</div>
-                            </div>
+                            </div> */}
                             <div className="color-item">
                                 <div className="color-dot" style={{ background: '#ef4444' }}></div>
                                 <div className="label">Decreases Mood (Negative Mood Change)</div>
@@ -326,40 +326,41 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
                     </div>
 
                     {/* Footer Insights */}
-                    {/* Footer Insights */}
                     {onInsightsChange ? (
-                        <div className="mt-4 flex flex-col gap-2">
+                        <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
                             {data.slice(0, 5).map((activity, idx) => {
                                 const activityColor = getActivityColor(activity.name);
                                 return (
-                                    <div key={idx} className="flex items-center p-2 rounded-lg bg-gray-50 border border-gray-100">
-                                        {/* Color Indicator */}
-                                        <div className="flex-none w-8 flex justify-center">
-                                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: activityColor }}></div>
-                                        </div>
-
-                                        {/* Activity Name - Flex-1 with min-w-0 ensures truncation works */}
-                                        <div className="flex-1 min-w-0 px-2 overflow-hidden">
-                                            <p className="text-xs font-semibold text-gray-800 truncate" title={activity.name}>
-                                                {activity.name}
-                                            </p>
-                                        </div>
-
-                                        {/* Metrics - Shrink-0 keeps them valid */}
-                                        <div className="flex-none flex items-center gap-3">
-                                            <div className="text-right w-14">
-                                                <span className="block text-xs font-bold text-navy-700">{activity.avgMoodScore}%</span>
-                                                <span className="block text-[10px] text-gray-500">Avg Mood</span>
+                                    <div
+                                        key={idx}
+                                        className="flex flex-col p-3 rounded-lg bg-gray-50 border border-gray-100 min-h-[90px] h-full"
+                                    >
+                                        {/* Row 1: Icon + Title */}
+                                        {/* Added items-start and mt-0.5 to align dot with top of text if it wraps */}
+                                        <div className="flex items-start gap-2 mb-3">
+                                            <div className="flex-none w-2 h-2 rounded-full mt-1.5" style={{ backgroundColor: activityColor }}></div>
+                                            <div className="min-w-0 flex-1">
+                                                {/* Updated classes for better wrapping and spacing */}
+                                                <p className="text-sm font-semibold text-gray-800 break-words leading-tight line-clamp-2" title={activity.name}>
+                                                    {activity.name}
+                                                </p>
                                             </div>
-                                            <div className="text-right w-10">
-                                                <span className={`block text-xs font-bold ${activity.moodChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                        </div>
+
+                                        <div className="flex flex-col gap-1 mt-auto w-full">
+                                            <div className="flex justify-between items-baseline w-full">
+                                                <span className="text-xs text-gray-500 whitespace-nowrap">Mood</span>
+                                                <span className="text-sm font-bold text-navy-700 ml-1">{activity.avgMoodScore}%</span>
+                                            </div>
+                                            <div className="flex justify-between items-baseline w-full">
+                                                <span className="text-xs text-gray-500 whitespace-nowrap">Change</span>
+                                                <span className={`text-xs font-bold ml-1 ${activity.moodChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                                                     {activity.moodChange > 0 ? "+" : ""}{activity.moodChange}
                                                 </span>
-                                                <span className="block text-[10px] text-gray-500">Change</span>
                                             </div>
-                                            <div className="text-right w-10">
-                                                <span className="block text-xs font-bold text-gray-700">{activity.activityCount}</span>
-                                                <span className="block text-[10px] text-gray-500">Count</span>
+                                            <div className="flex justify-between items-baseline w-full border-t border-gray-200 pt-1 mt-1">
+                                                <span className="text-[10px] text-gray-400 whitespace-nowrap">Freq</span>
+                                                <span className="text-xs text-gray-600 ml-1">{activity.activityCount}</span>
                                             </div>
                                         </div>
                                     </div>

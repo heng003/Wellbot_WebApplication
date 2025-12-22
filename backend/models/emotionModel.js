@@ -79,13 +79,8 @@ async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day'
         default: sqlInterval = '1 day';
     }
 
-    const p_start = startDate
-        ? new Date(startDate + 'T00:00:00.000Z').toISOString()
-        : null;
-
-    const p_end = endDate
-        ? new Date(endDate + 'T23:59:59.999Z').toISOString()
-        : null;
+    const p_start = startDate || null;
+    const p_end = endDate || null;
 
     // 2. Call the RPC
     const { data: aggregatedData, error } = await supabase.rpc("get_emotional_aggregates_dynamic", {
@@ -97,20 +92,18 @@ async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day'
 
     if (error) throw error;
 
-    // --- HELPER: Create a stable key ignoring timezone shifts ---
-    const getBucketKey = (dateInput) => {
-        const d = new Date(dateInput);
-        
+    // --- HELPER: Format Date to Key ---
+    const formatKey = (d) => {
         if (bucketType === 'month') {
             // Returns "YYYY-MM" (e.g., "2025-11")
-            return d.toISOString().slice(0, 7); 
+            return d.toISOString().slice(0, 7);
         }
-        
+
         if (bucketType === 'day') {
             // Returns "YYYY-MM-DD"
             return d.toISOString().split('T')[0];
         }
-        
+
         // For hours/minutes: "YYYY-MM-DDTHH:mm"
         return d.toISOString().slice(0, 16);
     };
@@ -118,13 +111,20 @@ async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day'
     // 3. Populate Map using the STABLE key
     const dataMap = new Map();
     (aggregatedData || []).forEach(row => {
-        // We force the DB timestamp to be treated as UTC to prevent the "-8 hours" shift
-        // If row.bucket is "2025-12-09 00:00:00", adding "Z" forces it to be read as UTC.
-        const dbTime = row.bucket.endsWith('Z') || row.bucket.includes('+')
+        // We force the DB timestamp to be treated as UTC to prevent double-shifting if driver behaves oddly
+        const dbString = row.bucket.endsWith('Z') || row.bucket.includes('+')
             ? row.bucket
             : row.bucket + 'Z';
 
-        const key = getBucketKey(dbTime);
+        const dbDate = new Date(dbString);
+
+        // SHIFT TIMESTAMP: The SQL buckets are in KL Time (UTC+8).
+        // The RPC returns them as a timestamptz which converts KL wall-clock to UTC.
+        // E.g. 00:00 KL -> 16:00 UTC (previous day).
+        // We must shift +8 hours to align it back to the "Wall Clock" time expected by the loop.
+        dbDate.setHours(dbDate.getHours() + 8);
+
+        const key = formatKey(dbDate);
         dataMap.set(key, row);
     });
 
@@ -151,7 +151,8 @@ async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day'
 
     while (cursor <= end) {
         // Generate the key for the current loop position
-        const key = getBucketKey(cursor.toISOString());
+        // cursor is already representing the "Wall Clock" time in UTC
+        const key = formatKey(cursor);
 
         // LOOKUP using the simple string key
         const row = dataMap.get(key);

@@ -135,7 +135,17 @@ exports.createActivePermission = async (req, res, next) => {
         const guardian = await Guardian.findGuardianByEmailOrFullName(guardianIdentification);
         if (!guardian) return next(new createError("Guardian not existed.", 404));
         const existing = await Permission.findPermissionByGuardianAndUser(guardian.id, userId);
-        if (existing) return res.status(200).json(existing);
+
+        if (existing) {
+            if (existing.status === 'active') {
+                return res.status(200).json(existing);
+            } else {
+                // Update existing permission to active if it stands in other status (e.g. pending/rejected)
+                const updated = await Permission.updatePermissionStatusById(existing.id, 'active');
+                return res.status(201).json(updated);
+            }
+        }
+
         const newPermission = await Permission.createPermission({
             user_id: userId,
             guardian_id: guardian.id,

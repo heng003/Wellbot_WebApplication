@@ -210,8 +210,6 @@ const UserProfilePage = () => {
                         if (result.isConfirmed) {
                             scrollToTop();
                             navigate('/user/accessManage');
-                        } else {
-                            handleDisableRequest();
                         }
                     });
                 } else {
@@ -600,7 +598,7 @@ const UserProfilePage = () => {
                         <div className="profile-card-content profile-card-row-between">
                             <div className="d-flex flex-column">
                                 <span className="profile-content-title">Guardian Tracking Permission</span>
-                                <span className="profile-content-subtitle">Enable caregivers to send tracking requests</span>
+                                <span className="profile-content-subtitle">Enable caregivers to send tracking requests and monitor your well-being after getting your permission</span>
                             </div>
                             <div className="profile-switch">
                                 <input
