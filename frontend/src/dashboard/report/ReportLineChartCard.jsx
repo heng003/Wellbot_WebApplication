@@ -91,6 +91,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
         grid: { show: true, padding: { left: 30, right: 30 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
         xaxis: {
             categories: chartData.categories,
+            tickAmount: 5,
             labels: {
                 style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" },
                 rotate: -45,

@@ -98,13 +98,14 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	const formatTimeLabel = (dateStr, bucket) => {
 		if (!dateStr) return "";
 		const date = new Date(dateStr);
+		const datePart = date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
 		if (bucket === "day") {
-			return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
+			return datePart;
 		} else if (bucket === "2hour" || bucket === "hour") {
-			return date.toLocaleTimeString("en-GB", { hour: "numeric", hour12: true });
+			return `${datePart} ${date.toLocaleTimeString("en-GB", { hour: "numeric", hour12: true }).replace(' ', '').toLowerCase()}`;
 		} else if (bucket === "30min") {
-			return date.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit", hour12: true });
+			return `${datePart} ${date.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit", hour12: true }).replace(' ', '').toLowerCase()}`;
 		}
 		return dateStr;
 	};
@@ -165,9 +166,10 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				}
 			}
 		},
-		grid: { show: false, padding: { left: 30, right: 30 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
+		grid: { show: false, padding: { left: 50, right: 40 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
 		xaxis: {
 			categories: chartData.categories,
+			tickAmount: 5,
 			labels: { rotate: -45, style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
 			axisBorder: { show: false },
 			axisTicks: { show: false },
