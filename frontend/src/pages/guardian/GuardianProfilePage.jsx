@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { User, Edit, Save, Lock, Eye, EyeOff, Smartphone, Shield, Bot } from 'lucide-react';
+import { User, Edit, Save, Lock, Eye, EyeOff } from 'lucide-react';
 import '../../styles/profilePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
-import { Link, useNavigate } from 'react-router-dom';
 
 const GuardianProfilePage = () => {
     const [personalData, setPersonalData] = useState({});
@@ -14,7 +13,6 @@ const GuardianProfilePage = () => {
     const [error, setError] = useState('');
     const [editingPersonal, setEditingPersonal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
-    const navigate = useNavigate();
 
     const fetchProfile = async () => {
         const token = localStorage.getItem('token');
@@ -37,13 +35,6 @@ const GuardianProfilePage = () => {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    };
 
     const capitalizeWords = (str) =>
         str.replace(/\b\w/g, char => char.toUpperCase());

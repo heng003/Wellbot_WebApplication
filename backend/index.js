@@ -3,6 +3,9 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
+const http = require('http');
+const { Server } = require("socket.io");
+const jwt = require("jsonwebtoken");
 
 const authRouter = require('./routes/authRoute');
 const profileRouter = require('./routes/profileRoute');
@@ -14,8 +17,54 @@ const gratitudeRouter = require('./routes/gratitudeRoute');
 const interventionRouter = require('./routes/interventionRoute');
 const embeddingRouter = require('./routes/embeddingRoute');
 const authMiddleware = require('./middleware/authMiddleware');
+const setupRealtimeSubscriptions = require('./services/realtimeService');
 
 const app = express();
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.io
+const io = new Server(server, {
+	cors: {
+		origin: process.env.REACT_APP_WELLBOT_FRONTEND_URL || 'http://localhost:3000',
+		methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+		credentials: true,
+	}
+});
+
+// Socket.io Middleware for Authentication
+io.use((socket, next) => {
+	const token = socket.handshake.auth.token;
+	if (!token) {
+		return next(new Error("Authentication error: No token provided"));
+	}
+	jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+		if (err) {
+			return next(new Error("Authentication error: Invalid token"));
+		}
+		socket.userId = decoded.userId;
+		next();
+	});
+});
+
+// Socket.io Connection Handler
+io.on('connection', (socket) => {
+	console.log(`Socket connected: ${socket.id}, User: ${socket.userId}`);
+
+	// Join user-specific room
+	if (socket.userId) {
+		socket.join(`user_${socket.userId}`);
+		console.log(`User ${socket.userId} joined room user_${socket.userId}`);
+	}
+
+	socket.on('disconnect', () => {
+		console.log('Socket disconnected:', socket.id);
+	});
+});
+
+// Initialize Realtime Service
+setupRealtimeSubscriptions(io);
 
 // 1. MIDDLEWARES
 // use this to deploy
@@ -42,6 +91,7 @@ app.use('/api/journal', journalRouter);
 app.use('/api/gratitude', gratitudeRouter);
 app.use('/api/intervention', interventionRouter);
 app.use('/api/embedding', embeddingRouter);
+
 // React frontend
 // app.get('*', function (req, res) {
 // 	res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
@@ -72,6 +122,6 @@ const PORT = process.env.PORT || 8080;
 // app.listen(PORT, '0.0.0.0', () => {
 // 	console.log(`Well-Bot is listening on port ${PORT}`);
 // });
-app.listen(PORT, () => {
+server.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });

@@ -8,6 +8,7 @@ import Card from "../card";
 import LineChart from "../charts/LineChart";
 import HoverTooltip from "../../components/HoverTooltip";
 import { useEmotionalScore } from "../../hooks/useEmotionalScore";
+import { useSocketSubscription } from "../../hooks/useSocket";
 
 const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
 	const currentUserId = getIdFromToken();
@@ -57,6 +58,9 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	useEffect(() => {
 		refetch();
 	}, [targetUserId, dateRange.start, dateRange.end, bucketType]);
+
+	// Listen for realtime updates
+	useSocketSubscription(['emotional_log'], refetch);
 
 	// --- Logic for Shifting Time Window (Pagination) ---
 	const shiftWindow = (direction) => {

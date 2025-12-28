@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Clock, Check, X, UserMinus, UserPlus } from 'lucide-react';
+import { Clock, Check, X, UserMinus, UserPlus } from 'lucide-react';
 import '../../styles/accessManagePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';

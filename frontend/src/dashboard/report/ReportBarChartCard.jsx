@@ -3,6 +3,7 @@ import axios from "axios";
 import Card from "../card";
 import BarChart from "../charts/BarChart";
 import { getIdFromToken } from "../../utils/auth";
+import { useSocketSubscription } from "../../hooks/useSocket";
 
 const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType = "day" }) => {
     const userId = propUserId || getIdFromToken();
@@ -10,44 +11,46 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
     const [loading, setLoading] = useState(false);
 
     // --- Data Fetching ---
-    useEffect(() => {
-        const fetchCounts = async () => {
-            if (!startDate || !endDate || !userId) return;
+    const fetchCounts = React.useCallback(async () => {
+        if (!startDate || !endDate || !userId) return;
 
-            try {
-                setLoading(true);
-                const token = localStorage.getItem("token");
-                const format = (d) => {
-                    const date = new Date(d);
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    return `${year}-${month}-${day}`;
-                };
+        try {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            const format = (d) => {
+                const date = new Date(d);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
 
-                const startStr = format(startDate);
-                const endStr = format(endDate);
+            const startStr = format(startDate);
+            const endStr = format(endDate);
 
-                const res = await axios.get(
-                    `/api/emotion/getCountsByDate/${userId}?startDate=${startStr}&endDate=${endStr}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+            const res = await axios.get(
+                `/api/emotion/getCountsByDate/${userId}?startDate=${startStr}&endDate=${endStr}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-                const payload = res.data || {};
-                const counts = Array.isArray(payload.dailyCounts) ? payload.dailyCounts : [];
+            const payload = res.data || {};
+            const counts = Array.isArray(payload.dailyCounts) ? payload.dailyCounts : [];
 
-                counts.sort((a, b) => new Date(a.day) - new Date(b.day));
-                setDailyCounts(counts);
-            } catch (err) {
-                console.error("❌ Failed to load emotion counts:", err);
-                setDailyCounts([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCounts();
+            counts.sort((a, b) => new Date(a.day) - new Date(b.day));
+            setDailyCounts(counts);
+        } catch (err) {
+            console.error("❌ Failed to load emotion counts:", err);
+            setDailyCounts([]);
+        } finally {
+            setLoading(false);
+        }
     }, [startDate, endDate, userId]);
+
+    useEffect(() => {
+        fetchCounts();
+    }, [fetchCounts]);
+
+    useSocketSubscription(['emotional_log'], fetchCounts);
 
     // --- Data Processing (Aggregation) ---
     const { chartData, chartOptions, hasData, distribution } = useMemo(() => {

@@ -4,7 +4,6 @@ import { OrbitControls } from "@react-three/drei";
 import { computePCA } from "../utils/reportUtils";
 import Card from "../dashboard/card";
 import InfoTooltip from "./InfoTooltip";
-import DropdownIcon from "../icons/DropdownIcon";
 
 const Points = ({ data, onHover }) => {
     const ref = useRef();
@@ -67,7 +66,6 @@ const getEmotionLabel = (text = "") => {
 
 const EmbeddingVisualizer = ({ rawEmbeddings }) => {
     const [hoveredPoint, setHoveredPoint] = useState(null);
-    const [insExpanded, setInsExpanded] = useState(false);
 
     const points = useMemo(() => {
         if (!rawEmbeddings || rawEmbeddings.length === 0) return [];
@@ -89,41 +87,41 @@ const EmbeddingVisualizer = ({ rawEmbeddings }) => {
     }, [rawEmbeddings]);
 
     // Compute quick insights from points
-    const insights = useMemo(() => {
-        if (!points || points.length === 0) return null;
+    // const insights = useMemo(() => {
+    //     if (!points || points.length === 0) return null;
 
-        const counts = points.reduce((acc, p) => {
-            const label = getEmotionLabel(p.text_content);
-            acc[label] = (acc[label] || 0) + 1;
-            return acc;
-        }, {});
+    //     const counts = points.reduce((acc, p) => {
+    //         const label = getEmotionLabel(p.text_content);
+    //         acc[label] = (acc[label] || 0) + 1;
+    //         return acc;
+    //     }, {});
 
-        const total = points.length;
-        const dominant = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || [null, 0];
+    //     const total = points.length;
+    //     const dominant = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || [null, 0];
 
-        // most recent
-        const sortedByDate = [...points].filter(p => p.created_at).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        const mostRecent = sortedByDate[0] || null;
+    //     // most recent
+    //     const sortedByDate = [...points].filter(p => p.created_at).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    //     const mostRecent = sortedByDate[0] || null;
 
-        // centroid and outlier detection (distance-based)
-        const centroid = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y, z: acc.z + p.z }), { x: 0, y: 0, z: 0 });
-        centroid.x /= total; centroid.y /= total; centroid.z /= total;
-        const distances = points.map(p => Math.sqrt((p.x - centroid.x) ** 2 + (p.y - centroid.y) ** 2 + (p.z - centroid.z) ** 2));
-        const meanDist = distances.reduce((a, b) => a + b, 0) / distances.length;
-        const std = Math.sqrt(distances.reduce((a, b) => a + (b - meanDist) ** 2, 0) / distances.length);
-        const outlierThreshold = meanDist + 2 * std;
-        const outliers = distances.filter(d => d > outlierThreshold).length;
+    //     // centroid and outlier detection (distance-based)
+    //     const centroid = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y, z: acc.z + p.z }), { x: 0, y: 0, z: 0 });
+    //     centroid.x /= total; centroid.y /= total; centroid.z /= total;
+    //     const distances = points.map(p => Math.sqrt((p.x - centroid.x) ** 2 + (p.y - centroid.y) ** 2 + (p.z - centroid.z) ** 2));
+    //     const meanDist = distances.reduce((a, b) => a + b, 0) / distances.length;
+    //     const std = Math.sqrt(distances.reduce((a, b) => a + (b - meanDist) ** 2, 0) / distances.length);
+    //     const outlierThreshold = meanDist + 2 * std;
+    //     const outliers = distances.filter(d => d > outlierThreshold).length;
 
-        return {
-            counts,
-            total,
-            dominant: { label: dominant[0], count: dominant[1] },
-            mostRecent,
-            outliers,
-            centroid,
-            meanDist
-        };
-    }, [points]);
+    //     return {
+    //         counts,
+    //         total,
+    //         dominant: { label: dominant[0], count: dominant[1] },
+    //         mostRecent,
+    //         outliers,
+    //         centroid,
+    //         meanDist
+    //     };
+    // }, [points]);
 
     if (points.length === 0) return (
         <div className="flex h-[220px] w-full items-center justify-center mt-4">
@@ -201,66 +199,6 @@ const EmbeddingVisualizer = ({ rawEmbeddings }) => {
                     <gridHelper args={[30, 30, 0x222222, 0x111111]} position={[0, -2, 0]} />
                 </Canvas>
             </div>
-
-            {/* Expandable Quick Insights under chart */}
-            {insights && (
-                <></>
-                // <div>
-                //     <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 shadow-sm">
-                //         <button
-                //             onClick={() => setInsExpanded(!insExpanded)}
-                //             className="w-full flex items-center justify-between hover:opacity-90 transition-opacity"
-                //         >
-                //             <div className="flex items-center gap-2">
-                //                 <span className="text-lg">💡</span>
-                //                 <p className="text-md font-bold text-gray-800">Quick Insights</p>
-                //             </div>
-                //             <span className={`text-gray-600 transform transition-transform ${insExpanded ? 'rotate-180' : ''} scale-75`}>
-                //                 <DropdownIcon />
-                //             </span>
-                //         </button>
-
-                //         {insExpanded && (
-                //             <div className="flex flex-col gap-3 mt-3 pt-3 border-t border-slate-200">
-                //                 <div className="p-2 bg-white bg-opacity-60 rounded">
-                //                     <p className="text-sm text-gray-800 font-semibold mb-1">Overview</p>
-                //                     <p className="text-sm text-gray-700">Total messages: <span className="font-bold">{insights.total}</span></p>
-                //                     <p className="text-sm text-gray-700">Dominant emotion: <span className="font-bold">{insights.dominant.label}</span> ({insights.dominant.count})</p>
-                //                 </div>
-
-                //                 <div className="p-2 bg-white bg-opacity-60 rounded">
-                //                     <p className="text-sm text-gray-800 font-semibold mb-1">Distribution</p>
-                //                     <div className="flex flex-wrap gap-2">
-                //                         {Object.entries(insights.counts).map(([k, v]) => (
-                //                             <span key={k} className="text-xs px-2 py-1 rounded" style={{ background: '#f1f5f9' }}>
-                //                                 {k}: <strong>{v}</strong>
-                //                             </span>
-                //                         ))}
-                //                     </div>
-                //                 </div>
-
-                //                 {insights.mostRecent && (
-                //                     <div className="p-2 bg-white bg-opacity-60 rounded">
-                //                         <p className="text-sm text-gray-800 font-semibold mb-1">Most recent message</p>
-                //                         <p className="text-sm text-gray-700 italic">"{insights.mostRecent.text_content?.substring(0, 140)}{insights.mostRecent.text_content?.length > 140 ? '...' : ''}"</p>
-                //                         <p className="text-xs text-gray-500 mt-1">{new Date(insights.mostRecent.created_at).toLocaleString()}</p>
-                //                     </div>
-                //                 )}
-
-                //                 <div className="p-2 bg-white bg-opacity-60 rounded">
-                //                     <p className="text-sm text-gray-800 font-semibold mb-1">Outliers</p>
-                //                     <p className="text-sm text-gray-700">Detected outliers: <span className="font-bold">{insights.outliers}</span>. High outlier count may indicate unique or strongly different messages.</p>
-                //                 </div>
-
-                //                 {/* <div className="flex flex-col gap-1 text-md text-gray-500 mt-2 p-2 bg-white rounded border border-slate-100">
-                //                     <p className="font-semibold text-gray-800">💭 Tip:</p>
-                //                     <p className="text-sm">Use rotation and zoom to inspect clusters; hover points to preview messages. Consider exporting messages in a cluster for deeper review.</p>
-                //                 </div> */}
-                //             </div>
-                //         )}
-                //     </div>
-                // </div>
-            )}
         </Card>
 
     );

@@ -5,7 +5,6 @@ import axios from 'axios';
 import '../../styles/registerPage.css';
 
 const ResetPasswordPage = () => {
-    const [visible, setVisible] = useState(false);
     const [errors, setErrors] = useState('');
     const { id, token, role } = useParams();
     const navigate = useNavigate();

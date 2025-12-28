@@ -17,6 +17,7 @@ import { MdOutlineCalendarToday } from "react-icons/md"; // Using standard icon
 import "../../styles/moodActivityChart.css";
 import SummaryBlock from "../../components/SummaryBlock";
 import HoverTooltip from "../../components/HoverTooltip";
+import { useSocketSubscription } from "../../hooks/useSocket";
 
 const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId, onInsightsChange }) => {
     const userId = propUserId || getIdFromToken();
@@ -70,56 +71,58 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
         setTempEnd(formatLocalDate(dateRange.end));
     }, [dateRange]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!userId) return;
+    const fetchData = React.useCallback(async () => {
+        if (!userId) return;
 
-            try {
-                setLoading(true);
-                const token = localStorage.getItem("token");
-                const startStr = formatLocalDate(dateRange.start);
-                const endStr = formatLocalDate(dateRange.end);
+        try {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            const startStr = formatLocalDate(dateRange.start);
+            const endStr = formatLocalDate(dateRange.end);
 
-                const response = await axios.get(
-                    `/api/emotion/moodActivityCorrelation/${userId}?startDate=${startStr}&endDate=${endStr}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+            const response = await axios.get(
+                `/api/emotion/moodActivityCorrelation/${userId}?startDate=${startStr}&endDate=${endStr}`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-                // Transform data for the chart
-                const transformedData = (response.data.correlation || []).map((item) => ({
-                    name: item.activity_type || "Unknown",
-                    avgMoodScore: Math.round(item.avg_mood_score || 0),
-                    moodChange: Math.round(item.mood_change || 0),
-                    activityCount: item.activity_count || 0,
-                    avgConfidence: (item.avg_confidence || 0).toFixed(2),
-                }));
+            // Transform data for the chart
+            const transformedData = (response.data.correlation || []).map((item) => ({
+                name: item.activity_type || "Unknown",
+                avgMoodScore: Math.round(item.avg_mood_score || 0),
+                moodChange: Math.round(item.mood_change || 0),
+                activityCount: item.activity_count || 0,
+                avgConfidence: (item.avg_confidence || 0).toFixed(2),
+            }));
 
-                setData(transformedData);
-                setError(null);
+            setData(transformedData);
+            setError(null);
 
-                // Compute and pass insights to parent if callback provided
-                if (onInsightsChange) {
-                    const insights = computeMoodActivityInsights(transformedData);
-                    onInsightsChange(insights);
-                }
-            } catch (err) {
-                console.error("Error fetching mood-activity correlation:", err);
-                if (err.response && err.response.status !== 404) {
-                    setError(err.response?.data?.error || "Failed to fetch data");
-                } else {
-                    setData([]); // Treat 404 as empty data
-                }
-                // Clear insights on error
-                if (onInsightsChange) {
-                    onInsightsChange(null);
-                }
-            } finally {
-                setLoading(false);
+            // Compute and pass insights to parent if callback provided
+            if (onInsightsChange) {
+                const insights = computeMoodActivityInsights(transformedData);
+                onInsightsChange(insights);
             }
-        };
-
-        fetchData();
+        } catch (err) {
+            console.error("Error fetching mood-activity correlation:", err);
+            if (err.response && err.response.status !== 404) {
+                setError(err.response?.data?.error || "Failed to fetch data");
+            } else {
+                setData([]); // Treat 404 as empty data
+            }
+            // Clear insights on error
+            if (onInsightsChange) {
+                onInsightsChange(null);
+            }
+        } finally {
+            setLoading(false);
+        }
     }, [userId, dateRange.start, dateRange.end, onInsightsChange]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    useSocketSubscription(['emotional_log', 'intervention_log'], fetchData);
 
     const handleApplyDate = () => {
         if (!tempStart || !tempEnd) return;

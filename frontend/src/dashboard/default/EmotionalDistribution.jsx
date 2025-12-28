@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { MdOutlineCalendarToday } from "react-icons/md";
 import Card from "../card";
 import BarChart from "../charts/BarChart";
 import HoverTooltip from "../../components/HoverTooltip";
 import { getIdFromToken } from "../../utils/auth";
+import { useSocketSubscription } from "../../hooks/useSocket";
 
 const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
 	const currentUserId = getIdFromToken();
@@ -90,6 +91,12 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 			fetchCounts(dateRange.start, dateRange.end);
 		}
 	}, [targetUserId, dateRange.start, dateRange.end]);
+
+	useSocketSubscription(['emotional_log'], () => {
+		if (dateRange.start && dateRange.end) {
+			fetchCounts(dateRange.start, dateRange.end);
+		}
+	});
 
 	const shiftPage = (direction) => {
 		const total = dailyCounts.length;

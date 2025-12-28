@@ -5,6 +5,7 @@ import { getIdFromToken } from '../../utils/auth';
 import GratitudeCard from '../../dashboard/card/GratitudeCard';
 import GratitudeModal from '../../components/GratitudeModal';
 import MyFavGratitudeList from '../../components/MyFavGratitudeList';
+import { useSocketSubscription } from '../../hooks/useSocket';
 
 const GratitudePage = () => {
     const [gratitudes, setGratitudes] = useState([]);
@@ -12,7 +13,7 @@ const GratitudePage = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const userId = getIdFromToken();
 
-    const loadData = async () => {
+    const loadData = React.useCallback(async () => {
         try {
             setLoading(true);
             const data = await fetchGratitudes(userId);
@@ -25,11 +26,13 @@ const GratitudePage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [userId]);
+
+    useSocketSubscription(['wb_gratitude_item'], loadData);
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [loadData]);
 
     const favs = gratitudes?.filter(j => j?.fav === true) || [];
 
@@ -59,13 +62,13 @@ const GratitudePage = () => {
                     {/* Loading State Handling */}
 
                     <div className="col-span-2 grid gap-4 grid-cols-2">
-                            {gratitudes.map((item) => (
-                                <GratitudeCard
-                                    key={item.id}
-                                    data={item}
-                                    onEdit={loadData}
-                                />
-                            ))}
+                        {gratitudes.map((item) => (
+                            <GratitudeCard
+                                key={item.id}
+                                data={item}
+                                onEdit={loadData}
+                            />
+                        ))}
                     </div>
 
                     {favs.length > 0 && (

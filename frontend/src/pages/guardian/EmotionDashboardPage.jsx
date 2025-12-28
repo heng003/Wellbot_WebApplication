@@ -10,7 +10,6 @@ import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalTable from "../../dashboard/default/EmotionalTable";
 import HoverTooltip from "../../components/HoverTooltip";
-import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 
 const EmotionDashboardPage = () => {
     const guardianId = getIdFromToken();

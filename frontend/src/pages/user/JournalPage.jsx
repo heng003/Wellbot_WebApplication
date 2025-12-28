@@ -13,6 +13,8 @@ import MyFavJournalList from '../../components/MyFavJournalList';
 import { MdAdd } from 'react-icons/md';
 import JournalModal from '../../components/JournalModal';
 
+import { useSocketSubscription } from '../../hooks/useSocket';
+
 const JournalPage = () => {
 
     const [journals, setJournals] = useState([]);
@@ -21,7 +23,7 @@ const JournalPage = () => {
     const journalImages = [J1, J2, J3, J4, J5, J6];
     const [showAddModal, setShowAddModal] = useState(false);
 
-    const load = async () => {
+    const load = React.useCallback(async () => {
         try {
             setLoading(true);
             const data = await fetchJournals(userId);
@@ -38,11 +40,13 @@ const JournalPage = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [userId]);
+
+    useSocketSubscription(['wb_journal'], load);
 
     useEffect(() => {
         load();
-    }, []);
+    }, [load]);
 
     const favs = journals?.filter(j => j?.fav === true) || [];
 

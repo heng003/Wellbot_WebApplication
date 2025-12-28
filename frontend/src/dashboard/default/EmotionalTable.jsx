@@ -9,6 +9,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { getIdFromToken } from "../../utils/auth";
+import { useSocketSubscription } from "../../hooks/useSocket";
 
 const columnHelper = createColumnHelper();
 
@@ -102,6 +103,8 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
         fetchTable();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId, dateRange.start, dateRange.end]);
+
+    useSocketSubscription(['emotional_log'], fetchTable);
 
     // --- Columns ---
     const columns = [

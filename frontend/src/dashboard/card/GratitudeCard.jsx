@@ -6,7 +6,7 @@ import GratitudeModal from '../../components/GratitudeModal';
 import { toggleFav } from "../../services/gratitudeService";
 
 const GratitudeCard = ({ data, onEdit }) => {
-    const { id, text, fav, created_at, updated_at } = data;
+    const { id, text, fav, created_at } = data;
     const [isFav, setIsFav] = useState(fav || false);
     const [showModal, setShowModal] = useState(false);
 

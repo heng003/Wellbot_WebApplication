@@ -7,10 +7,6 @@ import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
 import DisplayWidgets from "../../components/DisplayWidgets"
 import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
-import InfoTooltip from "../../components/InfoTooltip";
-import HoverTooltip from "../../components/HoverTooltip";
-import Card from "../../dashboard/card";
-
 import '../../styles/dashboardPage.css';
 
 const MainDashboardPage = () => {

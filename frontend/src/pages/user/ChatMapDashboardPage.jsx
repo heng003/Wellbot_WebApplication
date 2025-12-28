@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchUserEmbeddings } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
+import { useSocketSubscription } from "../../hooks/useSocket";
 
 // Components
 import EmbeddingVisualizer from "../../components/EmbeddingVisualizer";
@@ -19,18 +20,21 @@ const ChatMapDashboardPage = () => {
     const [endDate, setEndDate] = useState(new Date());
     const [embeddings, setEmbeddings] = useState([]);
 
-    useEffect(() => {
+    const loadEmbeddings = React.useCallback(async () => {
         if (!userId) return;
-        const loadEmbeddings = async () => {
-            try {
-                const data = await fetchUserEmbeddings(userId, startDate, endDate);
-                setEmbeddings(data || []);
-            } catch (error) {
-                console.error("Failed to fetch embeddings", error);
-            }
-        };
-        loadEmbeddings();
+        try {
+            const data = await fetchUserEmbeddings(userId, startDate, endDate);
+            setEmbeddings(data || []);
+        } catch (error) {
+            console.error("Failed to fetch embeddings", error);
+        }
     }, [userId, startDate, endDate]);
+
+    useEffect(() => {
+        loadEmbeddings();
+    }, [loadEmbeddings]);
+
+    useSocketSubscription(['wb_embeddings'], loadEmbeddings);
 
     return (
         <div className="main-container">

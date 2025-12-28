@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from "react";
 import CardFeature from "../../components/CardFeature";
 import "../../styles/landingPage.css";
-import FitbitLoginButton from "../../components/FitbitLoginButton";
 import NavBarGeneral from "../../layout/NavBarGeneral";
 import NavBarDark from "../../layout/NavBarDark";
 
 const LandingPage = () => {
 
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
     const [showNav, setShowNav] = useState(false);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 992);
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     useEffect(() => {
         const onScroll = () => {
@@ -67,7 +56,7 @@ const LandingPage = () => {
                                 Discover a smarter way to understand your feelings and take charge of your mental well-being. Well-Bot helps you track emotional patterns, gain meaningful insights, and build healthier habits through daily reflections and intelligent analysis.
                             </p>
                         </div>
-                        <div className="align-content-center" style={{width: "90%", marginTop: '3em'}}>
+                        <div className="align-content-center" style={{ width: "90%", marginTop: '3em' }}>
                             <div className="emotion-card animate-transition">
                                 <div className="card-header">
                                     <h3 className="black">Today's Emotions</h3>

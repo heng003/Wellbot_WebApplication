@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { useSocketSubscription } from "./useSocket";
 
 // Helper: Format date as YYYY-MM-DD (Local Time)
 export const formatLocalDate = (d) => {
@@ -48,8 +49,10 @@ export const getStartEndDate = (refDate, range) => {
  */
 export const useInterventionData = (userId, timeRange = "all", referenceDate, customRange = null) => {
 
-    // Memoize reference date
-    const validRefDate = referenceDate instanceof Date ? referenceDate : new Date();
+    // Memoize reference date to prevent unstable dependency
+    const validRefDate = React.useMemo(() => {
+        return referenceDate instanceof Date ? referenceDate : new Date();
+    }, [referenceDate]);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -110,6 +113,8 @@ export const useInterventionData = (userId, timeRange = "all", referenceDate, cu
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
+    useSocketSubscription(['intervention_log'], fetchData);
 
     return { data, loading, error, refetch: fetchData };
 };

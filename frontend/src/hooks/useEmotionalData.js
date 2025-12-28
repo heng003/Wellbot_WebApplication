@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { getIdFromToken } from '../utils/auth';
+import { useSocketSubscription } from './useSocket';
 
 export const useEmotionalData = (startDate, endDate, bucketType = 'day', userIdOverride = null) => {
     const [trendData, setTrendData] = useState(null);
@@ -55,6 +56,8 @@ export const useEmotionalData = (startDate, endDate, bucketType = 'day', userIdO
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
+    useSocketSubscription(['emotional_log'], fetchData);
 
     return { trendData, loading, error, refetch: fetchData };
 };

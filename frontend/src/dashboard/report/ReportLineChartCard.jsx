@@ -109,8 +109,6 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
         return trendData.dailyData.some(day => day.count > 0 || day.avgScore !== null);
     }, [trendData]);
 
-    const trendValue = !isNaN(Number(trendData?.trendPercentage)) ? Number(trendData?.trendPercentage) : 0;
-
     return (
         <Card extra="col-span-1 rounded-[20px] p-3 h-full">
             <div className="flex flex-row justify-between px-3 pt-2">
