@@ -13,6 +13,7 @@ const ResetPasswordPage = () => {
         newPassword: '',
         confirmPassword: ''
     });
+    const [loading, setLoading] = useState(false);
 
     const handlePasswordInputChange = (e) => {
         const { name, value } = e.target;
@@ -44,8 +45,11 @@ const ResetPasswordPage = () => {
             return;
         }
 
+
+        setLoading(true);
         try {
             const response = await axios.post(`/api/auth/resetPassword/${id}/${token}/${role}`, { password: passwordData.newPassword });
+            setLoading(false);
             if (response.data) {
                 Swal.fire({
                     text: "Your password has been reset successfully.",
@@ -56,17 +60,12 @@ const ResetPasswordPage = () => {
                         confirmButton: 'my-confirm-button-class-success'
                     }
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        if (role === 'guardian') {
-                            navigate('/guardian/monitoredUser');
-                        } else {
-                            navigate('/user/accessManage');
-                        }
-                    }
+                    navigate('/login');
                 });
                 setPasswordData({ newPassword: '', confirmPassword: '' });
             }
         } catch (error) {
+            setLoading(false);
             console.error("Reset Password Error:", error);
             Swal.fire({
                 title: "Error!",
@@ -95,7 +94,7 @@ const ResetPasswordPage = () => {
                     <form onSubmit={handleResetButton} className="register-form">
                         <div className="form-full">
                             <div>
-                                <label className="form-label">Enter the new password</label>
+                                <label className="form-label">New Password</label>
                                 <input
                                     type="password"
                                     name="newPassword"
@@ -121,7 +120,10 @@ const ResetPasswordPage = () => {
                                 />
                             </div>
                         </div>
-                        <button type="submit" className="btn-submit">Reset Password</button>
+                        <button type="submit" className="btn-submit" disabled={loading}>
+                            {loading && <span className="loader"></span>}
+                            <span>Reset Password</span>
+                        </button>
                     </form>
                 </div>
             </div>

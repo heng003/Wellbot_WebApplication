@@ -139,7 +139,7 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
                                     <div className="flex-1">
                                         <div className="flex justify-between items-center mb-1">
                                             <span className="text-sm font-semibold text-gray-800">{emotion}</span>
-                                            <span className="text-xs font-bold text-gray-600">{percentage}%</span>
+                                            <span className="text-xs font-bold text-gray-700">{percentage}%</span>
                                         </div>
                                         <div className="w-full bg-gray-200 rounded-full h-2">
                                             <div
@@ -174,7 +174,7 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
                         {insights.topPerEmotion[emotion].map((msg, idx) => (
                             <div key={idx} className="p-2 bg-gray-50 rounded border border-gray-200">
                                 <div className="flex justify-between items-start gap-2 mb-1">
-                                    <span className="text-xs font-medium text-gray-600">#{idx + 1}</span>
+                                    <span className="text-xs font-medium text-gray-700">#{idx + 1}</span>
                                     <span className="text-xs font-bold text-gray-700">{msg.count} times</span>
                                 </div>
                                 <p className="text-sm text-gray-700 line-clamp-2">"{msg.text}"</p>
@@ -192,18 +192,18 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                     <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                        <p className="text-xs text-gray-600 mb-1">Total Messages</p>
+                        <p className="text-xs text-gray-700 mb-1">Total Messages</p>
                         <p className="text-2xl font-bold text-blue-600">{insights.totalMessages}</p>
                     </div>
                     <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
-                        <p className="text-xs text-gray-600 mb-1">Unique Messages</p>
+                        <p className="text-xs text-gray-700 mb-1">Unique Messages</p>
                         <p className="text-2xl font-bold text-purple-600">{insights.uniqueMessages}</p>
                     </div>
                     <div className="p-3 bg-indigo-50 rounded-lg border border-indigo-200 col-span-2">
-                        <p className="text-xs text-gray-600 mb-1">Message Diversity</p>
+                        <p className="text-xs text-gray-700 mb-1">Message Diversity</p>
                         <div className="flex items-baseline gap-2">
                             <p className="text-2xl font-bold text-indigo-600">{insights.uniquePercentage}%</p>
-                            <p className="text-xs text-gray-600">unique per message</p>
+                            <p className="text-xs text-gray-700">unique per message</p>
                         </div>
                     </div>
                 </div>

@@ -27,7 +27,7 @@ exports.registerUserAcc = async (req, res, next) => {
         // Find device by serial number
         const device = await Device.findDeviceBySerialAndStatus(serialNumber, 'inactive');
         if (!device) {
-            return next(new createError("Invalid serial number or device already in use", 400));
+            return next(new createError("Invalid serial number or device already in use.", 400));
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -130,7 +130,7 @@ exports.logIn = async (req, res, next) => {
             role = "guardian";
         }
 
-        if (!user) return next(new createError("User not existed! Please Key In A Correct Email.", 404));
+        if (!user) return next(new createError("User does not exist. Please enter a correct email", 404));
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
@@ -299,7 +299,7 @@ exports.forgotPassword = async (req, res, next) => {
             role = "guardian";
         }
 
-        if (!user) return next(new createError("User not existed! Please Key In A Correct Email.", 404));
+        if (!user) return next(new createError("User does not exist. Please enter a correct email.", 404));
 
         const tokenEmail = jwt.sign(
             { id: user.id },
@@ -548,7 +548,7 @@ exports.changeDevice = async (req, res, next) => {
 
         const newDevice = await Device.findDeviceBySerialAndStatus(serialNumber, "inactive");
         if (!newDevice) {
-            return res.status(400).json({ status: "error", message: "Device not found or already in use" });
+            return res.status(400).json({ status: "error", message: "Device not found or already in use." });
         }
 
         // Set old device to inactive

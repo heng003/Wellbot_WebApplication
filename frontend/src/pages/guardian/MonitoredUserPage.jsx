@@ -135,7 +135,7 @@ const MonitoredUserPage = () => {
             if (error.response && error.response.status === 404 && error.response.data.message === "User not existed.") {
                 Swal.fire({
                     title: "User Not Found",
-                    text: "No user found with that email or serial number. Please check and try again.",
+                    text: "No user found with that email. Please check and try again.",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
                 }).then((result) => {

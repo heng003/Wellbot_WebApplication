@@ -75,6 +75,7 @@ const GuardianProfilePage = () => {
             await axios.put('/api/profile/userProfile', personalData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
+            scrollToTop();
             setSuccess('Personal information updated successfully!');
             setEditingPersonal(false);
             Swal.fire({
@@ -126,6 +127,7 @@ const GuardianProfilePage = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
+            scrollToTop();
             setSuccess('Password changed!');
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
             setShowPasswordModal(false);
@@ -151,6 +153,13 @@ const GuardianProfilePage = () => {
     const closeModals = () => {
         setShowPasswordModal(false);
         setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
     return (

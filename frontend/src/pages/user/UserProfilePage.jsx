@@ -86,6 +86,7 @@ const UserProfilePage = () => {
             await axios.put('/api/profile/userProfile', personalData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
+            scrollToTop();
             setSuccess('Personal information updated successfully!');
             setEditingPersonal(false);
             Swal.fire({
@@ -112,7 +113,7 @@ const UserProfilePage = () => {
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             Swal.fire({
                 title: "Error",
-                text: "New passwords do not match",
+                text: "New passwords do not match.",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
             });
@@ -137,7 +138,8 @@ const UserProfilePage = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setSuccess('Password changed!');
+            scrollToTop();
+            setSuccess('Password changed successfully!');
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' })
             setShowPasswordModal(false);
             Swal.fire({
@@ -171,10 +173,11 @@ const UserProfilePage = () => {
                     ...prev,
                     allowGuardian: true
                 }));
-                setSuccess('Guardian tracking enabled');
+                scrollToTop();
+                setSuccess('Guardian tracking enabled.');
                 Swal.fire({
                     title: "Success",
-                    text: "Guardian tracking enabled",
+                    text: "Guardian tracking enabled.",
                     icon: "success",
                     confirmButtonColor: "var(--primary-color)",
                 });
@@ -196,11 +199,11 @@ const UserProfilePage = () => {
                 if (res.data.count > 0) {
                     Swal.fire({
                         title: "Active Guardians",
-                        text: `You have ${res.data.count} granted permissions. Do you want to revoke them before disable guardian to send tracking requests?`,
+                        text: `You have ${res.data.count} granted permissions. Do you want to revoke them before disabling Guardian to send tracking requests?`,
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Go to Access Management",
-                        cancelButtonText: "Cancel",
+                        confirmButtonText: "Go to Access Control",
+                        cancelButtonText: "Disable Without Revoking",
                         confirmButtonColor: "var(--primary-color)",
                         cancelButtonColor: "#FFF",
                         customClass: {
@@ -237,10 +240,11 @@ const UserProfilePage = () => {
                 ...prev,
                 allowGuardian: false
             }));
-            setSuccess('Guardian tracking disabled');
+            scrollToTop();
+            setSuccess('Guardian tracking disabled.');
             Swal.fire({
                 title: "Success",
-                text: "Guardian tracking disabled",
+                text: "Guardian tracking disabled.",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
             });
@@ -283,7 +287,8 @@ const UserProfilePage = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setSuccess('Device changed!');
+            scrollToTop();
+            setSuccess('Device changed successfully!');
             setShowDeviceModal(false);
             Swal.fire({
                 title: "Success",
@@ -533,7 +538,14 @@ const UserProfilePage = () => {
                                                 await axios.patch('/api/profile/preferIntervention', { preferIntervention: updated }, {
                                                     headers: { Authorization: `Bearer ${token}` }
                                                 });
-                                                setSuccess('Intervention preferences updated!');
+                                                scrollToTop();
+                                                setSuccess('Intervention preferences updated successfully!');
+                                                Swal.fire({
+                                                    title: "Success",
+                                                    text: "Intervention preferences updated successfully!",
+                                                    icon: "success",
+                                                    confirmButtonColor: "var(--primary-color)",
+                                                });
                                             } catch (err) {
                                                 setError('Failed to update intervention preferences');
                                             } finally {

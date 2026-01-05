@@ -144,7 +144,7 @@ exports.changeDevice = async (req, res, next) => {
 
         const newDevice = await Device.findDeviceBySerialAndStatus(serialNumber, "inactive");
         if (!newDevice) {
-            return res.status(400).json({ status: "error", message: "Device not found or already in use" });
+            return res.status(400).json({ status: "error", message: "Device not found or already in use." });
         }
 
         // Set old device to inactive

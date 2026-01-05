@@ -55,6 +55,11 @@ const RegisterUserPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (formData.age < 18) {
+            scrollToTop();
+            return setError('Age must be at least 18');
+        }
+
         if (formData.password !== formData.confirmPassword) {
             scrollToTop();
             return setError('Passwords do not match');
@@ -180,8 +185,6 @@ const RegisterUserPage = () => {
                                     value={formData.age}
                                     onChange={handleInputChange}
                                     className="form-input"
-                                    min="18"
-                                    max="120"
                                     required
                                 />
                             </div>

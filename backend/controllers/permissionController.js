@@ -11,7 +11,7 @@ exports.getMonitoredList = async (req, res, next) => {
     try {
         const guardian = await Guardian.findGuardianById(guardianId);
         if (!guardian) {
-            return next(new createError("Guardian not existed.", 404));
+            return next(new createError("Guardian does not exist.", 404));
         }
         const permissions = await Permission.findPermissionsByGuardianId(guardianId);
         if (!permissions.length) return res.json([]);
@@ -42,7 +42,7 @@ exports.createPermission = async (req, res, next) => {
         const user = await User.findUserByEmail(userIdentification) //|| await User.findUserByUsername(userIdentification);
         const guardian = await Guardian.findGuardianById(guardianId);
         if (!user) return next(new createError("User not existed.", 404));
-        if (!guardian) return next(new createError("Guardian not existed.", 404));
+        if (!guardian) return next(new createError("Guardian does not exist.", 404));
         if (!user.allow_guardian) {
             return res.status(403).json({
                 status: "error",
@@ -133,7 +133,7 @@ exports.createActivePermission = async (req, res, next) => {
     const { userId, guardianIdentification } = req.body;
     try {
         const guardian = await Guardian.findGuardianByEmailOrFullName(guardianIdentification);
-        if (!guardian) return next(new createError("Guardian not existed.", 404));
+        if (!guardian) return next(new createError("Guardian does not exist.", 404));
         const existing = await Permission.findPermissionByGuardianAndUser(guardian.id, userId);
 
         if (existing) {

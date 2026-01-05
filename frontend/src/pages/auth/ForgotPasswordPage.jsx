@@ -10,6 +10,7 @@ const ForgotPasswordPage = () => {
     const [errors, setErrors] = useState({
         email: ""
     });
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,8 +25,10 @@ const ForgotPasswordPage = () => {
 
         if (Object.keys(validationErrors).length === 0) {
 
+            setLoading(true);
             try {
                 await axios.post('/api/auth/forgotPassword', { email });
+                setLoading(false);
                 Swal.fire({
                     title: "Check Your Email",
                     text: "We have sent an email to " + email + " to reset your password. Link in email will expire within 5 minutes.",
@@ -44,6 +47,7 @@ const ForgotPasswordPage = () => {
                     }
                 });
             } catch (error) {
+                setLoading(false);
                 console.error(error);
                 console.error("Reset Password Error:", error.response?.data);
                 Swal.fire({
@@ -91,8 +95,9 @@ const ForgotPasswordPage = () => {
                             <button
                                 type="submit"
                                 className="btn-submit"
+                                disabled={loading}
                             >
-                                <ArrowRight className="submit-icon" />
+                                {loading ? <span className="loader"></span> : <ArrowRight className="submit-icon" />}
                                 Reset Password
                             </button>
                         </div>
