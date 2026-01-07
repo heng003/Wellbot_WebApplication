@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from "../card";
+import HoverTooltip from "../../components/HoverTooltip";
 import {
     createColumnHelper,
     flexRender,
@@ -57,10 +58,10 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
     const getEmotionColor = (emotion) => {
         const lower = (emotion || "").toLowerCase();
         switch (lower) {
-            case "happy": return "text-[#519AF6]";
+            case "happy": return "text-[#FFD56B]";
+            case "angry": return "text-[#EA5E8F]";
             case "sad": return "text-[#69D5C5]";
-            case "angry": return "text-[#7E6FEE]";
-            case "fear": return "text-[#EA5E8F]";
+            case "fear": return "text-[#519AF6]";
             default: return "text-navy-700";
         }
     };
@@ -110,21 +111,21 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
     const columns = [
         columnHelper.accessor("ts", {
             id: "ts",
-            header: () => <p className="text-sm font-bold text-gray-600">TIMESTAMP</p>,
-            cell: (info) => <p className="text-sm font-bold text-navy-700">{formatDateTime(info.getValue())}</p>,
+            header: () => <p className="text-sm font-bold text-gray-400">TIMESTAMP</p>,
+            cell: (info) => <p className="text-sm font-medium text-navy-700">{formatDateTime(info.getValue())}</p>,
         }),
         columnHelper.accessor("emotion_label", {
             id: "emotion_label",
-            header: () => <p className="text-sm font-bold text-gray-600">EMOTION</p>,
+            header: () => <p className="text-sm font-bold text-gray-400">EMOTION</p>,
             cell: (info) => {
                 const val = info.getValue();
-                return <p className={`text-sm font-bold ${getEmotionColor(val)} capitalize`}>{val}</p>;
+                return <p className={`text-sm font-medium ${getEmotionColor(val)} capitalize`}>{val}</p>;
             },
         }),
         columnHelper.accessor("emotional_score", {
             id: "emotional_score",
-            header: () => <p className="text-sm font-bold text-gray-600">MOOD SCORE</p>,
-            cell: (info) => <p className="text-sm font-bold text-navy-700">{info.getValue() != null ? `${info.getValue()}%` : "-"}</p>,
+            header: () => <p className="text-sm font-bold text-gray-400">MOOD SCORE</p>,
+            cell: (info) => <p className="text-sm font-medium text-navy-700">{info.getValue() != null ? `${info.getValue()}%` : "-"}</p>,
         }),
     ];
 
@@ -132,11 +133,11 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
         columns.push(
             columnHelper.accessor("confidence_score", {
                 id: "confidence_score",
-                header: () => <p className="text-sm font-bold text-gray-600">CONFIDENCE</p>,
+                header: () => <p className="text-sm font-bold text-gray-400">CONFIDENCE</p>,
                 cell: (info) => {
                     const val = info.getValue();
                     const display = val !== null && val !== undefined ? Math.round(val * 100) + "%" : "-";
-                    return <p className="text-sm font-bold text-navy-700">{display}</p>;
+                    return <p className="text-sm font-medium text-navy-700">{display}</p>;
                 },
             }),
         )
@@ -155,7 +156,9 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
         <Card extra={"col-span-2 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
                 <div className="text-lg font-bold text-navy-700">
-                    Emotional Logs
+                    <HoverTooltip content="Detailed log of all emotional records">
+                        Emotional Records
+                    </HoverTooltip>
                 </div>
             </div>
 
@@ -198,7 +201,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
                                         {row.getVisibleCells().map((cell) => (
                                             <td
                                                 key={cell.id}
-                                                className="min-w-[150px] border-white/0 py-3 pr-4"
+                                                className="min-w-[150px] border-white/0 py-2 pr-4"
                                             >
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>

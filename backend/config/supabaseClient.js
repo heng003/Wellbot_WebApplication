@@ -11,7 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 		params: {
 			eventsPerSecond: 10,
 		},
-		timeout: 20000,
+		timeout: 60000,
 	},
 });
 

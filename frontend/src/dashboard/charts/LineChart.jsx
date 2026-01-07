@@ -7,7 +7,7 @@ const LineChart = ({ options, series, height }) => {
 				options={options}
 				series={series}
 				type="line"
-				height={height || 300}
+				height={height || 200}
 				width="100%"
 			/>
 		</div>

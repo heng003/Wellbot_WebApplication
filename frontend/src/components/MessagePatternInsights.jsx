@@ -9,8 +9,8 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
         const getEmotionLabel = (text = "") => {
             const t = (text || "").toLowerCase();
             if (t.match(/happy|joy|joyful|delighted|great|love|good|excited|wonderful|glad|cheerful|laugh|pleased|content|grateful|awesome|amazing|开心|快乐|喜悦|高兴|棒|美好|喜欢|gembira|bahagia|seronok|suka|teruja|hebat|bagus|ceria|puas|syukur/)) return 'Happy';
-            if (t.match(/sad|cry|crying|down|bad|lonely|grief|upset|disappointed|unhappy|heartbroken|low|moody|hurt|伤心|难过|哭|悲伤|孤独|失落|沮丧|sedih|kecewa|muram|sepi|sunyı|tersentuh|terluka|rasa down/)) return 'Sad';
             if (t.match(/angry|mad|furious|rage|annoyed|irritated|frustrated|upset|offended|hostile|生气|愤怒|讨厌|恼火|烦|不爽|marah|geram|bengang|panas|menyampah|tak puas hati/)) return 'Angry';
+            if (t.match(/sad|cry|crying|down|bad|lonely|grief|upset|disappointed|unhappy|heartbroken|low|moody|hurt|伤心|难过|哭|悲伤|孤独|失落|沮丧|sedih|kecewa|muram|sepi|sunyı|tersentuh|terluka|rasa down/)) return 'Sad';
             if (t.match(/fear|scared|afraid|anxious|worry|worried|nervous|uneasy|uncertain|tense|shaken|concerned|害怕|恐惧|担心|焦虑|紧张|不安|takut|risau|cemas|gugup|gelisah|bimbang|was-was/)) return 'Fear';
             return 'Neutral';
         };
@@ -90,10 +90,10 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
     if (!insights) return null;
 
     const emotionColors = {
-        'Happy': '#519AF6',
+        'Happy': '#FFD56B',
+        'Angry': '#EA5E8F',
         'Sad': '#69D5C5',
-        'Angry': '#7E6FEE',
-        'Fear': '#EA5E8F',
+        'Fear': '#519AF6',
         'Neutral': '#A3AED0'
     };
 

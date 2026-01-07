@@ -98,7 +98,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	const formatTimeLabel = (dateStr, bucket) => {
 		if (!dateStr) return "";
 		const date = new Date(dateStr);
-		const datePart = date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+		const datePart = date.toLocaleDateString("en-GB", { day: '2-digit', month: 'short' });
 
 		if (bucket === "day") {
 			return datePart;
@@ -169,7 +169,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		grid: { show: false, padding: { left: 50, right: 40 }, borderColor: "rgba(163, 174, 208, 0.3)", strokeDashArray: 5 },
 		xaxis: {
 			categories: chartData.categories,
-			tickAmount: 5,
+			tickAmount: 11,
 			labels: { rotate: -45, style: { colors: "#A3AED0", fontSize: "12px", fontWeight: "500" } },
 			axisBorder: { show: false },
 			axisTicks: { show: false },
@@ -249,7 +249,9 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						)}
 					</div>
 				) : (
-					<h2 className="text-lg font-bold text-navy-700">Mood Score</h2>
+					<HoverTooltip content="Average mood score trend over time">
+						<h2 className="text-lg font-bold text-navy-700">Mood Score</h2>
+					</HoverTooltip>
 				)}
 
 				<div className="relative">
@@ -279,11 +281,11 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 			</div>
 
 			{/* Content */}
-			<div className="flex h-full w-full flex-col px-3 mt-4">
+			<div className="flex h-full w-full flex-col px-3 mt-2">
 				{/* Statistics Row */}
 				{hasData && (
 					<div className="flex flex-row justify-between items-start mb-4">
-						<HoverTooltip content="Latest mood analyzed">
+						<HoverTooltip content="Most recent mood score based on latest log">
 							<div className="flex flex-col items-start">
 								<p className="text-sm text-gray-600">Current Score</p>
 								<p className="text-3xl font-bold text-navy-700">
@@ -313,7 +315,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				)}
 
 				{/* Chart Area */}
-				<div className="min-h-[250px] w-full" ref={chartContainerRef}>
+				<div className="min-h-[200px] w-full" ref={chartContainerRef}>
 					{loading ? (
 						<div className="flex h-full items-center justify-center">
 							<p className="text-gray-400 animate-pulse">Loading data...</p>

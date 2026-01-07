@@ -20,6 +20,11 @@
 	justify-content: center;
 }
 
+.pie-md-legend {
+	width: unset;
+	margin-left: 0em;
+}
+
 @media (min-width: 740px) {
 	.dashboard-flex-row {
 		flex-direction: row;
@@ -32,5 +37,12 @@
 	.dashboard-wordcloud {
 		width: 20%;
 		min-height: 300px;
+	}
+}
+
+@media (max-width: 990px) {
+	.pie-md-legend {
+		width: 45%;
+		margin-left: 5em;
 	}
 }

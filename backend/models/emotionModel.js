@@ -31,40 +31,6 @@ async function getEmotionsTimeSeries(userId, start, end) {
     return data;
 }
 
-// Get daily aggregated emotional scores between start and end (inclusive)
-// async function getDailyAggregates(userId, start, end) {
-//     const startDate = new Date(start);
-//     const endDate = new Date(end);
-//     endDate.setHours(23, 59, 59, 999);
-
-//     const { data, error } = await supabase
-//         .from("emotional_log")
-//         .select("timestamp, confidence_score, emotional_score")
-//         .eq("user_id", userId)
-//         .gte("timestamp", startDate.toISOString())
-//         .lte("timestamp", endDate.toISOString());
-
-//     if (error) throw error;
-
-//     const grouped = {};
-//     (data || []).forEach(row => {
-//         const date = new Date(row.timestamp).toISOString().split('T')[0];
-//         if (!grouped[date]) {
-//             grouped[date] = { date, total_conf: 0, total_emotional: 0, count: 0 };
-//         }
-//         grouped[date].count++;
-//         grouped[date].total_conf += (row.confidence_score || 0);
-//         grouped[date].total_emotional += (row.emotional_score || 0);
-//     });
-
-//     return Object.values(grouped).map(g => ({
-//         date: g.date,
-//         avgScore: g.count > 0 ? Math.round(g.total_emotional / g.count) : 0,
-//         avgConfidence: g.count > 0 ? Math.round((g.total_conf / g.count) * 100) / 100 : 0,
-//         count: g.count,
-//     })).sort((a, b) => new Date(a.date) - new Date(b.date));
-// }
-
 // Get daily aggregated emotional scores with optional bucketing + fill missing buckets (and copy previous value)
 async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day') {
     // 1. Map bucketType to SQL Interval
@@ -145,10 +111,6 @@ async function getDailyAggregates(userId, startDate, endDate, bucketType = 'day'
         else if (bucketType === '15min') date.setMinutes(date.getMinutes() + 15);
     };
 
-    // Variables for "Forward Fill"
-    let lastAvgScore = 0;
-    let lastAvgConf = 0;
-
     while (cursor <= end) {
         // Generate the key for the current loop position
         // cursor is already representing the "Wall Clock" time in UTC
@@ -195,7 +157,7 @@ async function getEmotionCountsByDay(userId, start, end) {
     return data;
 }
 
-async function getEmotionalLogsFromDb(userId, startDate, endDate) {
+async function getEmotionalLogsFromDb(userId, startDate, endDate, limit = 200) {
     const startISO = `${startDate}T00:00:00.000Z`;
     const endISO = `${endDate}T23:59:59.999Z`;
 
@@ -203,7 +165,7 @@ async function getEmotionalLogsFromDb(userId, startDate, endDate) {
         p_user: userId,
         p_start: startISO,
         p_end: endISO,
-        p_limit: 200,
+        p_limit: limit,
         p_before: null
     });
 

@@ -20,17 +20,22 @@
 }
 
 :root {
-	--primary-color: #603CFF;
-	--secondary-dark-color: #11047A;
-	--secondary-light-color: #C1D6FA;
-	--background-color: #F5F8FF;
-	--button-gradient: linear-gradient(15.46deg, rgb(74, 37, 225) 26.3%, rgb(123, 90, 255) 86.4%);
+	--primary-color: #3E9389;
+	--secondary-dark-color: #0D9488;
+	--secondary-light-color: #88BFB9;
+	--background-color: #EEF6FA;
+	--button-gradient: linear-gradient(15.46deg,
+			#2F756D 26.3%,
+			/* darker shade of primary */
+			#5CB7AD 86.4%
+			/* lighter, uplifting shade */
+		);
 	--font-size-md: 1rem;
 	--font-size-lg: 2rem;
-	--happy-color: #519AF6;
+	--happy-color: #FFD56B;
+	--angry-color: #EA5E8F;
 	--sad-color: #69D5C5;
-	--angry-color: #7E6FEE;
-	--fear-color: #EA5E8F;
+	--fear-color: #519AF6;
 }
 
 input[type="checkbox"] {
@@ -182,13 +187,13 @@ ul {
 }
 
 .card-animation {
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f0f0f0;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	border: 1px solid #f0f0f0;
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .card-animation:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	transform: translateY(-2px);
 }

@@ -5,6 +5,7 @@ import { LuCircleEqual } from "react-icons/lu";
 import { createColumnHelper, flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { getIdFromToken } from "../../utils/auth";
 import { useInterventionData } from "../../hooks/useInterventionData";
+import HoverTooltip from "../../components/HoverTooltip";
 
 const columnHelper = createColumnHelper();
 
@@ -44,52 +45,52 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
     };
 
     const formatDuration = (val) => {
-		if (!val) return "-";
+        if (!val) return "-";
 
-		// Handle object format (some DB drivers return { minutes: 30 })
-		if (typeof val === 'object' && val !== null) {
-			const parts = [];
-			if (val.hours) parts.push(`${val.hours}hr`);
-			if (val.minutes) parts.push(`${val.minutes}min`);
-			if (val.seconds) parts.push(`${val.seconds}s`);
-			return parts.join(' ') || "0s";
-		}
+        // Handle object format (some DB drivers return { minutes: 30 })
+        if (typeof val === 'object' && val !== null) {
+            const parts = [];
+            if (val.hours) parts.push(`${val.hours}hr`);
+            if (val.minutes) parts.push(`${val.minutes}min`);
+            if (val.seconds) parts.push(`${val.seconds}s`);
+            return parts.join(' ') || "0s";
+        }
 
-		const str = String(val);
+        const str = String(val);
 
-		// Handle HH:MM:SS string format (standard Postgres output)
-		if (str.includes(':')) {
-			const parts = str.split(':');
-			if (parts.length === 3) {
-				const h = parseInt(parts[0], 10);
-				const m = parseInt(parts[1], 10);
-				const s = parseInt(parts[2], 10);
+        // Handle HH:MM:SS string format (standard Postgres output)
+        if (str.includes(':')) {
+            const parts = str.split(':');
+            if (parts.length === 3) {
+                const h = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10);
+                const s = parseInt(parts[2], 10);
 
-				const result = [];
-				if (h > 0) result.push(`${h}hr`);
-				if (m > 0) result.push(`${m}min`);
-				if (s > 0) result.push(`${s}s`);
+                const result = [];
+                if (h > 0) result.push(`${h}hr`);
+                if (m > 0) result.push(`${m}min`);
+                if (s > 0) result.push(`${s}s`);
 
-				return result.join(' ') || "0s";
-			}
-		}
+                return result.join(' ') || "0s";
+            }
+        }
 
-		// Handle "X minutes" string format fallback
-		return str.replace('minutes', 'min').replace('minute', 'min').replace('seconds', 's');
-	};
+        // Handle "X minutes" string format fallback
+        return str.replace('minutes', 'min').replace('minute', 'min').replace('seconds', 's');
+    };
 
     const columns = [
         columnHelper.accessor("intervention_type", {
             header: "ACTIVITY",
-            cell: info => <p className="text-sm font-bold text-navy-700">{info.getValue()}</p>
+            cell: info => <p className="text-sm font-medium text-navy-700">{info.getValue()}</p>
         }),
         columnHelper.accessor("timestamp", {
             header: "TIMESTAMP",
-            cell: info => <p className="text-sm font-bold text-navy-700">{formatDateTime(info.getValue())}</p>
+            cell: info => <p className="text-sm font-medium text-navy-700">{formatDateTime(info.getValue())}</p>
         }),
         columnHelper.accessor("duration", {
             header: "DURATION",
-            cell: info => <p className="text-sm font-bold text-navy-700">{formatDuration(info.getValue()) || "-"}</p>
+            cell: info => <p className="text-sm font-medium text-navy-700">{formatDuration(info.getValue()) || "-"}</p>
         }),
         columnHelper.accessor("mood_rating", {
             header: "MOOD FLOW",
@@ -125,7 +126,9 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
         <Card extra={"col-span-1 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
                 <div className="text-lg font-bold text-navy-700">
-                    {isControlled ? "Activity Logs" : "Recent Activities"}
+                    <HoverTooltip content="Log of most recent wellness activities">
+                        {isControlled ? "Activity Records" : "Recent Activities"}
+                    </HoverTooltip>
                 </div>
             </div>
             <div className={`${isControlled ? "max-h-[400px] overflow-y-auto" : "mt-2 overflow-x-hidden"}`}>
@@ -138,7 +141,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
                                     <tr key={headerGroup.id} className="!border-px !border-gray-400">
                                         {headerGroup.headers.map(header => (
                                             <th key={header.id} colSpan={header.colSpan} onClick={header.column.getToggleSortingHandler()} className="cursor-pointer border-b-[1px] border-gray-200 pt-4 pb-2 pr-4 text-start">
-                                                <div className="items-center justify-between text-sm text-gray-500">
+                                                <div className="items-center justify-between text-sm text-gray-400">
                                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                                 </div>
                                             </th>
@@ -150,7 +153,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
                                 {rowsToDisplay.map(row => (
                                     <tr key={row.id}>
                                         {row.getVisibleCells().map(cell => (
-                                            <td key={cell.id} className="min-w-[180px] border-white/0 py-3 pr-4">
+                                            <td key={cell.id} className="min-w-[180px] border-white/0 py-2 pr-4">
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         ))}

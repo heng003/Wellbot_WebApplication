@@ -134,22 +134,21 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 
 	return (
 		<Card extra="col-span-1 p-[20px]">
-			<div className="flex flex-row justify-between align-start ml-1 pt-2 pb-6">
+			<div className="flex flex-row justify-between align-start ml-1 pt-2">
 				<div>
-					<p className="text-sm font-medium leading-4 text-gray-600">
-						{isControlled ? "Activity Frequency" : `${timeRange.charAt(0).toUpperCase() + timeRange.slice(1)} Activity`}
-					</p>
+					<div className="text-lg font-bold text-navy-700">
+						<HoverTooltip content="Total count of completed wellness activities">
+							Activities Completed
+						</HoverTooltip>
+					</div>
 					<div className="text-[34px] font-bold text-navy-700">
 						{loading ? "..." : totalActivity}
-						<div className="text-sm font-medium leading-6 text-gray-600">
-							Activities Completed
-						</div>
 					</div>
 				</div>
 
 				{/* Hide Controls if Controlled */}
 				{!isControlled && (
-					<div className="mb-6 flex items-center justify-center pb-10 gap-2">
+					<div className="flex items-center justify-center gap-2">
 						<HoverTooltip content="Customize to montly or weekly view">
 							<select
 								value={timeRange}
@@ -164,7 +163,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 						<div className="relative mb-3">
 							<HoverTooltip content="Select custom date range">
 								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
-									<MdOutlineCalendarToday className="h-6 w-6" />
+									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
 							</HoverTooltip>
 							{/* Date Picker Popover */}
@@ -228,11 +227,11 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 				)}
 			</div>
 
-			<div className="h-[300px] w-full pt-15 pb-0">
+			<div className="h-[220px] w-full">
 				{loading ? (
 					<p className="text-sm text-gray-500">Loading...</p>
 				) : totalActivity > 0 ? (
-					<BarChart chartData={series} chartOptions={chartOptions} />
+					<BarChart height="200px" chartData={series} chartOptions={chartOptions} />
 				) : (
 					<div className="flex h-[220px] w-full items-center justify-center mt-4">
 						<p className="text-sm text-gray-500">No data available for this period</p>

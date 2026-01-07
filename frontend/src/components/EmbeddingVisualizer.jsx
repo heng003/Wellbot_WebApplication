@@ -18,10 +18,10 @@ const Points = ({ data, onHover }) => {
     const getColor = (item) => {
         const label = getEmotionLabel(item.text_content);
         switch (label) {
-            case 'Happy': return '#519AF6';
+            case 'Happy': return '#FFD56B';
+            case 'Angry': return '#EA5E8F';
             case 'Sad': return '#69D5C5';
-            case 'Angry': return '#7E6FEE';
-            case 'Fear': return '#EA5E8F';
+            case 'Fear': return '#519AF6';
             default: return '#A3AED0';
         }
     };
@@ -58,8 +58,8 @@ const Points = ({ data, onHover }) => {
 const getEmotionLabel = (text = "") => {
     const t = (text || "").toLowerCase();
     if (t.match(/happy|joy|joyful|delighted|great|love|good|excited|wonderful|glad|cheerful|laugh|pleased|content|grateful|awesome|amazing|开心|快乐|喜悦|高兴|棒|美好|喜欢|gembira|bahagia|seronok|suka|teruja|hebat|bagus|ceria|puas|syukur/)) return 'Happy';
-    if (t.match(/sad|cry|crying|down|bad|lonely|grief|upset|disappointed|unhappy|heartbroken|low|moody|hurt|伤心|难过|哭|悲伤|孤独|失落|沮丧|sedih|kecewa|muram|sepi|sunyı|tersentuh|terluka|rasa down/)) return 'Sad';
     if (t.match(/angry|mad|furious|rage|annoyed|irritated|frustrated|upset|offended|hostile|生气|愤怒|讨厌|恼火|烦|不爽|marah|geram|bengang|panas|menyampah|tak puas hati/)) return 'Angry';
+    if (t.match(/sad|cry|crying|down|bad|lonely|grief|upset|disappointed|unhappy|heartbroken|low|moody|hurt|伤心|难过|哭|悲伤|孤独|失落|沮丧|sedih|kecewa|muram|sepi|sunyı|tersentuh|terluka|rasa down/)) return 'Sad';
     if (t.match(/fear|scared|afraid|anxious|worry|worried|nervous|uneasy|uncertain|tense|shaken|concerned|害怕|恐惧|担心|焦虑|紧张|不安|takut|risau|cemas|gugup|gelisah|bimbang|was-was/)) return 'Fear';
     return 'Neutral';
 };
@@ -85,43 +85,6 @@ const EmbeddingVisualizer = ({ rawEmbeddings }) => {
             created_at: rawEmbeddings[i].created_at
         }));
     }, [rawEmbeddings]);
-
-    // Compute quick insights from points
-    // const insights = useMemo(() => {
-    //     if (!points || points.length === 0) return null;
-
-    //     const counts = points.reduce((acc, p) => {
-    //         const label = getEmotionLabel(p.text_content);
-    //         acc[label] = (acc[label] || 0) + 1;
-    //         return acc;
-    //     }, {});
-
-    //     const total = points.length;
-    //     const dominant = Object.entries(counts).sort((a, b) => b[1] - a[1])[0] || [null, 0];
-
-    //     // most recent
-    //     const sortedByDate = [...points].filter(p => p.created_at).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    //     const mostRecent = sortedByDate[0] || null;
-
-    //     // centroid and outlier detection (distance-based)
-    //     const centroid = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y, z: acc.z + p.z }), { x: 0, y: 0, z: 0 });
-    //     centroid.x /= total; centroid.y /= total; centroid.z /= total;
-    //     const distances = points.map(p => Math.sqrt((p.x - centroid.x) ** 2 + (p.y - centroid.y) ** 2 + (p.z - centroid.z) ** 2));
-    //     const meanDist = distances.reduce((a, b) => a + b, 0) / distances.length;
-    //     const std = Math.sqrt(distances.reduce((a, b) => a + (b - meanDist) ** 2, 0) / distances.length);
-    //     const outlierThreshold = meanDist + 2 * std;
-    //     const outliers = distances.filter(d => d > outlierThreshold).length;
-
-    //     return {
-    //         counts,
-    //         total,
-    //         dominant: { label: dominant[0], count: dominant[1] },
-    //         mostRecent,
-    //         outliers,
-    //         centroid,
-    //         meanDist
-    //     };
-    // }, [points]);
 
     if (points.length === 0) return (
         <div className="flex h-[220px] w-full items-center justify-center mt-4">
@@ -155,10 +118,10 @@ const EmbeddingVisualizer = ({ rawEmbeddings }) => {
                 {/* Legend */}
                 <div className="absolute top-4 left-4 z-10 bg-black/40 backdrop-blur-md p-3 rounded-lg text-white text-xs border border-white/10">
                     <p className="font-bold mb-2 uppercase tracking-wider opacity-70">Emotion Clusters</p>
-                    <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#519AF6]"></span> Happy</div>
+                    <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#FFD56B]"></span> Happy</div>
+                    <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#EA5E8F]"></span> Angry</div>
                     <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#69D5C5]"></span> Sad</div>
-                    <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#7E6FEE]"></span> Angry</div>
-                    <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#EA5E8F]"></span> Fear</div>
+                    <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#519AF6]"></span> Fear</div>
                     <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#A3AED0]"></span> Neutral</div>
                 </div>
 

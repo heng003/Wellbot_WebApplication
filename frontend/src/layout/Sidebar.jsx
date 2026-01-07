@@ -126,7 +126,7 @@ const Sidebar = () => {
     return (
         <div className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-alld md:!z-50 lg:!z-50 xl:!z-0
                 ${isOpen ? "translate-x-0" : "-translate-x-96"}`
-        } style={{ width: '280px' }}   
+        } style={{ width: '280px' }}
         >
             <span
                 className="absolute top-4 right-4 block cursor-pointer xl:hidden"
@@ -140,7 +140,7 @@ const Sidebar = () => {
                     Well<span class="font-medium">-Bot</span>
                 </div>
             </div>
-            <div class="mt-[58px] mb-7 h-px bg-gray-300" style={{ borderWidth: '1px', borderStyle: "solid", borderColor: "#e9ecef" }} />
+            <div class="mt-[58px] mb-7 h-px bg-gray-300" style={{ borderWidth: '1px', borderStyle: "solid", borderColor: "#E9ECEF" }} />
 
             <ul className="mb-auto pt-1">
                 <Links routes={routes} />

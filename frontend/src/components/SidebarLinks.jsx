@@ -94,7 +94,7 @@ export function SidebarLinks(props) {
 						>
 							<div className="relative mb-3 flex hover:cursor-pointer">
 								<li className="my-[3px] flex cursor-pointer items-center px-3">
-									<span className={`${parentActive ? "font-light text-brand-400" : "font-bold text-gray-300"}`}>
+									<span className={`${parentActive ? "font-light text-[#3E9389]" : "font-bold text-gray-300"}`}>
 										{route.icon}
 									</span>
 
@@ -104,7 +104,7 @@ export function SidebarLinks(props) {
 								</li>
 
 								{parentActive ? (
-									<div className="absolute right-0 top-px h-8 w-1 rounded-lg bg-brand-500" />
+									<div className="absolute right-0 top-px h-8 w-1 rounded-lg bg-[#3E9389]" />
 								) : null}
 							</div>
 						</Link>
@@ -123,7 +123,7 @@ export function SidebarLinks(props) {
 								>
 									<div className="w-full flex items-center justify-between">
 										<div className="flex items-center">
-											<span className={`${parentActive ? "font-light text-brand-400" : "font-bold text-gray-300"}`}>
+											<span className={`${parentActive ? "font-light text-[#3E9389]" : "font-bold text-gray-300"}`}>
 												{route.icon}
 											</span>
 											<p className={`leading-1 flex ${parentActive ? "font-light text-500" : "text-gray-300"}`} style={{ paddingLeft: '0.8rem', fontSize: '0.92rem' }}>

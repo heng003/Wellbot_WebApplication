@@ -54,9 +54,9 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
 
     // --- Data Processing (Aggregation) ---
     const { chartData, chartOptions, hasData, distribution } = useMemo(() => {
-        const EMOTION_KEYS = ["fear", "angry", "sad", "happy"];
-        const LABELS = ["Fear", "Angry", "Sad", "Happy"];
-        const COLORS = ["#EA5E8F", "#7E6FEE", "#69D5C5", "#519AF6"];
+        const EMOTION_KEYS = ["fear", "sad", "angry", "happy"];
+        const LABELS = ["Fear", "Sad", "Angry", "Happy"];
+        const COLORS = ["#519AF6", "#69D5C5", "#EA5E8F", "#FFD56B"];
 
         let processedData = [];
         let categories = [];

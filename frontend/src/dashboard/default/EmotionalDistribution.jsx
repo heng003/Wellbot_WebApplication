@@ -137,9 +137,9 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 		});
 	};
 
-	const EMOTION_KEYS = ["fear", "angry", "sad", "happy"];
-	const LABELS = ["Fear", "Angry", "Sad", "Happy"];
-	const COLORS = ["#EA5E8F", "#7E6FEE", "#69D5C5", "#519AF6"];
+	const EMOTION_KEYS = ["fear", "sad", "angry", "happy"];
+	const LABELS = ["Fear", "Sad", "Angry", "Happy"];
+	const COLORS = ["#519AF6", "#69D5C5", "#EA5E8F", "#FFD56B"];
 
 	// Slicing data based on startIndex to support pagination
 	const visibleData = useMemo(() => {
@@ -200,7 +200,9 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 	return (
 		<Card extra="!p-[20px] text-center col-span-1">
 			<div className="mb-auto flex items-center justify-between px-3">
-				<h2 className="text-lg font-bold text-navy-700">Emotional Distribution</h2>
+				<HoverTooltip content="Frequency of each emotion recorded by date">
+					<h2 className="text-lg font-bold text-navy-700">Emotional Distribution</h2>
+				</HoverTooltip>
 
 				{/* Only show controls if NOT controlled */}
 				{!isControlled ? (
@@ -210,7 +212,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 						<div className="relative">
 							<HoverTooltip content="Select custom date range">
 								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
-									<MdOutlineCalendarToday className="h-6 w-6" />
+									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
 							</HoverTooltip>
 							{showDatePicker && (
@@ -254,14 +256,14 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 				)}
 			</div>
 
-			<div className="md:mt-10 lg:mt-0">
-				<div className="min-h-[250px] w-full">
+			<div>
+				<div className="min-h-[200px] w-full">
 					{loading ? (
 						<div className="flex h-full items-center justify-center">
 							<p className="text-gray-400 animate-pulse">Loading data...</p>
 						</div>
 					) : hasData ? (
-						<BarChart chartData={series} chartOptions={chartOptions} height={"300px"} />
+						<BarChart chartData={series} chartOptions={chartOptions} height={"270px"} />
 					) : (
 						<div className="flex h-full items-center justify-center rounded-lg">
 							<p className="text-gray-400">No data available for this period</p>

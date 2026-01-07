@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require("express");
+const dns = require('node:dns');
+dns.setDefaultResultOrder('ipv4first');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const path = require('path');
@@ -69,7 +71,7 @@ setupRealtimeSubscriptions(io);
 // 1. MIDDLEWARES
 // use this to deploy
 app.use(cors({
-	origin: 'http://localhost:3000',
+	origin: process.env.REACT_APP_WELLBOT_FRONTEND_URL || 'http://localhost:3000',
 	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 	credentials: true,
 }));
@@ -117,7 +119,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server listen
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 // use this to deploy
 // app.listen(PORT, '0.0.0.0', () => {
 // 	console.log(`Well-Bot is listening on port ${PORT}`);

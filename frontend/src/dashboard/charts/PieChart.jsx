@@ -1,13 +1,13 @@
 import Chart from "react-apexcharts";
 
 const PieChart = (props) => {
-	const { height, series, options } = props;
+	const { width, height, series, options } = props;
 
 	return (
 		<Chart
 			options={options}
 			type="pie"
-			width="100%"
+			width={width || "100%"}
 			height={height || "100%"}
 			series={series}
 		/>

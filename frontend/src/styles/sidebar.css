@@ -1,38 +1,11 @@
-.wb-sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 220px;
-  background: #ffffff;
-  border-right: 1px solid rgba(0,0,0,0.06);
-  padding: 1rem 0.5rem;
-  z-index: 1030;
-  display: flex;
-  flex-direction: column;
-}
-
-.wb-sidebar-header {
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-}
-
-.sidebar-logo img { border-radius: 6px }
-.sidebar-title { margin-left: 0.5rem; font-weight: 700; color: #0f172a }
-
-.wb-sidebar-nav { padding: 1rem 0.5rem; overflow-y: auto }
-.wb-sidebar-nav ul { list-style: none; padding: 0; margin: 0 }
-.wb-sidebar-nav li { margin: 0.4rem 0 }
-.wb-sidebar-nav a { display: block; padding: 0.5rem 0.75rem; color: #334155; text-decoration: none; border-radius: 6px }
-.wb-sidebar-nav li.active a, .wb-sidebar-nav a:hover { background: #eef2ff; color: #3730a3 }
-
 /* push main content to accommodate sidebar */
-.app-with-sidebar { margin-left: 220px; transition: margin-left .2s ease; }
+.app-with-sidebar {
+  margin-left: 220px;
+  transition: margin-left .2s ease;
+}
 
 @media (max-width: 767px) {
-  .wb-sidebar { display: none }
-  .app-with-sidebar { margin-left: 0 }
+  .app-with-sidebar {
+    margin-left: 0
+  }
 }

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = process.env.REACT_APP_WELLBOT_BACKEND_URL || 'http://localhost:5000';
+const SOCKET_URL = process.env.REACT_APP_WELLBOT_BACKEND_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : window.location.origin);
 
 /**
  * Hook to subscribe to realtime updates for specific tables.
