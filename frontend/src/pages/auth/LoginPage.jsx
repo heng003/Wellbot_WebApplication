@@ -33,10 +33,9 @@ const LoginPage = () => {
         if (Object.keys(newErrors).length === 0) {
             try {
                 const response = await axios.post('/api/auth/logIn', { email, password });
-                console.log("Login response:", response);
                 localStorage.setItem('token', response.data.token);
-                console.log("Token stored:", response.data.token);
-                localStorage.setItem('fullName', response.data.user.fullName);
+                localStorage.setItem('name', response.data.user.name);
+                localStorage.setItem('role', response.data.user.role);
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {

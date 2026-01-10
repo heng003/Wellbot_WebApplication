@@ -6,10 +6,12 @@ import {
 	useLocation,
 } from "react-router-dom";
 import { useShowSidebar } from "./hooks/useShowSidebar";
+
 // Layouts
 import NavBarGeneral from "./layout/NavBarGeneral";
 import Sidebar from "./layout/Sidebar.jsx";
 import Footer from "./layout/Footer.jsx";
+
 // General Pages
 import LandingPage from "./pages/auth/LandingPage";
 import RegisterRolePage from "./pages/auth/RegisterRolePage";
@@ -51,6 +53,7 @@ function App() {
 		<>
 			{showSidebar && <Sidebar />}
 			<div className={showSidebar ? "app-with-sidebar" : ""}>
+
 				<CustomNavbar location={location} />
 				<Routes>
 					<Route path="/" element={<LandingPage />} />

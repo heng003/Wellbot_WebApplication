@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AiOutlineLoading } from "react-icons/ai";
 import '../../styles/journalPage.css';
 import J1 from "../../assets/journals/J1.png";
 import J2 from "../../assets/journals/J2.png";
@@ -12,6 +13,7 @@ import JournalCard from '../../dashboard/card/JournalCard';
 import MyFavJournalList from '../../components/MyFavJournalList';
 import { MdAdd } from 'react-icons/md';
 import JournalModal from '../../components/JournalModal';
+import FloatingNavbar from '../../layout/FloatingNavbar';
 
 import { useSocketSubscription } from '../../hooks/useSocket';
 
@@ -34,6 +36,17 @@ const JournalPage = () => {
             } else {
                 setJournals(data);
             }
+
+            // Preload images to ensure they are ready
+            await Promise.all(journalImages.map(src => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                    img.src = src;
+                });
+            }));
+
         } catch (err) {
             console.error('Failed to load journals', err);
             setJournals([]);
@@ -52,24 +65,18 @@ const JournalPage = () => {
 
     return (
         <>
-            <main className="main-container-bg" style={{ padding: "3em" }}>
-                <div className="top-bar">
-                    <div className="header-section">
-                        <div>
-                            <h1 className="page-title">Journal</h1>
-                            <p className="page-subtitle">Capture your thoughts and memories</p>
-                        </div>
-                        <button onClick={() => setShowAddModal(true)} className="green-button">
-                            <div className="bg-gray-100 p-1 rounded-full mr-2">
-                                <MdAdd className="h-3 w-3 text-brand-500" />
-                            </div>
-                            <span>New Item</span>
-                        </button>
-                    </div>
-                </div>
+            <main className="main-container-bg">
+                <FloatingNavbar
+                    brandText="Journal"
+                    actionButton={{
+                        label: "Add New Journal",
+                        icon: <MdAdd className="h-6 w-6" />,
+                        onClick: () => setShowAddModal(true)
+                    }}
+                />
                 {loading ? (
                     <div className="flex h-[50vh] w-full items-center justify-center">
-                        <div className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent"></div>
+                        <AiOutlineLoading className="h-12 w-12 animate-spin text-[#3E9389]" />
                     </div>
                 ) : journals.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

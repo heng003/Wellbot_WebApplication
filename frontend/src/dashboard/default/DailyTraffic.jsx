@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import BarChart from "../charts/BarChart";
 import { MdOutlineCalendarToday } from "react-icons/md";
+import { AiOutlineLoading } from "react-icons/ai";
 import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
 import { useInterventionData, formatLocalDate, getStartEndDate } from "../../hooks/useInterventionData";
@@ -99,7 +100,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 					opacityFrom: 0.7,
 					opacityTo: 0.9,
 					colorStops: [
-						[{ offset: 0, color: "#4318FF", opacity: 1 }, { offset: 100, color: "rgba(67, 24, 255, 1)", opacity: 0.3 }]
+						[{ offset: 0, color: "#3E9389", opacity: 1 }, { offset: 100, color: "#3E9389", opacity: 0.3 }]
 					]
 				}
 			},
@@ -108,7 +109,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 		};
 
 		return {
-			series: [{ name: "Activity Frequency", data: counts }],
+			series: [{ name: "Activity Frequency", data: counts, color: "#3E9389" }],
 			chartOptions: options,
 			totalActivity: total
 		};
@@ -134,35 +135,35 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 
 	return (
 		<Card extra="col-span-1 p-[20px]">
-			<div className="flex flex-row justify-between align-start ml-1 pt-2">
+			<div className="flex flex-row justify-between items-start ml-1 pt-2">
 				<div>
 					<div className="text-lg font-bold text-navy-700">
 						<HoverTooltip content="Total count of completed wellness activities">
 							Activities Completed
 						</HoverTooltip>
 					</div>
-					<div className="text-[34px] font-bold text-navy-700">
-						{loading ? "..." : totalActivity}
-					</div>
+					{loading ? "..." : totalActivity > 0 &&
+						<div className="text-[34px] font-bold text-navy-700">
+							{totalActivity}
+						</div>}
 				</div>
 
 				{/* Hide Controls if Controlled */}
 				{!isControlled && (
-					<div className="flex items-center justify-center gap-2">
+					<div className="flex items-center justify-center gap-3">
 						<HoverTooltip content="Customize to montly or weekly view">
 							<select
 								value={timeRange}
 								onChange={(e) => setTimeRange(e.target.value)}
-								className="mb-3 flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
+								className="flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
 							>
 								<option value="weekly">Weekly</option>
 								<option value="monthly">Monthly</option>
-								{/* <option value="yearly">Yearly</option> */}
 							</select>
 						</HoverTooltip>
-						<div className="relative mb-3">
+						<div className="relative">
 							<HoverTooltip content="Select custom date range">
-								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
+								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] hover:bg-gray-100">
 									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
 							</HoverTooltip>
@@ -215,7 +216,7 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 										</button>
 										<button
 											onClick={handleApplyDate}
-											className="rounded-lg bg-brand-500 px-3 py-1 text-white hover:bg-brand-600"
+											className="rounded-lg bg-[#3E9389] px-3 py-1 text-white hover:bg-[#88BFB9]"
 										>
 											Apply
 										</button>
@@ -229,11 +230,13 @@ const DailyTraffic = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 
 			<div className="h-[220px] w-full">
 				{loading ? (
-					<p className="text-sm text-gray-500">Loading...</p>
+					<div className="flex h-full items-center justify-center">
+						<AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+					</div>
 				) : totalActivity > 0 ? (
-					<BarChart height="200px" chartData={series} chartOptions={chartOptions} />
+					<BarChart height="210px" chartData={series} chartOptions={chartOptions} />
 				) : (
-					<div className="flex h-[220px] w-full items-center justify-center mt-4">
+					<div className="h-full w-full flex items-center justify-center">
 						<p className="text-sm text-gray-500">No data available for this period</p>
 					</div>
 				)}

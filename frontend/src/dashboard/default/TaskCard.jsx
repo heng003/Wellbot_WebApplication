@@ -11,7 +11,7 @@ const TaskCard = () => {
       <div className="relative flex flex-row justify-between">
         <div className="flex items-center">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-100 dark:bg-white/5">
-            <MdCheckCircle className="h-6 w-6 text-brand-500 dark:text-white" />
+            <MdCheckCircle className="h-6 w-6 text-[#3E9389] dark:text-white" />
           </div>
           <h4 className="ml-4 text-xl font-bold text-navy-700 dark:text-white">
             Tasks

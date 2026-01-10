@@ -4,6 +4,7 @@ import {
 	MdOutlineCalendarToday,
 	MdBarChart,
 } from "react-icons/md";
+import { AiOutlineLoading } from "react-icons/ai";
 import Card from "../card";
 import LineChart from "../charts/LineChart";
 import HoverTooltip from "../../components/HoverTooltip";
@@ -17,9 +18,8 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 	// Check if the component is being controlled by a parent dashboard
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
-	const [timeRange, setTimeRange] = useState("thisMonth");
-	const [customStart, setCustomStart] = useState(null);
-	const [customEnd, setCustomEnd] = useState(null);
+	const [customStart, setCustomStart] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), 1, 0, 0, 0, 0));
+	const [customEnd, setCustomEnd] = useState(new Date());
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [showRangePicker, setShowRangePicker] = useState(false);
 	const [bucketType, setBucketType] = useState("day");
@@ -84,7 +84,6 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 
 		setCustomStart(newStart);
 		setCustomEnd(newEnd);
-		setTimeRange("custom");
 		setDateRange({ start: newStart, end: newEnd });
 	};
 
@@ -122,22 +121,16 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		const moodSeries = {
 			name: "Mood Score",
 			data: dailyData.map((d) => Math.round(Number(d.avgScore) || 0)),
-			color: "#4318FF"
-		};
-
-		const confidenceSeries = {
-			name: "Confidence",
-			data: dailyData.map((d) => Math.round((Number(d.avgConfidence) || 0) * 100)),
-			color: "#6AD2FF"
+			color: "#3E9389"
 		};
 
 		// CONDITIONAL LOGIC:
 		// If propUserId is provided (Guardian View), show both.
 		// If propUserId is missing (User View), show only Mood Score.
-		const series = propUserId ? [moodSeries, confidenceSeries] : [moodSeries];
+		const series = [moodSeries];
 
 		return { categories, series };
-	}, [trendData, bucketType, propUserId]); // Added propUserId dependency
+	}, [trendData, bucketType]);
 
 	// Chart Configuration
 	const options = useMemo(() => ({
@@ -195,88 +188,88 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		return trendData.dailyData.some(d => d.avgScore !== null || d.count > 0);
 	}, [trendData]);
 
+	const formatLocalDate = (d) => {
+		if (!d || !(d instanceof Date)) return "";
+		const yyyy = d.getFullYear();
+		const mm = String(d.getMonth() + 1).padStart(2, "0");
+		const dd = String(d.getDate()).padStart(2, "0");
+		return `${yyyy}-${mm}-${dd}`;
+	};
+
 	return (
 		<Card extra="!p-[20px] text-center col-span-1">
 			{/* Header */}
 			<div className="flex justify-between items-center px-3">
-				{!isControlled ? (
+				<HoverTooltip content={<div className="text-left">
+					<p className="font-bold">Mood Score is a simple way to track how you’re feeling over time.</p>
+					<p>It ranges from low to high, with the middle representing a steady mood.</p>
+				</div>}>
+					<h2 className="text-lg font-bold text-navy-700">Mood Score</h2>
+				</HoverTooltip>
+				<div className="flex items-center justify-end gap-2">
 					<div className="relative">
-						<HoverTooltip content="Select custom date range">
+						<HoverTooltip content="Customize the chart by selecting desired data interval">
 							<button
-								onClick={() => setShowDatePicker(!showDatePicker)}
-								className="linear mt-1 flex items-center justify-center gap-2 mb-2 rounded-lg bg-lightPrimary p-2 text-gray-600 transition duration-200 hover:cursor-pointer hover:bg-gray-100 active:bg-gray-200"
+								onClick={() => setShowRangePicker(!showRangePicker)}
+								className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] !transition !duration-200 hover:bg-gray-100 active:bg-gray-200"
 							>
-								<MdOutlineCalendarToday />
-								<span className="text-sm font-medium text-gray-600">
-									{timeRange === "thisMonth" && "This Month"}
-									{timeRange === "custom" && "Custom Range"}
-								</span>
+								<MdBarChart className="h-6 w-6" />
 							</button>
 						</HoverTooltip>
-						{showDatePicker && (
-							<div className="absolute left-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm">
-								<p className="font-semibold mb-2">Date Range</p>
-								<div style={{ textAlign: "left" }}>
-									<div className="flex flex-col justify-content-start">
-										<label className="text-xxs text-gray-500">From:</label>
-										<input
-											type="date"
-											value={customStart ? customStart.toISOString().split("T")[0] : ""}
-											max={customEnd ? customEnd.toISOString().split("T")[0] : today.toISOString().split("T")[0]}
-											onChange={(e) => setCustomStart(new Date(e.target.value))}
-											className="border rounded p-1"
-										/>
-									</div>
-									<div className="flex flex-col justify-content-start">
-										<label className="text-xxs text-gray-500">To:</label>
-										<input
-											type="date"
-											value={customEnd ? customEnd.toISOString().split("T")[0] : ""}
-											min={customStart ? customStart.toISOString().split("T")[0] : ""}
-											max={today.toISOString().split("T")[0]}
-											onChange={(e) => setCustomEnd(new Date(e.target.value))}
-											className="border rounded p-1"
-										/>
-									</div>
+						{showRangePicker && (
+							<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[160px] text-sm">
+								<p className="px-2 font-semibold mb-2">Data Interval</p>
+								{["30min", "hour", "2hour", "day"].map((bucket) => (
 									<button
-										onClick={handleApplyCustomRange}
-										className="w-full bg-brand-500 text-white rounded py-1 mt-2 hover:bg-brand-600 transition"
+										key={bucket}
+										onClick={() => handleBucketTypeChange(bucket)}
+										className={`block w-full text-left px-3 py-1 rounded mb-1 text-sm ${bucketType === bucket ? 'bg-brand-50 text-[#3E9389] font-bold' : 'hover:bg-gray-100'}`}
 									>
-										Apply
+										{bucket === "day" ? "Daily" : bucket.replace("hour", " Hour").replace("min", " Min")}
 									</button>
-								</div>
+								))}
 							</div>
 						)}
 					</div>
-				) : (
-					<HoverTooltip content="Average mood score trend over time">
-						<h2 className="text-lg font-bold text-navy-700">Mood Score</h2>
-					</HoverTooltip>
-				)}
-
-				<div className="relative">
-					<HoverTooltip content="Customize the chart by selecting desired data interval">
-						<button
-							onClick={() => setShowRangePicker(!showRangePicker)}
-							className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 !transition !duration-200 hover:bg-gray-100 active:bg-gray-200"
-						>
-							<MdBarChart className="h-6 w-6" />
-						</button>
-					</HoverTooltip>
-					{showRangePicker && (
-						<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[160px] text-sm">
-							<p className="px-2 font-semibold mb-2">Data Interval</p>
-							{["30min", "hour", "2hour", "day"].map((bucket) => (
-								<button
-									key={bucket}
-									onClick={() => handleBucketTypeChange(bucket)}
-									className={`block w-full text-left px-3 py-1 rounded mb-1 text-sm ${bucketType === bucket ? 'bg-brand-50 text-brand-500 font-bold' : 'hover:bg-gray-100'}`}
-								>
-									{bucket === "day" ? "Daily" : bucket.replace("hour", " Hour").replace("min", " Min")}
+					{!isControlled &&
+						<div className="relative">
+							<HoverTooltip content="Select custom date range">
+								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] hover:bg-gray-100">
+									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
-							))}
-						</div>
-					)}
+							</HoverTooltip>
+							{showDatePicker && (
+								<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
+									<p className="font-semibold mb-2">Date Range</p>
+									<div style={{ textAlign: 'start' }}>
+										<div className="flex flex-col justify-content-start">
+											<label className="text-xs text-gray-500">From</label>
+											<input
+												type="date"
+												value={customStart ? formatLocalDate(customStart) : ""}
+												onChange={(e) => setCustomStart(new Date(e.target.value))}
+												className="border rounded p-1"
+											/>
+										</div>
+										<div className="flex flex-col justify-content-start">
+											<label className="text-xs text-gray-500">To</label>
+											<input
+												type="date"
+												value={customEnd ? formatLocalDate(customEnd) : ""}
+												onChange={(e) => setCustomEnd(new Date(e.target.value))}
+												className="border rounded p-1"
+											/>
+										</div>
+										<button
+											onClick={handleApplyCustomRange}
+											className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
+										>
+											Apply
+										</button>
+									</div>
+								</div>
+							)}
+						</div>}
 				</div>
 			</div>
 
@@ -318,7 +311,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				<div className="min-h-[200px] w-full" ref={chartContainerRef}>
 					{loading ? (
 						<div className="flex h-full items-center justify-center">
-							<p className="text-gray-400 animate-pulse">Loading data...</p>
+							<AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
 						</div>
 					) : hasData ? (
 						<LineChart
@@ -327,7 +320,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						/>
 					) : (
 						<div className="flex h-full items-center justify-center rounded-lg">
-							<p className="text-gray-400">No data available for this period</p>
+							<p className="text-sm text-gray-500">No data available for this period</p>
 						</div>
 					)}
 				</div>

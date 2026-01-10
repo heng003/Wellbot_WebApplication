@@ -132,7 +132,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                             onClick={() => setIsFav(!isFav)}
                             disabled={!editMode}
                         >
-                            {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
+                            {isFav ? <IoHeart className="text-[#3E9389]" /> : <IoHeartOutline />}
                         </button>
                     </div>
 

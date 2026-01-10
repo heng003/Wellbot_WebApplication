@@ -254,6 +254,8 @@ const RegisterUserPage = () => {
                                     <option value="Buddhism">Buddhism</option>
                                     <option value="Christianity">Christianity</option>
                                     <option value="Hinduism">Hinduism</option>
+                                    <option value="Agnostic">Agnostic</option>
+                                    <option value=" Atheist">Atheist</option>
                                     <option value="None">None</option>
                                     <option value="Other">Other</option>
                                 </select>

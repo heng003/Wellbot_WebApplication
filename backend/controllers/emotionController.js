@@ -1,6 +1,7 @@
 require("dotenv").config();
 const createError = require("../utils/appError");
 const Emotion = require("../models/emotionModel");
+const Intervention = require("../models/interventionModel");
 
 exports.getEmotionsByDate = async (req, res) => {
     try {
@@ -101,8 +102,6 @@ exports.getEmotionCountsByDate = async (req, res) => {
             return res.status(400).json({ error: 'startDate and endDate are required' });
         }
 
-        console.log('Controller received:', { userId, startDate, endDate });
-
         // Pass the strings to the service. The service will handle conversion.
         const counts = await Emotion.getEmotionCountsByDay(userId, startDate, endDate);
 
@@ -149,14 +148,13 @@ exports.getMoodActivityCorrelation = async (req, res) => {
             return res.status(400).json({ error: "startDate and endDate are required" });
         }
 
-        const startISO = `${startDate}T00:00:00.000Z`;
-        const endISO = `${endDate}T23:59:59.999Z`;
+        const correlation = await Emotion.getMoodActivityCorrelation(userId, startDate, endDate);
 
-        const correlation = await Emotion.getMoodActivityCorrelation(
-            userId,
-            startISO,
-            endISO
-        );
+        // Map RPC result to frontend expected format if needed, but the RPC already returns snake_case which the frontend maps ? 
+        // Let's check frontend. Frontend maps: 
+        // item.activity_type, item.avg_mood_score, item.mood_change, item.activity_count, item.avg_confidence
+        // The RPC returns: activity_type, activity_count, avg_mood_score, mood_change, avg_confidence.
+        // Perfect match.
 
         return res.status(200).json({ correlation });
     } catch (err) {

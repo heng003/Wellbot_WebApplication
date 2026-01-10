@@ -30,6 +30,8 @@
 			#5CB7AD 86.4%
 			/* lighter, uplifting shade */
 		);
+	--button-bg-color: #3E9389;
+	--button-hover-color: #2F756D;
 	--font-size-md: 1rem;
 	--font-size-lg: 2rem;
 	--happy-color: #FFD56B;

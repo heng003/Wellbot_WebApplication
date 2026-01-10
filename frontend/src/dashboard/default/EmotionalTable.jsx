@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { AiOutlineLoading } from "react-icons/ai";
 import Card from "../card";
 import HoverTooltip from "../../components/HoverTooltip";
 import {
@@ -7,8 +8,10 @@ import {
     flexRender,
     getCoreRowModel,
     getSortedRowModel,
+    getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { getIdFromToken } from "../../utils/auth";
 import { useSocketSubscription } from "../../hooks/useSocket";
 
@@ -150,6 +153,12 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: 5,
+            },
+        },
     });
 
     return (
@@ -164,11 +173,13 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
 
             <div className="mt-2 overflow-x-hidden px-3">
                 {loading ? (
-                    <p className="text-gray-500">Loading...</p>
+                    <div className="flex h-[200px] w-full items-center justify-center">
+                        <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                    </div>
                 ) : error ? (
-                    <div className="text-center py-4">
-                        <p className="text-red-500 mb-2">Failed to load logs</p>
-                        <button onClick={fetchTable} className="text-xs underline text-gray-500">Retry</button>
+                    <div className="flex h-[200px] w-full items-center justify-center flex-col">
+                        <p className="text-gray-500 mb-2">No records found for this period</p>
+                        <button onClick={fetchTable} className="text-xs underline text-[#3E9389]">Retry</button>
                     </div>
                 ) : data.length === 0 ? (
                     <div className="flex h-[220px] w-full items-center justify-center">
@@ -213,7 +224,59 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
                     </div>
                 )}
             </div>
-        </Card>
+            {/* Pagination Controls */}
+            {data.length > 0 && (
+                <div className="flex items-center justify-center gap-2 px-4 pt-3">
+                    <button
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                        className={`p-2 rounded-md border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-35 disabled:hover:bg-white transition-colors ${!table.getCanPreviousPage() ? 'text-gray-300' : 'text-gray-600'}`}
+                    >
+                        <MdChevronLeft className="h-5 w-5" />
+                    </button>
+
+                    <div className="flex items-center gap-1">
+                        {Array.from({ length: table.getPageCount() }).map((_, idx) => {
+                            const currentPage = table.getState().pagination.pageIndex;
+                            if (
+                                table.getPageCount() > 7 &&
+                                idx !== 0 &&
+                                idx !== table.getPageCount() - 1 &&
+                                (idx < currentPage - 1 || idx > currentPage + 1)
+                            ) {
+                                if (idx === currentPage - 2 || idx === currentPage + 2) {
+                                    return <span key={idx} className="text-gray-400">...</span>;
+                                }
+                                return null;
+                            }
+
+                            return (
+                                <button
+                                    key={idx}
+                                    onClick={() => table.setPageIndex(idx)}
+                                    className={`w-8 h-8 flex items-center justify-center rounded-md border text-sm font-medium transition-colors
+                                        ${currentPage === idx
+                                            ? 'bg-[#3E9389] border-[#3E9389] text-white hover:bg-[#88BFB9]'
+                                            : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100'
+                                        }`}
+                                >
+                                    {idx + 1}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <button
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                        className={`p-2 rounded-md border border-gray-300 bg-white hover:bg-gray-100 disabled:opacity-35 disabled:hover:bg-white transition-colors ${!table.getCanNextPage() ? 'text-gray-300' : 'text-gray-600'}`}
+                    >
+                        <MdChevronRight className="h-5 w-5" />
+                    </button>
+                </div>
+            )}
+
+        </Card >
     );
 };
 

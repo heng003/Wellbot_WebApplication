@@ -1,5 +1,8 @@
-import React from "react";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { getIdFromToken } from "../../utils/auth";
+import EmbeddingVisualizer from "../../components/EmbeddingVisualizer";
+import FloatingNavbar from "../../layout/FloatingNavbar";
 import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution";
 import EmotionalScore from "../../dashboard/default/EmotionalScore";
 import PieChartCard from "../../dashboard/default/PieChartCard";
@@ -10,38 +13,63 @@ import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrela
 import '../../styles/dashboardPage.css';
 
 const MainDashboardPage = () => {
+	const [embeddings, setEmbeddings] = useState([]);
+	const [loadingEmbeddings, setLoadingEmbeddings] = useState(false);
+
+	// Unified Date State
+	const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 30)));
+	const [endDate, setEndDate] = useState(new Date());
+
+	const userId = getIdFromToken();
+
+	useEffect(() => {
+		const fetchEmbeddings = async () => {
+			if (!userId) return;
+			setLoadingEmbeddings(true);
+			try {
+				const token = localStorage.getItem('token');
+				let url = `/api/embedding/${userId}`;
+				if (startDate && endDate) {
+					const s = startDate.toISOString().split('T')[0];
+					const e = endDate.toISOString().split('T')[0];
+					url += `?startDate=${s}&endDate=${e}`;
+				}
+
+				const res = await axios.get(url, {
+					headers: { Authorization: `Bearer ${token}` }
+				});
+				setEmbeddings(res.data.data || []);
+			} catch (err) {
+				console.error("Failed to fetch embeddings", err);
+			} finally {
+				setLoadingEmbeddings(false);
+			}
+		};
+		fetchEmbeddings();
+	}, [userId, startDate, endDate]);
 
 	return (
 		<div className="main-container">
-			<div className="mb-8">
-				<h1 className="page-title">
-					Main Dashboard
-				</h1>
-				<p className="page-subtitle">
-					Track and analyze your emotional patterns and interactions with Well-Bot
-				</p>
-			</div>
+			<FloatingNavbar
+				brandText="Main Dashboard"
+			/>
 
 			<div>
-				{/* <div className="flex justify-between pl-4">
-					<HoverTooltip content="Overview of today's emotions">
-						<h4 className="text-lg font-bold text-navy-700">Today Emotions</h4>
-					</HoverTooltip>
-					<InfoTooltip
-						placement="top-right"
-						content={
-							<span>
-								Summary of today's emotion counts<br />
-								<span className="font-bold">Note:</span> Percentages are based on total emotion logs.
-							</span>
-						}
-					/>
-				</div> */}
 				<h4 className="pl-4 text-lg font-bold text-navy-700">Today's Emotion Count</h4>
 				<DisplayWidgets />
 			</div>
 
-			{/* Charts */}
+			<div className="mt-3">
+				<EmbeddingVisualizer
+					rawEmbeddings={embeddings}
+					height="350px"
+					loading={loadingEmbeddings}
+					onDateChange={(start, end) => {
+						setStartDate(start);
+						setEndDate(end);
+					}}
+				/>
+			</div>
 
 			<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
 				<EmotionalScore />

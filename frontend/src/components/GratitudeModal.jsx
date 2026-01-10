@@ -25,6 +25,27 @@ const GratitudeModal = ({
     const [dateVal, setDateVal] = useState("");
     const [timeVal, setTimeVal] = useState("");
 
+    const formatDisplayDate = (dVal, tVal) => {
+        if (!dVal || !tVal) return "";
+        const date = new Date(`${dVal}T${tVal}`);
+
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+
+        const timePart = minutes > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`
+            : `${hours}${ampm}`;
+
+        return `${day} ${month} ${year}    ${timePart}`;
+    };
+
     useEffect(() => {
         if (initialData) {
             setText(initialData.text || "");
@@ -189,7 +210,7 @@ const GratitudeModal = ({
                                 ) : (
                                     <p className="form-display-box flex items-center gap-1">
                                         <MdCalendarToday size={16} />
-                                        {dateVal} · {timeVal}
+                                        {formatDisplayDate(dateVal, timeVal)}
                                     </p>
                                 )}
                             </div>
@@ -224,7 +245,7 @@ const GratitudeModal = ({
                                 {/* FAV BUTTON */}
                                 <div>
                                     <button onClick={handleFavToggle} disabled={!editMode} className={`p-2 rounded-full bg-gray-100 ${editMode ? "hover:opacity-80 cursor-pointer" : ""}`}>
-                                        {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
+                                        {isFav ? <IoHeart className="text-[#3E9389]" /> : <IoHeartOutline />}
                                     </button>
                                 </div>
                             </div>

@@ -10,3 +10,13 @@ export function getIdFromToken() {
         return null;
     }
 }
+
+export function getRoleFromToken() {
+    const role = localStorage.getItem('role');
+    if (!role) return null;
+    try {
+        return role;
+    } catch (e) {
+        return null;
+    }
+}

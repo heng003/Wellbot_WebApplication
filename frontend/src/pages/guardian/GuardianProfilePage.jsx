@@ -4,6 +4,7 @@ import '../../styles/profilePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
+import FloatingNavbar from '../../layout/FloatingNavbar';
 
 const GuardianProfilePage = () => {
     const [personalData, setPersonalData] = useState({});
@@ -165,15 +166,7 @@ const GuardianProfilePage = () => {
     return (
         <>
             <main className="main-container">
-                <div className="top-bar">
-                    <div className="header-section flex-column">
-                        <div>
-                            <h1 className="page-title">Profile</h1>
-                            <p className="page-subtitle">Manage your personal information and account settings.</p>
-                        </div>
-
-                    </div>
-                </div>
+                <FloatingNavbar brandText="Profile" showProfileMenuProp={false} />
 
                 {error && (
                     <div className="alert alert-error">{error}</div>

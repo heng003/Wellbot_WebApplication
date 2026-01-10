@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import Card from "../dashboard/card";
+import { AiOutlineLoading } from "react-icons/ai";
 
-const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
+const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated, loading = false }) => {
     const insights = useMemo(() => {
         if (!rawEmbeddings || rawEmbeddings.length === 0) return null;
 
@@ -86,6 +87,15 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated }) => {
             onInsightsCalculated(insights);
         }
     }, [insights, onInsightsCalculated]);
+
+    if (loading) return (
+        <div className="flex w-full items-center justify-center mt-4 bg-white rounded-2xl shadow-sm border border-gray-100 p-8 h-[300px]">
+            <div className="flex flex-col items-center gap-3">
+                <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                <p className="text-sm font-medium text-gray-500">Analyzing patterns...</p>
+            </div>
+        </div>
+    );
 
     if (!insights) return null;
 

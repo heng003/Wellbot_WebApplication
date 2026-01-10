@@ -87,7 +87,11 @@ export function SidebarLinks(props) {
 
 									if (result.isConfirmed) {
 										localStorage.removeItem("token");
-										window.location.href = route.path; // redirect to "/"
+										localStorage.removeItem("name");
+										localStorage.removeItem('tutorial_guardian_main_seen');
+										localStorage.removeItem('tutorial_guardian_analytics_seen');
+										localStorage.removeItem('tutorial_general_seen');
+										window.location.href = route.path;
 									}
 								}
 							}}
@@ -130,7 +134,7 @@ export function SidebarLinks(props) {
 												{route.name}
 											</p>
 										</div>
-										<span className={`transform transition-transform ${open[route.activeKey] ? "rotate-180" : ""} scale-75`}>
+										<span className={`transform transition-transform ${open[route.activeKey] ? "" : "rotate-180"} scale-75`}>
 											<DropdownIcon />
 										</span>
 									</div>

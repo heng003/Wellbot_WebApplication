@@ -3,14 +3,16 @@
     display: flex;
     flex-direction: column;
     padding-inline: 3em;
-    padding-block: 3em;
+    padding-bottom: 3em;
     background-color: var(--background-color);
-    height: 100vh;
+    min-height: 100vh;
     height: max-content;
 }
 
 .main-container-bg {
     background-color: var(--background-color);
+    padding-inline: 3em;
+    padding-bottom: 3em;
 }
 
 .main-content {
@@ -108,8 +110,6 @@
     flex-direction: column;
     gap: 1em;
     padding: 1.5rem;
-    background-color: #F8FAFCE6;
-    border-radius: 0.75rem;
     align-items: flex-start;
 }
 
@@ -211,8 +211,8 @@ textarea:focus {
 /* Container */
 .page-container {
     width: 100%;
-    background: white;
-    border-radius: 12px;
+    background-color: #F8FAFCE6;
+    border-radius: 0.5rem;
     box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
     margin-block: 1em 2.5em;
 }
@@ -221,9 +221,7 @@ textarea:focus {
 .tab-buttons {
     display: flex;
     gap: 0.5rem;
-    background: white;
-    border-radius: 0.5rem;
-    padding: 0.25rem;
+    padding: 0.5rem;
 }
 
 .tab-btn {
@@ -238,15 +236,14 @@ textarea:focus {
 }
 
 .tab-btn:hover {
-    background: #f9f9f9;
+    background: #f9f9f98a;
     opacity: 0.8;
     color: black;
 }
 
 .tab-btn.active {
-    background: #f9f9f9;
+    background: #e6e6e68a;
     color: black;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Badge */

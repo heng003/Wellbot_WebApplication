@@ -37,7 +37,7 @@ const InfoTooltip = ({ content, placement = "left", iconSize = "w-5 h-5" }) => {
             onMouseLeave={() => setShow(false)}
         >
             {/* Trigger Icon */}
-            <div className="cursor-pointer text-gray-400 hover:text-brand-500 transition-colors">
+            <div className="cursor-pointer text-gray-400 hover:text-[#3E9389] transition-colors">
                 <MdInfoOutline className={iconSize} />
             </div>
 

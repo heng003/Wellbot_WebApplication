@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import FloatingNavbar from '../../layout/FloatingNavbar';
+import NoMonitoredUser from '../../components/NoMonitoredUser';
 
 const MonitoredUserPage = () => {
     const navigate = useNavigate();
@@ -241,18 +243,14 @@ const MonitoredUserPage = () => {
     return (
         <>
             <main className="main-container">
-                <div className="top-bar">
-                    <div className="header-section">
-                        <div>
-                            <h1 className="page-title">User Care Panel</h1>
-                            <p className="page-subtitle">Manage Well-Bot users under your care</p>
-                        </div>
-                        <button className="green-button" onClick={() => setShowAddUserModal(true)}>
-                            <UserPlus className="icon-small" />
-                            Add User
-                        </button>
-                    </div>
-                </div>
+                <FloatingNavbar
+                    brandText="User Care Panel"
+                    actionButton={{
+                        label: "Add User",
+                        icon: <UserPlus className="h-5 w-5" />,
+                        onClick: () => setShowAddUserModal(true)
+                    }}
+                />
 
                 <div className="stats-grid">
                     <div className="stat-card teal">
@@ -288,7 +286,7 @@ const MonitoredUserPage = () => {
                     </div>
                 </div>
 
-                <div>
+                <div className="mt-4">
                     {monitoredList.length > 0 && (
                         <div className="search-filter">
                             <div className="search-bar">
@@ -320,14 +318,12 @@ const MonitoredUserPage = () => {
                         </div>)}
 
                     {monitoredList.length === 0 ? (
-                        <div className='no-users-row'>
-                            <div className="no-users-message">
-                                <strong>No monitored users found.</strong>
-                                <br />
-                                You haven’t added any users to monitor yet, and no monitoring requests have been sent.<br />
-                                Click <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>"Add User"</span> to start monitoring someone.
-                            </div>
-                        </div>
+                        <NoMonitoredUser
+                            title="No monitored users found."
+                            description="You haven’t added any users to monitor yet, and no monitoring requests have been sent."
+                            buttonText="Add User"
+                            onButtonClick={() => setShowAddUserModal(true)}
+                        />
                     ) : (
                         <div className='user-table-wrapper'>
                             <table className="user-table">
@@ -342,7 +338,7 @@ const MonitoredUserPage = () => {
                                 </thead>
                                 <tbody>
                                     {filteredUsers.length === 0 ? (
-                                        <tr className='no-users-row'>
+                                        <tr className='no-users-row border-t border-gray-300'>
                                             <td colSpan={5}>
                                                 <div className="no-users-message">
                                                     No users match your search or filter.

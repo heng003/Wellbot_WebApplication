@@ -4,6 +4,7 @@ import '../../styles/accessManagePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
+import FloatingNavbar from '../../layout/FloatingNavbar';
 
 const AccessManagePage = () => {
     const [activeTab, setActiveTab] = useState('requests');
@@ -205,17 +206,16 @@ const AccessManagePage = () => {
 
     // Render pending requests
     const renderRequests = () => (
-        <div className="space-y-4">
+        <div>
             {pendingRequests.length === 0 ? (
-                <div className='no-users-row'>
+                <div className='no-users-row border-t border-gray-300'>
                     <div className="no-users-message">
                         <strong>No pending requests.</strong>
-                        <br />
-                        You don't have any tracking requests at the moment.<br />
+                        You don't have any tracking requests at the moment.
                     </div>
                 </div>
             ) : pendingRequests.map(req => (
-                <div key={req.id} className="card-guardian-tracking">
+                <div key={req.id} className="card-guardian-tracking border-t border-gray-300">
                     <div className="card-guardian-tracking-header flex justify-between items-start">
                         <div className='card-guardian-tracking-header-left'>
                             <h3 className="card-header-title">{req.guardianName}</h3>
@@ -249,18 +249,17 @@ const AccessManagePage = () => {
 
     // Render active guardians
     const renderActive = () => (
-        <div className="space-y-4">
+        <div>
             {activeGuardians.length === 0 ? (
-                <div className='no-users-row'>
+                <div className='no-users-row border-t border-gray-300'>
                     <div className="no-users-message">
                         <strong>No active guardians.</strong>
-                        <br />
-                        You haven't granted access to any guardians yet.<br />
-                        Click <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>"Add Guardian"</span> to add trusred person to monitor your emotional well-being.
+                        <p>You haven't granted access to any guardians yet.</p>
+                        <p>Click <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>"Add Guardian"</span> to add trusred person to monitor your emotional well-being.</p>
                     </div>
                 </div>
             ) : activeGuardians.map(g => (
-                <div key={g.id} className="card-guardian-tracking">
+                <div key={g.id} className="card-guardian-tracking border-t border-gray-300">
                     <div className="card-guardian-tracking-header flex justify-between items-start">
                         <div className='card-guardian-tracking-header-left'>
                             <h3 className="card-header-title">{g.guardianName}</h3>
@@ -283,20 +282,16 @@ const AccessManagePage = () => {
     return (
         <>
             <main className="main-container">
-                <div className="top-bar">
-                    <div className="header-section">
-                        <div>
-                            <h1 className="page-title">Data Access Control</h1>
-                            <p className="page-subtitle">Manage who can access your emotional wellness data and track your progress</p>
-                        </div>
-                        <button className="green-button" onClick={() => setShowAddGuardianModal(true)}>
-                            <UserPlus className="icon-small" />
-                            Add Guardian
-                        </button>
-                    </div>
-                </div>
+                <FloatingNavbar
+                    brandText="Data Access Control"
+                    actionButton={{
+                        label: "Add Guardian",
+                        icon: <UserPlus className="h-5 w-5" />,
+                        onClick: () => setShowAddGuardianModal(true)
+                    }}
+                />
                 <div className="page-container">
-                    <div className="mb-1">
+                    <div>
                         <div className="tab-buttons">
                             <button
                                 className={`tab-btn${activeTab === 'requests' ? ' active' : ''}`}

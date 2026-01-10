@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "../dashboard/card";
-import GratitudeModal from "./GratitudeModal"; 
+import GratitudeModal from "./GratitudeModal";
 import J1 from "../assets/journals/J1.png";
 import J2 from "../assets/journals/J2.png";
 import J3 from "../assets/journals/J3.png";
@@ -13,6 +13,26 @@ const MyFavGratitudeList = ({ favs, onEdit }) => {
     const [openItem, setOpenItem] = useState(null);
 
     const images = [J1, J2, J3, J4, J5, J6];
+
+    const formatDate = (isoString) => {
+        if (!isoString) return "";
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+
+        const timePart = minutes > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`
+            : `${hours}${ampm}`;
+
+        return `${day} ${month} ${year}    ${timePart}`;
+    };
 
     const timeSince = (iso) => {
         if (!iso) return "";
@@ -36,20 +56,19 @@ const MyFavGratitudeList = ({ favs, onEdit }) => {
             {favs.map((item, idx) => (
                 <div
                     key={item.id}
-                    className="flex justify-between px-3 py-4 hover:shadow-2xl hover:opacity-90 cursor-pointer"
+                    className="flex justify-between p-3 hover:shadow-2xl hover:opacity-90 cursor-pointer"
                     onClick={() => setOpenItem({ ...item, image: images[idx % 6] })}
                 >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3" style={{ maxWidth: "80%" }}>
                         <div>
-                            <h5 className="text-sm text-navy-700 truncate w-80">
+                            <h5 className="text-sm text-navy-700">
                                 {item.text}
                             </h5>
 
                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                 <CalendarIcon size={16} />
                                 <span>
-                                    {item.created_at.split("T")[0]} ·{" "}
-                                    {item.created_at.split("T")[1].substring(0, 5)}
+                                    {formatDate(item.created_at)}
                                 </span>
                             </div>
                         </div>

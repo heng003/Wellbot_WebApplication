@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import LineChart from "../charts/LineChart";
 import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
@@ -44,12 +45,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
             {
                 name: "Emotional Score",
                 data: dailyData.map(d => Math.round(Number(d.avgScore) || 0)),
-                color: "#4318FF"
-            },
-            {
-                name: "Confidence",
-                data: dailyData.map(d => Math.round((Number(d.avgConfidence) || 0) * 100)),
-                color: "#6AD2FF"
+                color: "#3E9389"
             }
         ];
 
@@ -58,18 +54,14 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
     }, [trendData, activeBucketType, loading]);
 
     // 4. Calculate Averages
-    const { avgMood, avgConf } = useMemo(() => {
-        if (!trendData?.dailyData || trendData.dailyData.length === 0) return { avgMood: 0, avgConf: 0 };
+    const { avgMood } = useMemo(() => {
+        if (!trendData?.dailyData || trendData.dailyData.length === 0) return { avgMood: 0 };
 
         const validMoods = trendData.dailyData.filter(d => d.avgScore !== null);
-        const validConfs = trendData.dailyData.filter(d => d.avgConfidence !== null);
-
         const totalMood = validMoods.reduce((sum, d) => sum + Number(d.avgScore), 0);
-        const totalConf = validConfs.reduce((sum, d) => sum + Number(d.avgConfidence), 0);
 
         return {
             avgMood: validMoods.length ? Math.round(totalMood / validMoods.length) : 0,
-            avgConf: validConfs.length ? Math.round((totalConf / validConfs.length) * 100) : 0
         };
     }, [trendData]);
 
@@ -122,7 +114,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
                 <div className="min-h-[200px] w-full">
                     {loading ? (
                         <div className="flex h-full items-center justify-center">
-                            <p className="text-sm text-gray-500">Loading...</p>
+                            <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
                         </div>
                     ) : hasData ? (
                         <LineChart height={"320px"} options={options} series={chartData.series} />
@@ -138,7 +130,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
                         {/* Mood Score Legend & Avg */}
                         <div className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
                             <div className="col-span-1 flex items-center justify-center">
-                                <div className="w-2 h-2 rounded-full bg-[#4318FF]"></div>
+                                <div className="w-2 h-2 rounded-full bg-[#3E9389]"></div>
                             </div>
                             <div className="col-span-6 pl-2 overflow-hidden flex items-center">
                                 <p className="text-md font-normal text-gray-800 truncate leading-8" title={"Mood Score"}>
@@ -147,22 +139,6 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
                             </div>
                             <div className="col-span-5 flex justify-end items-center gap-2 whitespace-nowrap">
                                 <p className="text-sm font-bold text-navy-700">{avgMood}%</p>
-                                <p className="text-xs text-gray-400 w-8 text-right">{"(average)"}</p>
-                            </div>
-                        </div>
-
-                        {/* Confidence Legend & Avg */}
-                        <div className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
-                            <div className="col-span-1 flex items-center justify-center">
-                                <div className="w-2 h-2 rounded-full bg-[#6AD2FF]"></div>
-                            </div>
-                            <div className="col-span-6 pl-2 overflow-hidden flex items-center">
-                                <p className="text-md font-normal text-gray-800 truncate leading-8" title={"Confidence"}>
-                                    Confidence
-                                </p>
-                            </div>
-                            <div className="col-span-5 flex justify-end items-center gap-2 whitespace-nowrap">
-                                <p className="text-sm font-bold text-navy-700">{avgConf}%</p>
                                 <p className="text-xs text-gray-400 w-8 text-right">{"(average)"}</p>
                             </div>
                         </div>

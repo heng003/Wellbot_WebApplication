@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { fetchUserEmbeddings } from "../../services/guardianDashboardService";
 import { getIdFromToken } from "../../utils/auth";
 import { useSocketSubscription } from "../../hooks/useSocket";
 
 // Components
+import FloatingNavbar from "../../layout/FloatingNavbar";
 import EmbeddingVisualizer from "../../components/EmbeddingVisualizer";
 import MessagePatternInsights from "../../components/MessagePatternInsights";
-import HoverTooltip from "../../components/HoverTooltip";
-
-// Icon
-import { MdOutlineCalendarToday } from "react-icons/md";
 
 const ChatMapDashboardPage = () => {
     const userId = getIdFromToken();
@@ -19,14 +14,18 @@ const ChatMapDashboardPage = () => {
     const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 30)));
     const [endDate, setEndDate] = useState(new Date());
     const [embeddings, setEmbeddings] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const loadEmbeddings = React.useCallback(async () => {
         if (!userId) return;
+        setLoading(true);
         try {
             const data = await fetchUserEmbeddings(userId, startDate, endDate);
             setEmbeddings(data || []);
         } catch (error) {
             console.error("Failed to fetch embeddings", error);
+        } finally {
+            setLoading(false);
         }
     }, [userId, startDate, endDate]);
 
@@ -38,38 +37,22 @@ const ChatMapDashboardPage = () => {
 
     return (
         <div className="main-container">
-            <div className="header-section">
-                <div>
-                    <h1 className="page-title">ChatMap Dashboard</h1>
-                    <p className="page-subtitle">Analyze communication habits, identifying emotional triggers, recurring patterns, and message diversity trends.</p>
-                </div>
-                <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <HoverTooltip content="Select custom date range for overall dashboard">
-                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
-                    </HoverTooltip>
-                    <DatePicker
-                        selected={startDate}
-                        onChange={(dates) => {
-                            const [start, end] = dates;
-                            setStartDate(start);
-                            setEndDate(end);
-                        }}
-                        startDate={startDate}
-                        endDate={endDate}
-                        selectsRange
-                        className="bg-transparent text-sm font-medium outline-none w-[200px] text-gray-700"
-                        dateFormat="dd MMM yyyy"
-                        placeholderText="Select Date Range"
-                    />
-                </div>
-            </div>
+            <FloatingNavbar
+                brandText="ChatMap Dashboard"
+                startDate={startDate}
+                endDate={endDate}
+                onDateChange={(start, end) => {
+                    setStartDate(start);
+                    setEndDate(end);
+                }}
+            />
 
             <div className="mt-2">
-                <EmbeddingVisualizer rawEmbeddings={embeddings} />
+                <EmbeddingVisualizer rawEmbeddings={embeddings} loading={loading} />
             </div>
 
             <div className="mt-3">
-                <MessagePatternInsights rawEmbeddings={embeddings} />
+                <MessagePatternInsights rawEmbeddings={embeddings} loading={loading} />
             </div>
         </div>
     );

@@ -175,7 +175,7 @@ async function getEmotionalLogsFromDb(userId, startDate, endDate, limit = 200) {
 
 async function getMoodActivityCorrelation(userId, startDate, endDate) {
     const { data, error } = await supabase.rpc("get_mood_activity_correlation", {
-        p_user: userId,
+        p_user_id: userId,
         p_start: startDate,
         p_end: endDate
     });

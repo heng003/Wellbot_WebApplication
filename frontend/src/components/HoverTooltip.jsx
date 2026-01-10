@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const HoverTooltip = ({ children, content, placement = "top" }) => {
+const HoverTooltip = ({ children, content, placement = "top", forceVisible = false }) => {
     const [show, setShow] = useState(false);
 
     // Position logic
@@ -13,6 +13,8 @@ const HoverTooltip = ({ children, content, placement = "top" }) => {
         default: positionClass = "bottom-full left-1/2 -translate-x-1/2 mb-2";
     }
 
+    const isVisible = show || forceVisible;
+
     return (
         <div
             // 'inline-flex' ensures the wrapper wraps tightly around whatever child you pass
@@ -24,7 +26,7 @@ const HoverTooltip = ({ children, content, placement = "top" }) => {
             {children}
 
             {/* The Tooltip Popup */}
-            {show && (
+            {isVisible && (
                 <div
                     className={`
                         absolute ${positionClass}

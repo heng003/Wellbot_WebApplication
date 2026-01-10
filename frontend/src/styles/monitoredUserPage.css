@@ -66,7 +66,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 16px;
-    margin-block: 1em 3em;
+    margin-block: 1em;
 }
 
 .stat-card {
@@ -197,15 +197,19 @@
 }
 
 .no-users-row {
-    text-align: center;
-    background-color: #f1f1f1;
-    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 350px;
 }
 
 .no-users-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     color: #333333;
-    padding: 3.8em 1em;
     font-size: 1em;
 }
 
@@ -318,7 +322,7 @@
     margin-bottom: 24px;
     padding-block: 1.5em !important;
     padding-inline: 2em !important;
-    border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 .modal-title {

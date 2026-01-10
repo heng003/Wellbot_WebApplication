@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import FloatingNavbar from '../../layout/FloatingNavbar';
 
 const UserProfilePage = () => {
     const [personalData, setPersonalData] = useState({});
@@ -311,18 +312,7 @@ const UserProfilePage = () => {
     return (
         <>
             <main className="main-container">
-                <div className="top-bar">
-                    <div className="header-section flex-column">
-                        <div>
-                            <h1 className="page-title">Profile</h1>
-                            <p className="page-subtitle">Manage your personal information, account settings, and privacy preferences</p>
-                        </div>
-                        {/* <button className="green-button" onClick={() => setShowAddGuardianModal(true)}>
-                            <UserPlus className="icon-small" />
-                            Add Guardian
-                        </button> */}
-                    </div>
-                </div>
+                <FloatingNavbar brandText="Profile" showProfileMenuProp={false} />
 
                 {error && (
                     <div className="alert alert-error">{error}</div>
@@ -508,7 +498,7 @@ const UserProfilePage = () => {
                         </div>
                         {[
                             { label: "Converse with Context Awareness", value: "converse", subtitle: "Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply" },
-                            { label: "Voice and Image Journaling", value: "journaling", subtitle: "Record your thoughts by speaking and taking an images, making emotional expression easier and more personal without needing to type" },
+                            { label: "Voice Journaling", value: "journaling", subtitle: "Record your thoughts by speaking, making emotional expression easier and more personal without needing to type" },
                             { label: "Meditation with Calming Music", value: "music", subtitle: "Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance" },
                             { label: "Make a Gratitude List", value: "gratitude", subtitle: "List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation" },
                             { label: "Spiritual Quote of the Day", value: "quote", subtitle: "Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day" },

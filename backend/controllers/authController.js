@@ -148,7 +148,7 @@ exports.logIn = async (req, res, next) => {
                 message: "Logged in successfully",
                 user: {
                     id: user.id,
-                    fullName: user.full_name,
+                    name: user.prefer_name,
                     role,
                 },
             });

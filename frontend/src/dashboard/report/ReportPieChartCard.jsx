@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import PieChart from "../charts/PieChart";
 import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
@@ -108,38 +109,38 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
                     <h4 className="text-lg font-bold text-navy-700">Activity Frequency</h4>
                 </div>
             </div>
+            {loading ? (
+                <div className="h-full w-full flex items-center justify-center">
+                    <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                </div>
+            ) : chartData.length > 0 ? (
+                <div className="flex flex-row h-full w-full items-center justify-center" style={{ gap: "5em" }}>
+                    <PieChart height={"260px"} options={chartOptions} series={chartData} />
+                    <div className="rounded-2xl py-3">
+                        {distribution.map((item, index) => (
+                            <div key={index} className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
 
-            <div className="mb-auto flex min-h-[220px] w-full items-center justify-center mt-4">
-                {loading ? (
-                    <p className="text-sm text-gray-500">Loading...</p>
-                ) : chartData.length > 0 ? (
-                    <PieChart height={"250px"} options={chartOptions} series={chartData} />
-                ) : (
+                                <div className="col-span-1 flex items-center justify-center">
+                                    <div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
+                                </div>
+
+                                <div className="col-span-7 pl-2 overflow-hidden flex items-center">
+                                    <p className="text-md font-normal text-gray-800 truncate leading-8" title={item.label}>
+                                        {item.label}
+                                    </p>
+                                </div>
+
+                                <div className="col-span-4 flex justify-end items-center gap-2 whitespace-nowrap">
+                                    <p className="text-sm font-bold text-navy-700">{item.percentage}%</p>
+                                    <p className="text-xs text-gray-400 w-8 text-right">({item.count})</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <div className="h-full w-full flex items-center justify-center">
                     <p className="text-sm text-gray-500">No data available for this period</p>
-                )}
-            </div>
-
-            {chartData.length > 0 && (
-                <div className="rounded-2xl py-3">
-                    {distribution.map((item, index) => (
-                        <div key={index} className="grid grid-cols-12 items-center mb-1 px-2 py-2 min-h-[40px] border-b border-transparent">
-
-                            <div className="col-span-1 flex items-center justify-center">
-                                <div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
-                            </div>
-
-                            <div className="col-span-7 pl-2 overflow-hidden flex items-center">
-                                <p className="text-md font-normal text-gray-800 truncate leading-8" title={item.label}>
-                                    {item.label}
-                                </p>
-                            </div>
-
-                            <div className="col-span-4 flex justify-end items-center gap-2 whitespace-nowrap">
-                                <p className="text-sm font-bold text-navy-700">{item.percentage}%</p>
-                                <p className="text-xs text-gray-400 w-8 text-right">({item.count})</p>
-                            </div>
-                        </div>
-                    ))}
                 </div>
             )}
         </Card>

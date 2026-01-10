@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { MdOutlineCalendarToday } from "react-icons/md";
+import { AiOutlineLoading } from "react-icons/ai";
 import Card from "../card";
 import BarChart from "../charts/BarChart";
 import HoverTooltip from "../../components/HoverTooltip";
@@ -14,8 +15,8 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 	// Check mode: Controlled (props provided) vs Uncontrolled (internal state)
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
-	const [customStart, setCustomStart] = useState(null);
-	const [customEnd, setCustomEnd] = useState(null);
+	const [customStart, setCustomStart] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), 1, 0, 0, 0, 0));
+	const [customEnd, setCustomEnd] = useState(new Date());
 	const [showDatePicker, setShowDatePicker] = useState(false);
 
 	// Helper: Get default "This Month" range
@@ -211,14 +212,14 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 						<button onClick={() => shiftPage("right")} disabled={!canPageRight} className={`px-2 py-1 rounded ${canPageRight ? "bg-gray-200 hover:bg-gray-100mo" : "bg-gray-100 opacity-50"}`}>▶</button>
 						<div className="relative">
 							<HoverTooltip content="Select custom date range">
-								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-brand-500 hover:bg-gray-100">
+								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] hover:bg-gray-100">
 									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
 							</HoverTooltip>
 							{showDatePicker && (
 								<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
 									<p className="font-semibold mb-2">Date Range</p>
-									<div>
+									<div style={{ textAlign: 'start' }}>
 										<div className="flex flex-col justify-content-start">
 											<label className="text-xs text-gray-500">From</label>
 											<input
@@ -239,7 +240,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 										</div>
 										<button
 											onClick={handleApplyCustomRange}
-											className="w-full bg-brand-500 text-white rounded py-1 mt-2 hover:bg-brand-600 transition"
+											className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
 										>
 											Apply
 										</button>
@@ -259,14 +260,14 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 			<div>
 				<div className="min-h-[200px] w-full">
 					{loading ? (
-						<div className="flex h-full items-center justify-center">
-							<p className="text-gray-400 animate-pulse">Loading data...</p>
+						<div className="flex h-[200px] items-center justify-center rounded-lg">
+							<AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
 						</div>
 					) : hasData ? (
 						<BarChart chartData={series} chartOptions={chartOptions} height={"270px"} />
 					) : (
-						<div className="flex h-full items-center justify-center rounded-lg">
-							<p className="text-gray-400">No data available for this period</p>
+						<div className="flex h-[200px] items-center justify-center rounded-lg">
+							<p className="text-sm text-gray-500">No data available for this period</p>
 						</div>
 					)}
 				</div>

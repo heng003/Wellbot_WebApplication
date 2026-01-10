@@ -10,7 +10,7 @@ const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 				<div className="flex items-center">
 					<div className="flex h-[90px] w-auto flex-row items-center">
 						<div className="rounded-full bg-lightPrimary p-3">
-							<span className="flex items-center text-brand-500">
+							<span className="flex items-center text-[#3E9389]">
 								{icon}
 							</span>
 						</div>

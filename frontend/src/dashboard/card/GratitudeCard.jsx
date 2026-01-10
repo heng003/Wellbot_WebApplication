@@ -10,14 +10,27 @@ const GratitudeCard = ({ data, onEdit }) => {
     const [isFav, setIsFav] = useState(fav || false);
     const [showModal, setShowModal] = useState(false);
 
-    // Format date: "Oct 25, 2025"
-    const dateObj = new Date(created_at);
-    const dateStr = dateObj.toLocaleDateString("en-US", {
-        month: 'short', day: 'numeric', year: 'numeric'
-    });
-    const timeStr = dateObj.toLocaleTimeString("en-US", {
-        hour: '2-digit', minute: '2-digit'
-    });
+    const formatDate = (isoString) => {
+        if (!isoString) return "";
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+
+        const timePart = minutes > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`
+            : `${hours}${ampm}`;
+
+        return `${day} ${month} ${year}    ${timePart}`;
+    };
+
+    const formattedDate = formatDate(created_at);
 
     const handleFavClick = async () => {
         const newFav = !isFav;
@@ -37,9 +50,9 @@ const GratitudeCard = ({ data, onEdit }) => {
                 </div>
 
                 <div className="flex justify-between items-center mt-1">
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
                         <CalendarIcon size={16} />
-                        <span>{dateStr} • {timeStr}</span>
+                        <span>{formattedDate}</span>
                     </div>
 
                     <button
@@ -49,7 +62,7 @@ const GratitudeCard = ({ data, onEdit }) => {
                         }}
                         className="bg-gray-100 p-2 rounded-full hover:opacity-80"
                     >
-                        {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
+                        {isFav ? <IoHeart className="text-[#3E9389]" /> : <IoHeartOutline />}
                     </button>
                 </div>
             </Card>

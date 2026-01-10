@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import Widget from "../../dashboard/widget/Widget";
 import { useEmotions } from "../../hooks/useEmotions";
 import HappyIcon from "../../icons/HappyIcon";
@@ -9,7 +10,7 @@ import FearIcon from "../../icons/FearIcon";
 const emotionConfig = {
     Happy: {
         icon: <HappyIcon />,
-        colors: ["#1D4ED8", "#BAE6FD", "#60A5FA"]
+        colors: ["#D97706", "#FEF3C7", "#FBBF24"]
     },
     Sad: {
         icon: <SadIcon />,
@@ -17,11 +18,11 @@ const emotionConfig = {
     },
     Angry: {
         icon: <AngryIcon />,
-        colors: ["#7C3AED", "#DDD6FE", "#A78BFA"]
+        colors: ["#DB2777", "#FBCFE8", "#F472B6"]
     },
     Fear: {
         icon: <FearIcon />,
-        colors: ["#DB2777", "#FBCFE8", "#F472B6"]
+        colors: ["#1D4ED8", "#BAE6FD", "#60A5FA"]
     },
 };
 
@@ -56,6 +57,16 @@ const ReportDisplayWidgets = ({ userId, startDate, endDate }) => {
         if (!emotions) return 0;
         return emotions.reduce((sum, e) => sum + Number(e.cnt), 0);
     }, [emotions]);
+
+    if (loading) {
+        return (
+            <div className="dashboard-widget-wrapper">
+                <div className="flex w-full items-center justify-center min-h-[100px]">
+                    <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">

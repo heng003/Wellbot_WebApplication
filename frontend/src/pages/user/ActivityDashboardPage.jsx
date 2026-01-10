@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { MdOutlineCalendarToday } from "react-icons/md";
-
 // Import components
+import FloatingNavbar from "../../layout/FloatingNavbar";
 import PieChartCard from "../../dashboard/default/PieChartCard";
 import RecentActivitiesTable from "../../dashboard/default/RecentActivitiesTable";
 import DailyTraffic from "../../dashboard/default/DailyTraffic";
@@ -17,31 +14,15 @@ const ActivityDashboardPage = () => {
 
     return (
         <div className="main-container">
-            <div className="header-section">
-                <div>
-                    <h1 className="page-title">Activity Dashboard</h1>
-                    <p className="page-subtitle">Explore how your daily activities and moods evolve</p>
-                </div>
-                <div className="flex px-1 py-3 items-center gap-3 rounded-xl bg-white shadow-sm">
-                    <HoverTooltip content="Select custom date range for overall dashboard">
-                        <MdOutlineCalendarToday className="ml-3 text-gray-700" />
-                    </HoverTooltip>
-                    <DatePicker
-                        selected={startDate}
-                        onChange={(dates) => {
-                            const [start, end] = dates;
-                            setStartDate(start);
-                            setEndDate(end);
-                        }}
-                        startDate={startDate}
-                        endDate={endDate}
-                        selectsRange
-                        className="bg-transparent text-sm font-medium outline-none w-[200px] text-gray-700"
-                        dateFormat="dd MMM yyyy"
-                        placeholderText="Select Date Range"
-                    />
-                </div>
-            </div>
+            <FloatingNavbar
+                brandText="Activity Dashboard"
+                startDate={startDate}
+                endDate={endDate}
+                onDateChange={(start, end) => {
+                    setStartDate(start);
+                    setEndDate(end);
+                }}
+            />
 
             {/* Top Row: Charts */}
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3 mb-3">

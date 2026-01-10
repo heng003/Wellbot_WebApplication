@@ -16,13 +16,27 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
         if (onEdit) onEdit();
     };
 
-    const dateObj = new Date(created_at);
-    const dateStr = dateObj.toLocaleDateString("en-US", {
-        month: 'short', day: 'numeric', year: 'numeric'
-    });
-    const timeStr = dateObj.toLocaleTimeString("en-US", {
-        hour: '2-digit', minute: '2-digit'
-    });
+    const formatDate = (isoString) => {
+        if (!isoString) return "";
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+
+        const timePart = minutes > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`
+            : `${hours}${ampm}`;
+
+        return `${day} ${month} ${year}    ${timePart}`;
+    };
+
+    const formattedDate = formatDate(created_at);
 
     return (
         <>
@@ -36,7 +50,7 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
                         }}
                         className="absolute top-3 right-3 bg-white p-2 rounded-full hover:opacity-80"
                     >
-                        {isFav ? <IoHeart className="text-brand-500" /> : <IoHeartOutline />}
+                        {isFav ? <IoHeart className="text-[#3E9389]" /> : <IoHeartOutline />}
                     </button>
                 </div>
 
@@ -44,9 +58,9 @@ const JournalCard = ({ id, title, content, created_at, fav, image, onEdit }) => 
 
                 <div className="flex-1" />
 
-                <div className="flex items-center gap-2 text-xs text-gray-400">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                     <CalendarIcon size={16} />
-                    <span>{dateStr} • {timeStr}</span>
+                    <span>{formattedDate}</span>
                 </div>
             </Card>
 

@@ -14,6 +14,26 @@ const MyFavJournalList = ({ favs, onEdit }) => {
 
     const journalImages = [J1, J2, J3, J4, J5, J6];
 
+    const formatDate = (isoString) => {
+        if (!isoString) return "";
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+
+        const timePart = minutes > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}${ampm}`
+            : `${hours}${ampm}`;
+
+        return `${day} ${month} ${year}    ${timePart}`;
+    };
+
     const timeSince = (iso) => {
         if (!iso) return '';
         const diff = Date.now() - new Date(iso).getTime();
@@ -50,7 +70,7 @@ const MyFavJournalList = ({ favs, onEdit }) => {
                             <h5 className="text-base font-bold text-navy-700">{item.title}</h5>
                             <div className="flex items-center gap-2 text-sm text-gray-600">
                                 <CalendarIcon size={16} />
-                                <span>{item.created_at.split("T")[0]} · {item.created_at.split("T")[1].substring(0, 5)}</span>
+                                <span>{formatDate(item.created_at)}</span>
                             </div>
                         </div>
                     </div>

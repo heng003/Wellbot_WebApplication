@@ -5,7 +5,7 @@ import "../styles/accessManagePage.css";
 
 const CardGuardianRequest = ({ id, name, preferName, email, requestedAt, requestMessage, handleRequestResponse }) => {
     return (
-        <div className="card-guardian-tracking">
+        <div className="card-guardian-tracking border-t border-gray-300">
             <div className="card-header">
                 <div>
                     <h3 className="card-header-title">{name}</h3>

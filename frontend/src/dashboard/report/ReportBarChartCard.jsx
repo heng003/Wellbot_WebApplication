@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import axios from "axios";
 import Card from "../card";
 import BarChart from "../charts/BarChart";
@@ -153,7 +154,7 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
             <div className="min-h-[250px] w-full mt-4">
                 {loading ? (
                     <div className="flex h-full items-center justify-center">
-                        <p className="text-gray-400">Loading data...</p>
+                        <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
                     </div>
                 ) : hasData ? (
                     <BarChart height={"320px"} chartData={chartData} chartOptions={chartOptions} />

@@ -137,10 +137,10 @@ const Sidebar = () => {
 
             <div className={`mx-[56px] mt-[50px] flex items-center justify-center`}>
                 <div className="mt-1 ml-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700">
-                    Well<span class="font-medium">-Bot</span>
+                    Well<span className="font-medium">-Bot</span>
                 </div>
             </div>
-            <div class="mt-[58px] mb-7 h-px bg-gray-300" style={{ borderWidth: '1px', borderStyle: "solid", borderColor: "#E9ECEF" }} />
+            <div className="mt-[58px] mb-7 h-px bg-gray-300" style={{ borderWidth: '1px', borderStyle: "solid", borderColor: "#E9ECEF" }} />
 
             <ul className="mb-auto pt-1">
                 <Links routes={routes} />

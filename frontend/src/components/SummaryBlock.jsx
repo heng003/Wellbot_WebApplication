@@ -39,25 +39,25 @@ const SummaryBlock = ({ data, getActivityColor }) => {
     if (!summary) return null;
 
     return (
-        <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 shadow-sm">
+        <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 shadow-sm">
             <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="w-full flex items-center justify-between hover:opacity-80 transition-opacity"
+                className="w-full p-3 flex items-center justify-between hover:opacity-80 transition-opacity"
             >
                 <div className="flex items-center gap-2">
                     <span className="text-lg">💡</span>
                     <p className="text-md font-bold text-gray-800">Quick Insights</p>
                 </div>
-                <span className={`text-gray-700 transform transition-transform duration-300 ease-in-out ${isExpanded ? 'rotate-180' : ''} scale-75`}>
+                <span className={`text-gray-700 transform transition-transform duration-300 ease-in-out ${isExpanded ? '' : 'rotate-180'} scale-75`}>
                     <DropdownIcon />
                 </span>
             </button>
 
             {isExpanded && (
-                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100 mt-3 pt-3" : "max-h-0 opacity-0"} border-t border-blue-200`}>
-                    <div className="flex flex-col gap-3 mt-3 pt-3">
+                <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? "max-h-[1000px] opacity-100 p-3" : "max-h-0 opacity-0"} border-t border-blue-200`}>
+                    <div className="flex flex-col gap-3">
                         {/* Positive engagement */}
-                        <div className="p-2 bg-white bg-opacity-60 rounded">
+                        <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
                             <p className="text-sm text-gray-800 font-semibold mb-1">When feel positive:</p>
                             <p className="text-sm text-gray-700">
                                 Tend to engage with{' '}
@@ -67,12 +67,11 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                                 >
                                     {summary.topLiked.name}
                                 </span>
-                                <span className="text-gray-700"> ({summary.topLiked.avgMoodScore}%)</span>
                             </p>
                         </div>
 
                         {/* Negative engagement */}
-                        <div className="p-2 bg-white bg-opacity-60 rounded">
+                        <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
                             <p className="text-sm text-gray-800 font-semibold mb-1">When feel negative:</p>
                             {summary.topDuringNegative && summary.topDuringNegative.avgMoodScore < 50 ? (
                                 <p className="text-sm text-gray-700">
@@ -83,7 +82,6 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                                     >
                                         {summary.topDuringNegative.name}
                                     </span>
-                                    <span className="text-gray-700"> ({summary.topDuringNegative.avgMoodScore}%)</span>
                                 </p>
                             ) : (
                                 <p className="text-sm text-gray-700 italic">All activities have positive mood associations!</p>
@@ -91,7 +89,7 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                         </div>
 
                         {/* Mood improvement */}
-                        <div className="p-2 bg-white bg-opacity-60 rounded">
+                        <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
                             <p className="text-sm text-gray-800 font-semibold mb-1">Mood booster:</p>
                             <p className="text-sm text-gray-700">
                                 <span
@@ -106,7 +104,7 @@ const SummaryBlock = ({ data, getActivityColor }) => {
 
                         {/* Mood drainer */}
                         {summary.topWorse.moodChange < 0 && (
-                            <div className="p-2 bg-white bg-opacity-60 rounded">
+                            <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
                                 <p className="text-sm text-gray-800 font-semibold mb-1">Consider limiting:</p>
                                 <p className="text-sm text-gray-700">
                                     <span
@@ -121,7 +119,7 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                         )}
 
                         {/* Engagement stats */}
-                        <div className="p-2 bg-white bg-opacity-60 rounded">
+                        <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
                             <p className="text-sm text-gray-800 font-semibold mb-1">Well-Bot Engagement:</p>
                             <div className="grid grid-cols-2 gap-2 text-xs">
                                 <div>
@@ -143,7 +141,7 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-1 text-md text-gray-500 mt-2 p-2 bg-white rounded border border-blue-100">
+                        <div className="flex flex-col gap-1 text-md text-gray-500 mt-2 px-3 py-2 bg-white rounded border border-blue-100">
                             <p className="font-semibold text-gray-800">
                                 💭 Tip:
                             </p>

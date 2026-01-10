@@ -29,6 +29,7 @@ import MessagePatternInsights from "../../components/MessagePatternInsights";
 // Hooks for raw data
 import { useInterventionData } from "../../hooks/useInterventionData";
 import { useEmotionalLogs } from "../../hooks/useEmotionalLogs";
+import FloatingNavbar from "../../layout/FloatingNavbar";
 
 const ReportPage = () => {
     const userId = getIdFromToken();
@@ -222,14 +223,7 @@ const ReportPage = () => {
 
     return (
         <div className="main-container">
-            <div className="mb-8">
-                <h1 className="page-title">
-                    My Report Generator
-                </h1>
-                <p className="page-subtitle">
-                    Create a personal summary of your well-being journey
-                </p>
-            </div>
+            <FloatingNavbar brandText="My Report Generator" />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
@@ -274,14 +268,14 @@ const ReportPage = () => {
                             <div className="grid grid-cols-2 gap-3">
                                 <button
                                     onClick={() => setFileFormat('pdf')}
-                                    className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${fileFormat === 'pdf' ? 'border-brand-500 bg-brand-50 text-brand-600' : 'border-gray-200 hover:border-gray-300 text-gray-500'}`}
+                                    className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${fileFormat === 'pdf' ? 'border-[var(--primary-color)] bg-[#49afa430] text-[var(--primary-color)]' : 'border-gray-200 hover:border-gray-300 text-gray-600'}`}
                                 >
                                     <MdPictureAsPdf className="text-2xl mb-1" />
                                     <span className="font-bold text-sm">PDF Report</span>
                                 </button>
                                 <button
                                     onClick={() => setFileFormat('csv')}
-                                    className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${fileFormat === 'csv' ? 'border-brand-500 bg-brand-50 text-brand-600' : 'border-gray-200 hover:border-gray-300 text-gray-500'}`}
+                                    className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${fileFormat === 'csv' ? 'border-[var(--primary-color)] bg-[#49afa430] text-[var(--primary-color)]' : 'border-gray-200 hover:border-gray-300 text-gray-600'}`}
                                 >
                                     <MdTableView className="text-2xl mb-1" />
                                     <span className="font-bold text-sm">Raw CSV</span>
@@ -297,46 +291,46 @@ const ReportPage = () => {
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('widgets')}>
                                         <span className="text-sm text-navy-700">Emotion Summary</span>
-                                        {pdfConfig.widgets ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.widgets ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activity')}>
                                         <span className="text-sm text-navy-700">Activity Chart</span>
-                                        {pdfConfig.activity ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.activity ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('score')}>
                                         <span className="text-sm text-navy-700">Score Chart</span>
-                                        {pdfConfig.score ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.score ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('dist')}>
                                         <span className="text-sm text-navy-700">Distribution Chart</span>
-                                        {pdfConfig.dist ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.dist ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
                                         <span className="text-sm text-navy-700">Activity Mood Correlation</span>
-                                        {pdfConfig.mood ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.mood ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('messages')}>
                                         <span className="text-sm text-navy-700">Message Patterns</span>
-                                        {pdfConfig.messages ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.messages ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('emotionalTable')}>
                                         <span className="text-sm text-navy-700">Emotional Logs Table</span>
-                                        {pdfConfig.emotionalTable ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.emotionalTable ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activityTable')}>
                                         <span className="text-sm text-navy-700">Activity Logs Table</span>
-                                        {pdfConfig.activityTable ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {pdfConfig.activityTable ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                 </div>
                             ) : (
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCsvConfig('emotionalLogs')}>
                                         <span className="text-sm text-navy-700">Emotional Raw Data</span>
-                                        {csvConfig.emotionalLogs ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {csvConfig.emotionalLogs ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCsvConfig('activityLogs')}>
                                         <span className="text-sm text-navy-700">Activity Raw Data</span>
-                                        {csvConfig.activityLogs ? <MdCheckCircle className="text-brand-500" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
+                                        {csvConfig.activityLogs ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <p className="text-xs text-gray-400 mt-2 italic">*Will download separate files if both are selected.</p>
                                 </div>
@@ -346,7 +340,7 @@ const ReportPage = () => {
                         <button
                             onClick={handleGenerate}
                             disabled={isGenerating}
-                            className={`w-full flex items-center justify-center gap-2 my-3 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-brand-500 text-white opacity-70 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 text-white'}`}
+                            className={`w-full flex items-center justify-center gap-2 my-3 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-[#3E9389] text-white opacity-70 cursor-not-allowed' : 'bg-[#3E9389] hover:bg-[#88BFB9] text-white'}`}
                         >
                             {isGenerating ? (
                                 <span>Generating...</span>
@@ -428,7 +422,7 @@ const ReportPage = () => {
                     <MessagePatternInsights rawEmbeddings={embeddings} onInsightsCalculated={setMessageInsightsData} />
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

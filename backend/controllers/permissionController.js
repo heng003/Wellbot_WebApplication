@@ -68,12 +68,12 @@ exports.createPermission = async (req, res, next) => {
 exports.deletePermission = async (req, res, next) => {
     const { guardianId, userId } = req.body;
     try {
-        const permission = await Permission.findPermissionByGuardianAndUser(guardianId, userId);
-        if (!permission) return next(new createError("Permission not found.", 404));
+        // const permission = await Permission.findPermissionByGuardianAndUser(guardianId, userId);
+        // if (!permission) return next(new createError("Permission not found.", 404));
         await Permission.deletePermissionByGuardianAndUser(guardianId, userId);
         res.json({ message: 'Request / Permission deleted' });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        return next(new createError("Server Error", 500));
     }
 };
 
