@@ -19,7 +19,7 @@ const gratitudeRouter = require('./routes/gratitudeRoute');
 const interventionRouter = require('./routes/interventionRoute');
 const embeddingRouter = require('./routes/embeddingRoute');
 const authMiddleware = require('./middleware/authMiddleware');
-const setupRealtimeSubscriptions = require('./services/realtimeService');
+const realtimeService = require('./services/realtimeService');
 
 const app = express();
 
@@ -54,19 +54,23 @@ io.use((socket, next) => {
 io.on('connection', (socket) => {
 	console.log(`Socket connected: ${socket.id}, User: ${socket.userId}`);
 
-	// Join user-specific room
+	// Join user-specific room & Subscribe to Realtime
 	if (socket.userId) {
 		socket.join(`user_${socket.userId}`);
+		realtimeService.subscribeUser(socket.userId, io);
 		console.log(`User ${socket.userId} joined room user_${socket.userId}`);
 	}
 
 	socket.on('disconnect', () => {
 		console.log('Socket disconnected:', socket.id);
+		if (socket.userId) {
+			realtimeService.unsubscribeUser(socket.userId);
+		}
 	});
 });
 
-// Initialize Realtime Service
-setupRealtimeSubscriptions(io);
+// Remove global subscription call
+// setupRealtimeSubscriptions(io);
 
 // 1. MIDDLEWARES
 // use this to deploy
@@ -121,7 +125,7 @@ app.use((err, req, res, next) => {
 // Server listen
 const PORT = process.env.PORT || 5000;
 // use this to deploy
-// app.listen(PORT, '0.0.0.0', () => {
+// server.listen(PORT, '0.0.0.0', () => {
 // 	console.log(`Well-Bot is listening on port ${PORT}`);
 // });
 server.listen(PORT, () => {

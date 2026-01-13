@@ -108,17 +108,16 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
         }));
     }, [rawEmbeddings]);
 
-    if (loading) return (
-        <div className="flex w-full items-center justify-center mt-4 bg-white rounded-2xl shadow-sm border border-gray-100" style={{ height: "220px" }}>
-            <div className="flex flex-col items-center gap-3">
-                <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
-                <p className="text-sm font-medium text-gray-500">Loading galaxy...</p>
-            </div>
-        </div>
-    );
-
     return (
-        <Card extra="p-4 pb-5">
+        <Card extra="p-4 pb-5 relative">
+            {loading && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm rounded-2xl">
+                    <div className="flex flex-col items-center gap-3">
+                        <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                        <p className="text-sm font-medium text-gray-500">Loading galaxy...</p>
+                    </div>
+                </div>
+            )}
             <div className="flex w-full items-center justify-between p-2 pb-3">
                 <div className="flex flex-col gap-2">
                     <p className="text-lg font-bold">Conversation Galaxy</p>
@@ -136,30 +135,30 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                                 </button>
 
                                 {showDatePicker && (
-                                    <div className="absolute right-0 top-full mt-2 bg-white border rounded-lg shadow-lg p-3 z-30 text-black min-w-[200px] text-left">
-                                        <p className="font-semibold mb-2 text-sm text-gray-700">Date Range</p>
-                                        <div className="flex flex-col gap-2">
-                                            <div className="flex flex-col">
-                                                <label className="text-xs text-gray-500 mb-1">From</label>
+                                    <div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
+                                        <p className="font-semibold mb-2">Date Range</p>
+                                        <div style={{ textAlign: 'start' }}>
+                                            <div className="flex flex-col justify-content-start">
+                                                <label className="text-xs text-gray-500">From</label>
                                                 <input
                                                     type="date"
                                                     value={customStart ? formatLocalDate(customStart) : ""}
                                                     onChange={(e) => setCustomStart(new Date(e.target.value))}
-                                                    className="border rounded p-1 text-sm text-gray-700 w-full"
+                                                    className="border rounded p-1"
                                                 />
                                             </div>
-                                            <div className="flex flex-col">
-                                                <label className="text-xs text-gray-500 mb-1">To</label>
+                                            <div className="flex flex-col justify-content-start">
+                                                <label className="text-xs text-gray-500">To</label>
                                                 <input
                                                     type="date"
                                                     value={customEnd ? formatLocalDate(customEnd) : ""}
                                                     onChange={(e) => setCustomEnd(new Date(e.target.value))}
-                                                    className="border rounded p-1 text-sm text-gray-700 w-full"
+                                                    className="border rounded p-1"
                                                 />
                                             </div>
                                             <button
                                                 onClick={handleApplyCustomRange}
-                                                className="w-full bg-[#3E9389] text-white rounded py-1.5 mt-2 hover:bg-[#88BFB9] transition text-sm font-medium"
+                                                className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
                                             >
                                                 Apply
                                             </button>
@@ -242,7 +241,6 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                 </div>
             )}
         </Card>
-
     );
 };
 

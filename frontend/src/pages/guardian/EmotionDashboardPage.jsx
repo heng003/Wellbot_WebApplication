@@ -37,12 +37,6 @@ const EmotionDashboardPage = () => {
         loadWards();
     }, [guardianId]);
 
-    if (loadingWards) {
-        return <div className="flex h-[90vh] items-center justify-center">
-            <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
-        </div>;
-    }
-
     return (
         <div className="main-container">
             <FloatingNavbar
@@ -59,7 +53,11 @@ const EmotionDashboardPage = () => {
                 onUserChange={setSelectedWardId}
             />
 
-            {selectedWardId ? (
+            {loadingWards ? (
+                <div className="flex h-[90vh] items-center justify-center">
+                    <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                </div>
+            ) : selectedWardId ? (
                 <>
                     <div className="grid grid-cols-1 gap-3 mt-3 md:grid-cols-2">
                         <EmotionalScore userId={selectedWardId} startDate={startDate} endDate={endDate} />
@@ -71,9 +69,7 @@ const EmotionDashboardPage = () => {
                     </div>
                 </>
             ) : (
-                !loadingWards && (
-                    <NoMonitoredUser />
-                )
+                <NoMonitoredUser />
             )}
         </div>
     );

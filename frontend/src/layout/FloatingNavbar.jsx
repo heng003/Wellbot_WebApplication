@@ -24,7 +24,7 @@ const FloatingNavbar = ({
     wards,
     selectedWardId,
     onUserChange,
-    showProfileMenuProp = true,
+    showProfileSettingsOption = true,
     actionButton // { label: string, icon: ReactElement, onClick: function }
 }) => {
     const navigate = useNavigate();
@@ -430,24 +430,23 @@ const FloatingNavbar = ({
                 )}
 
                 {/* Profile Dropdown */}
-                {showProfileMenuProp && (
-                    <div className="relative" ref={profileRef}>
-                        <HoverTooltip content="Profile Settings" placement="left">
-                            <button
-                                onClick={() => setShowProfileMenu(!showProfileMenu)}
-                                className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg hover:bg-gray-50 transition-all border-4 border-white overflow-hidden hover:opacity-80"
-                            >
-                                <img src="/Images/avatar_green.png" alt="Profile" className="h-full w-full object-cover" />
-                            </button>
-                        </HoverTooltip>
+                <div className="relative" ref={profileRef}>
+                    <HoverTooltip content={showProfileSettingsOption ? "Profile Settings" : "Log Out"} placement="left">
+                        <button
+                            onClick={() => setShowProfileMenu(!showProfileMenu)}
+                            className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg hover:bg-gray-50 transition-all border-4 border-white overflow-hidden hover:opacity-80"
+                        >
+                            <img src="/Images/avatar_green.png" alt="Profile" className="h-full w-full object-cover" />
+                        </button>
+                    </HoverTooltip>
 
-                        {showProfileMenu && (
-                            <div className="absolute right-0 top-14 mt-2 w-56 origin-top-right rounded-xl bg-white py-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000]">
-                                <div className="px-4 py-3 border-b border-gray-100">
-                                    <p className="text-sm font-bold text-navy-700">👋 Hey, {name || "User"}</p>
-                                </div>
-
-                                <div className="p-2 flex flex-col gap-1">
+                    {showProfileMenu && (
+                        <div className="absolute right-0 top-14 mt-2 w-56 origin-top-right rounded-xl bg-white py-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000]">
+                            <div className="px-4 py-3 border-b border-gray-300">
+                                <p className="text-sm font-bold text-navy-700">👋 Hey, {name || "User"}</p>
+                            </div>
+                            <div className="p-2 flex flex-col gap-1">
+                                {showProfileSettingsOption && (
                                     <Link
                                         to={role === 'guardian' ? "/guardian/profile" : "/user/profile"}
                                         className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
@@ -455,17 +454,18 @@ const FloatingNavbar = ({
                                     >
                                         <MdSettings className="h-4 w-4" /> Profile Settings
                                     </Link>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors text-left font-medium"
-                                    >
-                                        <MdLogout className="h-4 w-4" /> Log Out
-                                    </button>
-                                </div>
+                                )}
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors text-left font-medium"
+                                >
+                                    <MdLogout className="h-4 w-4" /> Log Out
+                                </button>
                             </div>
-                        )}
-                    </div>
-                )}
+
+                        </div>
+                    )}
+                </div>
             </div>
         </nav>
     );

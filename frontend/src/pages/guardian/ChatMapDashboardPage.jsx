@@ -59,12 +59,6 @@ const ChatMapDashboardPage = () => {
 
     useSocketSubscription(['wb_embeddings'], loadEmbeddings);
 
-    if (loadingWards) {
-        return <div className="flex h-[90vh] items-center justify-center">
-            <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
-        </div>;
-    }
-
     return (
         <div className="main-container">
             <FloatingNavbar
@@ -81,7 +75,11 @@ const ChatMapDashboardPage = () => {
                 onUserChange={setSelectedWardId}
             />
 
-            {selectedWardId ? (
+            {loadingWards ? (
+                <div className="flex h-[90vh] items-center justify-center">
+                    <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                </div>
+            ) : selectedWardId ? (
                 <>
                     <div className="mt-2">
                         <EmbeddingVisualizer rawEmbeddings={embeddings} loading={loadingWords} />
@@ -91,9 +89,7 @@ const ChatMapDashboardPage = () => {
                     </div>
                 </>
             ) : (
-                !loadingWards && (
-                    <NoMonitoredUser />
-                )
+                <NoMonitoredUser />
             )}
         </div>
     );

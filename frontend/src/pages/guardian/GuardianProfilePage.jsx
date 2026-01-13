@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Edit, Save, Lock, Eye, EyeOff } from 'lucide-react';
+import { AiOutlineLoading } from 'react-icons/ai';
 import '../../styles/profilePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -9,6 +10,7 @@ import FloatingNavbar from '../../layout/FloatingNavbar';
 const GuardianProfilePage = () => {
     const [personalData, setPersonalData] = useState({});
     const userId = getIdFromToken();
+    const [dataLoading, setDataLoading] = useState(true);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
@@ -16,11 +18,17 @@ const GuardianProfilePage = () => {
     const [showPasswordModal, setShowPasswordModal] = useState(false);
 
     const fetchProfile = async () => {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('/api/profile/userProfile', {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        setPersonalData(res.data.data);
+        try {
+            const token = localStorage.getItem('token');
+            const res = await axios.get('/api/profile/userProfile', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setPersonalData(res.data.data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setDataLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -166,7 +174,7 @@ const GuardianProfilePage = () => {
     return (
         <>
             <main className="main-container">
-                <FloatingNavbar brandText="Profile" showProfileMenuProp={false} />
+                <FloatingNavbar brandText="Profile" showProfileSettingsOption={false} />
 
                 {error && (
                     <div className="alert alert-error">{error}</div>
@@ -175,105 +183,115 @@ const GuardianProfilePage = () => {
                     <div className="alert alert-success">{success}</div>
                 )}
 
-                <div className="profile-section">
-                    {/* Personal Information */}
-                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
-                        <div className="profile-card-header">
-                            <div className="flex flex-row justify-center">
-                                <User size={25} className="profile-icon" />
-                                Personal Information
+                {success && (
+                    <div className="alert alert-success">{success}</div>
+                )}
+
+                {dataLoading ? (
+                    <div className="flex h-[50vh] w-full items-center justify-center">
+                        <AiOutlineLoading className="h-12 w-12 animate-spin text-[#3E9389]" />
+                    </div>
+                ) : (
+                    <div className="profile-section">
+                        {/* Personal Information */}
+                        <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
+                            <div className="profile-card-header">
+                                <div className="flex flex-row justify-center">
+                                    <User size={25} className="profile-icon" />
+                                    Personal Information
+                                </div>
+                                {!editingPersonal && (
+                                    <button
+                                        onClick={() => setEditingPersonal(true)}
+                                        className="white-button btn-outline"
+                                        disabled={editingPersonal}
+                                    >
+                                        <Edit size={16} />
+                                        Edit
+                                    </button>
+                                )}
                             </div>
-                            {!editingPersonal && (
+                            {editingPersonal ? (
+                                <form onSubmit={handlePersonalSubmit} className="profile-card-content profile-form-grid">
+                                    <div>
+                                        <label className="form-label">Full Name</label>
+                                        <input
+                                            type="text"
+                                            name="fullName"
+                                            value={personalData.fullName}
+                                            onChange={handleFullNameInputChange}
+                                            className="form-input"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="form-label">Prefer Name</label>
+                                        <input
+                                            type="text"
+                                            name="preferName"
+                                            value={personalData.preferName}
+                                            onChange={handlePersonalInputChange}
+                                            className="form-input"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="profile-form-actions">
+                                        <button
+                                            type="submit"
+                                            disabled={loading}
+                                            className="green-button btn-primary"
+                                        >
+                                            {loading ? <span className="loader"></span> : <Save size={16} />}
+                                            <span className="mt-1">Save Changes</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setEditingPersonal(false)}
+                                            className="white-button btn-outline"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="profile-card-content guardian-profile-info">
+                                    <div>
+                                        <span className="profile-label">Full Name</span>
+                                        <span className="profile-value">{personalData.fullName}</span>
+                                    </div>
+                                    <div>
+                                        <span className="profile-label">Prefer Name</span>
+                                        <span className="profile-value">{personalData.preferName}</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Account Settings */}
+                        <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
+                            <div className="profile-card-header">
+                                <div className="flex flex-row justify-center">
+                                    <Lock size={25} className="profile-icon" />
+                                    Account Settings
+                                </div>
+                            </div>
+                            <div className="profile-card-content profile-card-row-between">
+                                <div className="d-flex flex-column">
+                                    <span className="profile-content-title">Password</span>
+                                    <span className="profile-content-subtitle">Password must be at least 8 characters and include a mix of letteres, numbers, and symbols</span>
+                                </div>
                                 <button
-                                    onClick={() => setEditingPersonal(true)}
+                                    onClick={() => setShowPasswordModal(true)}
                                     className="white-button btn-outline"
                                     disabled={editingPersonal}
                                 >
                                     <Edit size={16} />
-                                    Edit
+                                    Reset Password
                                 </button>
-                            )}
-                        </div>
-                        {editingPersonal ? (
-                            <form onSubmit={handlePersonalSubmit} className="profile-card-content profile-form-grid">
-                                <div>
-                                    <label className="form-label">Full Name</label>
-                                    <input
-                                        type="text"
-                                        name="fullName"
-                                        value={personalData.fullName}
-                                        onChange={handleFullNameInputChange}
-                                        className="form-input"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="form-label">Prefer Name</label>
-                                    <input
-                                        type="text"
-                                        name="preferName"
-                                        value={personalData.preferName}
-                                        onChange={handlePersonalInputChange}
-                                        className="form-input"
-                                        required
-                                    />
-                                </div>
-                                <div className="profile-form-actions">
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="green-button btn-primary"
-                                    >
-                                        {loading ? <span className="loader"></span> : <Save size={16} />}
-                                        <span className="mt-1">Save Changes</span>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => setEditingPersonal(false)}
-                                        className="white-button btn-outline"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        ) : (
-                            <div className="profile-card-content guardian-profile-info">
-                                <div>
-                                    <span className="profile-label">Full Name</span>
-                                    <span className="profile-value">{personalData.fullName}</span>
-                                </div>
-                                <div>
-                                    <span className="profile-label">Prefer Name</span>
-                                    <span className="profile-value">{personalData.preferName}</span>
-                                </div>
                             </div>
-                        )}
-                    </div>
-
-                    {/* Account Settings */}
-                    <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
-                        <div className="profile-card-header">
-                            <div className="flex flex-row justify-center">
-                                <Lock size={25} className="profile-icon" />
-                                Account Settings
-                            </div>
-                        </div>
-                        <div className="profile-card-content profile-card-row-between">
-                            <div className="d-flex flex-column">
-                                <span className="profile-content-title">Password</span>
-                                <span className="profile-content-subtitle">Password must be at least 8 characters and include a mix of letteres, numbers, and symbols</span>
-                            </div>
-                            <button
-                                onClick={() => setShowPasswordModal(true)}
-                                className="white-button btn-outline"
-                                disabled={editingPersonal}
-                            >
-                                <Edit size={16} />
-                                Reset Password
-                            </button>
                         </div>
                     </div>
-                </div>
+                )}
             </main>
             {/* Reset Password Modal */}
             {showPasswordModal && (

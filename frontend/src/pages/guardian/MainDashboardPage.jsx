@@ -77,12 +77,6 @@ const MainDashboardPage = () => {
         loadWards();
     }, [guardianId]);
 
-    if (loadingWards) {
-        return <div className="flex h-[90vh] items-center justify-center">
-            <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
-        </div>;
-    }
-
     return (
         <div className="main-container">
             <FloatingNavbar
@@ -93,11 +87,24 @@ const MainDashboardPage = () => {
                 onUserChange={setSelectedWardId}
             />
 
-            {selectedWardId ? (
+            {loadingWards ? (
+                <div className="flex h-[90vh] items-center justify-center">
+                    <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
+                </div>
+            ) : selectedWardId ? (
                 <>
                     <div className="mt-4">
                         <h4 className="pl-4 text-lg font-bold text-navy-700">Today's Emotion Count</h4>
                         <DisplayWidgets userId={selectedWardId} />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
+                        <EmotionalScore userId={selectedWardId} />
+                        <EmotionalDistribution userId={selectedWardId} />
+                    </div>
+
+                    <div className="mt-3">
+                        <RecentActivitiesTable userId={selectedWardId} />
                     </div>
 
                     <div className="mt-3">
@@ -112,15 +119,6 @@ const MainDashboardPage = () => {
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
-                        <EmotionalScore userId={selectedWardId} />
-                        <EmotionalDistribution userId={selectedWardId} />
-                    </div>
-
-                    <div className="mt-3">
-                        <RecentActivitiesTable userId={selectedWardId} />
-                    </div>
-
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
                         <DailyTraffic userId={selectedWardId} />
                         <PieChartCard userId={selectedWardId} />
@@ -131,11 +129,7 @@ const MainDashboardPage = () => {
                     </div>
                 </>
             ) : (
-                !loadingWards && (
-                    !loadingWards && (
-                        <NoMonitoredUser />
-                    )
-                )
+                <NoMonitoredUser />
             )}
         </div>
     );

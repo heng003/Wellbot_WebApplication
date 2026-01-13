@@ -39,10 +39,27 @@ const HoverTooltip = ({ children, content, placement = "top", forceVisible = fal
                     `}
                 >
                     {content}
-                    {/* Tiny Triangle/Arrow */}
+                    {/* Tooltip Arrow */}
                     {placement === "top" && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 
+                  border-4 border-transparent border-t-gray-800" />
                     )}
+
+                    {placement === "bottom" && (
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 
+                  border-4 border-transparent border-b-gray-800" />
+                    )}
+
+                    {placement === "left" && (
+                        <div className="absolute left-full top-1/2 -translate-y-1/2 
+                  border-4 border-transparent border-l-gray-800" />
+                    )}
+
+                    {placement === "right" && (
+                        <div className="absolute right-full top-1/2 -translate-y-1/2 
+                  border-4 border-transparent border-r-gray-800" />
+                    )}
+
                 </div>
             )}
         </div>

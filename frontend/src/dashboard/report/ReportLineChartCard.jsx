@@ -134,7 +134,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
                             </div>
                             <div className="col-span-6 pl-2 overflow-hidden flex items-center">
                                 <p className="text-md font-normal text-gray-800 truncate leading-8" title={"Mood Score"}>
-                                    Mood Score
+                                    Average Mood Score
                                 </p>
                             </div>
                             <div className="col-span-5 flex justify-end items-center gap-2 whitespace-nowrap">

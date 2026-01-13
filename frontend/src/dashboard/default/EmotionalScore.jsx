@@ -132,6 +132,17 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 		return { categories, series };
 	}, [trendData, bucketType]);
 
+	const { avgMood } = useMemo(() => {
+		if (!trendData?.dailyData || trendData.dailyData.length === 0) return { avgMood: 0 };
+
+		const validMoods = trendData.dailyData.filter(d => d.avgScore !== null);
+		const totalMood = validMoods.reduce((sum, d) => sum + Number(d.avgScore), 0);
+
+		return {
+			avgMood: validMoods.length ? Math.round(totalMood / validMoods.length) : 0,
+		};
+	}, [trendData]);
+
 	// Chart Configuration
 	const options = useMemo(() => ({
 		legend: { show: false },
@@ -278,11 +289,11 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				{/* Statistics Row */}
 				{hasData && (
 					<div className="flex flex-row justify-between items-start mb-4">
-						<HoverTooltip content="Most recent mood score based on latest log">
+						<HoverTooltip content="Average mood score based on selected period">
 							<div className="flex flex-col items-start">
-								<p className="text-sm text-gray-600">Current Score</p>
+								<p className="text-sm text-gray-600">Average Mood Score</p>
 								<p className="text-3xl font-bold text-navy-700">
-									{loading ? "..." : `${Math.round(trendData?.currentScore || 0)}%`}
+									{loading ? "..." : `${Math.round(avgMood || 0)}%`}
 								</p>
 							</div>
 						</HoverTooltip>

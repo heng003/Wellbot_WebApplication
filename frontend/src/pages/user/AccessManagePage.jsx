@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Check, X, UserMinus, UserPlus } from 'lucide-react';
+import { AiOutlineLoading } from 'react-icons/ai';
 import '../../styles/accessManagePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import { getIdFromToken } from '../../utils/auth';
 import FloatingNavbar from '../../layout/FloatingNavbar';
 
 const AccessManagePage = () => {
+    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('requests');
     const [newGuardian, setNewGuardian] = useState('');
     const [showAddGuardianModal, setShowAddGuardianModal] = useState(false);
@@ -32,6 +34,8 @@ const AccessManagePage = () => {
         } catch (error) {
             setPendingRequests([]);
             setActiveGuardians([]);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -280,16 +284,21 @@ const AccessManagePage = () => {
     );
 
     return (
-        <>
-            <main className="main-container">
-                <FloatingNavbar
-                    brandText="Data Access Control"
-                    actionButton={{
-                        label: "Add Guardian",
-                        icon: <UserPlus className="h-5 w-5" />,
-                        onClick: () => setShowAddGuardianModal(true)
-                    }}
-                />
+        <div className="main-container">
+            <FloatingNavbar
+                brandText="Data Access Control"
+                actionButton={{
+                    label: "Add Guardian",
+                    icon: <UserPlus className="h-5 w-5" />,
+                    onClick: () => setShowAddGuardianModal(true)
+                }}
+            />
+
+            {loading ? (
+                <div className="flex h-[50vh] w-full items-center justify-center">
+                    <AiOutlineLoading className="h-12 w-12 animate-spin text-[#3E9389]" />
+                </div>
+            ) : (
                 <div className="page-container">
                     <div>
                         <div className="tab-buttons">
@@ -310,7 +319,9 @@ const AccessManagePage = () => {
                     {activeTab === 'requests' && renderRequests()}
                     {activeTab === 'active' && renderActive()}
                 </div>
-            </main>
+            )}
+
+            {/* Add Guardian Modal */}
             {showAddGuardianModal && (
                 <div className="modal-overlay">
                     <div className="modal-container">
@@ -349,7 +360,7 @@ const AccessManagePage = () => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

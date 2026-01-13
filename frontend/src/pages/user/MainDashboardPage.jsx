@@ -59,6 +59,16 @@ const MainDashboardPage = () => {
 				<DisplayWidgets />
 			</div>
 
+			<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
+				<EmotionalScore />
+				<EmotionalDistribution />
+			</div>
+
+			{/* Tables */}
+			<div className="mt-3">
+				<RecentActivitiesTable />
+			</div>
+
 			<div className="mt-3">
 				<EmbeddingVisualizer
 					rawEmbeddings={embeddings}
@@ -69,16 +79,6 @@ const MainDashboardPage = () => {
 						setEndDate(end);
 					}}
 				/>
-			</div>
-
-			<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
-				<EmotionalScore />
-				<EmotionalDistribution />
-			</div>
-
-			{/* Tables */}
-			<div className="mt-3">
-				<RecentActivitiesTable />
 			</div>
 
 			{/* Charts */}

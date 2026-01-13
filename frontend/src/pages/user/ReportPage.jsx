@@ -294,19 +294,19 @@ const ReportPage = () => {
                                         {pdfConfig.widgets ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activity')}>
-                                        <span className="text-sm text-navy-700">Activity Chart</span>
+                                        <span className="text-sm text-navy-700">Activity Distribution</span>
                                         {pdfConfig.activity ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('score')}>
-                                        <span className="text-sm text-navy-700">Score Chart</span>
+                                        <span className="text-sm text-navy-700">Mood Score</span>
                                         {pdfConfig.score ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('dist')}>
-                                        <span className="text-sm text-navy-700">Distribution Chart</span>
+                                        <span className="text-sm text-navy-700">Emotional Distribution</span>
                                         {pdfConfig.dist ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
-                                        <span className="text-sm text-navy-700">Activity Mood Correlation</span>
+                                        <span className="text-sm text-navy-700">Activity Impact</span>
                                         {pdfConfig.mood ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('messages')}>
@@ -314,11 +314,11 @@ const ReportPage = () => {
                                         {pdfConfig.messages ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('emotionalTable')}>
-                                        <span className="text-sm text-navy-700">Emotional Logs Table</span>
+                                        <span className="text-sm text-navy-700">Emotional Records</span>
                                         {pdfConfig.emotionalTable ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activityTable')}>
-                                        <span className="text-sm text-navy-700">Activity Logs Table</span>
+                                        <span className="text-sm text-navy-700">Activity Records</span>
                                         {pdfConfig.activityTable ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                 </div>
@@ -340,7 +340,7 @@ const ReportPage = () => {
                         <button
                             onClick={handleGenerate}
                             disabled={isGenerating}
-                            className={`w-full flex items-center justify-center gap-2 my-3 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-[#3E9389] text-white opacity-70 cursor-not-allowed' : 'bg-[#3E9389] hover:bg-[#88BFB9] text-white'}`}
+                            className={`w-full flex items-center justify-center gap-2 my-3 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-[#2F756D] text-white cursor-not-allowed' : 'bg-[#3E9389] hover:bg-[#2F756D] text-white'}`}
                         >
                             {isGenerating ? (
                                 <span>Generating...</span>

@@ -394,19 +394,27 @@
 }
 
 .long-green-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     width: 100%;
-    background-color: var(--primary-color);
-    font-weight: 500;
-    color: #FFFFFF;
-    border: 2px;
-    border-radius: 6px;
+    background-color: var(--button-bg-color);
     font-size: 15px;
+    font-weight: 500;
     padding: 10px 15px;
     cursor: pointer;
+    color: #FFFFFF;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
 .long-green-button:hover {
-    opacity: 0.8;
+    background-color: var(--button-hover-color);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .long-white-button {
@@ -415,15 +423,18 @@
     font-weight: 500;
     color: #000000;
     border: 1px solid black;
-    border-radius: 6px;
+    border-radius: 0.75rem;
     font-size: 15px;
     padding: 10px 15px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .long-white-button:hover {
     background-color: #e7e7e7;
-    opacity: 0.7;
+    opacity: 0.6;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .long-red-button {
@@ -440,7 +451,9 @@
 
 .long-red-button:hover {
     background-color: #f37171;
-    opacity: 0.7;
+    opacity: 0.6;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .form-group textarea.form-input:focus {

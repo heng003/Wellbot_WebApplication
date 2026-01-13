@@ -148,9 +148,9 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
             categories: data.map(d => d.name),
             labels: {
                 style: {
-                    colors: '#64748b',
+                    colors: '#000000',
                     fontSize: '12px',
-                    fontWeight: 500
+                    fontWeight: 600
                 },
                 rotate: 0, // Keep flat if possible, or -45
             },
@@ -203,9 +203,14 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
             {/* Header Section */}
             <div className="card-header flex justify-between items-start mb-2">
                 <div>
-                    <h3 className="text-lg font-bold text-navy-700">Activity Impact</h3>
+                    <HoverTooltip content={<>
+                        <p>See how your mood changes after each activity.</p>
+                        <p>Discover which activities have positive impact on your mood.</p>
+                    </>}>
+                        <h3 className="text-lg font-bold text-navy-700">Activity Impact</h3>
+                    </HoverTooltip>
                     <p className="card-subtitle text-sm text-gray-500">
-                        Measuring how activities affect your mood
+                        Analyze mood changes after activities
                     </p>
                 </div>
 
@@ -220,21 +225,23 @@ const MoodActivityCorrelation = ({ startDate: propStartDate, endDate: propEndDat
                             </button>
                         </HoverTooltip>
                         {showDatePicker && (
-                            <div className="absolute right-0 top-10 z-50 bg-white border rounded-lg shadow-xl p-4 min-w-[250px]">
-                                <h4 className="text-sm font-semibold mb-3 text-gray-700">Select Date Range</h4>
-                                <div className="space-y-3">
-                                    <div>
-                                        <label className="block text-xs text-gray-500 mb-1">Start Date</label>
-                                        <input type="date" value={tempStart} onChange={(e) => setTempStart(e.target.value)} className="w-full border rounded p-1.5 text-sm" />
+                            <div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
+                                <p className="font-semibold mb-2">Date Range</p>
+                                <div style={{ textAlign: 'start' }}>
+                                    <div className="flex flex-col justify-content-start">
+                                        <label className="text-xs text-gray-500">From</label>
+                                        <input type="date" value={tempStart} onChange={(e) => setTempStart(e.target.value)} className="border rounded p-1" />
                                     </div>
-                                    <div>
-                                        <label className="block text-xs text-gray-500 mb-1">End Date</label>
-                                        <input type="date" value={tempEnd} onChange={(e) => setTempEnd(e.target.value)} className="w-full border rounded p-1.5 text-sm" />
+                                    <div className="flex flex-col justify-content-start">
+                                        <label className="text-xs text-gray-500">To</label>
+                                        <input type="date" value={tempEnd} onChange={(e) => setTempEnd(e.target.value)} className="border rounded p-1" />
                                     </div>
-                                    <div className="flex justify-end gap-2">
-                                        <button onClick={() => setShowDatePicker(false)} className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded">Cancel</button>
-                                        <button onClick={handleApplyDate} className="rounded-lg bg-[#3E9389] px-3 py-1 text-white hover:bg-[#88BFB9]">Apply</button>
-                                    </div>
+                                    <button
+                                        onClick={handleApplyDate}
+                                        className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
+                                    >
+                                        Apply
+                                    </button>
                                 </div>
                             </div>
                         )}

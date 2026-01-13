@@ -1,63 +1,74 @@
 const supabase = require('../config/supabaseClient');
 
-const setupRealtimeSubscriptions = (io) => {
-    console.log("Initializing Supabase Realtime Subscriptions...");
+// Setup for tracking active user subscriptions
+const userChannels = new Map();
 
+/**
+ * Subscribes to Realtime changes for a specific user.
+ * It uses reference counting to handle multiple connections (tabs) for the same user.
+ */
+const subscribeUser = (userId, io) => {
+    if (!userId) return;
+
+    // Check if we already have a subscription for this user
+    if (userChannels.has(userId)) {
+        const entry = userChannels.get(userId);
+        entry.refCount += 1;
+        // console.log(`User ${userId} refCount increased to ${entry.refCount}`);
+        return;
+    }
+
+    console.log(`Subscribing to realtime updates for user: ${userId}`);
+
+    // Handler for changes
     const handleRecordChange = (payload) => {
-        console.log('Change received!', payload);
-        const { eventType, new: newRecord, old: oldRecord, table } = payload;
+        console.log('Change received for user:', userId, payload);
+        const { eventType, table } = payload;
 
-        let userId = null;
-        if (newRecord && newRecord.user_id) {
-            userId = newRecord.user_id;
-        } else if (oldRecord && oldRecord.user_id) {
-            userId = oldRecord.user_id;
-        }
-
-        if (userId) {
-            // Emit to the specific user's room
-            // Event structure: { table, eventType, timestamp }
-            // We send minimal data to trigger a refetch
-            io.to(`user_${userId}`).emit('data_update', {
-                table: table,
-                type: eventType,
-                timestamp: new Date().toISOString()
-            });
-            console.log(`Emitted update for table ${table} to user_${userId}`);
-        }
+        // Emit to the user's specific room
+        io.to(`user_${userId}`).emit('data_update', {
+            table: table,
+            type: eventType,
+            timestamp: new Date().toISOString()
+        });
     };
 
-    // Subscribe to changes in relevant tables
-    supabase
-        .channel('dashboard-db-changes')
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'emotional_log' },
-            handleRecordChange
-        )
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'intervention_log' },
-            handleRecordChange
-        )
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'wb_embeddings' },
-            handleRecordChange
-        )
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'wb_journal' },
-            handleRecordChange
-        )
-        .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'wb_gratitude_item' },
-            handleRecordChange
-        )
-        .subscribe((status) => {
-            console.log('Supabase Realtime Status:', status);
+    // Create a new channel specifically for this user
+    const channel = supabase.channel(`realtime:${userId}`)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'emotional_log', filter: `user_id=eq.${userId}` }, handleRecordChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'intervention_log', filter: `user_id=eq.${userId}` }, handleRecordChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'wb_embeddings', filter: `user_id=eq.${userId}` }, handleRecordChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'wb_journal', filter: `user_id=eq.${userId}` }, handleRecordChange)
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'wb_gratitude_item', filter: `user_id=eq.${userId}` }, handleRecordChange)
+        .subscribe((status, err) => {
+            if (status === 'SUBSCRIBED') {
+                // console.log(`Subscribed to realtime channels for user ${userId}`);
+            } else if (status === 'CHANNEL_ERROR') {
+                console.error(`Realtime subscription error for user ${userId}:`, err);
+            }
         });
+
+    // Store in map with refCount 1
+    userChannels.set(userId, { channel, refCount: 1 });
 };
 
-module.exports = setupRealtimeSubscriptions;
+/**
+ * Unsubscribes a user. 
+ * Decrements ref count and removes the channel if count reaches 0.
+ */
+const unsubscribeUser = (userId) => {
+    if (!userId || !userChannels.has(userId)) return;
+
+    const entry = userChannels.get(userId);
+    entry.refCount -= 1;
+
+    if (entry.refCount <= 0) {
+        console.log(`Unsubscribing user: ${userId}`);
+        entry.channel.unsubscribe();
+        userChannels.delete(userId);
+    } else {
+        // console.log(`User ${userId} refCount decreased to ${entry.refCount}`);
+    }
+};
+
+module.exports = { subscribeUser, unsubscribeUser };

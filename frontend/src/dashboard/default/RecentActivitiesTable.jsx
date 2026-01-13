@@ -108,13 +108,17 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
             header: "MOOD FLOW",
             cell: (info) => {
                 const arr = info.getValue();
-                if (!Array.isArray(arr) || arr.length < 2) return "-";
-                const diff = arr[1] - arr[0];
+                let diff = 0; // Default to 0 (Equal/No Change) if null or invalid
+
+                if (Array.isArray(arr) && arr.length >= 2) {
+                    diff = arr[1] - arr[0];
+                }
+
                 const cls = diff < 0 ? "text-red-500" : diff === 0 ? "text-amber-500" : "text-green-500";
                 const Icon = diff > 0 ? AiFillUpCircle : diff < 0 ? AiFillDownCircle : LuCircleEqual;
                 return (
-                    <div className="flex items-center gap-1">
-                        <Icon className={cls} />
+                    <div className="flex items-center gap-2">
+                        <Icon size={18} className={cls} />
                         <span className={`text-sm font-bold ${cls}`}>{Math.abs(diff)}</span>
                     </div>
                 );
@@ -145,7 +149,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
         <Card extra={"col-span-1 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
                 <div className="text-lg font-bold text-navy-700">
-                    <HoverTooltip content="Log of most recent wellness activities">
+                    <HoverTooltip content="Records of wellness activities engaged with Well-bot" placement="right">
                         {isControlled ? "Activity Records" : "Recent Activities"}
                     </HoverTooltip>
                 </div>

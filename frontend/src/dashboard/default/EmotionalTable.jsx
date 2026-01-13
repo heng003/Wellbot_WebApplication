@@ -61,11 +61,11 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
     const getEmotionColor = (emotion) => {
         const lower = (emotion || "").toLowerCase();
         switch (lower) {
-            case "happy": return "text-[#FFD56B]";
-            case "angry": return "text-[#EA5E8F]";
-            case "sad": return "text-[#69D5C5]";
-            case "fear": return "text-[#519AF6]";
-            default: return "text-navy-700";
+            case "happy": return "#FFD56B";
+            case "angry": return "#EA5E8F";
+            case "sad": return "#69D5C5";
+            case "fear": return "#519AF6";
+            default: return "navy-700";
         }
     };
 
@@ -122,7 +122,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
             header: () => <p className="text-sm font-bold text-gray-400">EMOTION</p>,
             cell: (info) => {
                 const val = info.getValue();
-                return <p className={`text-sm font-medium ${getEmotionColor(val)} capitalize`}>{val}</p>;
+                return <div className="flex items-center gap-2 text-sm font-medium"><span className={`w-3 h-3 rounded-full bg-[${getEmotionColor(val)}]`}></span> {val}</div>;
             },
         }),
         columnHelper.accessor("emotional_score", {

@@ -15,14 +15,16 @@ const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 							</span>
 						</div>
 					</div>
-					<div className="h-50 ml-4 flex w-auto flex-col justify-center">
-						<p className="text-sm font-medium text-gray-600">{title}</p>
-						<div className="flex flex-row items-center">
-							<h4 className="text-xl font-bold text-navy-700 mr-2">
-								{subtitle}
-							</h4>
+					<HoverTooltip content={`Number of ${title} records captured`}>
+						<div className="h-50 ml-4 flex w-auto flex-col justify-center">
+							<p className="text-sm font-medium text-gray-500">{title}</p>
+							<div className="flex flex-row items-center">
+								<h4 className="text-xl font-bold text-navy-700 mr-2">
+									{subtitle}
+								</h4>
+							</div>
 						</div>
-					</div>
+					</HoverTooltip>
 				</div>
 				{percent !== undefined && (
 					<HoverTooltip content="Percentage share of total emotions counted">

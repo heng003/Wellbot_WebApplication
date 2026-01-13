@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Users, UserPlus, Search, Calendar, XCircle, Lock } from 'lucide-react';
 import { Filter } from 'lucide-react';
 import { X } from 'lucide-react';
+import { AiOutlineLoading } from 'react-icons/ai';
 import '../../styles/monitoredUserPage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import NoMonitoredUser from '../../components/NoMonitoredUser';
 
 const MonitoredUserPage = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState('all');
     const [selectedUser, setSelectedUser] = useState(null);
@@ -37,6 +39,8 @@ const MonitoredUserPage = () => {
         } catch (error) {
             console.error('Error fetching monitored list:', error);
             setMonitoredList([]);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -241,17 +245,21 @@ const MonitoredUserPage = () => {
     };
 
     return (
-        <>
-            <main className="main-container">
-                <FloatingNavbar
-                    brandText="User Care Panel"
-                    actionButton={{
-                        label: "Add User",
-                        icon: <UserPlus className="h-5 w-5" />,
-                        onClick: () => setShowAddUserModal(true)
-                    }}
-                />
+        <div className="main-container">
+            <FloatingNavbar
+                brandText="Monitored Users"
+                actionButton={{
+                    label: "Add User",
+                    icon: <UserPlus className="h-6 w-6" />,
+                    onClick: () => setShowAddUserModal(true)
+                }}
+            />
 
+            {loading ? (
+                <div className="flex h-[50vh] w-full items-center justify-center">
+                    <AiOutlineLoading className="h-12 w-12 animate-spin text-[#3E9389]" />
+                </div>
+            ) : (<main>
                 <div className="stats-grid">
                     <div className="stat-card teal">
                         <Users className="stat-icon" />
@@ -379,7 +387,7 @@ const MonitoredUserPage = () => {
                             </table>
                         </div>)}
                 </div>
-            </main>
+            </main>)}
             {showAddUserModal && (
                 <div className="modal-overlay">
                     <div className="add-user-container">
@@ -494,7 +502,7 @@ const MonitoredUserPage = () => {
                     </div>
                 </div>
             </div>}
-        </>
+        </div>
     )
 };
 

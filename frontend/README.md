@@ -14,4 +14,5 @@ gcloud builds submit --tag asia-south1-docker.pkg.dev/consummate-link-474700-p6/
 
 ### 2. Deploy to Cloud Run
 Run this command to deploy the image to a managed Cloud Run instance. This includes the --allow-unauthenticated flag, making the URL publicly accessible:
+
 gcloud run deploy well-bot-website --image asia-south1-docker.pkg.dev/consummate-link-474700-p6/cloud-run-source-deploy/well-bot-website --platform managed --region asia-south1 --allow-unauthenticated
