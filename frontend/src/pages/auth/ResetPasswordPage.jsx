@@ -31,6 +31,9 @@ const ResetPasswordPage = () => {
                 text: "New passwords do not match",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -41,6 +44,9 @@ const ResetPasswordPage = () => {
                 text: "Password must be at least 8 characters long",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -57,7 +63,7 @@ const ResetPasswordPage = () => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
-                        confirmButton: 'my-confirm-button-class-success'
+                        title: 'swal-title'
                     }
                 }).then((result) => {
                     navigate('/login');
@@ -74,8 +80,7 @@ const ResetPasswordPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
-                    title: 'swal-title-class',
-                    confirmButton: 'my-confirm-button-class'
+                    title: 'swal-title',
                 }
             });
         }

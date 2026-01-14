@@ -65,6 +65,9 @@ const AccessManagePage = () => {
                     text: 'The Guardian is being granted permission to access your emotional data.',
                     icon: 'success',
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then(() => {
                     setNewGuardian('');
                     setShowAddGuardianModal(false);
@@ -77,6 +80,9 @@ const AccessManagePage = () => {
                     text: `A monitoring request or permission for this user already exists (status: ${response.data.status}).`,
                     icon: 'info',
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then(() => {
                     setNewGuardian('');
                     setShowAddGuardianModal(false);
@@ -89,6 +95,9 @@ const AccessManagePage = () => {
                     text: "No user found with that email or name. Please check and try again.",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then(() => setNewGuardian(''));
             } else {
                 Swal.fire({
@@ -96,6 +105,9 @@ const AccessManagePage = () => {
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
             }
         }
@@ -114,7 +126,7 @@ const AccessManagePage = () => {
             confirmButtonText: 'Yes, revoke',
             cancelButtonText: 'Cancel',
             customClass: {
-                cancelButton: 'swal-cancel-white'
+                title: 'swal-title',
             }
         });
         if (!result.isConfirmed) return;
@@ -131,6 +143,9 @@ const AccessManagePage = () => {
                 text: 'Guardian access has been revoked.',
                 icon: 'success',
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             fetchGuardianData();
         } catch (error) {
@@ -139,6 +154,9 @@ const AccessManagePage = () => {
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         }
     };
@@ -157,6 +175,9 @@ const AccessManagePage = () => {
                 text: 'Guardian request has been accepted.',
                 icon: 'success',
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             fetchGuardianData();
         } catch (error) {
@@ -165,6 +186,9 @@ const AccessManagePage = () => {
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         }
     };
@@ -183,6 +207,9 @@ const AccessManagePage = () => {
                 text: 'Guardian request has been rejected.',
                 icon: 'success',
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             fetchGuardianData();
         } catch (error) {
@@ -191,6 +218,9 @@ const AccessManagePage = () => {
                 text: error.response?.data?.message || "An unknown error occurred",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         }
     };

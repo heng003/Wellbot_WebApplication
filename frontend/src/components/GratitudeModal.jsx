@@ -138,6 +138,9 @@ const GratitudeModal = ({
             showCancelButton: true,
             confirmButtonText: "Delete",
             confirmButtonColor: "#d33",
+            customClass: {
+                title: 'swal-title',
+            }
         });
 
         if (res.isConfirmed) {

@@ -113,6 +113,9 @@ const MonitoredUserPage = () => {
                     text: 'Monitoring request has been sent successfully.',
                     icon: 'success',
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         fetchMonitoredList();
@@ -128,6 +131,9 @@ const MonitoredUserPage = () => {
                     text: `A monitoring request or permission for this user already exists (status: ${existing.status}).`,
                     icon: 'info',
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setNewUser('');
@@ -144,6 +150,9 @@ const MonitoredUserPage = () => {
                     text: "No user found with that email. Please check and try again.",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setNewUser('');
@@ -155,6 +164,9 @@ const MonitoredUserPage = () => {
                     text: error.response?.data?.message || "An unknown error occurred",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
             }
         }
@@ -212,7 +224,10 @@ const MonitoredUserPage = () => {
                                 : 'User has been removed from your monitored list.',
                     icon: 'success',
                     confirmButtonColor: "var(--primary-color)",
-                    confirmButtonText: 'Ok',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setSelectedUser('');
@@ -227,7 +242,10 @@ const MonitoredUserPage = () => {
                 text: 'Failed to delete user. Please try again later.',
                 icon: 'error',
                 confirmButtonColor: "var(--primary-color)",
-                confirmButtonText: 'Ok',
+                confirmButtonText: 'OK',
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         }
     };

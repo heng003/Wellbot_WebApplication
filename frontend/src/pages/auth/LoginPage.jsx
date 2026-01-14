@@ -51,6 +51,9 @@ const LoginPage = () => {
                     icon: "error",
                     confirmButtonText: "OK",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
                 setErrors({ form: "Login Failed: " + errors.response.data.message });
             } finally {

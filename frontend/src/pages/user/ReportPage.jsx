@@ -154,13 +154,19 @@ const ReportPage = () => {
                         text: 'CSV data downloaded successfully.',
                         icon: 'success',
                         timer: 2000,
-                        showConfirmButton: false
+                        showConfirmButton: false,
+                        customClass: {
+                            title: 'swal-title',
+                        }
                     });
                 } else {
                     Swal.fire({
                         title: 'No Data',
                         text: 'No data available to export for the selected options.',
-                        icon: 'info'
+                        icon: 'info',
+                        customClass: {
+                            title: 'swal-title',
+                        }
                     });
                 }
             } else {
@@ -203,7 +209,10 @@ const ReportPage = () => {
                     text: 'PDF Report generated and downloaded.',
                     icon: 'success',
                     timer: 2000,
-                    showConfirmButton: false
+                    showConfirmButton: false,
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
             }
         } catch (error) {
@@ -211,7 +220,10 @@ const ReportPage = () => {
             Swal.fire({
                 title: 'Error',
                 text: 'Failed to generate report. Please try again.',
-                icon: 'error'
+                icon: 'error',
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setIsGenerating(false);

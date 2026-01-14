@@ -80,8 +80,7 @@ export function SidebarLinks(props) {
 										cancelButtonText: "Cancel",
 										confirmButtonColor: "var(--primary-color)",
 										customClass: {
-											title: 'swal-title-class-login',
-											confirmButton: 'swal-confirm-button-class',
+											title: 'swal-title',
 										}
 									});
 

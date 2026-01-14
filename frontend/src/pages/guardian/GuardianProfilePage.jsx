@@ -92,6 +92,9 @@ const GuardianProfilePage = () => {
                 text: "Personal information updated successfully!",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } catch (err) {
             setError('Failed to update profile');
@@ -100,6 +103,9 @@ const GuardianProfilePage = () => {
                 text: err.response?.data?.message || "Failed to update profile",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setLoading(false);
@@ -114,6 +120,9 @@ const GuardianProfilePage = () => {
                 text: "New passwords do not match",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -124,6 +133,9 @@ const GuardianProfilePage = () => {
                 text: "Password must be at least 8 characters long",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -145,6 +157,9 @@ const GuardianProfilePage = () => {
                 text: "Password changed successfully!",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to change password');
@@ -153,6 +168,9 @@ const GuardianProfilePage = () => {
                 text: err.response?.data?.message || "Failed to change password",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setLoading(false);

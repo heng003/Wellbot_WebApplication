@@ -187,6 +187,9 @@ const ReportPage = () => {
                         timer: 2000,
                         showConfirmButton: false,
                         confirmButtonColor: "var(--primary-color)",
+                        customClass: {
+                            title: 'swal-title',
+                        }
                     });
                 } else {
                     Swal.fire({
@@ -194,6 +197,9 @@ const ReportPage = () => {
                         text: 'No data available to export for the selected options.',
                         icon: 'info',
                         confirmButtonColor: "var(--primary-color)",
+                        customClass: {
+                            title: 'swal-title',
+                        }
                     });
                 }
             } else {
@@ -238,6 +244,9 @@ const ReportPage = () => {
                     timer: 2000,
                     showConfirmButton: false,
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
             }
         } catch (error) {
@@ -247,6 +256,9 @@ const ReportPage = () => {
                 text: 'Failed to generate report. Please try again.',
                 icon: 'error',
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setIsGenerating(false);

@@ -74,7 +74,10 @@ const TopRightNavbar = () => {
                 title: status === 'active' ? "Access Granted" : "Request Rejected",
                 text: status === 'active' ? "Guardian has been added." : "Guardian request rejected.",
                 timer: 1500,
-                showConfirmButton: false
+                showConfirmButton: false,
+                customClass: {
+                    title: 'swal-title',
+                }
             });
 
             // Remove from list locally
@@ -83,7 +86,10 @@ const TopRightNavbar = () => {
             Swal.fire({
                 icon: "error",
                 title: "Error",
-                text: err.response?.data?.message || "Failed to update status"
+                text: err.response?.data?.message || "Failed to update status",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setLoading(false);

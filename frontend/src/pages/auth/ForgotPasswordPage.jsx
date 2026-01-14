@@ -38,8 +38,7 @@ const ForgotPasswordPage = () => {
                     confirmButtonText: "OK",
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
-                        title: 'swal-title-class-login',
-                        confirmButton: 'swal-confirm-button-class',
+                        title: 'swal-title'
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -56,8 +55,7 @@ const ForgotPasswordPage = () => {
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
-                        title: 'swal-title-class',
-                        confirmButton: 'my-confirm-button-class'
+                        title: 'swal-title',
                     }
                 });
             }

@@ -55,8 +55,7 @@ const RegisterGuardianPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
-                    title: 'swal-title-class',
-                    confirmButton: 'swal-confirm-button-class'
+                    title: 'swal-title'
                 }
             }).then(() => {
                 scrollToTop();
@@ -80,8 +79,7 @@ const RegisterGuardianPage = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
-                    title: 'swal-title-class',
-                    confirmButton: 'my-confirm-button-class'
+                    title: 'swal-title',
                 }
             });
         } finally {

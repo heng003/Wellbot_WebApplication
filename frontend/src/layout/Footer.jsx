@@ -30,7 +30,7 @@ const Footer = () => {
                 </div>
                 <hr></hr>
                 <div class="footer_copyright">
-                    &copy; 2025 Well-Bot.Com Malaysia Sdn Bhd. All rights Reserved
+                    &copy; 2026 Well-Bot.Com Malaysia Sdn Bhd. All rights Reserved
                 </div>
             </footer>
         </div>

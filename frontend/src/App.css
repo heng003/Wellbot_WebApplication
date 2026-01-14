@@ -195,7 +195,7 @@ ul {
 	transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.card-animation:hover {
-	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-	transform: translateY(-2px);
+.swal-title {
+	font-size: 25px;
+	font-weight: 600;
 }

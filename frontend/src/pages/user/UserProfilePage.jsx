@@ -112,6 +112,9 @@ const UserProfilePage = () => {
                 text: "Personal information updated successfully!",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } catch (err) {
             setError('Failed to update profile');
@@ -120,6 +123,9 @@ const UserProfilePage = () => {
                 text: err.response?.data?.message || "Failed to update profile",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setLoading(false);
@@ -134,6 +140,9 @@ const UserProfilePage = () => {
                 text: "New passwords do not match.",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -144,6 +153,9 @@ const UserProfilePage = () => {
                 text: "Password must be at least 8 characters long",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -165,6 +177,9 @@ const UserProfilePage = () => {
                 text: "Password changed successfully!",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to change password');
@@ -173,6 +188,9 @@ const UserProfilePage = () => {
                 text: err.response?.data?.message || "Failed to change password",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setLoading(false);
@@ -198,6 +216,9 @@ const UserProfilePage = () => {
                     text: "Guardian tracking enabled.",
                     icon: "success",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
             } catch (err) {
                 setError('Failed to enable guardian tracking');
@@ -206,6 +227,9 @@ const UserProfilePage = () => {
                     text: err.response?.data?.message || "Failed to enable guardian tracking",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
+                    customClass: {
+                        title: 'swal-title',
+                    }
                 });
             }
         } else {
@@ -225,7 +249,7 @@ const UserProfilePage = () => {
                         confirmButtonColor: "var(--primary-color)",
                         cancelButtonColor: "#FFF",
                         customClass: {
-                            cancelButton: 'swal-cancel-white'
+                            title: 'swal-title',
                         }
                     }).then(result => {
                         if (result.isConfirmed) {
@@ -265,6 +289,9 @@ const UserProfilePage = () => {
                 text: "Guardian tracking disabled.",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } catch (err) {
             setError('Failed to disable guardian tracking');
@@ -273,6 +300,9 @@ const UserProfilePage = () => {
                 text: err.response?.data?.message || "Failed to disable guardian tracking",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         }
     };
@@ -293,6 +323,9 @@ const UserProfilePage = () => {
                 text: "The new serial number cannot be the same as the current one.",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
             return;
         }
@@ -313,6 +346,9 @@ const UserProfilePage = () => {
                 text: "Device changed successfully!",
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } catch (err) {
             Swal.fire({
@@ -320,6 +356,9 @@ const UserProfilePage = () => {
                 text: err.response?.data?.message || "Failed to change device",
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
+                customClass: {
+                    title: 'swal-title',
+                }
             });
         } finally {
             setLoading(false);
@@ -557,6 +596,9 @@ const UserProfilePage = () => {
                                                         text: "Intervention preferences updated successfully!",
                                                         icon: "success",
                                                         confirmButtonColor: "var(--primary-color)",
+                                                        customClass: {
+                                                            title: 'swal-title',
+                                                        }
                                                     });
                                                 } catch (err) {
                                                     setError('Failed to update intervention preferences');
