@@ -1,0 +1,662 @@
+{
+    "app": {
+        "title": "Well-Bot"
+    },
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "user_care_panel": "User Care Panel",
+        "main_dashboard": "Main Dashboard",
+        "emotional_dashboard": "Emotional Dashboard",
+        "activity_dashboard": "Activity Dashboard",
+        "chatmap_dashboard": "ChatMap Dashboard",
+        "report": "Report",
+        "profile": "Profile",
+        "log_out": "Log Out",
+        "activities": "Activities",
+        "journal": "Journal",
+        "gratitude": "Gratitude",
+        "access_control": "Access Control"
+    },
+    "navbar": {
+        "pages": "Pages",
+        "select_user_tooltip": "Select User for Insights",
+        "current_user": "Current User",
+        "select_date_tooltip": "Select Date Filter to be Applied for the Overall Dashboard",
+        "notifications_tooltip": "Notifications",
+        "profile_settings_tooltip": "Profile Settings",
+        "logout_tooltip": "Log Out",
+        "filter_date_range": "Filter Date Range",
+        "close": "Close",
+        "monitored_users": "Monitored Users",
+        "no_monitored_users": "No monitored users found.",
+        "unknown_user": "Unknown User",
+        "notifications_header": "Notifications",
+        "pending": "Pending",
+        "no_new_notifications": "No new notifications",
+        "requesting_access": "Requesting access",
+        "reject": "Reject",
+        "approve": "Approve",
+        "profile_settings": "Profile Settings",
+        "logout": "Log Out",
+        "hey": "👋 Hey, {{name}}",
+        "logout_modal": {
+            "title": "Log Out?",
+            "text": "Are you sure you want to log out?",
+            "confirm": "Yes, Log Out",
+            "cancel": "Cancel"
+        },
+        "alerts": {
+            "access_granted": "Access Granted",
+            "guardian_added": "Guardian has been added.",
+            "request_rejected": "Request Rejected",
+            "guardian_rejected": "Guardian request rejected.",
+            "error": "Error",
+            "failed_update": "Failed to update status"
+        }
+    },
+    "auth": {
+        "welcome_back": "Welcome Back",
+        "sign_in_subtitle": "Sign in to your Well-Bot account",
+        "email_label": "Email Address",
+        "password_label": "Password",
+        "email_placeholder": "you@example.com",
+        "password_placeholder": "Your password",
+        "forgot_password": "Forgot your password?",
+        "sign_in_button": "Sign In",
+        "login_failed_title": "Login Failed",
+        "create_account": "Create Your Account",
+        "join_message": "Join Well-Bot and start your wellness journey",
+        "full_name_label": "Full Name",
+        "prefer_name_label": "Prefer Name",
+        "age_label": "Age",
+        "gender_label": "Gender",
+        "select_gender": "Select gender",
+        "male": "Male",
+        "female": "Female",
+        "language_preference_label": "Language Preference",
+        "cultural_background_label": "Cultural Background",
+        "select_background": "Select background",
+        "religious_beliefs_label": "Religious Beliefs",
+        "select_beliefs": "Select beliefs",
+        "serial_number_label": "Well-Bot Serial Number",
+        "confirm_password_label": "Confirm Password",
+        "create_account_button": "Create Account",
+        "already_have_account": "Already have an account?",
+        "login_here": "Login here",
+        "passwords_mismatch": "Passwords do not match",
+        "age_requirement": "Age must be at least 18",
+        "check_email_title": "Check Your Email",
+        "check_email_text": "We have sent an email to {{email}} to verify your email address and activate your account. Link in email will expire within 5 minutes.",
+        "role_selection_title": "What role do you Want to Register As?",
+        "role_selection_subtitle": "To start your Wellness Journey we need to select your user type.",
+        "personal_account_title": "Personal Account",
+        "personal_account_desc": "Monitor your own emotional wellness, track your mood, and get personalized insights.",
+        "guardian_account_title": "Guardian Account",
+        "guardian_account_desc": "Monitor multiple users' emotional trends — ideal for caregivers who want to support family, friends, or others.",
+        "islam": "Islam",
+        "buddhism": "Buddhism",
+        "christianity": "Christianity",
+        "hinduism": "Hinduism",
+        "agnostic": "Agnostic",
+        "atheist": "Atheist",
+        "none": "None",
+        "other": "Other",
+        "indian": "Indian",
+        "chinese": "Chinese",
+        "malay": "Malay"
+    },
+    "landing": {
+        "title": "Enhance Your Emotional Wellness",
+        "subtitle": "with Well-Bot",
+        "description": "Discover a smarter way to understand your feelings and take charge of your mental well-being.",
+        "login": "Login",
+        "register": "Register",
+        "today_emotions": "Today's Emotions",
+        "happy": "Happy",
+        "sad": "Sad",
+        "fear": "Fear",
+        "anger": "Anger",
+        "about": "About",
+        "smartwatch_sensors": "Smartwatch Sensors",
+        "smartwatch_desc": "To Monitor Real-Time Body Vital Signs",
+        "camera": "Well-Bot Camera",
+        "camera_desc": "To Capture Facial Expressions",
+        "mic": "Well-Bot Microphone",
+        "mic_desc": "To Capture Speech and Background Musics",
+        "about_bot_desc": "Well-Bot is a smart companion droid that uses AI and real-time data from the smartwatch, camera, and microphone to detect critical emotional states.<br />With these multimodal inputs, Well-Bot Insight provides a holistic view of the user’s emotional state and delivers personalized early interventions.",
+        "powerful_features": "Powerful Features for Emotional Well-being",
+        "feature_tracking_title": "Real-Time Emotion Tracking",
+        "feature_tracking_content": "Monitor your emotional states in real-time through our advanced detection systems, including camera, wearable devices, and voice analysis.",
+        "feature_interventions_title": "Wellness Interventions",
+        "feature_interventions_content": "Receive timely support and interventions when negative emotional states are detected, helping you regain emotional balance.",
+        "feature_analytics_title": "Detailed Analytics",
+        "feature_analytics_content": "Gain insights into your emotional patterns with comprehensive charts, graphs, and historical data to identify trends.",
+        "features_footer": "With the power of AI and real-time data collection, Well-Bot delivers personalized early intervention on user’s mental wellness and  offer insight into their emotional states, helping users stay aware of their mental well-being and promoting healthier emotional regulation.",
+        "how_it_works": "How Well-Bot Works",
+        "how_it_works_desc": "Our system uses advanced technology to provide you with personalized early mental support and emotional insights.",
+        "step1_title": "Activate Your Well-Bot Droid",
+        "step1_desc": "Activate your Well-Bot Droid By Register a new account in our website for comprehensive emotional detection.",
+        "step2_title": "Real-Time Emotion Detection",
+        "step2_desc": "Our AI algorithms analyze your expressions, physiological responses, voice patterns, and Background Music to identify emotional states.",
+        "step3_title": "Personalized Early Intervention",
+        "step3_desc": "Receive Mental Support through Wellbot Droid customized when you are Under Critical Emotional State.",
+        "step4_title": "Data Analysis & Visualization",
+        "step4_desc": "Your Emotional Data is processed and presented in easy-to-understand charts and trends on your Personal Dashboard."
+    },
+    "dashboard": {
+        "main_title": "Main Dashboard",
+        "emotion_title": "Emotional Dashboard",
+        "activity_title": "Activity Dashboard",
+        "chatmap_title": "ChatMap Dashboard",
+        "todays_emotion_count": "Today's Emotion Count",
+        "emotional_score": {
+            "title": "Mood Score",
+            "tooltip_title": "Mood Score is a simple way to track how you’re feeling over time.",
+            "tooltip_desc": "It ranges from low to high, with the middle representing a steady mood.",
+            "average_mood": "Average Mood Score",
+            "tooltip_avg": "Average mood score based on selected period",
+            "data_interval": "Data Interval",
+            "tooltip_interval": "Customize the chart by selecting desired data interval",
+            "daily": "Daily",
+            "hour": "Hour",
+            "min": "Min",
+            "custom_range": "Date Range",
+            "tooltip_custom": "Select custom date range",
+            "from": "From",
+            "to": "To",
+            "apply": "Apply",
+            "no_data": "No data available for this period"
+        },
+        "pie_chart": {
+            "title": "Activity Types",
+            "tooltip_title": "Frequency of activity count based on each activity types",
+            "tooltip_interval": "Customize to yearly, monthly, or weekly view",
+            "tooltip_custom": "Select custom date range",
+            "weekly": "Weekly",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "select_week": "Select Week",
+            "select_month": "Select Month",
+            "select_year": "Select Year",
+            "pick_date": "Pick any date in the week:",
+            "cancel": "Cancel",
+            "apply": "Apply",
+            "no_data": "No data available for this period",
+            "types": {
+                "support_chat": "Support Chat",
+                "journaling": "Journaling",
+                "gratitude": "Gratitude",
+                "meditation": "Meditation with Music",
+                "daily_quote": "Daily Quote",
+                "unknown": "Unknown"
+            }
+        },
+        "recent_activities": {
+            "title_controlled": "Activity Records",
+            "title_widget": "Recent Activities",
+            "tooltip_title": "Records of wellness activities engaged with Well-bot",
+            "col_activity": "ACTIVITY",
+            "col_timestamp": "TIMESTAMP",
+            "col_duration": "DURATION",
+            "col_mood_flow": "MOOD FLOW",
+            "no_records": "No records found for this period"
+        },
+        "mood_correlation": {
+            "title": "Activity Impact",
+            "subtitle": "Analyze mood changes after activities",
+            "tooltip_desc1": "See how your mood changes after each activity.",
+            "tooltip_desc2": "Discover which activities have positive impact on your mood.",
+            "tooltip_custom": "Select custom date range",
+            "custom_range": "Date Range",
+            "from": "From",
+            "to": "To",
+            "apply": "Apply",
+            "improves_mood": "Improves Mood",
+            "zero_impact": "Zero Impact",
+            "decreases_mood": "Decreases Mood",
+            "no_data": "No data available for this period",
+            "insight_prefix": "has the highest positive impact",
+            "insight_suffix": "on your mood."
+        },
+        "embedding_visualizer": {
+            "title": "Conversation Galaxy",
+            "subtitle": "Visualizing your conversation messages with Well-Bot, colored by their emotional label.",
+            "loading": "Loading galaxy...",
+            "date_range": "Date Range",
+            "from": "From",
+            "to": "To",
+            "apply": "Apply",
+            "no_history": "No conversation history found",
+            "emotions_legend": "Emotions",
+            "tooltip_title": "Shows the past conversations as dots in a 3D space.",
+            "tooltip_list": {
+                "l1": "Each dot is one message.",
+                "l2": "The dot color shows how you felt.",
+                "l3": "Drag to rotate and scroll to zoom.",
+                "l4": "Hover over a dot to read the message."
+            }
+        },
+        "emotional_distribution": {
+            "title": "Emotional Distribution",
+            "tooltip": "Frequency of each emotion recorded by date",
+            "no_data": "No data available for this period"
+        },
+        "emotional_table": {
+            "title": "Emotional Records",
+            "tooltip": "Detailed log of all emotional records",
+            "no_records": "No records found for this period",
+            "retry": "Retry",
+            "headers": {
+                "timestamp": "TIMESTAMP",
+                "emotion": "EMOTION",
+                "mood_score": "MOOD SCORE",
+                "confidence": "CONFIDENCE"
+            }
+        },
+        "message_insights": {
+            "title": "Message Pattern Insights",
+            "subtitle": "Analyze communication patterns",
+            "top_recurring": "Top Recurring Messages",
+            "top_recurring_desc": "Most frequent messages across all conversations",
+            "emotion_freq": "Chat Emotion Frequency",
+            "emotion_freq_desc": "How often each emotion appears in messages",
+            "stats_title": "Message Statistics",
+            "stats_desc": "Overall conversation patterns",
+            "total_msgs": "Total Messages",
+            "unique_msgs": "Unique Messages",
+            "diversity": "Message Diversity",
+            "diversity_suffix": "unique per message",
+            "top_emotion_msgs": "Top {{emotion}} Messages",
+            "top_emotion_desc": "Most common when feeling {{emotion}}"
+        },
+        "widget": {
+            "records_captured": "Number of {{title}} records captured",
+            "percentage_share": "Percentage share of total emotions counted"
+        }
+    },
+    "access_control": {
+        "page_title": "Data Access Control",
+        "add_guardian": "Add Guardian",
+        "tabs": {
+            "requests": "Requests",
+            "active": "Active Guardians"
+        },
+        "no_requests": {
+            "title": "No pending requests.",
+            "message": "You don't have any tracking requests at the moment."
+        },
+        "no_active": {
+            "title": "No active guardians.",
+            "message": "You haven't granted access to any guardians yet.",
+            "instruction": "Click \"Add Guardian\" to add trusted person to monitor your emotional well-being."
+        },
+        "guardian_card": {
+            "access_granted": "Access Granted"
+        },
+        "actions": {
+            "accept": "Accept",
+            "reject": "Reject",
+            "revoke": "Revoke Access",
+            "confirm": "Confirm",
+            "cancel": "Cancel",
+            "yes_revoke": "Yes, revoke"
+        },
+        "modals": {
+            "add_title": "Add New Guardian",
+            "email_label": "Email / Name",
+            "email_placeholder": "e.g. johndoe@example.com or John Doe",
+            "helper_text": "Enter a trusted guardian’s email or name to help monitor your emotional well-being."
+        },
+        "alerts": {
+            "credential_error": "Credential not found",
+            "success_granted": "Access Granted",
+            "success_revoked": "Revoked",
+            "success_accepted": "Accepted",
+            "success_rejected": "Rejected",
+            "already_exists": "Already Exists",
+            "user_not_found": "User Not Found",
+            "confirm_revoke": "Are you sure?",
+            "confirm_revoke_text": "Do you want to revoke this guardian's access?"
+        }
+    },
+    "monitored_user": {
+        "page_title": "User Care Panel",
+        "add_user": "Add User",
+        "stats": {
+            "active": "Active Monitoring",
+            "pending": "Pending Consent Request",
+            "rejected": "Rejected Requests",
+            "revoked": "Revoked Access"
+        },
+        "filters": {
+            "all": "All Users",
+            "active": "Active",
+            "pending": "Pending Consent",
+            "reject": "Rejected",
+            "revoked": "Revoked"
+        },
+        "search_placeholder": "Search users...",
+        "no_users": {
+            "title": "No monitored users found.",
+            "desc": "You haven’t added any users to monitor yet, and no monitoring requests have been sent."
+        },
+        "no_selection": {
+            "title": "No Monitored User Selected",
+            "desc": "It looks like you haven't selected a user yet. Please select a user from the top bar to view their insights, or add a new user to your monitoring list.",
+            "button": "Add / Manage Users"
+        },
+        "table": {
+            "name": "Name",
+            "prefer_name": "Prefer Name",
+            "email": "Email",
+            "status": "Status",
+            "actions": "Actions"
+        },
+        "actions": {
+            "view_details": "View Details",
+            "remove": "Remove",
+            "send_request": "Send Request",
+            "view_dashboard": "View Dashboard",
+            "cancel_request": "Cancel Request"
+        },
+        "modals": {
+            "add_title": "Add New User",
+            "input_label": "Email / Well-Bot Serial Number",
+            "input_placeholder": "e.g. johndoe@example.com or WB12xxx",
+            "message_label": "Message (optional)",
+            "message_placeholder": "Add a personal message to your monitoring request",
+            "view_title": "User Details",
+            "labels": {
+                "age": "Age",
+                "gender": "Gender",
+                "added_date": "Added Date",
+                "removed_date": "Removed Date",
+                "requested_date": "Requested Date"
+            }
+        },
+        "alerts": {
+            "request_sent": "Request Sent",
+            "confirm_remove": "Are you sure?",
+            "confirm_remove_text": "Do you want to remove this user?",
+            "deleted": "Deleted"
+        }
+    },
+    "report": {
+        "title_user": "My Report Generator",
+        "title_guardian": "Report Generator",
+        "configuration": "Configuration",
+        "report_summary": "Report Summary",
+        "data_summary": "Data Summary",
+        "emotion_summary": "Emotion Summary",
+        "type": "Type",
+        "period": "Period",
+        "file_format": "File Format",
+        "include_data": "Include Data",
+        "user_select": "User",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "pdf_option": "PDF Report",
+        "csv_option": "Raw CSV",
+        "generating": "Generating...",
+        "generate_pdf": "Generate PDF Report",
+        "download_csv": "Download CSV Data",
+        "options": {
+            "widgets": "Emotion Summary",
+            "activity": "Activity Distribution",
+            "score": "Mood Score",
+            "dist": "Emotional Distribution",
+            "mood": "Activity Impact",
+            "messages": "Message Patterns",
+            "emotional_table": "Emotional Records",
+            "activity_table": "Activity Records",
+            "emotional_raw": "Emotional Raw Data",
+            "activity_raw": "Activity Raw Data"
+        },
+        "helpers": {
+            "csv_note": "*Will download separate files if both are selected.",
+            "preview_note": "The preview below shows your data for the selected range. Items grayed out will be excluded based on your selection.",
+            "guardian_preview_note": "The preview below shows the available chart for the PDF report generation with selected range. Items grayed out will be excluded based on your selection."
+        },
+        "summary": {
+            "period": "Reporting Period",
+            "total_messages": "Total Messages",
+            "total_activities": "Total Activities",
+            "emotional_entries": "Emotional Entries",
+            "selected_user": "Selected User"
+        },
+        "no_users": {
+            "title": "No monitored users found.",
+            "desc": "Please add a monitored user to generate Wellness Report.",
+            "button": "Add Users"
+        },
+        "alerts": {
+            "success": "Success!",
+            "csv_downloaded": "CSV data downloaded successfully.",
+            "no_data": "No Data",
+            "no_data_desc": "No data available to export for the selected options.",
+            "pdf_downloaded": "PDF Report generated and downloaded.",
+            "error": "Error",
+            "failed": "Failed to generate report. Please try again."
+        },
+        "charts": {
+            "emotional_distribution": "Emotional Distribution",
+            "emotional_trends": "Emotional Trends",
+            "activity_frequency": "Activity Frequency",
+            "average_mood_score": "Average Mood Score",
+            "average_suffix": "(average)",
+            "no_data": "No data available for this period"
+        },
+        "activities": {
+            "support_chat": "Support Chat",
+            "journaling": "Journaling",
+            "gratitude": "Gratitude",
+            "meditation": "Meditation with Music",
+            "daily_quote": "Daily Quote"
+        },
+        "emotions": {
+            "happy": "Happy",
+            "sad": "Sad",
+            "angry": "Angry",
+            "fear": "Fear"
+        },
+        "pdf": {
+            "title": "Well-Being Report",
+            "prepared_for": "Prepared for:",
+            "generated_on": "Generated on {{date}} at {{time}}",
+            "visual_analytics": "Visual Analytics Overview",
+            "activity_insights": "Activity Insights",
+            "message_insights": "Message Pattern Insights",
+            "top_recurring": "Top Recurring Messages",
+            "emotion_freq": "Chat Emotion Frequency",
+            "emotional_history": "Emotional History",
+            "intervention_activities": "Intervention Activities",
+            "headers": {
+                "time": "Time",
+                "emotion": "Emotion",
+                "mood_score": "Mood Score",
+                "confidence": "Confidence",
+                "activity": "Activity",
+                "duration": "Duration",
+                "impact": "Mood Impact",
+                "message": "Message",
+                "count": "Count",
+                "percent": "Percent"
+            },
+            "insight_types": {
+                "positive": "When you feel positive",
+                "booster": "Mood Booster",
+                "limiting": "Consider Limiting"
+            },
+            "stats": {
+                "total_engagements": "Total Engagements",
+                "avg_freq": "Avg Freq / Activity",
+                "activities_tracked": "Activities Tracked",
+                "overall_mood": "Overall Mood",
+                "diversity_score": "Diversity Score"
+            }
+        }
+    },
+    "profile": {
+        "title": "Profile",
+        "personal_info": "Personal Information",
+        "app_settings": "App Settings",
+        "account_settings": "Account Settings",
+        "early_intervention": "Early Intervention Preference",
+        "guardian_tracking": "Guardian Tracking",
+        "labels": {
+            "full_name": "Full Name",
+            "prefer_name": "Prefer Name",
+            "age": "Age",
+            "gender": "Gender",
+            "language": "Language",
+            "website_language": "Website Language",
+            "cultural_background": "Cultural Background",
+            "spiritual_beliefs": "Spiritual Beliefs",
+            "device_connection": "Well-Bot Device Connection",
+            "password": "Password",
+            "current_password": "Current Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm New Password",
+            "select_background": "Select background",
+            "select_beliefs": "Select beliefs",
+            "not_specified": "Not specified",
+            "device_serial": "Device Serial Number",
+            "change_language": "Change Website Language"
+        },
+        "placeholders": {
+            "device_serial": "WBxxxxx (e.g. WB12345)"
+        },
+        "buttons": {
+            "edit": "Edit",
+            "save_changes": "Save Changes",
+            "update_password": "Update Password",
+            "cancel": "Cancel",
+            "apply": "Apply",
+            "reset_password": "Reset Password",
+            "change_device": "Change Device",
+            "manage_access": "Manage Access",
+            "yes": "Yes",
+            "change": "Change"
+        },
+        "alerts": {
+            "success": "Success",
+            "error": "Error",
+            "warning": "Active Guardians",
+            "personal_updated": "Personal information updated successfully!",
+            "password_changed": "Password changed successfully!",
+            "password_mismatch": "New passwords do not match.",
+            "password_length": "Password must be at least 8 characters long",
+            "tracking_enabled": "Guardian tracking enabled.",
+            "tracking_disabled": "Guardian tracking disabled.",
+            "device_changed": "Device changed successfully!",
+            "device_error": "Device Error",
+            "device_same": "The new serial number cannot be the same as the current one.",
+            "disable_warning": "You have active permissions. Do you want to revoke them before disabling Guardian to send tracking requests?",
+            "disable_confirm": "Go to Access Control",
+            "disable_cancel": "Disable Without Revoking",
+            "confirm_language_change": "Change Language?",
+            "confirm_language_desc": "Are you sure you want to change the language?",
+            "language_updated": "Language updated successfully!",
+            "update_failed": "Failed to update language."
+        },
+        "interventions": {
+            "converse": "Converse with Context Awareness",
+            "converse_desc": "Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply",
+            "journaling": "Voice Journaling",
+            "journaling_desc": "Record your thoughts by speaking, making emotional expression easier and more personal without needing to type",
+            "music": "Meditation with Calming Music",
+            "music_desc": "Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance",
+            "gratitude": "Make a Gratitude List",
+            "gratitude_desc": "List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation",
+            "quote": "Spiritual Quote of the Day",
+            "quote_desc": "Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day"
+        },
+        "helpers": {
+            "password_req": "Password must be at least 8 characters and include a mix of letters, numbers, and symbols",
+            "device_desc": "Replace your current Well-Bot connection with another validated droid",
+            "guardian_permission": "Guardian Tracking Permission",
+            "guardian_header": "Manage Guardian Access",
+            "guardian_desc_1": "Enable caregivers to send tracking requests and monitor your well-being after getting your permission",
+            "guardian_desc_2": "View and manage guardian requests and permissions",
+            "language_desc": "Select your preferred language for the interface"
+        },
+        "options": {
+            "gender": {
+                "male": "Male",
+                "female": "Female"
+            },
+            "language": {
+                "en": "English",
+                "bm": "Bahasa Melayu",
+                "cn": "Chinese"
+            },
+            "culture": {
+                "malay": "Malay",
+                "chinese": "Chinese",
+                "indian": "Indian",
+                "other": "Other"
+            },
+            "beliefs": {
+                "islam": "Islam",
+                "buddhism": "Buddhism",
+                "christianity": "Christianity",
+                "hinduism": "Hinduism",
+                "none": "None",
+                "other": "Other"
+            }
+        },
+        "modals": {
+            "change_password_title": "Change Password"
+        }
+    },
+    "feature": {
+        "journal": {
+            "title": "Journal",
+            "add_new": "Add New Journal",
+            "no_data": "No journals found. Start writing your first memory!",
+            "edit_title": "Edit Journal",
+            "new_title": "New Journal",
+            "placeholder_title": "Title...",
+            "placeholder_body": "Write your thoughts here...",
+            "label_title": "Title",
+            "label_content": "Content",
+            "label_date": "Date & Time",
+            "save": "Save",
+            "saving": "Saving...",
+            "cancel": "Cancel",
+            "edit": "Edit",
+            "delete": "Delete",
+            "success_updated": "Updated!",
+            "success_updated_msg": "Your journal entry has been updated.",
+            "success_created": "Created!",
+            "success_created_msg": "Your new journal entry has been added.",
+            "success_deleted": "Deleted",
+            "success_deleted_msg": "Your journal entry has been removed.",
+            "error_title": "Error",
+            "error_msg": "Failed to save journal entry.",
+            "confirm_delete_title": "Delete journal?",
+            "confirm_delete_msg": "This action cannot be undone."
+        },
+        "gratitude": {
+            "title": "Moments of Gratitude",
+            "add_new": "Add New Gratitude Item",
+            "no_data": "No gratitude item found. Start writing your first gratitude item!",
+            "edit_title": "Edit Gratitude",
+            "new_title": "New Moment",
+            "placeholder_text": "I am grateful for...",
+            "label_content": "Content",
+            "label_date": "Date & Time",
+            "save": "Save",
+            "saving": "Saving...",
+            "cancel": "Cancel",
+            "edit": "Edit",
+            "delete": "Delete",
+            "success_updated": "Updated!",
+            "success_created": "Created!",
+            "success_deleted": "Deleted",
+            "success_deleted_msg": "Your moment has been removed.",
+            "confirm_delete_title": "Are you sure?",
+            "confirm_delete_msg": "This action cannot be undone."
+        }
+    }
+}

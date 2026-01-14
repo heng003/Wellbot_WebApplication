@@ -7,7 +7,10 @@ import EmotionalDistribution from "../../dashboard/default/EmotionalDistribution
 import EmotionalTable from "../../dashboard/default/EmotionalTable";
 import HoverTooltip from "../../components/HoverTooltip";
 
+import { useTranslation } from "react-i18next";
+
 const EmotionalDashboardPage = () => {
+    const { t } = useTranslation();
     // Default to the last 15 days
     const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
@@ -15,7 +18,7 @@ const EmotionalDashboardPage = () => {
     return (
         <div className="main-container">
             <FloatingNavbar
-                brandText="Emotional Dashboard"
+                brandText={t('dashboard.emotion_title')}
                 startDate={startDate}
                 endDate={endDate}
                 onDateChange={(start, end) => {

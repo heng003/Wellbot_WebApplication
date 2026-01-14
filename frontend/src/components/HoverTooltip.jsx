@@ -1,68 +1,100 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { createPortal } from "react-dom";
 
-const HoverTooltip = ({ children, content, placement = "top", forceVisible = false }) => {
+const HoverTooltip = ({
+    children,
+    content,
+    placement = "top",
+    forceVisible = false,
+}) => {
     const [show, setShow] = useState(false);
-
-    // Position logic
-    let positionClass = "";
-    switch (placement) {
-        case "top": positionClass = "bottom-full left-1/2 -translate-x-1/2 mb-2"; break;
-        case "bottom": positionClass = "top-full left-1/2 -translate-x-1/2 mt-2"; break;
-        case "left": positionClass = "right-full top-1/2 -translate-y-1/2 mr-2"; break;
-        case "right": positionClass = "left-full top-1/2 -translate-y-1/2 ml-2"; break;
-        default: positionClass = "bottom-full left-1/2 -translate-x-1/2 mb-2";
-    }
+    const triggerRef = useRef(null);
 
     const isVisible = show || forceVisible;
 
+    const getPositionStyle = () => {
+        if (!triggerRef.current) return {};
+
+        const rect = triggerRef.current.getBoundingClientRect();
+        const gap = 8;
+
+        switch (placement) {
+            case "top":
+                return {
+                    top: rect.top - gap,
+                    left: rect.left + rect.width / 2,
+                    transform: "translate(-50%, -100%)",
+                };
+            case "bottom":
+                return {
+                    top: rect.bottom + gap,
+                    left: rect.left + rect.width / 2,
+                    transform: "translateX(-50%)",
+                };
+            case "left":
+                return {
+                    top: rect.top + rect.height / 2,
+                    left: rect.left - gap,
+                    transform: "translate(-100%, -50%)",
+                };
+            case "right":
+                return {
+                    top: rect.top + rect.height / 2,
+                    left: rect.right + gap,
+                    transform: "translateY(-50%)",
+                };
+            default:
+                return {};
+        }
+    };
+
     return (
-        <div
-            // 'inline-flex' ensures the wrapper wraps tightly around whatever child you pass
-            className="relative inline-flex items-center"
-            onMouseEnter={() => setShow(true)}
-            onMouseLeave={() => setShow(false)}
-        >
-            {/* This can be a button, div, span, text, image, anything! */}
-            {children}
+        <>
+            {/* Trigger */}
+            <div
+                ref={triggerRef}
+                className="inline-flex items-center"
+                onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => setShow(false)}
+            >
+                {children}
+            </div>
 
-            {/* The Tooltip Popup */}
-            {isVisible && (
-                <div
-                    className={`
-                        absolute ${positionClass}
-                        z-[300] whitespace-nowrap
-                        p-3 
-                        text-xs font-medium text-white 
-                        bg-gray-800 rounded shadow-lg
-                        pointer-events-none
-                        transition-opacity duration-200
-                    `}
-                >
-                    {content}
-                    {/* Tooltip Arrow */}
-                    {placement === "top" && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 
-                  border-4 border-transparent border-t-gray-800" />
-                    )}
+            {/* Tooltip Portal */}
+            {isVisible &&
+                createPortal(
+                    <div
+                        className="fixed whitespace-nowrap p-3 text-xs font-medium text-white
+                                   bg-gray-800 rounded shadow-lg pointer-events-none
+                                   transition-opacity duration-200"
+                        style={{
+                            ...getPositionStyle(),
+                            zIndex: 9999,
+                        }}
+                    >
+                        {content}
 
-                    {placement === "bottom" && (
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 
-                  border-4 border-transparent border-b-gray-800" />
-                    )}
-
-                    {placement === "left" && (
-                        <div className="absolute left-full top-1/2 -translate-y-1/2 
-                  border-4 border-transparent border-l-gray-800" />
-                    )}
-
-                    {placement === "right" && (
-                        <div className="absolute right-full top-1/2 -translate-y-1/2 
-                  border-4 border-transparent border-r-gray-800" />
-                    )}
-
-                </div>
-            )}
-        </div>
+                        {/* Arrow */}
+                        {placement === "top" && (
+                            <div className="absolute left-1/2 top-full -translate-x-1/2
+                                            border-4 border-transparent border-t-gray-800" />
+                        )}
+                        {placement === "bottom" && (
+                            <div className="absolute left-1/2 bottom-full -translate-x-1/2
+                                            border-4 border-transparent border-b-gray-800" />
+                        )}
+                        {placement === "left" && (
+                            <div className="absolute left-full top-1/2 -translate-y-1/2
+                                            border-4 border-transparent border-l-gray-800" />
+                        )}
+                        {placement === "right" && (
+                            <div className="absolute right-full top-1/2 -translate-y-1/2
+                                            border-4 border-transparent border-r-gray-800" />
+                        )}
+                    </div>,
+                    document.body
+                )}
+        </>
     );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useTranslation } from 'react-i18next';
 import { AiOutlineLoading } from "react-icons/ai";
 import LineChart from "../charts/LineChart";
 import Card from "../card";
@@ -6,6 +7,7 @@ import { getIdFromToken } from "../../utils/auth";
 import { useEmotionalData } from "../../hooks/useEmotionalData.js";
 
 const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketType }) => {
+    const { t } = useTranslation();
     const userId = propUserId || getIdFromToken();
 
     // 1. Determine Bucket Type
@@ -43,7 +45,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
 
         const series = [
             {
-                name: "Emotional Score",
+                name: t('report.options.score'), // "Mood Score" or similar
                 data: dailyData.map(d => Math.round(Number(d.avgScore) || 0)),
                 color: "#3E9389"
             }
@@ -106,7 +108,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
         <Card extra="col-span-1 rounded-[20px] p-3 h-full">
             <div className="flex flex-row justify-between px-3 pt-2">
                 <div>
-                    <h4 className="text-lg font-bold text-navy-700">Emotional Trends</h4>
+                    <h4 className="text-lg font-bold text-navy-700">{t('report.charts.emotional_trends')}</h4>
                 </div>
             </div>
 
@@ -120,7 +122,7 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
                         <LineChart height={"320px"} options={options} series={chartData.series} />
                     ) : (
                         <div className="flex min-h-[200px] items-center justify-center">
-                            <p className="text-sm text-gray-500">No data available for this period</p>
+                            <p className="text-sm text-gray-500">{t('report.charts.no_data')}</p>
                         </div>
                     )}
                 </div>
@@ -133,13 +135,13 @@ const ReportLineChartCard = ({ startDate, endDate, userId: propUserId, bucketTyp
                                 <div className="w-2 h-2 rounded-full bg-[#3E9389]"></div>
                             </div>
                             <div className="col-span-6 pl-2 overflow-hidden flex items-center">
-                                <p className="text-md font-normal text-gray-800 truncate leading-8" title={"Mood Score"}>
-                                    Average Mood Score
+                                <p className="text-md font-normal text-gray-800 truncate leading-8" title={t('report.charts.average_mood_score')}>
+                                    {t('report.charts.average_mood_score')}
                                 </p>
                             </div>
                             <div className="col-span-5 flex justify-end items-center gap-2 whitespace-nowrap">
                                 <p className="text-sm font-bold text-navy-700">{avgMood}%</p>
-                                <p className="text-xs text-gray-400 w-8 text-right">{"(average)"}</p>
+                                <p className="text-xs text-gray-400 w-8 text-right">{t('report.charts.average_suffix')}</p>
                             </div>
                         </div>
                     </div>

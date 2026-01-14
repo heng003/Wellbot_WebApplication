@@ -5,7 +5,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../styles/loginPage.css';
 
+import { useTranslation } from "react-i18next";
+
 const LoginPage = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({
@@ -46,7 +49,7 @@ const LoginPage = () => {
 
             } catch (errors) {
                 Swal.fire({
-                    title: "Login Failed",
+                    title: t('auth.login_failed_title'),
                     text: errors.response.data?.message,
                     icon: "error",
                     confirmButtonText: "OK",
@@ -67,13 +70,13 @@ const LoginPage = () => {
             <div className="login-container">
                 <div className="login-card">
                     <div className="login-header">
-                        <h1 className="login-title">Welcome Back</h1>
-                        <p className="login-subtitle">Sign in to your Well-Bot account</p>
+                        <h1 className="login-title">{t('auth.welcome_back')}</h1>
+                        <p className="login-subtitle">{t('auth.sign_in_subtitle')}</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="login-form">
                         <div className="form-group">
-                            <label htmlFor="email" className="form-label">Email Address</label>
+                            <label htmlFor="email" className="form-label">{t('auth.email_label')}</label>
                             <div className="input-wrapper">
                                 <input
                                     id="email"
@@ -83,14 +86,14 @@ const LoginPage = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="form-input"
-                                    placeholder="you@example.com"
+                                    placeholder={t('auth.email_placeholder')}
                                 />
                             </div>
                             {errors.email && <p className="input-error">{errors.email}</p>}
                         </div>
 
                         <div className="form-group mb-2">
-                            <label htmlFor="password" className="form-label">Password</label>
+                            <label htmlFor="password" className="form-label">{t('auth.password_label')}</label>
                             <div className="input-wrapper">
                                 <input
                                     id="password"
@@ -100,7 +103,7 @@ const LoginPage = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="form-input"
-                                    placeholder="Your password"
+                                    placeholder={t('auth.password_placeholder')}
                                 />
                             </div>
                             {errors.password && <p className="input-error">{errors.password}</p>}
@@ -111,7 +114,7 @@ const LoginPage = () => {
                             </div>
                             <div className="redirect-container">
                                 <Link to="/forgotPassword" className="redirect-link">
-                                    Forgot your password?
+                                    {t('auth.forgot_password')}
                                 </Link>
                             </div>
                         </div>
@@ -127,7 +130,7 @@ const LoginPage = () => {
                                 ) : (
                                     <ArrowRight className="submit-icon" />
                                 )}
-                                Sign In
+                                {t('auth.sign_in_button')}
                             </button>
                         </div>
                     </form>

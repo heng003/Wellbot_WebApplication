@@ -1,13 +1,23 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
-import { User, Edit, Save, Lock, Eye, EyeOff } from 'lucide-react';
+import { User, Edit, Save, Lock, Eye, EyeOff, Globe } from 'lucide-react';
 import { AiOutlineLoading } from 'react-icons/ai';
 import '../../styles/profilePage.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
 import FloatingNavbar from '../../layout/FloatingNavbar';
+import LanguageChangeModal from '../../components/LanguageChangeModal';
+
+const languageMap = {
+    "en": "English",
+    "bm": "Bahasa Melayu",
+    "cn": "Chinese"
+};
 
 const GuardianProfilePage = () => {
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
     const [personalData, setPersonalData] = useState({});
     const userId = getIdFromToken();
     const [dataLoading, setDataLoading] = useState(true);
@@ -16,6 +26,7 @@ const GuardianProfilePage = () => {
     const [error, setError] = useState('');
     const [editingPersonal, setEditingPersonal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showLanguageModal, setShowLanguageModal] = useState(false);
 
     const fetchProfile = async () => {
         try {
@@ -62,6 +73,9 @@ const GuardianProfilePage = () => {
             ...prev,
             [name]: value
         }));
+        if (name === 'websiteLanguage') {
+            i18n.changeLanguage(value);
+        }
     };
 
     const handlePasswordInputChange = (e) => {
@@ -85,11 +99,11 @@ const GuardianProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             scrollToTop();
-            setSuccess('Personal information updated successfully!');
+            setSuccess(t('profile.alerts.success'));
             setEditingPersonal(false);
             Swal.fire({
-                title: "Success",
-                text: "Personal information updated successfully!",
+                title: t('profile.alerts.success'),
+                text: t('profile.alerts.personal_updated'),
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -97,10 +111,10 @@ const GuardianProfilePage = () => {
                 }
             });
         } catch (err) {
-            setError('Failed to update profile');
+            setError(t('profile.alerts.error'));
             Swal.fire({
-                title: "Error",
-                text: err.response?.data?.message || "Failed to update profile",
+                title: t('profile.alerts.error'),
+                text: err.response?.data?.message || t('profile.alerts.update_failed'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -116,8 +130,8 @@ const GuardianProfilePage = () => {
         e.preventDefault();
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             Swal.fire({
-                title: "Error",
-                text: "New passwords do not match",
+                title: t('profile.alerts.error'),
+                text: t('profile.alerts.password_mismatch'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -127,10 +141,10 @@ const GuardianProfilePage = () => {
             return;
         }
         if (passwordData.newPassword.length < 8) {
-            setError('Password must be at least 8 characters long');
+            setError(t('profile.alerts.password_length'));
             Swal.fire({
-                title: "Error",
-                text: "Password must be at least 8 characters long",
+                title: t('profile.alerts.error'),
+                text: t('profile.alerts.password_length'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -149,12 +163,12 @@ const GuardianProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             scrollToTop();
-            setSuccess('Password changed!');
+            setSuccess(t('profile.alerts.password_changed'));
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
             setShowPasswordModal(false);
             Swal.fire({
-                title: "Success",
-                text: "Password changed successfully!",
+                title: t('profile.alerts.success'),
+                text: t('profile.alerts.password_changed'),
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -162,10 +176,10 @@ const GuardianProfilePage = () => {
                 }
             });
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to change password');
+            setError(err.response?.data?.message || t('profile.alerts.password_failed'));
             Swal.fire({
-                title: "Error",
-                text: err.response?.data?.message || "Failed to change password",
+                title: t('profile.alerts.error'),
+                text: err.response?.data?.message || t('profile.alerts.password_failed'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -174,6 +188,24 @@ const GuardianProfilePage = () => {
             });
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleWebsiteLanguageChange = async (e) => {
+        const { value } = e.target;
+        setPersonalData(prev => ({
+            ...prev,
+            websiteLanguage: value
+        }));
+        i18n.changeLanguage(value);
+
+        try {
+            const token = localStorage.getItem('token');
+            await axios.put('/api/profile/userProfile', { websiteLanguage: value }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (err) {
+            console.error("Failed to update website language", err);
         }
     };
 
@@ -201,10 +233,6 @@ const GuardianProfilePage = () => {
                     <div className="alert alert-success">{success}</div>
                 )}
 
-                {success && (
-                    <div className="alert alert-success">{success}</div>
-                )}
-
                 {dataLoading ? (
                     <div className="flex h-[50vh] w-full items-center justify-center">
                         <AiOutlineLoading className="h-12 w-12 animate-spin text-[#3E9389]" />
@@ -214,9 +242,9 @@ const GuardianProfilePage = () => {
                         {/* Personal Information */}
                         <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                             <div className="profile-card-header">
-                                <div className="flex flex-row justify-center">
+                                <div className="flex flex-row items-end justify-center">
                                     <User size={25} className="profile-icon" />
-                                    Personal Information
+                                    {t('profile.personal_info')}
                                 </div>
                                 {!editingPersonal && (
                                     <button
@@ -225,14 +253,14 @@ const GuardianProfilePage = () => {
                                         disabled={editingPersonal}
                                     >
                                         <Edit size={16} />
-                                        Edit
+                                        {t('profile.buttons.edit')}
                                     </button>
                                 )}
                             </div>
                             {editingPersonal ? (
                                 <form onSubmit={handlePersonalSubmit} className="profile-card-content profile-form-grid">
                                     <div>
-                                        <label className="form-label">Full Name</label>
+                                        <label className="form-label">{t('profile.labels.full_name')}</label>
                                         <input
                                             type="text"
                                             name="fullName"
@@ -243,7 +271,7 @@ const GuardianProfilePage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="form-label">Prefer Name</label>
+                                        <label className="form-label">{t('profile.labels.prefer_name')}</label>
                                         <input
                                             type="text"
                                             name="preferName"
@@ -260,43 +288,70 @@ const GuardianProfilePage = () => {
                                             className="green-button btn-primary"
                                         >
                                             {loading ? <span className="loader"></span> : <Save size={16} />}
-                                            <span className="mt-1">Save Changes</span>
+                                            <span className="mt-1">{t('profile.buttons.save_changes')}</span>
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setEditingPersonal(false)}
                                             className="white-button btn-outline"
                                         >
-                                            Cancel
+                                            {t('profile.buttons.cancel')}
                                         </button>
                                     </div>
                                 </form>
                             ) : (
                                 <div className="profile-card-content guardian-profile-info">
                                     <div>
-                                        <span className="profile-label">Full Name</span>
+                                        <span className="profile-label">{t('profile.labels.full_name')}</span>
                                         <span className="profile-value">{personalData.fullName}</span>
                                     </div>
                                     <div>
-                                        <span className="profile-label">Prefer Name</span>
+                                        <span className="profile-label">{t('profile.labels.prefer_name')}</span>
                                         <span className="profile-value">{personalData.preferName}</span>
+                                    </div>
+                                    <div>
+                                        <span className="profile-label">{t('profile.labels.language')}</span>
+                                        <span className="profile-value">{languageMap[personalData.language?.toLowerCase()] || personalData.language}</span>
                                     </div>
                                 </div>
                             )}
                         </div>
 
-                        {/* Account Settings */}
+                        {/* App Settings */}
                         <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                             <div className="profile-card-header">
-                                <div className="flex flex-row justify-center">
-                                    <Lock size={25} className="profile-icon" />
-                                    Account Settings
+                                <div className="flex flex-row items-end justify-center">
+                                    <Globe size={25} className="profile-icon" />
+                                    {t('profile.app_settings') || "App Settings"}
                                 </div>
                             </div>
                             <div className="profile-card-content profile-card-row-between">
                                 <div className="d-flex flex-column">
-                                    <span className="profile-content-title">Password</span>
-                                    <span className="profile-content-subtitle">Password must be at least 8 characters and include a mix of letteres, numbers, and symbols</span>
+                                    <span className="profile-content-title">{t('profile.labels.website_language') || "Website Language"}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.language_desc') || "Select your preferred language for the interface"}</span>
+                                </div>
+                                <button
+                                    onClick={() => setShowLanguageModal(true)}
+                                    className="white-button btn-outline"
+                                >
+                                    <Edit size={16} />
+                                    {t('profile.buttons.edit') || "Change"}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Account Settings */}
+                        <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
+                            <div className="profile-card-header">
+                                <div className="flex flex-row items-end justify-center">
+                                    <Lock size={25} className="profile-icon" />
+                                    {t('profile.account_settings')}
+                                </div>
+                            </div>
+                            <div className="profile-card-content profile-card-row-between">
+                                <div className="d-flex flex-column">
+                                    <span className="profile-content-title">{t('profile.labels.password')}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.password_req')}</span>
                                 </div>
                                 <button
                                     onClick={() => setShowPasswordModal(true)}
@@ -304,7 +359,7 @@ const GuardianProfilePage = () => {
                                     disabled={editingPersonal}
                                 >
                                     <Edit size={16} />
-                                    Reset Password
+                                    {t('profile.buttons.reset_password')}
                                 </button>
                             </div>
                         </div>
@@ -315,11 +370,11 @@ const GuardianProfilePage = () => {
             {showPasswordModal && (
                 <div className="modal-overlay">
                     <div className="modal-container">
-                        <h3 className="modal-header modal-title">Reset Password</h3>
+                        <h3 className="modal-header modal-title">{t('profile.modals.change_password_title')}</h3>
                         <form onSubmit={handlePasswordSubmit}>
                             <div className="modal-form">
                                 <div>
-                                    <label className="form-label">Current Password</label>
+                                    <label className="form-label">{t('profile.labels.current_password')}</label>
                                     <div className="input-password">
                                         <input
                                             type={showCurrentPassword ? "text" : "password"}
@@ -339,7 +394,7 @@ const GuardianProfilePage = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="form-label">New Password</label>
+                                    <label className="form-label">{t('profile.labels.new_password')}</label>
                                     <div className="input-password">
                                         <input
                                             type={showNewPassword ? "text" : "password"}
@@ -360,7 +415,7 @@ const GuardianProfilePage = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="form-label">Confirm New Password</label>
+                                    <label className="form-label">{t('profile.labels.confirm_password')}</label>
                                     <div className="input-password">
                                         <input
                                             type={showConfirmPassword ? "text" : "password"}
@@ -389,19 +444,32 @@ const GuardianProfilePage = () => {
                                     className="green-button btn-primary"
                                 >
                                     {loading ? <span className="loader"></span> : <Save size={16} />}
-                                    <span className="mt-1">Update Password</span>
+                                    <span className="mt-1">{t('profile.buttons.update_password')}</span>
                                 </button>
                                 <button
                                     type="button"
                                     onClick={closeModals}
                                     className="white-button btn-outline"
                                 >
-                                    Cancel
+                                    {t('profile.buttons.cancel')}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
+            )}
+
+            {/* Language Change Modal */}
+            {showLanguageModal && (
+                <LanguageChangeModal
+                    initialLanguage={personalData.websiteLanguage || personalData.language || 'en'}
+                    onClose={() => setShowLanguageModal(false)}
+                    onSuccess={(newLang) => {
+                        setPersonalData(prev => ({ ...prev, websiteLanguage: newLang }));
+                        setSuccess(t('profile.alerts.language_updated') || "Language updated successfully!");
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                />
             )}
         </>
     );

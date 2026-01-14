@@ -9,106 +9,108 @@ import LogOutIcon from "../icons/LogOutIcon";
 import ChartIcon from "../icons/ChartIcon";
 import ReportIcon from "../icons/ReportIcon";
 
-export const routes = [
-    {
-        role: "guardian",
-        name: "User Care Panel",
-        activeKey: "Management",
-        path: "/guardian/monitoredUser",
-        icon: <HomeIcon />
-    },
-    {
-        role: "guardian",
-        name: "Dashboard",
-        activeKey: "Dashboard",
-        path: "/guardian/dashboard",
-        children: [
-            { name: 'Main Dashboard', activeKey: 'Main', path: '/guardian/dashboard/main' },
-            { name: 'Emotional Dashboard', activeKey: 'Emotion', path: '/guardian/dashboard/emotion' },
-            { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/guardian/dashboard/activity' },
-            { name: 'ChatMap Dashboard', activeKey: 'ChatMap', path: '/guardian/dashboard/chatMap' },
-        ],
-        icon: <ChartIcon />
-    },
-    {
-        role: "guardian",
-        name: "Report",
-        activeKey: "Report",
-        path: "/guardian/report",
-        icon: <TablesIcon />
-    },
-    {
-        role: "guardian",
-        name: "Profile",
-        activeKey: "Profile",
-        path: "/guardian/profile",
-        icon: <ProfileIcon />
-    },
-    {
-        role: "guardian",
-        name: "Log Out",
-        path: "/",
-        icon: <LogOutIcon />,
-        logout: true
-    },
-
-    // User routes
-    {
-        role: "user",
-        name: "Dashboard",
-        activeKey: "Dashboard",
-        path: "/user/dashboard",
-        children: [
-            { name: 'Main Dashboard', activeKey: 'Main', path: '/user/dashboard/main' },
-            { name: 'Emotional Dashboard', activeKey: 'Emotion', path: '/user/dashboard/emotion' },
-            { name: 'Activity Dashboard', activeKey: 'Intervention', path: '/user/dashboard/activity' },
-            { name: 'ChatMap Dashboard', activeKey: 'ChatMap', path: '/user/dashboard/chatMap' },
-        ],
-        icon: <HomeIcon />
-    },
-    {
-        role: "user",
-        name: "Activities",
-        activeKey: "Activities",
-        children: [
-            { name: 'Journal', activeKey: 'Journal', path: '/user/activities/journal' },
-            { name: 'Gratitude', activeKey: 'Gratitude', path: '/user/activities/gratitude' },
-        ],
-        icon: <KanbanIcon />
-    },
-    {
-        role: "user",
-        name: "Access Control",
-        activeKey: "Access",
-        path: "/user/accessManage",
-        icon: <TablesIcon />
-    },
-    {
-        role: "user",
-        name: "Report",
-        activeKey: "Report",
-        path: "/user/report",
-        icon: <ReportIcon />
-    },
-    {
-        role: "user",
-        name: "Profile",
-        activeKey: "Profile",
-        path: "/user/profile",
-        icon: <ProfileIcon />
-    },
-    {
-        role: "user",
-        name: "Log Out",
-        path: "/",
-        icon: <LogOutIcon />,
-        logout: true
-    }
-];
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
-
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(window.innerWidth >= 1000);
+
+    const routes = [
+        {
+            role: "guardian",
+            name: t('sidebar.user_care_panel'),
+            activeKey: "Management",
+            path: "/guardian/monitoredUser",
+            icon: <HomeIcon />
+        },
+        {
+            role: "guardian",
+            name: t('sidebar.dashboard'),
+            activeKey: "Dashboard",
+            path: "/guardian/dashboard",
+            children: [
+                { name: t('sidebar.main_dashboard'), activeKey: 'Main', path: '/guardian/dashboard/main' },
+                { name: t('sidebar.emotional_dashboard'), activeKey: 'Emotion', path: '/guardian/dashboard/emotion' },
+                { name: t('sidebar.activity_dashboard'), activeKey: 'Intervention', path: '/guardian/dashboard/activity' },
+                { name: t('sidebar.chatmap_dashboard'), activeKey: 'ChatMap', path: '/guardian/dashboard/chatMap' },
+            ],
+            icon: <ChartIcon />
+        },
+        {
+            role: "guardian",
+            name: t('sidebar.report'),
+            activeKey: "Report",
+            path: "/guardian/report",
+            icon: <TablesIcon />
+        },
+        {
+            role: "guardian",
+            name: t('sidebar.profile'),
+            activeKey: "Profile",
+            path: "/guardian/profile",
+            icon: <ProfileIcon />
+        },
+        {
+            role: "guardian",
+            name: t('sidebar.log_out'),
+            path: "/",
+            icon: <LogOutIcon />,
+            logout: true
+        },
+
+        // User routes
+        {
+            role: "user",
+            name: t('sidebar.dashboard'),
+            activeKey: "Dashboard",
+            path: "/user/dashboard",
+            children: [
+                { name: t('sidebar.main_dashboard'), activeKey: 'Main', path: '/user/dashboard/main' },
+                { name: t('sidebar.emotional_dashboard'), activeKey: 'Emotion', path: '/user/dashboard/emotion' },
+                { name: t('sidebar.activity_dashboard'), activeKey: 'Intervention', path: '/user/dashboard/activity' },
+                { name: t('sidebar.chatmap_dashboard'), activeKey: 'ChatMap', path: '/user/dashboard/chatMap' },
+            ],
+            icon: <HomeIcon />
+        },
+        {
+            role: "user",
+            name: t('sidebar.activities'),
+            activeKey: "Activities",
+            children: [
+                { name: t('sidebar.journal'), activeKey: 'Journal', path: '/user/activities/journal' },
+                { name: t('sidebar.gratitude'), activeKey: 'Gratitude', path: '/user/activities/gratitude' },
+            ],
+            icon: <KanbanIcon />
+        },
+        {
+            role: "user",
+            name: t('sidebar.access_control'),
+            activeKey: "Access",
+            path: "/user/accessManage",
+            icon: <TablesIcon />
+        },
+        {
+            role: "user",
+            name: t('sidebar.report'),
+            activeKey: "Report",
+            path: "/user/report",
+            icon: <ReportIcon />
+        },
+        {
+            role: "user",
+            name: t('sidebar.profile'),
+            activeKey: "Profile",
+            path: "/user/profile",
+            icon: <ProfileIcon />
+        },
+        {
+            role: "user",
+            name: t('sidebar.log_out'),
+            path: "/",
+            icon: <LogOutIcon />,
+            logout: true
+        }
+    ];
 
     useEffect(() => {
         const handleResize = () => {
@@ -137,7 +139,7 @@ const Sidebar = () => {
 
             <div className={`mx-[56px] mt-[50px] flex items-center justify-center`}>
                 <div className="mt-1 ml-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700">
-                    Well<span className="font-medium">-Bot</span>
+                    {t('app.title')}<span className="font-medium"></span>
                 </div>
             </div>
             <div className="mt-[58px] mb-7 h-px bg-gray-300" style={{ borderWidth: '1px', borderStyle: "solid", borderColor: "#E9ECEF" }} />

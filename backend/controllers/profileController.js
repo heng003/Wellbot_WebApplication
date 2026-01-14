@@ -35,6 +35,7 @@ exports.getUserProfile = async (req, res, next) => {
                 age: user.age,
                 gender: user.gender,
                 language: user.language,
+                websiteLanguage: user.website_language,
                 spiritualBeliefs: user.spiritual_beliefs,
                 culturalBackground: user.cultural_background,
                 allowGuardian: user.allow_guardian,
@@ -70,6 +71,7 @@ exports.updateUserProfile = async (req, res, next) => {
             age,
             gender,
             language,
+            websiteLanguage,
             culturalBackground,
             spiritualBeliefs
         } = req.body;
@@ -80,6 +82,7 @@ exports.updateUserProfile = async (req, res, next) => {
         if (age !== undefined) updateObj.age = age;
         if (gender !== undefined) updateObj.gender = gender;
         if (language !== undefined) updateObj.language = language;
+        if (websiteLanguage !== undefined) updateObj.website_language = websiteLanguage;
         if (culturalBackground !== undefined) updateObj.cultural_background = culturalBackground;
         if (spiritualBeliefs !== undefined) updateObj.spiritual_beliefs = spiritualBeliefs;
 

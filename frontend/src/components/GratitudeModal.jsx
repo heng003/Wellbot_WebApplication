@@ -5,6 +5,7 @@ import { MdClose, MdCalendarToday } from "react-icons/md";
 import { updateGratitude, createGratitude, deleteGratitude } from "../services/gratitudeService";
 import { getIdFromToken } from "../utils/auth";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const GratitudeModal = ({
     initialData,
@@ -12,6 +13,7 @@ const GratitudeModal = ({
     onUpdate,
     openInitially = true
 }) => {
+    const { t } = useTranslation();
     const userId = getIdFromToken();
     const [show, setShow] = useState(openInitially);
     const [editMode, setEditMode] = useState(!initialData);
@@ -98,6 +100,7 @@ const GratitudeModal = ({
     };
 
     // Save
+    // Save
     const handleSave = async () => {
         if (!text.trim()) return;
 
@@ -114,29 +117,33 @@ const GratitudeModal = ({
                     created_at: combinedDate.toISOString(),
                 };
                 await updateGratitude(initialData.id, payload);
+                Swal.fire(t('feature.gratitude.success_updated'), t('feature.gratitude.success_updated_msg'), "success");
             } else {
                 // CREATE
                 await createGratitude(userId, text, isFav);
+                Swal.fire(t('feature.gratitude.success_created'), t('feature.gratitude.success_created_msg'), "success");
             }
 
             if (onUpdate) onUpdate();
             close();
         } catch (error) {
             console.error(error);
-            Swal.fire("Error", "Failed to save gratitude item", "error");
+            Swal.fire(t('feature.journal.error_title'), "Failed to save gratitude item", "error");
         }
 
         setLoading(false);
     };
 
     // Delete
+    // Delete
     const handleDelete = async () => {
         const res = await Swal.fire({
-            title: "Are you sure?",
-            text: "This action cannot be undone.",
+            title: t('feature.gratitude.confirm_delete_title'),
+            text: t('feature.gratitude.confirm_delete_msg'),
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Delete",
+            confirmButtonText: t('feature.gratitude.delete'),
+            cancelButtonText: t('feature.gratitude.cancel'),
             confirmButtonColor: "#d33",
             customClass: {
                 title: 'swal-title',
@@ -148,9 +155,10 @@ const GratitudeModal = ({
                 await deleteGratitude(initialData.id);
                 if (onUpdate) onUpdate();
                 close();
-                Swal.fire("Deleted", "Your moment has been removed.", "success");
+                Swal.fire(t('feature.gratitude.success_deleted'), t('feature.gratitude.success_deleted_msg'), "success");
             } catch (err) {
                 console.error(err);
+                Swal.fire(t('feature.journal.error_title'), "Failed to delete item", "error");
             }
         }
     };
@@ -164,7 +172,7 @@ const GratitudeModal = ({
                 {/* HEADER */}
                 <div className="modal-header">
                     <h3 className="modal-title">
-                        {initialData ? (editMode ? "Edit Gratitude" : "Gratitude Moment") : "New Moment"}
+                        {initialData ? (editMode ? t('feature.gratitude.edit_title') : "Gratitude Moment") : t('feature.gratitude.new_title')}
                     </h3>
 
                     <button onClick={close} className="p-2 rounded-full bg-gray-100 hover:opacity-80 text-gray-500">
@@ -176,12 +184,13 @@ const GratitudeModal = ({
                     <div className="modal-form">
                         {/* CONTENT */}
                         <div>
-                            <label className="form-label">Content</label>
+                            <label className="form-label">{t('feature.gratitude.label_content')}</label>
 
                             {editMode ? (
                                 <textarea
                                     className="form-input h-32"
                                     value={text}
+                                    placeholder={t('feature.gratitude.placeholder_text')}
                                     onChange={(e) => setText(e.target.value)}
                                 />
                             ) : (
@@ -194,7 +203,7 @@ const GratitudeModal = ({
                         {/* DATE & TIME */}
                         {initialData && (
                             <div>
-                                <label className={`form-label ${editMode ? "" : "mt-4"}`}>Date & Time</label>
+                                <label className={`form-label ${editMode ? "" : "mt-4"}`}>{t('feature.gratitude.label_date')}</label>
                                 {editMode ? (
                                     <div className="flex gap-3">
                                         <input
@@ -225,11 +234,11 @@ const GratitudeModal = ({
                                 {editMode ? (
                                     <div className="flex gap-3">
                                         <button onClick={handleSave} className="green-button btn-primary">
-                                            {loading ? "Saving..." : "Save"}
+                                            {loading ? t('feature.gratitude.saving') : t('feature.gratitude.save')}
                                         </button>
 
                                         <button onClick={close} className="white-button btn-outline">
-                                            Cancel
+                                            {t('feature.gratitude.cancel')}
                                         </button>
                                     </div>
                                 ) : (
@@ -238,10 +247,10 @@ const GratitudeModal = ({
                                             className="green-button btn-primary"
                                             onClick={() => setEditMode(true)}
                                         >
-                                            Edit
+                                            {t('feature.gratitude.edit')}
                                         </button>
                                         <button className="white-button btn-outline" onClick={handleDelete}>
-                                            Delete
+                                            {t('feature.gratitude.delete')}
                                         </button>
                                     </div>
                                 )}

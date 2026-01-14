@@ -45,7 +45,9 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                 className="w-full p-3 flex items-center justify-between hover:opacity-80 transition-opacity"
             >
                 <div className="flex items-center gap-2">
-                    <span className="text-lg">💡</span>
+                    <div className="flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-lg">
+                        💡
+                    </div>
                     <p className="text-md font-bold text-gray-800">Quick Insights</p>
                 </div>
                 <span className={`text-gray-700 transform transition-transform duration-300 ease-in-out ${isExpanded ? '' : 'rotate-180'} scale-75`}>
@@ -89,18 +91,20 @@ const SummaryBlock = ({ data, getActivityColor }) => {
                         </div>
 
                         {/* Mood improvement */}
-                        <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
-                            <p className="text-sm text-gray-800 font-semibold mb-1">Mood booster:</p>
-                            <p className="text-sm text-gray-700">
-                                <span
-                                    className="font-bold px-2 py-1 rounded text-white text-xs inline-block"
-                                    style={{ backgroundColor: getActivityColor(summary.topImprover.name) }}
-                                >
-                                    {summary.topImprover.name}
-                                </span>
-                                <span className="text-gray-700"> most increases mood (+{summary.topImprover.moodChange})</span>
-                            </p>
-                        </div>
+                        {summary.topImprover.moodChange > 0 && (
+                            <div className="px-3 py-2 bg-white bg-opacity-60 rounded">
+                                <p className="text-sm text-gray-800 font-semibold mb-1">Mood booster:</p>
+                                <p className="text-sm text-gray-700">
+                                    <span
+                                        className="font-bold px-2 py-1 rounded text-white text-xs inline-block"
+                                        style={{ backgroundColor: getActivityColor(summary.topImprover.name) }}
+                                    >
+                                        {summary.topImprover.name}
+                                    </span>
+                                    <span className="text-gray-700"> most increases mood (+{summary.topImprover.moodChange})</span>
+                                </p>
+                            </div>
+                        )}
 
                         {/* Mood drainer */}
                         {summary.topWorse.moodChange < 0 && (

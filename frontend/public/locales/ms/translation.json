@@ -1,0 +1,626 @@
+{
+    "app": {
+        "title": "Well-Bot"
+    },
+    "navbar": {
+        "pages": "Halaman",
+        "select_user_tooltip": "Pilih Pengguna untuk Wawasan",
+        "current_user": "Pengguna Semasa",
+        "select_date_tooltip": "Pilih Julat Tarikh untuk Papan Pemuka",
+        "notifications_tooltip": "Pemberitahuan",
+        "profile_settings_tooltip": "Tetapan Profil",
+        "logout_tooltip": "Log Keluar",
+        "filter_date_range": "Tapis Julat Tarikh",
+        "close": "Tutup",
+        "monitored_users": "Pengguna Dipantau",
+        "no_monitored_users": "Tiada pengguna dipantau ditemui.",
+        "unknown_user": "Pengguna Tidak Diketahui",
+        "notifications_header": "Pemberitahuan",
+        "pending": "Belum selesai",
+        "no_new_notifications": "Tiada pemberitahuan baru",
+        "requesting_access": "Meminta akses",
+        "reject": "Tolak",
+        "approve": "Terima",
+        "profile_settings": "Tetapan Profil",
+        "logout": "Log Keluar",
+        "hey": "👋 Hai, {{name}}",
+        "logout_modal": {
+            "title": "Log Keluar?",
+            "text": "Adakah anda pasti mahu log keluar?",
+            "confirm": "Ya, Log Keluar",
+            "cancel": "Batal"
+        },
+        "alerts": {
+            "access_granted": "Akses Diberikan",
+            "guardian_added": "Penjaga telah ditambah.",
+            "request_rejected": "Permintaan Ditolak",
+            "guardian_rejected": "Permintaan penjaga ditolak.",
+            "error": "Ralat",
+            "failed_update": "Gagal mengemaskini status"
+        }
+    },
+    "auth": {
+        "title": "Well-Bot",
+        "login": "Log Masuk"
+    },
+    "landing": {
+        "title": "Tingkatkan Kesejahteraan Emosi Anda",
+        "subtitle": "bersama Well-Bot",
+        "description": "Temui cara yang lebih bijak untuk memahami perasaan anda dan mengawal kesejahteraan mental anda.",
+        "login": "Log Masuk",
+        "register": "Daftar",
+        "today_emotions": "Emosi Hari Ini",
+        "happy": "Gembira",
+        "sad": "Sedih",
+        "fear": "Takut",
+        "anger": "Marah",
+        "about": "Tentang",
+        "smartwatch_sensors": "Sensor Jam Pintar",
+        "smartwatch_desc": "Untuk Memantau Tanda Vital Badan Masa Nyata",
+        "camera": "Kamera Well-Bot",
+        "camera_desc": "Untuk Menangkap Ekspresi Wajah",
+        "mic": "Mikrofon Well-Bot",
+        "mic_desc": "Untuk Menangkap Ucapan dan Muzik Latar",
+        "about_bot_desc": "Well-Bot ialah droid teman pintar yang menggunakan AI dan data masa nyata dari jam pintar, kamera, dan mikrofon untuk mengesan keadaan emosi kritikal.<br />Dengan input multimodal ini, Well-Bot Insight menyediakan pandangan holistik tentang keadaan emosi pengguna dan menyampaikan intervensi awal yang diperibadikan.",
+        "powerful_features": "Ciri Berkuasa untuk Kesejahteraan Emosi",
+        "feature_tracking_title": "Penjejakan Emosi Masa Nyata",
+        "feature_tracking_content": "Pantau keadaan emosi anda dalam masa nyata melalui sistem pengesanan canggih kami, termasuk kamera, peranti boleh pakai, dan analisis suara.",
+        "feature_interventions_title": "Intervensi Kesejahteraan",
+        "feature_interventions_content": "Terima sokongan dan intervensi tepat pada masanya apabila keadaan emosi negatif dikesan, membantu anda mendapatkan semula keseimbangan emosi.",
+        "feature_analytics_title": "Analitik Terperinci",
+        "feature_analytics_content": "Dapatkan wawasan tentang corak emosi anda dengan carta, graf, dan data sejarah yang komprehensif untuk mengenal pasti trend.",
+        "features_footer": "Dengan kuasa AI dan pengumpulan data masa nyata, Well-Bot menyampaikan intervensi awal yang diperibadikan terhadap kesejahteraan mental pengguna dan menawarkan wawasan tentang keadaan emosi mereka, membantu pengguna kekal sedar tentang kesejahteraan mental mereka dan mempromosikan pengawalan emosi yang lebih sihat.",
+        "how_it_works": "Bagaimana Well-Bot Berfungsi",
+        "how_it_works_desc": "Sistem kami menggunakan teknologi canggih untuk memberikan anda sokongan mental awal dan wawasan emosi yang diperibadikan.",
+        "step1_title": "Aktifkan Droid Well-Bot Anda",
+        "step1_desc": "Aktifkan Droid Well-Bot anda dengan mendaftar akaun baru di laman web kami untuk pengesanan emosi yang komprehensif.",
+        "step2_title": "Pengesanan Emosi Masa Nyata",
+        "step2_desc": "Algoritma AI kami menganalisis ekspresi, tindak balas fisiologi, corak suara, dan Muzik Latar anda untuk mengenal pasti keadaan emosi.",
+        "step3_title": "Intervensi Awal Diperibadikan",
+        "step3_desc": "Terima Sokongan Mental melalui Droid Wellbot yang disesuaikan apabila anda berada Dalam Keadaan Emosi Kritikal.",
+        "step4_title": "Analisis Data & Visualisasi",
+        "step4_desc": "Data Emosi anda diproses dan dipersembahkan dalam carta dan trend yang mudah difahami di Papan Pemuka Peribadi anda."
+    },
+    "sidebar": {
+        "dashboard": "Papan Pemuka",
+        "user_care_panel": "Panel Penjagaan Pengguna",
+        "main_dashboard": "Papan Pemuka Utama",
+        "emotional_dashboard": "Papan Pemuka Emosi",
+        "activity_dashboard": "Papan Pemuka Aktiviti",
+        "chatmap_dashboard": "Papan Pemuka Peta Sembang",
+        "report": "Laporan",
+        "profile": "Profil",
+        "log_out": "Log Keluar",
+        "activities": "Aktiviti",
+        "journal": "Jurnal",
+        "gratitude": "Kesyukuran",
+        "access_control": "Kawalan Akses"
+    },
+    "dashboard": {
+        "main_title": "Papan Pemuka Utama",
+        "emotion_title": "Papan Pemuka Emosi",
+        "activity_title": "Papan Pemuka Aktiviti",
+        "chatmap_title": "Papan Pemuka Peta Sembang",
+        "todays_emotion_count": "Bilangan Emosi Hari Ini",
+        "emotional_score": {
+            "title": "Skor Mood",
+            "tooltip_title": "Skor Mood adalah cara mudah untuk menjejak perasaan anda dari semasa ke semasa.",
+            "tooltip_desc": "Ia berkisar dari rendah ke tinggi, dengan pertengahan mewakili mood yang stabil.",
+            "average_mood": "Skor Mood Purata",
+            "tooltip_avg": "Skor mood purata berdasarkan tempoh yang dipilih",
+            "data_interval": "Sela Data",
+            "tooltip_interval": "Sesuaikan carta dengan memilih sela data yang dikehendaki",
+            "daily": "Harian",
+            "hour": "Jam",
+            "min": "Minit",
+            "custom_range": "Julat Tarikh",
+            "tooltip_custom": "Pilih julat tarikh tersuai",
+            "from": "Dari",
+            "to": "Hingga",
+            "apply": "Terapkan",
+            "no_data": "Tiada data tersedia untuk tempoh ini"
+        },
+        "pie_chart": {
+            "title": "Jenis Aktiviti",
+            "tooltip_title": "Kekerapan bilangan aktiviti berdasarkan setiap jenis aktiviti",
+            "tooltip_interval": "Sesuaikan kepada paparan tahunan, bulanan, atau mingguan",
+            "tooltip_custom": "Pilih julat tarikh tersuai",
+            "weekly": "Mingguan",
+            "monthly": "Bulanan",
+            "yearly": "Tahunan",
+            "select_week": "Pilih Minggu",
+            "select_month": "Pilih Bulan",
+            "select_year": "Pilih Tahun",
+            "pick_date": "Pilih mana-mana tarikh dalam minggu:",
+            "cancel": "Batal",
+            "apply": "Terapkan",
+            "no_data": "Tiada data tersedia untuk tempoh ini",
+            "types": {
+                "support_chat": "Sembang Sokongan",
+                "journaling": "Jurnal",
+                "gratitude": "Kesyukuran",
+                "meditation": "Meditasi dengan Muzik",
+                "daily_quote": "Petikan Harian",
+                "unknown": "Tidak Diketahui"
+            }
+        },
+        "recent_activities": {
+            "title_controlled": "Rekod Aktiviti",
+            "title_widget": "Aktiviti Terkini",
+            "tooltip_title": "Rekod aktiviti kesejahteraan yang disertai dengan Well-bot",
+            "col_activity": "AKTIVITI",
+            "col_timestamp": "MASA",
+            "col_duration": "TEMPOH",
+            "col_mood_flow": "ALIRAN MOOD",
+            "no_records": "Tiada rekod ditemui untuk tempoh ini"
+        },
+        "mood_correlation": {
+            "title": "Impak Aktiviti",
+            "subtitle": "Analisis perubahan mood selepas aktiviti",
+            "tooltip_desc1": "Lihat bagaimana mood anda berubah selepas setiap aktiviti.",
+            "tooltip_desc2": "Temui aktiviti mana yang mempunyai impak positif terhadap mood anda.",
+            "tooltip_custom": "Pilih julat tarikh tersuai",
+            "custom_range": "Julat Tarikh",
+            "from": "Dari",
+            "to": "Hingga",
+            "apply": "Terapkan",
+            "improves_mood": "Meningkatkan Mood",
+            "zero_impact": "Tiada Impak/Impak Sifar",
+            "decreases_mood": "Menurunkan Mood",
+            "no_data": "Tiada data tersedia untuk tempoh ini",
+            "insight_prefix": "mempunyai impak positif tertinggi",
+            "insight_suffix": "terhadap mood anda."
+        },
+        "embedding_visualizer": {
+            "title": "Galaksi Perbualan",
+            "subtitle": "Memvisualisasikan mesej perbualan anda dengan Well-Bot, diwarnakan mengikut label emosi.",
+            "loading": "Memuatkan galaksi...",
+            "date_range": "Julat Tarikh",
+            "from": "Dari",
+            "to": "Hingga",
+            "apply": "Terapkan",
+            "no_history": "Tiada sejarah perbualan ditemui",
+            "emotions_legend": "Emosi",
+            "tooltip_title": "Menunjukkan perbualan lalu sebagai titik dalam ruang 3D.",
+            "tooltip_list": {
+                "l1": "Setiap titik adalah satu mesej.",
+                "l2": "Warna titik menunjukkan perasaan anda.",
+                "l3": "Seret untuk putar dan tatal untuk zum.",
+                "l4": "Tuding pada titik untuk membaca mesej."
+            }
+        },
+        "emotional_distribution": {
+            "title": "Taburan Emosi",
+            "tooltip": "Kekerapan setiap emosi direkodkan mengikut tarikh",
+            "no_data": "Tiada data tersedia untuk tempoh ini"
+        },
+        "emotional_table": {
+            "title": "Rekod Emosi",
+            "tooltip": "Log terperinci semua rekod emosi",
+            "no_records": "Tiada rekod ditemui untuk tempoh ini",
+            "retry": "Cuba Semula",
+            "headers": {
+                "timestamp": "MASA",
+                "emotion": "EMOSI",
+                "mood_score": "SKOR MOOD",
+                "confidence": "KEYAKINAN"
+            }
+        },
+        "message_insights": {
+            "title": "Wawasan Corak Mesej",
+            "subtitle": "Analisis corak komunikasi",
+            "top_recurring": "Mesej Paling Sering",
+            "top_recurring_desc": "Mesej paling kerap merentasi semua perbualan",
+            "emotion_freq": "Kekerapan Emosi Sembang",
+            "emotion_freq_desc": "Berapa kerap setiap emosi muncul dalam mesej",
+            "stats_title": "Statistik Mesej",
+            "stats_desc": "Corak perbualan keseluruhan",
+            "total_msgs": "Jumlah Mesej",
+            "unique_msgs": "Mesej Unik",
+            "diversity": "Kepelbagaian Mesej",
+            "diversity_suffix": "unik setiap mesej",
+            "top_emotion_msgs": "Mesej Paling {{emotion}}",
+            "top_emotion_desc": "Paling biasa apabila berasa {{emotion}}"
+        },
+        "widget": {
+            "records_captured": "Jumlah rekod {{title}} yang ditangkap",
+            "percentage_share": "Peratus bahagian daripada jumlah emosi dikira"
+        }
+    },
+    "daily_traffic": {
+        "activities_completed": "Aktiviti Selesai",
+        "tooltip_activities": "Jumlah bilangan aktiviti kesejahteraan yang telah diselesaikan",
+        "tooltip_interval": "Sesuaikan kepada paparan bulanan atau mingguan",
+        "tooltip_custom": "Pilih julat tarikh tersuai",
+        "weekly": "Mingguan",
+        "monthly": "Bulanan",
+        "yearly": "Tahunan",
+        "no_data": "Tiada data tersedia untuk tempoh ini",
+        "select_week": "Pilih Minggu",
+        "select_month": "Pilih Bulan",
+        "select_year": "Pilih Tahun",
+        "pick_date": "Pilih mana-mana tarikh dalam minggu:",
+        "cancel": "Batal",
+        "apply": "Terapkan"
+    },
+    "access_control": {
+        "page_title": "Kawalan Akses Data",
+        "add_guardian": "Tambah Penjaga",
+        "tabs": {
+            "requests": "Permintaan",
+            "active": "Penjaga Aktif"
+        },
+        "no_requests": {
+            "title": "Tiada permintaan tertunda.",
+            "message": "Anda tidak mempunyai sebarang permintaan penjejakan pada masa ini."
+        },
+        "no_active": {
+            "title": "Tiada penjaga aktif.",
+            "message": "Anda belum memberikan akses kepada mana-mana penjaga lagi.",
+            "instruction": "Klik \"Tambah Penjaga\" untuk menambah orang yang dipercayai untuk memantau kesejahteraan emosi anda."
+        },
+        "guardian_card": {
+            "access_granted": "Akses Diberikan"
+        },
+        "actions": {
+            "accept": "Terima",
+            "reject": "Tolak",
+            "revoke": "Batalkan Akses",
+            "confirm": "Sahkan",
+            "cancel": "Batal",
+            "yes_revoke": "Ya, batalkan"
+        },
+        "modals": {
+            "add_title": "Tambah Penjaga Baharu",
+            "email_label": "E-mel / Nama",
+            "email_placeholder": "cth. johndoe@example.com atau John Doe",
+            "helper_text": "Masukkan e-mel atau nama penjaga yang dipercayai untuk membantu memantau kesejahteraan emosi anda."
+        },
+        "alerts": {
+            "credential_error": "Kredensial tidak ditemui",
+            "success_granted": "Akses Diberikan",
+            "success_revoked": "Dibatalkan",
+            "success_accepted": "Diterima",
+            "success_rejected": "Ditolak",
+            "already_exists": "Sudah Wujud",
+            "user_not_found": "Pengguna Tidak Ditemui",
+            "confirm_revoke": "Adakah anda pasti?",
+            "confirm_revoke_text": "Adakah anda mahu membatalkan akses penjaga ini?"
+        }
+    },
+    "monitored_user": {
+        "page_title": "Panel Penjagaan Pengguna",
+        "add_user": "Tambah Pengguna",
+        "stats": {
+            "active": "Pemantauan Aktif",
+            "pending": "Permintaan Kebenaran Tertunda",
+            "rejected": "Permintaan Ditolak",
+            "revoked": "Akses Dibatalkan"
+        },
+        "filters": {
+            "all": "Semua Pengguna",
+            "active": "Aktif",
+            "pending": "Tertunda",
+            "reject": "Ditolak",
+            "revoked": "Dibatalkan"
+        },
+        "search_placeholder": "Cari pengguna...",
+        "no_users": {
+            "title": "Tiada pengguna dipantau ditemui.",
+            "desc": "Anda belum menambah mana-mana pengguna untuk dipantau, dan tiada permintaan pemantauan dihantar."
+        },
+        "no_selection": {
+            "title": "Tiada Pengguna Dipantau Dipilih",
+            "desc": "Kelihatannya anda belum memilih pengguna. Sila pilih pengguna dari bar atas untuk melihat pandangan mereka, atau tambah pengguna baru ke senarai pemantauan anda.",
+            "button": "Tambah / Urus Pengguna"
+        },
+        "table": {
+            "name": "Nama",
+            "prefer_name": "Nama Pilihan",
+            "email": "E-mel",
+            "status": "Status",
+            "actions": "Tindakan"
+        },
+        "actions": {
+            "view_details": "Lihat Butiran",
+            "remove": "Buang",
+            "send_request": "Hantar Permintaan",
+            "view_dashboard": "Lihat Papan Pemuka",
+            "cancel_request": "Batal Permintaan"
+        },
+        "modals": {
+            "add_title": "Tambah Pengguna Baharu",
+            "input_label": "E-mel / Nombor Siri Well-Bot",
+            "input_placeholder": "cth. johndoe@example.com atau WB12xxx",
+            "message_label": "Mesej (pilihan)",
+            "message_placeholder": "Tambah mesej peribadi pada permintaan pemantauan anda",
+            "view_title": "Butiran Pengguna",
+            "labels": {
+                "age": "Umur",
+                "gender": "Jantina",
+                "added_date": "Tarikh Ditambah",
+                "removed_date": "Tarikh Dibuang",
+                "requested_date": "Tarikh Diminta"
+            }
+        },
+        "alerts": {
+            "request_sent": "Permintaan Dihantar",
+            "confirm_remove": "Adakah anda pasti?",
+            "confirm_remove_text": "Adakah anda mahu membuang pengguna ini?",
+            "deleted": "Dibuang"
+        }
+    },
+    "report": {
+        "title_user": "Penjana Laporan Saya",
+        "title_guardian": "Penjana Laporan",
+        "configuration": "Konfigurasi",
+        "report_summary": "Ringkasan Laporan",
+        "data_summary": "Ringkasan Data",
+        "emotion_summary": "Ringkasan Emosi",
+        "type": "Jenis",
+        "period": "Tempoh",
+        "file_format": "Format Fail",
+        "include_data": "Sertakan Data",
+        "user_select": "Pengguna",
+        "monthly": "Bulanan",
+        "yearly": "Tahunan",
+        "pdf_option": "Laporan PDF",
+        "csv_option": "CSV Mentah",
+        "generating": "Sedang Menjana...",
+        "generate_pdf": "Jana Laporan PDF",
+        "download_csv": "Muat Turun Data CSV",
+        "options": {
+            "widgets": "Ringkasan Emosi",
+            "activity": "Taburan Aktiviti",
+            "score": "Skor Mood",
+            "dist": "Taburan Emosi",
+            "mood": "Kesan Aktiviti",
+            "messages": "Corak Mesej",
+            "emotional_table": "Rekod Emosi",
+            "activity_table": "Rekod Aktiviti",
+            "emotional_raw": "Data Mentah Emosi",
+            "activity_raw": "Data Mentah Aktiviti"
+        },
+        "helpers": {
+            "csv_note": "*Akan memuat turun fail berasingan jika kedua-duanya dipilih.",
+            "preview_note": "Pratonton di bawah menunjukkan data anda bagi julat yang dipilih. Item yang dikelabukan akan dikecualikan berdasarkan pilihan anda.",
+            "guardian_preview_note": "Pratonton di bawah menunjukkan carta yang tersedia untuk penjanaan laporan PDF dengan julat yang dipilih. Item yang dikelabukan akan dikecualikan berdasarkan pilihan anda."
+        },
+        "summary": {
+            "period": "Tempoh Laporan",
+            "total_messages": "Jumlah Mesej",
+            "total_activities": "Jumlah Aktiviti",
+            "emotional_entries": "Entri Emosi",
+            "selected_user": "Pengguna Dipilih"
+        },
+        "no_users": {
+            "title": "Tiada pengguna dipantau ditemui.",
+            "desc": "Sila tambah pengguna dipantau untuk menjana Laporan Kesejahteraan.",
+            "button": "Tambah Pengguna"
+        },
+        "alerts": {
+            "success": "Berjaya!",
+            "csv_downloaded": "Data CSV berjaya dimuat turun.",
+            "no_data": "Tiada Data",
+            "no_data_desc": "Tiada data tersedia untuk dieksport bagi pilihan yang dipilih.",
+            "pdf_downloaded": "Laporan PDF dijana dan dimuat turun.",
+            "error": "Ralat",
+            "failed": "Gagal menjana laporan. Sila cuba lagi."
+        },
+        "charts": {
+            "emotional_distribution": "Taburan Emosi",
+            "emotional_trends": "Tren Emosi",
+            "activity_frequency": "Kekerapan Aktiviti",
+            "average_mood_score": "Purata Skor Mood",
+            "average_suffix": "(purata)",
+            "no_data": "Tiada data tersedia untuk tempoh ini"
+        },
+        "activities": {
+            "support_chat": "Sembang Sokongan",
+            "journaling": "Jurnal",
+            "gratitude": "Kesyukuran",
+            "meditation": "Meditasi dengan Muzik",
+            "daily_quote": "Petikan Harian"
+        },
+        "emotions": {
+            "happy": "Gembira",
+            "sad": "Sedih",
+            "angry": "Marah",
+            "fear": "Takut"
+        },
+        "pdf": {
+            "title": "Laporan Kesejahteraan",
+            "prepared_for": "Disediakan untuk:",
+            "generated_on": "Dijana pada {{date}} jam {{time}}",
+            "visual_analytics": "Gambaran Keseluruhan Analisis Visual",
+            "activity_insights": "Wawasan Aktiviti",
+            "message_insights": "Wawasan Corak Mesej",
+            "top_recurring": "Mesej Paling Sering",
+            "emotion_freq": "Kekerapan Emosi Sembang",
+            "emotional_history": "Sejarah Emosi",
+            "intervention_activities": "Aktiviti Intervensi",
+            "headers": {
+                "time": "Masa",
+                "emotion": "Emosi",
+                "mood_score": "Skor Mood",
+                "confidence": "Keyakinan",
+                "activity": "Aktiviti",
+                "duration": "Tempoh",
+                "impact": "Impak Mood",
+                "message": "Mesej",
+                "count": "Bilangan",
+                "percent": "Peratus"
+            },
+            "insight_types": {
+                "positive": "Apabila anda berasa positif",
+                "booster": "Peningkat Mood",
+                "limiting": "Pertimbangkan untuk Mengehadkan"
+            },
+            "stats": {
+                "total_engagements": "Jumlah Penglibatan",
+                "avg_freq": "Kekerapan Purata / Aktiviti",
+                "activities_tracked": "Aktiviti Dikesan",
+                "overall_mood": "Mood Keseluruhan",
+                "diversity_score": "Skor Kepelbagaian"
+            }
+        }
+    },
+    "profile": {
+        "title": "Profil",
+        "personal_info": "Maklumat Peribadi",
+        "app_settings": "Tetapan Aplikasi",
+        "account_settings": "Tetapan Akaun",
+        "early_intervention": "Keutamaan Intervensi Awal",
+        "guardian_tracking": "Penjejakan Penjaga",
+        "labels": {
+            "full_name": "Nama Penuh",
+            "prefer_name": "Nama Panggilan",
+            "age": "Umur",
+            "gender": "Jantina",
+            "language": "Bahasa",
+            "website_language": "Bahasa Laman Web",
+            "cultural_background": "Latar Belakang Budaya",
+            "spiritual_beliefs": "Kepercayaan Rohani",
+            "device_connection": "Sambungan Peranti Well-Bot",
+            "password": "Kata Laluan",
+            "current_password": "Kata Laluan Semasa",
+            "new_password": "Kata Laluan Baru",
+            "confirm_password": "Sahkan Kata Laluan Baru",
+            "select_background": "Pilih latar belakang",
+            "select_beliefs": "Pilih kepercayaan",
+            "not_specified": "Tidak dinyatakan",
+            "change_language": "Tukar Bahasa Laman Web"
+        },
+        "buttons": {
+            "edit": "Edit",
+            "save_changes": "Simpan Perubahan",
+            "update_password": "Kemas Kini Kata Laluan",
+            "cancel": "Batal",
+            "reset_password": "Tetapkan Semula Kata Laluan",
+            "change_device": "Tukar Peranti",
+            "manage_access": "Urus Akses",
+            "yes": "Ya",
+            "change": "Tukar"
+        },
+        "alerts": {
+            "success": "Berjaya",
+            "error": "Ralat",
+            "warning": "Penjaga Aktif",
+            "personal_updated": "Maklumat peribadi berjaya dikemas kini!",
+            "password_changed": "Kata laluan berjaya ditukar!",
+            "password_mismatch": "Kata laluan baru tidak sepadan.",
+            "password_length": "Kata laluan mesti sekurang-kurangnya 8 aksara",
+            "tracking_enabled": "Penjejakan penjaga diaktifkan.",
+            "tracking_disabled": "Penjejakan penjaga dinyahaktifkan.",
+            "device_changed": "Peranti berjaya ditukar!",
+            "device_error": "Ralat Peranti",
+            "device_same": "Nombor siri baru tidak boleh sama dengan yang semasa.",
+            "disable_warning": "Anda mempunyai kebenaran aktif. Adakah anda mahu membatalkannya sebelum melumpuhkan Penjaga daripada menghantar permintaan penjejakan?",
+            "disable_confirm": "Pergi ke Kawalan Akses",
+            "disable_cancel": "Lumpuhkan Tanpa Membatalkan",
+            "confirm_language_change": "Tukar Bahasa?",
+            "confirm_language_desc": "Adakah anda pasti mahu menukar bahasa?",
+            "language_updated": "Bahasa berjaya dikemas kini!",
+            "update_failed": "Gagal mengemas kini bahasa."
+        },
+        "interventions": {
+            "converse": "Berbual dengan Kesedaran Konteks",
+            "converse_desc": "Terlibat dalam perbualan sokongan dengan Well-Bot, membantu anda berasa didengari dan difahami dengan lebih mendalam",
+            "journaling": "Jurnal Suara",
+            "journaling_desc": "Rakam pemikiran anda dengan bercakap, menjadikan ekspresi emosi lebih mudah dan peribadi tanpa perlu menaip",
+            "music": "Meditasi dengan Muzik Menenangkan",
+            "music_desc": "Dengar sesi meditasi berpandu yang dipadankan dengan muzik santai untuk mengurangkan tekanan dan menggalakkan keseimbangan emosi",
+            "gratitude": "Buat Senarai Kesyukuran",
+            "gratitude_desc": "Senaraikan perkara kecil atau besar yang anda syukuri — cara mudah untuk meningkatkan positif dan mengubah fokus daripada tekanan kepada penghargaan",
+            "quote": "Petikan Rohani Harian",
+            "quote_desc": "Terima petikan yang menenangkan atau memberi inspirasi berakar umbi dalam kebijaksanaan rohani untuk menaikkan semangat dan menawarkan perspektif untuk hari itu"
+        },
+        "helpers": {
+            "password_req": "Kata laluan mesti sekurang-kurangnya 8 aksara dan termasuk gabungan huruf, nombor, dan simbol",
+            "device_desc": "Gantikan sambungan Well-Bot semasa anda dengan droid lain yang disahkan",
+            "guardian_permission": "Kebenaran Penjejakan Penjaga",
+            "guardian_header": "Urus Akses Penjaga",
+            "guardian_desc_1": "Benarkan penjaga menghantar permintaan penjejakan dan memantau kesejahteraan anda selepas mendapat kebenaran anda",
+            "guardian_desc_2": "Lihat dan urus permintaan dan kebenaran penjaga",
+            "language_desc": "Pilih bahasa yang anda ingin tampilkan di laman web anda"
+        },
+        "options": {
+            "gender": {
+                "male": "Lelaki",
+                "female": "Perempuan"
+            },
+            "language": {
+                "en": "Bahasa Inggeris",
+                "bm": "Bahasa Melayu",
+                "cn": "Bahasa Cina"
+            },
+            "culture": {
+                "malay": "Melayu",
+                "chinese": "Cina",
+                "indian": "India",
+                "other": "Lain-lain"
+            },
+            "beliefs": {
+                "islam": "Islam",
+                "buddhism": "Buddha",
+                "christianity": "Kristian",
+                "hinduism": "Hindu",
+                "none": "Tiada",
+                "other": "Lain-lain"
+            }
+        },
+        "modals": {
+            "change_password_title": "Tukar Kata Laluan"
+        }
+    },
+    "feature": {
+        "journal": {
+            "title": "Jurnal",
+            "add_new": "Tambah Jurnal Baru",
+            "no_data": "Tiada jurnal ditemui. Mula tulis kenangan pertama anda!",
+            "edit_title": "Edit Jurnal",
+            "new_title": "Jurnal Baru",
+            "placeholder_title": "Tajuk...",
+            "placeholder_body": "Tulis fikiran anda di sini...",
+            "label_title": "Tajuk",
+            "label_content": "Kandungan",
+            "label_date": "Tarikh & Masa",
+            "save": "Simpan",
+            "saving": "Menyimpan...",
+            "cancel": "Batal",
+            "edit": "Edit",
+            "delete": "Padam",
+            "success_updated": "Dikemaskini!",
+            "success_updated_msg": "Entri jurnal anda telah dikemaskini.",
+            "success_created": "Dicipta!",
+            "success_created_msg": "Entri jurnal baru anda telah ditambah.",
+            "success_deleted": "Dipadam",
+            "success_deleted_msg": "Entri jurnal anda telah dipadam.",
+            "error_title": "Ralat",
+            "error_msg": "Gagal menyimpan entri jurnal.",
+            "confirm_delete_title": "Padam jurnal?",
+            "confirm_delete_msg": "Tindakan ini tidak boleh dibatalkan."
+        },
+        "gratitude": {
+            "title": "Saat Kesyukuran",
+            "add_new": "Tambah Item Kesyukuran Baru",
+            "no_data": "Tiada item ditemui. Mula tulis item kesyukuran pertama anda!",
+            "edit_title": "Edit Kesyukuran",
+            "new_title": "Saat Baru",
+            "placeholder_text": "Saya bersyukur kerana...",
+            "label_content": "Kandungan",
+            "label_date": "Tarikh & Masa",
+            "save": "Simpan",
+            "saving": "Menyimpan...",
+            "cancel": "Batal",
+            "edit": "Edit",
+            "delete": "Padam",
+            "success_updated": "Dikemaskini!",
+            "success_created": "Dicipta!",
+            "success_deleted": "Dipadam",
+            "success_deleted_msg": "Saat anda telah dipadam.",
+            "confirm_delete_title": "Adakah anda pasti?",
+            "confirm_delete_msg": "Tindakan ini tidak boleh dibatalkan."
+        }
+    }
+}

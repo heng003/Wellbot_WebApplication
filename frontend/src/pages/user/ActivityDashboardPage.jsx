@@ -7,7 +7,10 @@ import DailyTraffic from "../../dashboard/default/DailyTraffic";
 import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 import HoverTooltip from "../../components/HoverTooltip";
 
+import { useTranslation } from "react-i18next";
+
 const ActivityDashboardPage = () => {
+    const { t } = useTranslation();
     // Default to the last 30 days
     const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
     const [endDate, setEndDate] = useState(new Date());
@@ -15,7 +18,7 @@ const ActivityDashboardPage = () => {
     return (
         <div className="main-container">
             <FloatingNavbar
-                brandText="Activity Dashboard"
+                brandText={t('dashboard.activity_title')}
                 startDate={startDate}
                 endDate={endDate}
                 onDateChange={(start, end) => {

@@ -85,9 +85,11 @@ export const generateCSV = (data, filename = "report.csv") => {
  * @param {Array} emotionalLogs - Array of emotional log objects
  * @param {Array} activityLogs - Array of activity log objects
  * @param {Object} moodActivityInsights - Optional quick insights from mood-activity correlation
+ * @param {Function} t - Translation function
  */
-export const generatePDFReport = (userName, images, moodActivityInsights = null, messagePatternInsights = null, emotionalLogs, activityLogs, dateRange = null) => {
+export const generatePDFReport = (userName, images, moodActivityInsights = null, messagePatternInsights = null, emotionalLogs, activityLogs, dateRange = null, t) => {
     const doc = new jsPDF();
+    const safeT = t || ((k) => k); // Fallback
 
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -108,13 +110,13 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
     doc.setFontSize(26);
     doc.setTextColor(...primaryColor);
     doc.setFont("helvetica", "bold");
-    doc.text("Well-Being Report", pageWidth / 2, 80, { align: "center" });
+    doc.text(safeT('report.pdf.title'), pageWidth / 2, 80, { align: "center" });
 
     // Subtitle / User Info
     doc.setFontSize(14);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(...secondaryColor);
-    doc.text(`Prepared for:`, pageWidth / 2, 100, { align: "center" });
+    doc.text(safeT('report.pdf.prepared_for'), pageWidth / 2, 100, { align: "center" });
 
     doc.setFontSize(18);
     doc.setTextColor(...primaryColor);
@@ -134,24 +136,19 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
     // Generated Date Footer
     doc.setFontSize(10);
     doc.setTextColor(150, 150, 150);
-    doc.text(`Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`, pageWidth / 2, pageHeight - 20, { align: "center" });
+    const dateStr = new Date().toLocaleDateString();
+    const timeStr = new Date().toLocaleTimeString();
+    doc.text(safeT('report.pdf.generated_on').replace('{{date}}', dateStr).replace('{{time}}', timeStr), pageWidth / 2, pageHeight - 20, { align: "center" });
 
     // Move to next page for content
     doc.addPage();
     let yPos = 20;
 
-    // --- CONTENT HEADER (Small repeated header on content pages) ---
-    /*
-    doc.setFontSize(10);
-    doc.setTextColor(200, 200, 200);
-    doc.text(`Well-Being Report - ${userName}`, pageWidth - margin, 10, { align: "right" });
-    */
-
     // --- VISUAL ANALYTICS SECTION ---
     doc.setFontSize(14);
     doc.setTextColor(...primaryColor);
     doc.setFont("helvetica", "bold");
-    doc.text("Visual Analytics Overview", margin, yPos);
+    doc.text(safeT('report.pdf.visual_analytics'), margin, yPos);
     yPos += 15;
 
     const addTitle = (title) => {
@@ -207,7 +204,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
     // Add charts sequentially
     if (images.pieChart) addChartToPdf(images.pieChart);
-    if (images.widgets) addTitle("Emotion Summary");
+    if (images.widgets) addTitle(safeT('report.options.widgets'));
     if (images.widgets) addChartToPdf(images.widgets);
     if (images.scoreChart) addChartToPdf(images.scoreChart);
     if (images.distChart) addChartToPdf(images.distChart);
@@ -227,15 +224,15 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
         doc.setFont("helvetica", "bold");
-        doc.text("Activity Insights", margin, yPos);
+        doc.text(safeT('report.pdf.activity_insights'), margin, yPos);
         yPos += 8;
 
         // 1. Stats Table
         const statsData = [
-            ["Total Engagements", moodActivityInsights.totalEngagements],
-            ["Avg Freq / Activity", moodActivityInsights.avgEngagementPerActivity],
-            ["Activities Tracked", moodActivityInsights.totalActivities],
-            ["Overall Mood", `${moodActivityInsights.avgMoodOverall}%`]
+            [safeT('report.pdf.stats.total_engagements'), moodActivityInsights.totalEngagements],
+            [safeT('report.pdf.stats.avg_freq'), moodActivityInsights.avgEngagementPerActivity],
+            [safeT('report.pdf.stats.activities_tracked'), moodActivityInsights.totalActivities],
+            [safeT('report.pdf.stats.overall_mood'), `${moodActivityInsights.avgMoodOverall}%`]
         ];
 
         autoTable(doc, {
@@ -256,21 +253,21 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
         if (moodActivityInsights.topLiked) {
             insightRows.push([
-                "When you feel positive",
+                safeT('report.pdf.insight_types.positive'),
                 moodActivityInsights.topLiked.name,
                 `${moodActivityInsights.topLiked.avgMoodScore}% Avg Mood`
             ]);
         }
         if (moodActivityInsights.topImprover) {
             insightRows.push([
-                "Mood Booster",
+                safeT('report.pdf.insight_types.booster'),
                 moodActivityInsights.topImprover.name,
                 `+${moodActivityInsights.topImprover.moodChange} Improvement`
             ]);
         }
         if (moodActivityInsights.topWorse && moodActivityInsights.topWorse.moodChange < 0) {
             insightRows.push([
-                "Consider Limiting",
+                safeT('report.pdf.insight_types.limiting'),
                 moodActivityInsights.topWorse.name,
                 `${moodActivityInsights.topWorse.moodChange} Impact`
             ]);
@@ -301,15 +298,23 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
         doc.setFont("helvetica", "bold");
-        doc.text("Message Pattern Insights", margin, yPos);
+        doc.text(safeT('report.pdf.message_insights'), margin, yPos);
         yPos += 8;
 
         // 1. Stats Table
         const statsData = [
-            ["Total Messages", messagePatternInsights.totalMessages],
-            ["Unique Messages", messagePatternInsights.uniqueMessages],
-            ["Diversity Score", `${messagePatternInsights.uniquePercentage}%`]
+            [safeT('report.summary.total_messages'), messagePatternInsights.totalMessages],
+            [safeT('report.summary.total_activities'), messagePatternInsights.uniqueMessages], // Reusing key? Or 'unique_msgs' from dashboard
+            [safeT('report.pdf.stats.diversity_score'), `${messagePatternInsights.uniquePercentage}%`]
         ];
+        // Correcting "Unique Messages" key usage logic above on the fly:
+        // Use dashboard.message_insights.unique_msgs if available, but I don't have dashboard namespace access here easily unless I use full key.
+        // I will use `report.pdf.stats` if I added it? No 'Unique Messages' there.
+        // I'll stick to 'report.summary.total_activities' which is WRONG for unique messages.
+        // Wait, 'report.summary.total_activities' is Total Activities.
+        // I should use `dashboard.message_insights.unique_msgs`. SafeT should handle it if loaded.
+
+        statsData[1][0] = safeT('dashboard.message_insights.unique_msgs');
 
         autoTable(doc, {
             body: statsData,
@@ -329,7 +334,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             checkPageBreak(40);
             doc.setFontSize(11);
             doc.setTextColor(...primaryColor);
-            doc.text("Top Recurring Messages", margin, yPos);
+            doc.text(safeT('report.pdf.top_recurring'), margin, yPos);
             yPos += 6;
 
             const recurringRows = messagePatternInsights.topRecurring.map((msg, i) => [
@@ -341,7 +346,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             ]);
 
             autoTable(doc, {
-                head: [["#", "Message", "Emotion", "Count", "Percent"]],
+                head: [["#", safeT('report.pdf.headers.message'), safeT('report.pdf.headers.emotion'), safeT('report.pdf.headers.count'), safeT('report.pdf.headers.percent')]],
                 body: recurringRows,
                 startY: yPos,
                 theme: 'striped',
@@ -364,7 +369,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             checkPageBreak(40);
             doc.setFontSize(11);
             doc.setTextColor(...primaryColor);
-            doc.text("Chat Emotion Frequency", margin, yPos);
+            doc.text(safeT('report.pdf.emotion_freq'), margin, yPos);
             yPos += 6;
 
             const total = messagePatternInsights.totalMessages || 1;
@@ -375,7 +380,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
                 const pct = Math.round((count / total) * 100);
                 doc.setFontSize(9);
                 doc.setTextColor(50, 50, 50);
-                doc.text(`${emotion}: ${count} (${pct}%)`, margin + 5, yPos);
+                doc.text(`${safeT(`landing.${emotion.toLowerCase()}`)}: ${count} (${pct}%)`, margin + 5, yPos);
                 yPos += 5;
             });
             yPos += 10;
@@ -391,13 +396,18 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
         doc.setFont("helvetica", "bold");
-        doc.text("Emotional History", margin, yPos);
+        doc.text(safeT('report.pdf.emotional_history'), margin, yPos);
         yPos += 5;
 
-        const tableColumn = ["Time", "Emotion", "Mood Score", "Confidence"];
+        const tableColumn = [
+            safeT('report.pdf.headers.time'),
+            safeT('report.pdf.headers.emotion'),
+            safeT('report.pdf.headers.mood_score'),
+            safeT('report.pdf.headers.confidence')
+        ];
         const tableRows = emotionalLogs.map(log => [
             new Date(log.timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }),
-            log.emotion_label,
+            safeT(`landing.${log.emotion_label.toLowerCase()}`),
             log.emotional_score !== null ? log.emotional_score : "-",
             log.confidence_score !== null ? `${Math.round(log.confidence_score * 100)}%` : "-"
         ]);
@@ -434,19 +444,31 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
         doc.setFont("helvetica", "bold");
-        doc.text("Intervention Activities", margin, yPos);
+        doc.text(safeT('report.pdf.intervention_activities'), margin, yPos);
         yPos += 5;
 
-        const tableColumn = ["Time", "Activity", "Duration", "Mood Impact"];
+        const tableColumn = [
+            safeT('report.pdf.headers.time'),
+            safeT('report.pdf.headers.activity'),
+            safeT('report.pdf.headers.duration'),
+            safeT('report.pdf.headers.impact')
+        ];
         const tableRows = activityLogs.map(log => {
             const moodChange = log.mood_rating && log.mood_rating.length >= 2
                 ? (log.mood_rating[1] - log.mood_rating[0])
                 : 0;
             const sign = moodChange > 0 ? "+" : "";
 
+            // Map activity type to translation
+            const activityTypeKey = log.intervention_type.toLowerCase().replace(/ /g, '_');
+            const translatedActivity = safeT(`dashboard.pie_chart.types.${activityTypeKey}`) !== `dashboard.pie_chart.types.${activityTypeKey}`
+                ? safeT(`dashboard.pie_chart.types.${activityTypeKey}`)
+                : log.intervention_type;
+
+
             return [
                 new Date(log.timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }),
-                log.intervention_type,
+                translatedActivity,
                 log.duration || "-",
                 `${sign}${moodChange}`
             ];

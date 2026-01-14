@@ -160,6 +160,10 @@ ul {
 	align-items: flex-start;
 }
 
+.items-end {
+	align-items: end;
+}
+
 .gap-3 {
 	gap: 0.75rem;
 }
@@ -198,4 +202,8 @@ ul {
 .swal-title {
 	font-size: 25px;
 	font-weight: 600;
+}
+
+.swal-bottom-space {
+	padding-bottom: 2.5rem;
 }

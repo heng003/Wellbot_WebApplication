@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { useTranslation } from 'react-i18next';
 import { AiOutlineLoading } from "react-icons/ai";
 import Widget from "../../dashboard/widget/Widget";
 import { useEmotions } from "../../hooks/useEmotions";
@@ -24,9 +25,14 @@ const emotionConfig = {
         icon: <FearIcon />,
         colors: ["#1D4ED8", "#BAE6FD", "#60A5FA"]
     },
+    Fear: {
+        icon: <FearIcon />,
+        colors: ["#1D4ED8", "#BAE6FD", "#60A5FA"]
+    },
 };
 
 const ReportDisplayWidgets = ({ userId, startDate, endDate }) => {
+    const { t } = useTranslation();
     const token = localStorage.getItem('token');
 
     // Helper to ensure YYYY-MM-DD string format for the hook
@@ -90,7 +96,7 @@ const ReportDisplayWidgets = ({ userId, startDate, endDate }) => {
                     <Widget
                         key={label}
                         icon={config.icon}
-                        title={label}
+                        title={t(`report.emotions.${label.toLowerCase()}`)}
                         subtitle={loading ? "..." : count.toString()}
                         percent={loading ? 0 : rawPercent}
                         gaugeColors={config.colors}

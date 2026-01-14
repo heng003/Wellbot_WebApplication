@@ -1,9 +1,12 @@
 import "bootstrap/dist/js/bootstrap.bundle";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import "../styles/navBar.css";
 
 const NavBarDark = () => {
+    const { t } = useTranslation();
     const location = useLocation();
     const [activeItem, setActiveItem] = useState("");
     const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
@@ -69,11 +72,14 @@ const NavBarDark = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
                         <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <LanguageSwitcher variant="nav-icon" />
+                            </li>
                             <li className={`nav-item ${activeItem === "Login" ? "active" : ""}`}>
-                                <Link className={isMobile ? "nav-link" : "nav-white-button"} to="/login" onClick={() => handleItemClick("Login")} disabled={activeItem === "Login"}>Login</Link>
+                                <Link className={isMobile ? "nav-link" : "nav-white-button"} to="/login" onClick={() => handleItemClick("Login")} disabled={activeItem === "Login"}>{t('landing.login')}</Link>
                             </li>
                             <li className={`nav-item ${activeItem.includes("Register") ? "active" : ""}`}>
-                                <Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("RegisterRole")} disabled={activeItem === "RegisterRole"}>Register</Link>
+                                <Link className={isMobile ? "nav-link" : "nav-green-button"} to="/registerRole" onClick={() => handleItemClick("RegisterRole")} disabled={activeItem === "RegisterRole"}>{t('landing.register')}</Link>
                             </li>
                         </ul>
                     </div>

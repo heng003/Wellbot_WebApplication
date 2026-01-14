@@ -4,7 +4,10 @@ import Swal from "sweetalert2";
 import axios from 'axios';
 import '../../styles/registerPage.css';
 
+import { useTranslation } from "react-i18next";
+
 const RegisterGuardianPage = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -46,9 +49,9 @@ const RegisterGuardianPage = () => {
             await axios.post('/api/auth/registerGuardianAcc', formData);
 
             Swal.fire({
-                title: "Check Your Email",
+                title: t('auth.check_email_title'),
                 titleColor: "var(--primary-color)",
-                text: "We have sent an email to " + formData.email + " to verify your email address and activate your account. Link in email will expire within 5 minutes.",
+                text: t('auth.check_email_text', { email: formData.email }),
                 imageUrl: "Images/checkEmail.gif",
                 imageHeight: 200,
                 imageAlt: "email",
@@ -92,7 +95,7 @@ const RegisterGuardianPage = () => {
             <div className="register-container">
                 <div className="register-card">
                     <div className="register-header">
-                        <h1 className="register-title">Create Your Account</h1>
+                        <h1 className="register-title">{t('auth.create_account')}</h1>
                     </div>
 
                     {error && <div className="error-box">{error}</div>}
@@ -100,7 +103,7 @@ const RegisterGuardianPage = () => {
                     <form onSubmit={handleSubmit} className="register-form">
                         <div className="form-grid">
                             <div>
-                                <label className="form-label">Email Address</label>
+                                <label className="form-label">{t('auth.email_label')}</label>
                                 <input
                                     type="email"
                                     name="email"
@@ -112,7 +115,7 @@ const RegisterGuardianPage = () => {
                             </div>
 
                             <div>
-                                <label className="form-label">Full Name</label>
+                                <label className="form-label">{t('auth.full_name_label')}</label>
                                 <input
                                     type="text"
                                     name="fullName"
@@ -124,7 +127,7 @@ const RegisterGuardianPage = () => {
                             </div>
 
                             <div>
-                                <label className="form-label">Prefer Name</label>
+                                <label className="form-label">{t('auth.prefer_name_label')}</label>
                                 <input
                                     type="text"
                                     name="preferName"
@@ -136,7 +139,7 @@ const RegisterGuardianPage = () => {
                             </div>
 
                             <div>
-                                <label className="form-label">Password</label>
+                                <label className="form-label">{t('auth.password_label')}</label>
                                 <input
                                     type="password"
                                     name="password"
@@ -149,7 +152,7 @@ const RegisterGuardianPage = () => {
                             </div>
 
                             <div>
-                                <label className="form-label">Confirm Password</label>
+                                <label className="form-label">{t('auth.confirm_password_label')}</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -164,14 +167,14 @@ const RegisterGuardianPage = () => {
 
                         <button type="submit" className="btn-submit" disabled={loading}>
                             {loading && <span className="loader"></span>}
-                            <span>Create Account</span>
+                            <span>{t('auth.create_account_button')}</span>
                         </button>
                     </form>
 
                     <p className="redirect-container mt-2">
-                        Already have an account?{' '}
+                        {t('auth.already_have_account')}{' '}
                         <Link to="/login" className="redirect-link" onClick={scrollToTop}>
-                            Login here
+                            {t('auth.login_here')}
                         </Link>
                     </p>
                 </div>

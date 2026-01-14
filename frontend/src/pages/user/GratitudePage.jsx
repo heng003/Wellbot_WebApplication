@@ -9,7 +9,10 @@ import MyFavGratitudeList from '../../components/MyFavGratitudeList';
 import { useSocketSubscription } from '../../hooks/useSocket';
 import FloatingNavbar from '../../layout/FloatingNavbar';
 
+import { useTranslation } from "react-i18next";
+
 const GratitudePage = () => {
+    const { t } = useTranslation();
     const [gratitudes, setGratitudes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -41,9 +44,9 @@ const GratitudePage = () => {
     return (
         <div className="main-container-bg">
             <FloatingNavbar
-                brandText="Moments of Gratitude"
+                brandText={t('feature.gratitude.title')}
                 actionButton={{
-                    label: "Add New Gratitude Item",
+                    label: t('feature.gratitude.add_new'),
                     icon: <MdAdd className="h-6 w-6" />,
                     onClick: () => setShowAddModal(true)
                 }}
@@ -75,7 +78,7 @@ const GratitudePage = () => {
                 </div>
             ) : (
                 <div className="col-span-full py-10 text-center text-gray-500">
-                    <p>No gratitude item found. Start writing your first gratitude item!</p>
+                    <p>{t('feature.gratitude.no_data')}</p>
                 </div>
             )}
 

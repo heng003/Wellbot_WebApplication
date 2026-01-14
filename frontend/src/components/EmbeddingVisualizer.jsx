@@ -6,6 +6,8 @@ import { MdOutlineCalendarToday } from "react-icons/md";
 import { computePCA } from "../utils/reportUtils";
 import Card from "../dashboard/card";
 import InfoTooltip from "./InfoTooltip";
+import { getEmotionLabel } from "../utils/emotionClassifier";
+import { useTranslation } from "react-i18next";
 
 const Points = ({ data, onHover }) => {
     const ref = useRef();
@@ -55,18 +57,8 @@ const Points = ({ data, onHover }) => {
     );
 };
 
-// Color logic: "Emotion Classification"
-// Using the specific hex codes provided
-const getEmotionLabel = (text = "") => {
-    const t = (text || "").toLowerCase();
-    if (t.match(/happy|joy|joyful|delighted|great|love|good|excited|wonderful|glad|cheerful|laugh|pleased|content|grateful|awesome|amazing|开心|快乐|喜悦|高兴|棒|美好|喜欢|gembira|bahagia|seronok|suka|teruja|hebat|bagus|ceria|puas|syukur/)) return 'Happy';
-    if (t.match(/angry|mad|furious|rage|annoyed|irritated|frustrated|upset|offended|hostile|生气|愤怒|讨厌|恼火|烦|不爽|marah|geram|bengang|panas|menyampah|tak puas hati/)) return 'Angry';
-    if (t.match(/sad|cry|crying|down|bad|lonely|grief|upset|disappointed|unhappy|heartbroken|low|moody|hurt|伤心|难过|哭|悲伤|孤独|失落|沮丧|sedih|kecewa|muram|sepi|sunyı|tersentuh|terluka|rasa down/)) return 'Sad';
-    if (t.match(/fear|scared|afraid|anxious|worry|worried|nervous|uneasy|uncertain|tense|shaken|concerned|害怕|恐惧|担心|焦虑|紧张|不安|takut|risau|cemas|gugup|gelisah|bimbang|was-was/)) return 'Fear';
-    return 'Neutral';
-};
-
 const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false, onDateChange }) => {
+    const { t } = useTranslation();
     const [hoveredPoint, setHoveredPoint] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -114,14 +106,14 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                 <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 backdrop-blur-sm rounded-2xl">
                     <div className="flex flex-col items-center gap-3">
                         <AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
-                        <p className="text-sm font-medium text-gray-500">Loading galaxy...</p>
+                        <p className="text-sm font-medium text-gray-500">{t('dashboard.embedding_visualizer.loading')}</p>
                     </div>
                 </div>
             )}
             <div className="flex w-full items-center justify-between p-2 pb-3">
                 <div className="flex flex-col gap-2">
-                    <p className="text-lg font-bold">Conversation Galaxy</p>
-                    <p className="card-subtitle text-sm">Visualizing your conversation messages with Well-Bot, colored by their emotional label.</p>
+                    <p className="text-lg font-bold">{t('dashboard.embedding_visualizer.title')}</p>
+                    <p className="card-subtitle text-sm">{t('dashboard.embedding_visualizer.subtitle')}</p>
                 </div>
                 <div className="flex items-center gap-3 px-2 justify-end">
                     {onDateChange && (
@@ -136,10 +128,10 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
 
                                 {showDatePicker && (
                                     <div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
-                                        <p className="font-semibold mb-2">Date Range</p>
+                                        <p className="font-semibold mb-2">{t('dashboard.embedding_visualizer.date_range')}</p>
                                         <div style={{ textAlign: 'start' }}>
                                             <div className="flex flex-col justify-content-start">
-                                                <label className="text-xs text-gray-500">From</label>
+                                                <label className="text-xs text-gray-500">{t('dashboard.embedding_visualizer.from')}</label>
                                                 <input
                                                     type="date"
                                                     value={customStart ? formatLocalDate(customStart) : ""}
@@ -148,7 +140,7 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                                                 />
                                             </div>
                                             <div className="flex flex-col justify-content-start">
-                                                <label className="text-xs text-gray-500">To</label>
+                                                <label className="text-xs text-gray-500">{t('dashboard.embedding_visualizer.to')}</label>
                                                 <input
                                                     type="date"
                                                     value={customEnd ? formatLocalDate(customEnd) : ""}
@@ -160,7 +152,7 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                                                 onClick={handleApplyCustomRange}
                                                 className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
                                             >
-                                                Apply
+                                                {t('dashboard.embedding_visualizer.apply')}
                                             </button>
                                         </div>
                                     </div>
@@ -170,17 +162,12 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                     )}
                     <div className="flex justify-center">
                         <InfoTooltip content={<>
-                            <p className="font-bold">What is this?</p>
+                            <p className="font-bold">{t('dashboard.embedding_visualizer.tooltip_title')}</p>
                             <ul className="list-disc pl-4">
-                                <li>This is a 3D map of your chat history.</li>
-                                <li>Messages with similar feelings are grouped together.</li>
-                            </ul>
-                            <p className="font-bold">How to use:</p>
-                            <ul className="list-disc pl-4">
-                                <li>Each dot is a message you sent.</li>
-                                <li>The color shows the emotion (e.g., Happy, Sad).</li>
-                                <li>Rotate & zoom to explore your emotional landscape.</li>
-                                <li>Hover over a dot to see what you wrote.</li>
+                                <li>{t('dashboard.embedding_visualizer.tooltip_list.l1')}</li>
+                                <li>{t('dashboard.embedding_visualizer.tooltip_list.l2')}</li>
+                                <li>{t('dashboard.embedding_visualizer.tooltip_list.l3')}</li>
+                                <li>{t('dashboard.embedding_visualizer.tooltip_list.l4')}</li>
                             </ul>
                         </>} placement="bottom-right" iconSize="w-5 h-5" />
                     </div>
@@ -190,12 +177,12 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                 <div className="w-full bg-[#111c44] rounded-xl overflow-hidden relative" style={{ height }}>
                     {/* Legend */}
                     <div className="absolute top-4 left-4 z-10 bg-black/40 backdrop-blur-md p-3 rounded-lg text-white text-xs border border-white/10">
-                        <p className="font-bold mb-2 uppercase tracking-wider opacity-70">Emotions</p>
-                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#FFD56B]"></span> Happy</div>
-                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#EA5E8F]"></span> Angry</div>
-                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#69D5C5]"></span> Sad</div>
-                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#519AF6]"></span> Fear</div>
-                        <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#A3AED0]"></span> Neutral</div>
+                        <p className="font-bold mb-2 uppercase tracking-wider opacity-70">{t('dashboard.embedding_visualizer.emotions_legend')}</p>
+                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#FFD56B]"></span> {t('landing.happy')}</div>
+                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#EA5E8F]"></span> {t('landing.anger')}</div>
+                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#69D5C5]"></span> {t('landing.sad')}</div>
+                        <div className="flex items-center gap-2 mb-1"><span className="w-2 h-2 rounded-full bg-[#519AF6]"></span> {t('landing.fear')}</div>
+                        <div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#A3AED0]"></span> {t('landing.neutral', 'Neutral')}</div>
                     </div>
 
                     {/* Tooltip Overlay */}
@@ -237,7 +224,7 @@ const EmbeddingVisualizer = ({ rawEmbeddings, height = "500px", loading = false,
                 </div>
             ) : (
                 <div className="flex w-full items-center justify-center mt-4 text-gray-400 bg-white rounded-2xl shadow-sm border border-gray-100" style={{ height: "350px" }}>
-                    <p className="text-sm text-gray-500">No conversation history found</p>
+                    <p className="text-sm text-gray-500">{t('dashboard.embedding_visualizer.no_history')}</p>
                 </div>
             )}
         </Card>

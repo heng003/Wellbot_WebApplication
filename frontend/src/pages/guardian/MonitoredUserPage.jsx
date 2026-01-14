@@ -10,8 +10,10 @@ import { getIdFromToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import FloatingNavbar from '../../layout/FloatingNavbar';
 import NoMonitoredUser from '../../components/NoMonitoredUser';
+import { useTranslation } from 'react-i18next';
 
 const MonitoredUserPage = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -91,7 +93,7 @@ const MonitoredUserPage = () => {
     const handleAddUser = async (e) => {
         e.preventDefault();
         if (!guardianId) {
-            alert('Credential not found');
+            alert(t('access_control.alerts.credential_error'));
             return;
         }
 
@@ -109,8 +111,8 @@ const MonitoredUserPage = () => {
 
             if (response.status === 201) {
                 Swal.fire({
-                    title: 'Request Sent',
-                    text: 'Monitoring request has been sent successfully.',
+                    title: t('monitored_user.alerts.request_sent'),
+                    text: 'Monitoring request has been sent successfully.', // Can be moved to json if needed, keeping simple for now or use generic success
                     icon: 'success',
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
@@ -127,7 +129,7 @@ const MonitoredUserPage = () => {
             } else if (response.status === 200) {
                 const existing = response.data;
                 Swal.fire({
-                    title: 'Already Exists',
+                    title: t('access_control.alerts.already_exists'),
                     text: `A monitoring request or permission for this user already exists (status: ${existing.status}).`,
                     icon: 'info',
                     confirmButtonColor: "var(--primary-color)",
@@ -146,7 +148,7 @@ const MonitoredUserPage = () => {
         } catch (error) {
             if (error.response && error.response.status === 404 && error.response.data.message === "User not existed.") {
                 Swal.fire({
-                    title: "User Not Found",
+                    title: t('access_control.alerts.user_not_found'),
                     text: "No user found with that email. Please check and try again.",
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
@@ -181,20 +183,20 @@ const MonitoredUserPage = () => {
 
         // Show confirmation dialog before proceeding
         const result = await Swal.fire({
-            title: 'Are you sure?',
+            title: t('monitored_user.alerts.confirm_remove'),
             text: user.status === 'pending'
                 ? 'Do you want to cancel this monitoring request?'
                 : user.status === 'reject'
                     ? 'Do you want to remove this rejected monitoring request?'
                     : user.status === 'revoked'
                         ? 'Do you want to remove this revoked permission?'
-                        : 'Do you want to remove this user from your monitored list?',
+                        : t('monitored_user.alerts.confirm_remove_text'),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: "var(--primary-color)",
             cancelButtonColor: "#FFF",
-            confirmButtonText: 'Yes, remove',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: t('access_control.actions.yes_revoke').replace('revoke', 'remove'), // Or add specific key, creating 'Yes, remove' usually good. Re-using or "Confirm"
+            cancelButtonText: t('access_control.actions.cancel'),
             customClass: {
                 cancelButton: 'swal-cancel-white'
             }
@@ -214,7 +216,7 @@ const MonitoredUserPage = () => {
                 setSelectedUser(null);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 Swal.fire({
-                    title: 'Deleted',
+                    title: t('monitored_user.alerts.deleted'),
                     text: user.status === 'pending'
                         ? 'Monitoring request has been cancelled successfully.'
                         : user.status === 'reject'
@@ -265,9 +267,9 @@ const MonitoredUserPage = () => {
     return (
         <div className="main-container">
             <FloatingNavbar
-                brandText="Monitored Users"
+                brandText={t('monitored_user.page_title')}
                 actionButton={{
-                    label: "Add User",
+                    label: t('monitored_user.add_user'),
                     icon: <UserPlus className="h-6 w-6" />,
                     onClick: () => setShowAddUserModal(true)
                 }}
@@ -282,7 +284,7 @@ const MonitoredUserPage = () => {
                     <div className="stat-card teal">
                         <Users className="stat-icon" />
                         <div>
-                            <p className="stat-label">Active Monitoring</p>
+                            <p className="stat-label">{t('monitored_user.stats.active')}</p>
                             <p className="stat-value">{monitoredList.filter(u => u.status === 'active').length}</p>
                         </div>
                     </div>
@@ -290,7 +292,7 @@ const MonitoredUserPage = () => {
                     <div className="stat-card green">
                         <Calendar className="stat-icon" />
                         <div>
-                            <p className="stat-label">Pending Consent Request</p>
+                            <p className="stat-label">{t('monitored_user.stats.pending')}</p>
                             <p className="stat-value">{monitoredList.filter(u => u.status === 'pending').length}</p>
                         </div>
                     </div>
@@ -298,7 +300,7 @@ const MonitoredUserPage = () => {
                     <div className="stat-card amber">
                         <XCircle className="stat-icon" />
                         <div>
-                            <p className="stat-label">Rejected Requests</p>
+                            <p className="stat-label">{t('monitored_user.stats.rejected')}</p>
                             <p className="stat-value">{monitoredList.filter(u => u.status === 'reject').length}</p>
                         </div>
                     </div>
@@ -306,20 +308,20 @@ const MonitoredUserPage = () => {
                     <div className="stat-card blue">
                         <Lock className="stat-icon" />
                         <div>
-                            <p className="stat-label">Revoked Access</p>
+                            <p className="stat-label">{t('monitored_user.stats.revoked')}</p>
                             <p className="stat-value">{monitoredList.filter(u => u.status === 'revoked').length}</p>
                         </div>
                     </div>
                 </div>
 
-                <div className="mt-4">
+                <div style={{ marginTop: '3rem' }}>
                     {monitoredList.length > 0 && (
                         <div className="search-filter">
                             <div className="search-bar">
                                 <Search className="icon-small search-icon" />
                                 <input
                                     type="text"
-                                    placeholder="Search users..."
+                                    placeholder={t('monitored_user.search_placeholder')}
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="search-input"
@@ -331,11 +333,11 @@ const MonitoredUserPage = () => {
                                     value={filter}
                                     onChange={(e) => setFilter(e.target.value)}
                                 >
-                                    <option value="all">All Users</option>
-                                    <option value="active">Active</option>
-                                    <option value="pending">Pending Consent</option>
-                                    <option value="reject">Rejeceted</option>
-                                    <option value="revoked">Revoked</option>
+                                    <option value="all">{t('monitored_user.filters.all')}</option>
+                                    <option value="active">{t('monitored_user.filters.active')}</option>
+                                    <option value="pending">{t('monitored_user.filters.pending')}</option>
+                                    <option value="reject">{t('monitored_user.filters.reject')}</option>
+                                    <option value="revoked">{t('monitored_user.filters.revoked')}</option>
                                 </select>
                                 <div className="filter-icon">
                                     <Filter className="filter-svg" />
@@ -345,9 +347,9 @@ const MonitoredUserPage = () => {
 
                     {monitoredList.length === 0 ? (
                         <NoMonitoredUser
-                            title="No monitored users found."
-                            description="You haven’t added any users to monitor yet, and no monitoring requests have been sent."
-                            buttonText="Add User"
+                            title={t('monitored_user.no_users.title')}
+                            description={t('monitored_user.no_users.desc')}
+                            buttonText={t('monitored_user.add_user')}
                             onButtonClick={() => setShowAddUserModal(true)}
                         />
                     ) : (
@@ -355,11 +357,11 @@ const MonitoredUserPage = () => {
                             <table className="user-table">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Prefer Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>{t('monitored_user.table.name')}</th>
+                                        <th>{t('monitored_user.table.prefer_name')}</th>
+                                        <th>{t('monitored_user.table.email')}</th>
+                                        <th>{t('monitored_user.table.status')}</th>
+                                        <th>{t('monitored_user.table.actions')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -387,14 +389,14 @@ const MonitoredUserPage = () => {
                                                             onClick={() => handleShowViewModal(user)}
                                                             style={{ cursor: 'pointer' }}
                                                         >
-                                                            View Details
+                                                            {t('monitored_user.actions.view_details')}
                                                         </p>
                                                         <p
                                                             className="action-text remove"
                                                             onClick={() => handleRemoveUser(user)}
                                                             style={{ cursor: 'pointer' }}
                                                         >
-                                                            Remove
+                                                            {t('monitored_user.actions.remove')}
                                                         </p>
                                                     </div>
                                                 </td>
@@ -408,34 +410,34 @@ const MonitoredUserPage = () => {
             </main>)}
             {showAddUserModal && (
                 <div className="modal-overlay">
-                    <div className="add-user-container">
-                        <h3 className="modal-title">Add New User</h3>
+                    <div className="modal-container">
+                        <h3 className="modal-header modal-title mb-4">{t('monitored_user.modals.add_title')}</h3>
                         <form onSubmit={handleAddUser}>
-                            <div className="form-group">
-                                <label className="form-label">Email / Well-Bot Serial Number</label>
+                            <div className="modal-form">
+                                <label className="form-label">{t('monitored_user.modals.input_label')}</label>
                                 <input
                                     type="text"
                                     value={newUser}
                                     onChange={(e) => setNewUser(e.target.value)}
                                     className="form-input"
-                                    placeholder="e.g. johndoe@example.com or WB12xxx"
+                                    placeholder={t('monitored_user.modals.input_placeholder')}
                                     required
                                 />
                             </div>
-                            <div className="form-group mt-3">
-                                <label className="form-label">Message (optional)</label>
+                            <div className="modal-form">
+                                <label className="form-label">{t('monitored_user.modals.message_label')}</label>
                                 <textarea
                                     value={requestMessage}
                                     onChange={(e) => setRequestMessage(e.target.value)}
                                     className="form-input"
-                                    placeholder="Add a personal message to your monitoring request"
+                                    placeholder={t('monitored_user.modals.message_placeholder')}
                                     rows={3}
                                     style={{ resize: 'vertical', minHeight: '60px' }}
                                 />
                             </div>
-                            <div className="flex justify-between gap-3">
+                            <div className="modal-actions">
                                 <button type="submit" className="long-green-button">
-                                    Send Request
+                                    {t('monitored_user.actions.send_request')}
                                 </button>
                                 <button
                                     type="button"
@@ -446,7 +448,7 @@ const MonitoredUserPage = () => {
                                     }}
                                     className="long-white-button"
                                 >
-                                    Cancel
+                                    {t('access_control.actions.cancel')}
                                 </button>
                             </div>
                         </form>
@@ -467,26 +469,26 @@ const MonitoredUserPage = () => {
 
                     <div className="modal-grid">
                         <div>
-                            <p className="label">Prefer Name</p>
+                            <p className="label">{t('monitored_user.table.prefer_name')}</p>
                             <p className="value">{selectedUser?.prefer_name}</p>
                         </div>
                         {selectedUser?.status === 'active' &&
                             <div>
-                                <p className="label">Age</p>
+                                <p className="label">{t('monitored_user.modals.labels.age')}</p>
                                 <p className="value">{selectedUser?.age}</p>
                             </div>}
                         {selectedUser?.status === 'active' &&
                             <div>
-                                <p className="label">Gender</p>
+                                <p className="label">{t('monitored_user.modals.labels.gender')}</p>
                                 <p className="value">{selectedUser?.gender}</p>
                             </div>}
                         <div>
                             <p className="label">
                                 {selectedUser?.status === 'revoked'
-                                    ? 'Removed Date'
+                                    ? t('monitored_user.modals.labels.removed_date')
                                     : selectedUser?.status === 'active'
-                                        ? 'Added Date'
-                                        : 'Requested Date'}
+                                        ? t('monitored_user.modals.labels.added_date')
+                                        : t('monitored_user.modals.labels.requested_date')}
                             </p>
                             <p className="value">
                                 {selectedUser?.status !== 'active' && selectedUser?.status !== 'revoked'
@@ -495,7 +497,7 @@ const MonitoredUserPage = () => {
                             </p>
                         </div>
                         <div>
-                            <p className="label">Status</p>
+                            <p className="label">{t('monitored_user.table.status')}</p>
                             <span className={`badge-status ${getStatusClass(selectedUser?.status)}`}>
                                 {selectedUser?.status}
                             </span>
@@ -510,12 +512,12 @@ const MonitoredUserPage = () => {
                                     navigate('/guardian/dashboard/main');
                                 }}
                                 className="long-green-button">
-                                View Dashboard
+                                {t('monitored_user.actions.view_dashboard')}
                             </button>}
                         <button onClick={() => handleRemoveUser(selectedUser)} className="long-white-button" style={{ color: '#dc2626', borderColor: '#fca5a5' }}>
                             {selectedUser?.status === 'pending'
-                                ? 'Cancel Request'
-                                : 'Remove User'}
+                                ? t('monitored_user.actions.cancel_request')
+                                : t('monitored_user.actions.remove').replace('Remove', 'Remove User')}
                         </button>
                     </div>
                 </div>

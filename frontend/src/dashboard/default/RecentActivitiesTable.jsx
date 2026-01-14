@@ -9,9 +9,12 @@ import { getIdFromToken } from "../../utils/auth";
 import { useInterventionData } from "../../hooks/useInterventionData";
 import HoverTooltip from "../../components/HoverTooltip";
 
+import { useTranslation } from "react-i18next";
+
 const columnHelper = createColumnHelper();
 
 const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+    const { t } = useTranslation();
     const userId = propUserId || getIdFromToken();
     const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
@@ -93,19 +96,34 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
 
     const columns = [
         columnHelper.accessor("intervention_type", {
-            header: "ACTIVITY",
-            cell: info => <p className="text-sm font-medium text-navy-700">{info.getValue()}</p>
+            header: t('dashboard.recent_activities.col_activity'),
+            cell: info => {
+                const type = info.getValue();
+                // Map common DB values to translation keys
+                const keyMap = {
+                    'Support Chat': 'support_chat',
+                    'Journaling': 'journaling',
+                    'Gratitude': 'gratitude',
+                    'Meditation': 'meditation',
+                    'Daily Quote': 'daily_quote',
+                    'Meditation with Music': 'meditation'
+                };
+                // Fallback to lowercased key or original text
+                const key = keyMap[type] || type?.toLowerCase().replace(/ /g, '_');
+                // Use pie_chart.types as the centralized activity list
+                return <p className="text-sm font-medium text-navy-700">{t(`dashboard.pie_chart.types.${key}`, { defaultValue: type })}</p>;
+            }
         }),
         columnHelper.accessor("timestamp", {
-            header: "TIMESTAMP",
+            header: t('dashboard.recent_activities.col_timestamp'),
             cell: info => <p className="text-sm font-medium text-navy-700">{formatDateTime(info.getValue())}</p>
         }),
         columnHelper.accessor("duration", {
-            header: "DURATION",
+            header: t('dashboard.recent_activities.col_duration'),
             cell: info => <p className="text-sm font-medium text-navy-700">{formatDuration(info.getValue()) || "-"}</p>
         }),
         columnHelper.accessor("mood_rating", {
-            header: "MOOD FLOW",
+            header: t('dashboard.recent_activities.col_mood_flow'),
             cell: (info) => {
                 const arr = info.getValue();
                 let diff = 0; // Default to 0 (Equal/No Change) if null or invalid
@@ -149,8 +167,8 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
         <Card extra={"col-span-1 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
                 <div className="text-lg font-bold text-navy-700">
-                    <HoverTooltip content="Records of wellness activities engaged with Well-bot" placement="right">
-                        {isControlled ? "Activity Records" : "Recent Activities"}
+                    <HoverTooltip content={t('dashboard.recent_activities.tooltip_title')} placement="right">
+                        {isControlled ? t('dashboard.recent_activities.title_controlled') : t('dashboard.recent_activities.title_widget')}
                     </HoverTooltip>
                 </div>
             </div>
@@ -161,7 +179,7 @@ const RecentActivitiesTable = ({ startDate: propStartDate, endDate: propEndDate,
                     </div>
                 ) : tableData.length === 0 ? (
                     <div className="flex h-[200px] w-full items-center justify-center">
-                        <p className="text-gray-500">No records found for this period</p>
+                        <p className="text-gray-500">{t('dashboard.recent_activities.no_records')}</p>
                     </div>
                 ) : (
                     <table className="w-full">

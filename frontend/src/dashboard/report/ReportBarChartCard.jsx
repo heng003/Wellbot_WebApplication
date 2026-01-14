@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { map } from "lodash";
+import { useTranslation } from 'react-i18next';
 import { AiOutlineLoading } from "react-icons/ai";
 import axios from "axios";
 import Card from "../card";
@@ -7,6 +9,7 @@ import { getIdFromToken } from "../../utils/auth";
 import { useSocketSubscription } from "../../hooks/useSocket";
 
 const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType = "day" }) => {
+    const { t } = useTranslation();
     const userId = propUserId || getIdFromToken();
     const [dailyCounts, setDailyCounts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -56,7 +59,12 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
     // --- Data Processing (Aggregation) ---
     const { chartData, chartOptions, hasData, distribution } = useMemo(() => {
         const EMOTION_KEYS = ["fear", "sad", "angry", "happy"];
-        const LABELS = ["Fear", "Sad", "Angry", "Happy"];
+        const LABELS = [
+            t('report.emotions.fear'),
+            t('report.emotions.sad'),
+            t('report.emotions.angry'),
+            t('report.emotions.happy')
+        ];
         const COLORS = ["#519AF6", "#69D5C5", "#EA5E8F", "#FFD56B"];
 
         let processedData = [];
@@ -147,7 +155,7 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
         <Card extra="col-span-1 rounded-[20px] p-3 h-full">
             <div className="flex flex-row justify-between px-3 pt-2">
                 <div>
-                    <h4 className="text-lg font-bold text-navy-700">Emotional Distribution</h4>
+                    <h4 className="text-lg font-bold text-navy-700">{t('report.charts.emotional_distribution')}</h4>
                 </div>
             </div>
 
@@ -160,7 +168,7 @@ const ReportBarChartCard = ({ startDate, endDate, userId: propUserId, bucketType
                     <BarChart height={"320px"} chartData={chartData} chartOptions={chartOptions} />
                 ) : (
                     <div className="flex min-h-[200px] h-full items-center justify-center">
-                        <p className="text-sm text-gray-500">No data available for this period</p>
+                        <p className="text-sm text-gray-500">{t('report.charts.no_data')}</p>
                     </div>
                 )}
             </div>

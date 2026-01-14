@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useTranslation } from 'react-i18next';
 import { getIdFromToken } from '../utils/auth';
 import { useEmotions } from "../hooks/useEmotions";
 import Widget from "../dashboard/widget/Widget";
@@ -28,6 +29,7 @@ const emotionConfig = {
 };
 
 const DisplayWidgets = ({ userId: propUserId }) => {
+    const { t } = useTranslation();
     const token = localStorage.getItem('token');
     const userId = propUserId || getIdFromToken();
     const today = new Date().toISOString().slice(0, 10);
@@ -80,7 +82,7 @@ const DisplayWidgets = ({ userId: propUserId }) => {
                         <Widget
                             key={label}
                             icon={config.icon}
-                            title={label}
+                            title={t(`report.emotions.${label.toLowerCase()}`)}
                             subtitle={count}
                             percent={rawPercent} // sends percentage share of today's emotions (e.g., 25.5)
                             gaugeColors={config.colors}

@@ -17,7 +17,10 @@ import FloatingNavbar from '../../layout/FloatingNavbar';
 
 import { useSocketSubscription } from '../../hooks/useSocket';
 
+import { useTranslation } from "react-i18next";
+
 const JournalPage = () => {
+    const { t } = useTranslation();
 
     const [journals, setJournals] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -67,9 +70,9 @@ const JournalPage = () => {
         <>
             <main className="main-container-bg">
                 <FloatingNavbar
-                    brandText="Journal"
+                    brandText={t('feature.journal.title')}
                     actionButton={{
-                        label: "Add New Journal",
+                        label: t('feature.journal.add_new'),
                         icon: <MdAdd className="h-6 w-6" />,
                         onClick: () => setShowAddModal(true)
                     }}
@@ -105,7 +108,7 @@ const JournalPage = () => {
                     </div>
                 ) : (
                     <div className="col-span-full py-10 text-center text-gray-500">
-                        <p>No journals found. Start writing your first memory!</p>
+                        <p>{t('feature.journal.no_data')}</p>
                     </div>
                 )}
             </main>

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import DropdownIcon from "../icons/DropdownIcon";
+import { useTranslation } from "react-i18next";
 
 export function SidebarLinks(props) {
+	const { t } = useTranslation();
 	const location = useLocation();
 	const { routes } = props;
 	// initialize open state so parent menus open when a child route is active
@@ -72,15 +74,15 @@ export function SidebarLinks(props) {
 									e.preventDefault(); // prevent navigation
 
 									const result = await Swal.fire({
-										title: "Log Out?",
-										text: "Are you sure you want to log out?",
+										title: t('navbar.logout_modal.title'),
+										text: t('navbar.logout_modal.text'),
 										icon: "warning",
 										showCancelButton: true,
-										confirmButtonText: "Yes, Log Out",
-										cancelButtonText: "Cancel",
+										confirmButtonText: t('navbar.logout_modal.confirm'),
+										cancelButtonText: t('navbar.logout_modal.cancel'),
 										confirmButtonColor: "var(--primary-color)",
 										customClass: {
-											title: 'swal-title',
+											title: "swal-title"
 										}
 									});
 

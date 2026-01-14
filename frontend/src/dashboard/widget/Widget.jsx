@@ -2,7 +2,10 @@ import HoverTooltip from "../../components/HoverTooltip";
 import GaugeIcon from "../../icons/GuageIcon";
 import Card from "../card";
 
+import { useTranslation } from "react-i18next";
+
 const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
+	const { t } = useTranslation();
 	return (
 		<Card extra="!flex-row flex-grow items-center rounded-[20px]">
 
@@ -15,7 +18,7 @@ const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 							</span>
 						</div>
 					</div>
-					<HoverTooltip content={`Number of ${title} records captured`}>
+					<HoverTooltip content={t('dashboard.widget.records_captured', { title })}>
 						<div className="h-50 ml-4 flex w-auto flex-col justify-center">
 							<p className="text-sm font-medium text-gray-500">{title}</p>
 							<div className="flex flex-row items-center">
@@ -27,7 +30,7 @@ const Widget = ({ icon, title, subtitle, percent, gaugeColors }) => {
 					</HoverTooltip>
 				</div>
 				{percent !== undefined && (
-					<HoverTooltip content="Percentage share of total emotions counted">
+					<HoverTooltip content={t('dashboard.widget.percentage_share')}>
 						<div className="ml-8 flex flex-col items-center justify-center gap-1">
 							<p className="text-sm font-bold text-gray-700">{`${(Number(percent) || 0).toFixed(1)}%`}</p>
 							<GaugeIcon

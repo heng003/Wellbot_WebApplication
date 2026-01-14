@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import CardFeature from "../../components/CardFeature";
 import "../../styles/landingPage.css";
 import NavBarGeneral from "../../layout/NavBarGeneral";
 import NavBarDark from "../../layout/NavBarDark";
 
 const LandingPage = () => {
-
+    const { t } = useTranslation();
     const [showNav, setShowNav] = useState(false);
 
     useEffect(() => {
@@ -23,18 +24,18 @@ const LandingPage = () => {
     const featureCardData = [
         {
             cardIcon: "feature1.png",
-            cardTitle: "Real-Time Emotion Tracking",
-            cardContent: "Monitor your emotional states in real-time through our advanced detection systems, including camera, wearable devices, and voice analysis.",
+            cardTitle: t('landing.feature_tracking_title'),
+            cardContent: t('landing.feature_tracking_content'),
         },
         {
             cardIcon: "feature2.png",
-            cardTitle: "Wellness Interventions",
-            cardContent: "Receive timely support and interventions when negative emotional states are detected, helping you regain emotional balance.",
+            cardTitle: t('landing.feature_interventions_title'),
+            cardContent: t('landing.feature_interventions_content'),
         },
         {
             cardIcon: "feature3.png",
-            cardTitle: "Detailed Analytics",
-            cardContent: "Gain insights into your emotional patterns with comprehensive charts, graphs, and historical data to identify trends.",
+            cardTitle: t('landing.feature_analytics_title'),
+            cardContent: t('landing.feature_analytics_content'),
         },
     ];
 
@@ -50,23 +51,23 @@ const LandingPage = () => {
                     <div className='landing-session landing-top-session-padding justify-content-between align-items-center flex-column'>
                         <div className="align-content-center">
                             <h1 className="landing-white-title">
-                                Enhance Your Emotional Wellness <span className="landing-white-special-title">with Well-Bot</span>
+                                {t('landing.title')}
                             </h1>
                             <p className="landing-white-subtitle">
-                                Discover a smarter way to understand your feelings and take charge of your mental well-being. Well-Bot helps you track emotional patterns, gain meaningful insights, and build healthier habits through daily reflections and intelligent analysis.
+                                {t('landing.description')}
                             </p>
                         </div>
                         <div className="align-content-center" style={{ width: "90%", marginTop: '3em' }}>
                             <div className="emotion-card animate-transition">
                                 <div className="card-header">
-                                    <h3 className="black">Today's Emotions</h3>
+                                    <h3 className="black">{t('landing.today_emotions')}</h3>
                                     <span className="grey">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                                 </div>
                                 <div className="emotion-bars">
-                                    <div className="bar-group"><div className="bar happy"></div><span>Happy</span></div>
-                                    <div className="bar-group"><div className="bar sad"></div><span>Sad</span></div>
-                                    <div className="bar-group"><div className="bar fear"></div><span>Fear</span></div>
-                                    <div className="bar-group"><div className="bar anger"></div><span>Anger</span></div>
+                                    <div className="bar-group"><div className="bar happy"></div><span>{t('landing.happy')}</span></div>
+                                    <div className="bar-group"><div className="bar sad"></div><span>{t('landing.sad')}</span></div>
+                                    <div className="bar-group"><div className="bar fear"></div><span>{t('landing.fear')}</span></div>
+                                    <div className="bar-group"><div className="bar anger"></div><span>{t('landing.anger')}</span></div>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +75,7 @@ const LandingPage = () => {
                 </section>
 
                 <section className='landing-session flex-column' style={{ gap: '2em' }}>
-                    <p className='landing-title align-self-center text-center'>About</p>
+                    <p className='landing-title align-self-center text-center'>{t('landing.about')}</p>
                     <div className='features-grid'>
                         <div className="feature-card grey-border">
                             <img
@@ -84,8 +85,8 @@ const LandingPage = () => {
                                 width="50"
                             />
                             <div className="column-center gap-2">
-                                <p className='landing-title-small'>Smartwatch Sensors</p>
-                                <p className='landing-content-small'>To Monitor Real-Time Body Vital Signs</p>
+                                <p className='landing-title-small'>{t('landing.smartwatch_sensors')}</p>
+                                <p className='landing-content-small'>{t('landing.smartwatch_desc')}</p>
                             </div>
                         </div>
                         <div className="feature-card grey-border">
@@ -96,8 +97,8 @@ const LandingPage = () => {
                                 width="50"
                             />
                             <div className="column-center gap-2">
-                                <p className='landing-title-small'>Well-Bot Camera</p>
-                                <p className='landing-content-small'>To Capture Facial Expressions</p>
+                                <p className='landing-title-small'>{t('landing.camera')}</p>
+                                <p className='landing-content-small'>{t('landing.camera_desc')}</p>
                             </div>
                         </div>
                         <div className="feature-card grey-border">
@@ -108,18 +109,17 @@ const LandingPage = () => {
                                 width="50"
                             />
                             <div className="column-center gap-2">
-                                <p className='landing-title-small'>Well-Bot Microphone</p>
-                                <p className='landing-content-small'>To Capture Speech and Background Musics</p>
+                                <p className='landing-title-small'>{t('landing.mic')}</p>
+                                <p className='landing-content-small'>{t('landing.mic_desc')}</p>
                             </div>
                         </div>
                     </div>
-                    <p className='landing-content-grey text-center'>
-                        Well-Bot is a smart companion droid that uses AI and real-time data from the smartwatch, camera, and microphone to detect critical emotional states.<br />With these multimodal inputs, Well-Bot Insight provides a holistic view of the user’s emotional state and delivers personalized early interventions.
+                    <p className='landing-content-grey text-center' dangerouslySetInnerHTML={{ __html: t('landing.about_bot_desc') }}>
                     </p>
                 </section>
 
                 <section className='landing-session flex-column' style={{ gap: '2em', background: '#F0F0F0' }}>
-                    <p className='landing-title align-self-center text-center'>Powerful Features for Emotional Well-being</p>
+                    <p className='landing-title align-self-center text-center'>{t('landing.powerful_features')}</p>
                     <div className="features-grid mt-3">
                         {featureCardData.map((card, index) => (
                             <CardFeature
@@ -131,22 +131,22 @@ const LandingPage = () => {
                         ))}
                     </div>
                     <p className='landing-content-grey text-center'>
-                        With the power of AI and real-time data collection, Well-Bot delivers personalized early intervention on user’s mental wellness and  offer insight into their emotional states, helping users stay aware of their mental well-being and promoting healthier emotional regulation.
+                        {t('landing.features_footer')}
                     </p>
                 </section>
 
                 <section className="landing-session flex-column" style={{ gap: '2em' }}>
-                    <p className='landing-title align-self-center text-center'>How Well-Bot Works</p>
+                    <p className='landing-title align-self-center text-center'>{t('landing.how_it_works')}</p>
                     <p className='landing-content-grey text-center'>
-                        Our system uses advanced technology to provide you with personalized early mental support and emotional insights.
+                        {t('landing.how_it_works_desc')}
                     </p>
                     <div className="timeline mt-3">
                         <div className="timeline-step">
                             <div className="step-circle">1</div>
                             <div className="timeline-card timeline-card-left">
-                                <h3 className="landing-title-small">Activate Your Well-Bot Droid</h3>
+                                <h3 className="landing-title-small">{t('landing.step1_title')}</h3>
                                 <p className="landing-content-small">
-                                    Activate your Well-Bot Droid By Register a new account in our website for comprehensive emotional detection.
+                                    {t('landing.step1_desc')}
                                 </p>
                             </div>
                         </div>
@@ -154,9 +154,9 @@ const LandingPage = () => {
                         <div className="timeline-step">
                             <div className="step-circle">2</div>
                             <div className="timeline-card timeline-card-left">
-                                <h3 className="landing-title-small">Real-Time Emotion Detection</h3>
+                                <h3 className="landing-title-small">{t('landing.step2_title')}</h3>
                                 <p className="landing-content-small">
-                                    Our AI algorithms analyze your expressions, physiological responses, voice patterns, and Background Music to identify emotional states.
+                                    {t('landing.step2_desc')}
                                 </p>
                             </div>
                         </div>
@@ -164,9 +164,9 @@ const LandingPage = () => {
                         <div className="timeline-step">
                             <div className="step-circle">3</div>
                             <div className="timeline-card timeline-card-left">
-                                <h3 className="landing-title-small">Personalized Early Intervention</h3>
+                                <h3 className="landing-title-small">{t('landing.step3_title')}</h3>
                                 <p className="landing-content-small">
-                                    Receive Mental Support through Wellbot Droid customized when you are Under Critical Emotional State.
+                                    {t('landing.step3_desc')}
                                 </p>
                             </div>
                         </div>
@@ -174,9 +174,9 @@ const LandingPage = () => {
                         <div className="timeline-step">
                             <div className="step-circle">4</div>
                             <div className="timeline-card timeline-card-left">
-                                <h3 className="landing-title-small">Data Analysis & Visualization</h3>
+                                <h3 className="landing-title-small">{t('landing.step4_title')}</h3>
                                 <p className="landing-content-small">
-                                    Your Emotional Data is processed and presented in easy-to-understand charts and trends on your Personal Dashboard.
+                                    {t('landing.step4_desc')}
                                 </p>
                             </div>
                         </div>

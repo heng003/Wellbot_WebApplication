@@ -8,10 +8,12 @@ import { AiOutlineLoading } from "react-icons/ai";
 import Card from "../card";
 import LineChart from "../charts/LineChart";
 import HoverTooltip from "../../components/HoverTooltip";
+import { useTranslation } from "react-i18next";
 import { useEmotionalScore } from "../../hooks/useEmotionalScore";
 import { useSocketSubscription } from "../../hooks/useSocket";
 
 const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+	const { t } = useTranslation();
 	const currentUserId = getIdFromToken();
 	const targetUserId = propUserId || currentUserId;
 
@@ -119,7 +121,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 
 		// Define Base Series
 		const moodSeries = {
-			name: "Mood Score",
+			name: t('dashboard.emotional_score.title'),
 			data: dailyData.map((d) => Math.round(Number(d.avgScore) || 0)),
 			color: "#3E9389"
 		};
@@ -212,14 +214,14 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 			{/* Header */}
 			<div className="flex justify-between items-center px-3">
 				<HoverTooltip content={<div className="text-left">
-					<p className="font-bold">Mood Score is a simple way to track how you’re feeling over time.</p>
-					<p>It ranges from low to high, with the middle representing a steady mood.</p>
+					<p className="font-bold">{t('dashboard.emotional_score.tooltip_title')}</p>
+					<p>{t('dashboard.emotional_score.tooltip_desc')}</p>
 				</div>}>
-					<h2 className="text-lg font-bold text-navy-700">Mood Score</h2>
+					<h2 className="text-lg font-bold text-navy-700">{t('dashboard.emotional_score.title')}</h2>
 				</HoverTooltip>
 				<div className="flex items-center justify-end gap-2">
 					<div className="relative">
-						<HoverTooltip content="Customize the chart by selecting desired data interval">
+						<HoverTooltip content={t('dashboard.emotional_score.tooltip_interval')}>
 							<button
 								onClick={() => setShowRangePicker(!showRangePicker)}
 								className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] !transition !duration-200 hover:bg-gray-100 active:bg-gray-200"
@@ -229,14 +231,14 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						</HoverTooltip>
 						{showRangePicker && (
 							<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[160px] text-sm">
-								<p className="px-2 font-semibold mb-2">Data Interval</p>
+								<p className="px-2 font-semibold mb-2">{t('dashboard.emotional_score.data_interval')}</p>
 								{["30min", "hour", "2hour", "day"].map((bucket) => (
 									<button
 										key={bucket}
 										onClick={() => handleBucketTypeChange(bucket)}
 										className={`block w-full text-left px-3 py-1 rounded mb-1 text-sm ${bucketType === bucket ? 'bg-brand-50 text-[#3E9389] font-bold' : 'hover:bg-gray-100'}`}
 									>
-										{bucket === "day" ? "Daily" : bucket.replace("hour", " Hour").replace("min", " Min")}
+										{bucket === "day" ? t('dashboard.emotional_score.daily') : bucket.replace("hour", " " + t('dashboard.emotional_score.hour')).replace("min", " " + t('dashboard.emotional_score.min'))}
 									</button>
 								))}
 							</div>
@@ -244,17 +246,17 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 					</div>
 					{!isControlled &&
 						<div className="relative">
-							<HoverTooltip content="Select custom date range">
+							<HoverTooltip content={t('dashboard.emotional_score.tooltip_custom')}>
 								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] hover:bg-gray-100">
 									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
 							</HoverTooltip>
 							{showDatePicker && (
 								<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
-									<p className="font-semibold mb-2">Date Range</p>
+									<p className="font-semibold mb-2">{t('dashboard.emotional_score.custom_range')}</p>
 									<div style={{ textAlign: 'start' }}>
 										<div className="flex flex-col justify-content-start">
-											<label className="text-xs text-gray-500">From</label>
+											<label className="text-xs text-gray-500">{t('dashboard.emotional_score.from')}</label>
 											<input
 												type="date"
 												value={customStart ? formatLocalDate(customStart) : ""}
@@ -263,7 +265,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 											/>
 										</div>
 										<div className="flex flex-col justify-content-start">
-											<label className="text-xs text-gray-500">To</label>
+											<label className="text-xs text-gray-500">{t('dashboard.emotional_score.to')}</label>
 											<input
 												type="date"
 												value={customEnd ? formatLocalDate(customEnd) : ""}
@@ -275,7 +277,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 											onClick={handleApplyCustomRange}
 											className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
 										>
-											Apply
+											{t('dashboard.emotional_score.apply')}
 										</button>
 									</div>
 								</div>
@@ -289,9 +291,9 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 				{/* Statistics Row */}
 				{hasData && (
 					<div className="flex flex-row justify-between items-start mb-4">
-						<HoverTooltip content="Average mood score based on selected period">
+						<HoverTooltip content={t('dashboard.emotional_score.tooltip_avg')}>
 							<div className="flex flex-col items-start">
-								<p className="text-sm text-gray-600">Average Mood Score</p>
+								<p className="text-sm text-gray-600">{t('dashboard.emotional_score.average_mood')}</p>
 								<p className="text-3xl font-bold text-navy-700">
 									{loading ? "..." : `${Math.round(avgMood || 0)}%`}
 								</p>
@@ -331,7 +333,7 @@ const EmotionalScore = ({ startDate: propStartDate, endDate: propEndDate, userId
 						/>
 					) : (
 						<div className="flex h-full items-center justify-center rounded-lg">
-							<p className="text-sm text-gray-500">No data available for this period</p>
+							<p className="text-sm text-gray-500">{t('dashboard.emotional_score.no_data')}</p>
 						</div>
 					)}
 				</div>

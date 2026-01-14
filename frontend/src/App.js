@@ -1,5 +1,7 @@
 import "./App.css";
 import { useEffect } from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
 import {
 	Route,
 	Routes,
@@ -44,10 +46,36 @@ function App() {
 
 	const showSidebar = useShowSidebar();
 	const location = useLocation();
+	const { i18n } = useTranslation();
 
 	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, [location.pathname]);
+		const syncLanguage = async () => {
+			const token = localStorage.getItem('token');
+			if (token) {
+				try {
+					// Minimal fetch to get language if not already stored or just strictly follow profile
+					const res = await axios.get('/api/profile/userProfile', {
+						headers: { Authorization: `Bearer ${token}` }
+					});
+					const { language, websiteLanguage } = res.data.data;
+					const mapLang = (l) => {
+						if (l === 'bm') return 'ms';
+						if (l === 'cn') return 'zh';
+						return l;
+					};
+
+					if (websiteLanguage) {
+						i18n.changeLanguage(mapLang(websiteLanguage));
+					} else if (language) {
+						i18n.changeLanguage(mapLang(language));
+					}
+				} catch (err) {
+					console.error("Failed to sync language", err);
+				}
+			}
+		};
+		syncLanguage();
+	}, []);
 
 	return (
 		<>

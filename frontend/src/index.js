@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 // import '../node_modules/font-awesome/css/font-awesome.min.css';
+import './i18n'; // Initialize i18n
 
 axios.defaults.baseURL = process.env.REACT_APP_WELLBOT_BACKEND_URL || 'http://localhost:5000';
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -13,6 +13,7 @@ import {
 } from "react-icons/md";
 import Card from "../../dashboard/card";
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
 
 // Services & Auth
 import { fetchUserEmbeddings } from "../../services/guardianDashboardService";
@@ -32,6 +33,7 @@ import { useEmotionalLogs } from "../../hooks/useEmotionalLogs";
 import FloatingNavbar from "../../layout/FloatingNavbar";
 
 const ReportPage = () => {
+    const { t } = useTranslation();
     const userId = getIdFromToken();
     // Assuming you can get the user name from local storage or token, otherwise fetch profile
     const userName = localStorage.getItem('fullName') || "Me";
@@ -150,8 +152,8 @@ const ReportPage = () => {
 
                 if (downloaded) {
                     Swal.fire({
-                        title: 'Success!',
-                        text: 'CSV data downloaded successfully.',
+                        title: t('report.alerts.success'),
+                        text: t('report.alerts.csv_downloaded'),
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false,
@@ -161,8 +163,8 @@ const ReportPage = () => {
                     });
                 } else {
                     Swal.fire({
-                        title: 'No Data',
-                        text: 'No data available to export for the selected options.',
+                        title: t('report.alerts.no_data'),
+                        text: t('report.alerts.no_data_desc'),
                         icon: 'info',
                         customClass: {
                             title: 'swal-title',
@@ -201,12 +203,13 @@ const ReportPage = () => {
                     finalMsgInsights,
                     finalEmoLogs,
                     finalActLogs,
-                    { start: startDate, end: endDate }
+                    { start: startDate, end: endDate },
+                    t
                 );
 
                 Swal.fire({
-                    title: 'Success!',
-                    text: 'PDF Report generated and downloaded.',
+                    title: t('report.alerts.success'),
+                    text: t('report.alerts.pdf_downloaded'),
                     icon: 'success',
                     timer: 2000,
                     showConfirmButton: false,
@@ -218,8 +221,8 @@ const ReportPage = () => {
         } catch (error) {
             console.error("Report generation error:", error);
             Swal.fire({
-                title: 'Error',
-                text: 'Failed to generate report. Please try again.',
+                title: t('report.alerts.error'),
+                text: t('report.alerts.failed'),
                 icon: 'error',
                 customClass: {
                     title: 'swal-title',
@@ -235,31 +238,31 @@ const ReportPage = () => {
 
     return (
         <div className="main-container">
-            <FloatingNavbar brandText="My Report Generator" />
+            <FloatingNavbar brandText={t('report.title_user')} />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
                 {/* --- Left Column: Configuration --- */}
                 <div className="xl:col-span-1 space-y-6">
                     <Card extra="p-4">
-                        <h4 className="text-lg font-bold text-navy-700 mb-4">Configuration</h4>
+                        <h4 className="text-lg font-bold text-navy-700 mb-4">{t('report.configuration')}</h4>
 
                         {/* 1. Report Period */}
                         <div className="mb-3 flex gap-4">
                             <div className="w-1/2">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">Type</label>
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">{t('report.type')}</label>
                                 <select
-                                    className="block w-full rounded-xl border border-gray-300 bg-white text-sm text-gray-700 focus:border-brand-500"
+                                    className="block w-full rounded-xl border border-gray-300 bg-white text-sm text-gray-800 focus:border-brand-500"
                                     style={{ padding: "0.75rem" }}
                                     value={reportType}
                                     onChange={(e) => setReportType(e.target.value)}
                                 >
-                                    <option value="month">Monthly</option>
-                                    <option value="year">Yearly</option>
+                                    <option value="month">{t('report.monthly')}</option>
+                                    <option value="year">{t('report.yearly')}</option>
                                 </select>
                             </div>
                             <div className="w-1/2">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">Period</label>
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2 block">{t('report.period')}</label>
                                 <div className="flex items-center rounded-xl border border-gray-300 bg-white p-2.5">
                                     <MdOutlineCalendarToday className="text-gray-500 mr-2" />
                                     <DatePicker
@@ -268,7 +271,7 @@ const ReportPage = () => {
                                         showMonthYearPicker={reportType === 'month'}
                                         showYearPicker={reportType === 'year'}
                                         dateFormat={reportType === 'month' ? "MMM yyyy" : "yyyy"}
-                                        className="bg-transparent text-sm font-medium text-gray-700 outline-none w-full"
+                                        className="bg-transparent text-sm font-medium text-gray-800 outline-none w-full"
                                     />
                                 </div>
                             </div>
@@ -276,75 +279,75 @@ const ReportPage = () => {
 
                         {/* 2. File Format */}
                         <div className="mb-6">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 block">File Format</label>
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 block">{t('report.file_format')}</label>
                             <div className="grid grid-cols-2 gap-3">
                                 <button
                                     onClick={() => setFileFormat('pdf')}
                                     className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${fileFormat === 'pdf' ? 'border-[var(--primary-color)] bg-[#49afa430] text-[var(--primary-color)]' : 'border-gray-200 hover:border-gray-300 text-gray-600'}`}
                                 >
                                     <MdPictureAsPdf className="text-2xl mb-1" />
-                                    <span className="font-bold text-sm">PDF Report</span>
+                                    <span className="font-bold text-sm">{t('report.pdf_option')}</span>
                                 </button>
                                 <button
                                     onClick={() => setFileFormat('csv')}
                                     className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${fileFormat === 'csv' ? 'border-[var(--primary-color)] bg-[#49afa430] text-[var(--primary-color)]' : 'border-gray-200 hover:border-gray-300 text-gray-600'}`}
                                 >
                                     <MdTableView className="text-2xl mb-1" />
-                                    <span className="font-bold text-sm">Raw CSV</span>
+                                    <span className="font-bold text-sm">{t('report.csv_option')}</span>
                                 </button>
                             </div>
                         </div>
 
                         {/* 3. Dynamic Options */}
                         <div className="mb-6 border-t pt-4">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 block">Include Data</label>
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 block">{t('report.include_data')}</label>
 
                             {fileFormat === 'pdf' ? (
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('widgets')}>
-                                        <span className="text-sm text-navy-700">Emotion Summary</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.widgets')}</span>
                                         {pdfConfig.widgets ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activity')}>
-                                        <span className="text-sm text-navy-700">Activity Distribution</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.activity')}</span>
                                         {pdfConfig.activity ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('score')}>
-                                        <span className="text-sm text-navy-700">Mood Score</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.score')}</span>
                                         {pdfConfig.score ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('dist')}>
-                                        <span className="text-sm text-navy-700">Emotional Distribution</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.dist')}</span>
                                         {pdfConfig.dist ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('mood')}>
-                                        <span className="text-sm text-navy-700">Activity Impact</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.mood')}</span>
                                         {pdfConfig.mood ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('messages')}>
-                                        <span className="text-sm text-navy-700">Message Patterns</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.messages')}</span>
                                         {pdfConfig.messages ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('emotionalTable')}>
-                                        <span className="text-sm text-navy-700">Emotional Records</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.emotional_table')}</span>
                                         {pdfConfig.emotionalTable ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => togglePdfConfig('activityTable')}>
-                                        <span className="text-sm text-navy-700">Activity Records</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.activity_table')}</span>
                                         {pdfConfig.activityTable ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                 </div>
                             ) : (
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCsvConfig('emotionalLogs')}>
-                                        <span className="text-sm text-navy-700">Emotional Raw Data</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.emotional_raw')}</span>
                                         {csvConfig.emotionalLogs ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
                                     <div className="flex items-center justify-between cursor-pointer" onClick={() => toggleCsvConfig('activityLogs')}>
-                                        <span className="text-sm text-navy-700">Activity Raw Data</span>
+                                        <span className="text-sm text-navy-700">{t('report.options.activity_raw')}</span>
                                         {csvConfig.activityLogs ? <MdCheckCircle className="text-[#3E9389]" /> : <MdRadioButtonUnchecked className="text-gray-400" />}
                                     </div>
-                                    <p className="text-xs text-gray-400 mt-2 italic">*Will download separate files if both are selected.</p>
+                                    <p className="text-xs text-gray-400 mt-2 italic">{t('report.helpers.csv_note')}</p>
                                 </div>
                             )}
                         </div>
@@ -355,11 +358,11 @@ const ReportPage = () => {
                             className={`w-full flex items-center justify-center gap-2 my-3 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg shadow-brand-500/30 ${isGenerating ? 'bg-[#2F756D] text-white cursor-not-allowed' : 'bg-[#3E9389] hover:bg-[#2F756D] text-white'}`}
                         >
                             {isGenerating ? (
-                                <span>Generating...</span>
+                                <span>{t('report.generating')}</span>
                             ) : (
                                 <>
                                     <MdFileDownload className="text-xl" />
-                                    {fileFormat === 'pdf' ? "Generate PDF Report" : "Download CSV Data"}
+                                    {fileFormat === 'pdf' ? t('report.generate_pdf') : t('report.download_csv')}
                                 </>
                             )}
                         </button>
@@ -369,33 +372,33 @@ const ReportPage = () => {
                 {/* --- Right Column: Preview --- */}
                 <div className="xl:col-span-2 space-y-6">
                     <Card extra="p-6 h-fit">
-                        <h4 className="text-lg font-bold text-navy-700 mb-4">Report Summary</h4>
-                        <div className="space-y-4 text-sm text-gray-700">
+                        <h4 className="text-lg font-bold text-navy-700 mb-4">{t('report.report_summary')}</h4>
+                        <div className="space-y-4 text-sm text-gray-800">
                             <div className="flex justify-between border-b pb-2">
-                                <span>Reporting Period</span>
+                                <span>{t('report.summary.period')}</span>
                                 <span className="font-bold text-navy-700">
                                     {startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}
                                 </span>
                             </div>
                             <div className="flex justify-between border-b pb-2">
-                                <span>Total Messages</span><
+                                <span>{t('report.summary.total_messages')}</span><
                                     span className="font-bold text-navy-700">{messageInsightsData?.totalMessages || 0}</span>
                             </div>
                             <div className="flex justify-between border-b pb-2">
-                                <span>Total Activities</span>
+                                <span>{t('report.summary.total_activities')}</span>
                                 <span className="font-bold text-navy-700">{activityLogs?.length || 0}</span>
                             </div>
                             <div className="flex justify-between border-b pb-2">
-                                <span>Emotional Entries</span>
+                                <span>{t('report.summary.emotional_entries')}</span>
                                 <span className="font-bold text-navy-700">{emotionalLogs?.length || 0}</span>
                             </div>
-                            <div className="bg-gray-100 p-3 rounded-lg mt-4 text-gray-700 text-xs">
-                                <p>The preview on below shows your data for the selected range. Items grayed out will be excluded from the PDF based on your selection.</p>
+                            <div className="bg-gray-100 p-3 rounded-lg mt-4 text-gray-800 text-xs">
+                                <p>{t('report.helpers.preview_note')}</p>
                             </div>
                         </div>
                     </Card>
                     <Card extra={!pdfConfig.widgets || fileFormat === 'csv' ? "p-2 pb-4 h-fit opacity-40 grayscale" : "p-2 pb-4 h-fit"}>
-                        <h4 className="p-4 text-lg font-bold text-navy-700">Emotion Summary</h4>
+                        <h4 className="p-4 text-lg font-bold text-navy-700">{t('report.emotion_summary')}</h4>
                         <div id="report-widgets" className="pb-2">
                             <ReportDisplayWidgets userId={userId} startDate={startDate} endDate={endDate} />
                         </div>

@@ -4,6 +4,7 @@ import axios from "axios";
 import { MdNotifications, MdNotificationsNone, MdPerson, MdSettings, MdLogout, MdCheck, MdClose } from "react-icons/md";
 import { getIdFromToken, getRoleFromToken } from "../utils/auth";
 import Swal from "sweetalert2";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const TopRightNavbar = () => {
     const navigate = useNavigate();
@@ -103,6 +104,7 @@ const TopRightNavbar = () => {
 
     return (
         <div className="fixed z-[999] flex items-center gap-3" style={{ top: "2rem", right: "2rem" }}>
+            <LanguageSwitcher />
             {/* Notification Bell (User Only) */}
             {role === 'user' && (
                 <div className="relative" ref={notifRef}>

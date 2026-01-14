@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import PieChart from "../charts/PieChart";
 import Card from "../card";
 import { getIdFromToken } from "../../utils/auth";
@@ -10,6 +11,7 @@ import HoverTooltip from "../../components/HoverTooltip";
 import '../../styles/dashboardPage.css';
 
 const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+	const { t } = useTranslation();
 	const userId = propUserId || getIdFromToken();
 	const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
@@ -54,6 +56,17 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 		"Meditation with Music",
 		"Daily Quote"
 	], []);
+
+	const getLocalizedLabel = (label) => {
+		switch (label) {
+			case 'Support Chat': return t('dashboard.pie_chart.types.support_chat');
+			case 'Journaling': return t('dashboard.pie_chart.types.journaling');
+			case 'Gratitude': return t('dashboard.pie_chart.types.gratitude');
+			case 'Meditation with Music': return t('dashboard.pie_chart.types.meditation');
+			case 'Daily Quote': return t('dashboard.pie_chart.types.daily_quote');
+			default: return label;
+		}
+	};
 
 	const formatInputDate = (date, range) => {
 		if (!date) return "";
@@ -113,7 +126,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 		FIXED_ORDER.forEach(type => {
 			if (counts[type] > 0) {
 				orderedSeries.push(counts[type]);
-				orderedLabels.push(type);
+				orderedLabels.push(getLocalizedLabel(type));
 				orderedColors.push(COLOR_MAP[type]);
 			}
 		});
@@ -140,7 +153,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 		const allPresentKeys = Object.keys(counts);
 
 		const distData = allPresentKeys.map(label => ({
-			label,
+			label: getLocalizedLabel(label), // Use localized label for distribution list too
 			count: counts[label],
 			percentage: total > 0 ? Math.round((counts[label] / total) * 100) : 0,
 			color: COLOR_MAP[label] || "#A3AED0"
@@ -200,26 +213,26 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 		<Card extra="col-span-1 rounded-[20px] p-3">
 			<div className="flex flex-row justify-between px-3 pt-2">
 				<div>
-					<HoverTooltip content="Frequency of activity count based on each activity types">
-						<h4 className="text-lg font-bold text-navy-700">Activity Types</h4>
+					<HoverTooltip content={t('dashboard.pie_chart.tooltip_title')}>
+						<h4 className="text-lg font-bold text-navy-700">{t('dashboard.pie_chart.title')}</h4>
 					</HoverTooltip>
 				</div>
 
 				{!isControlled && (
 					<div className="flex items-center justify-center gap-3">
-						<HoverTooltip content="Customize to yearly, monthly, or weekly view">
+						<HoverTooltip content={t('dashboard.pie_chart.tooltip_interval')}>
 							<select
 								value={timeRange}
 								onChange={(e) => setTimeRange(e.target.value)}
 								className="mb-3 flex items-center justify-center text-sm font-bold text-gray-600 bg-transparent border-none outline-none"
 							>
-								<option value="weekly">Weekly</option>
-								<option value="monthly">Monthly</option>
-								<option value="yearly">Yearly</option>
+								<option value="weekly">{t('dashboard.pie_chart.weekly')}</option>
+								<option value="monthly">{t('dashboard.pie_chart.monthly')}</option>
+								<option value="yearly">{t('dashboard.pie_chart.yearly')}</option>
 							</select>
 						</HoverTooltip>
 						<div className="relative mb-3">
-							<HoverTooltip content="Select custom date range">
+							<HoverTooltip content={t('dashboard.pie_chart.tooltip_custom')}>
 								<button
 									onClick={() => setShowDatePicker(!showDatePicker)}
 									className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] hover:bg-gray-100"
@@ -233,13 +246,13 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 							{showDatePicker && (
 								<div className="absolute right-0 top-10 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[220px] text-sm">
 									<p className="font-semibold mb-2">
-										Select {timeRange === 'weekly' ? 'Week' : timeRange === 'monthly' ? 'Month' : 'Year'}
+										{timeRange === 'weekly' ? t('dashboard.pie_chart.select_week') : timeRange === 'monthly' ? t('dashboard.pie_chart.select_month') : t('dashboard.pie_chart.select_year')}
 									</p>
 
 									<div className="mb-3">
 										{timeRange === 'weekly' && (
 											<>
-												<p className="text-xs text-gray-500 mb-1">Pick any date in the week:</p>
+												<p className="text-xs text-gray-500 mb-1">{t('dashboard.pie_chart.pick_date')}</p>
 												<input
 													type="date"
 													className="w-full border rounded p-1"
@@ -274,13 +287,13 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 											onClick={() => setShowDatePicker(false)}
 											className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded"
 										>
-											Cancel
+											{t('dashboard.pie_chart.cancel')}
 										</button>
 										<button
 											onClick={handleApplyDate}
 											className="rounded-lg bg-[#3E9389] px-3 py-1 text-white hover:bg-[#88BFB9]"
 										>
-											Apply
+											{t('dashboard.pie_chart.apply')}
 										</button>
 									</div>
 								</div>
@@ -294,15 +307,15 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 					<AiOutlineLoading className="h-8 w-8 animate-spin text-[#3E9389]" />
 				</div> :
 				chartData.length > 0 ?
-					<div className="flex flex-row items-center gap-4 my-3">
+					<div className="flex flex-row items-center gap-1 my-3">
 						<div className="mb-auto flex h-[200px] items-center justify-center">
 
-							<PieChart width={"75%"} options={chartOptions} series={chartData} />
+							<PieChart width={"78%"} options={chartOptions} series={chartData} />
 						</div>
 
 						<div className="pie-md-legend flex flex-col px-4 shadow-2xl shadow-shadow-500 overflow-y-auto gap-2">
 							{distribution.map((item, index) => (
-								<div key={index} className="flex flex-row justify-between items-center gap-2">
+								<div key={index} className="flex flex-row justify-between items-center gap-3">
 									<div className="flex items-center gap-2">
 										<div className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
 										<p className="pl-3 text-sm font-normal text-gray-800 truncate" title={item.label}>
@@ -319,7 +332,7 @@ const PieChartCard = ({ startDate: propStartDate, endDate: propEndDate, userId: 
 					</div>
 					:
 					<div className="h-full w-full flex items-center justify-center">
-						<p className="text-sm text-gray-500">No data available for this period</p>
+						<p className="text-sm text-gray-500">{t('dashboard.pie_chart.no_data')}</p>
 					</div>
 			}
 		</Card>

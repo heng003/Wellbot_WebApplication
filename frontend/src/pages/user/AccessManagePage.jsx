@@ -6,8 +6,10 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
 import FloatingNavbar from '../../layout/FloatingNavbar';
+import { useTranslation } from 'react-i18next';
 
 const AccessManagePage = () => {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('requests');
     const [newGuardian, setNewGuardian] = useState('');
@@ -47,7 +49,7 @@ const AccessManagePage = () => {
     const handleAddGuardian = async (e) => {
         e.preventDefault();
         if (!userId) {
-            alert('Credential not found');
+            alert(t('access_control.alerts.credential_error'));
             return;
         }
         try {
@@ -61,12 +63,13 @@ const AccessManagePage = () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (response.status === 201) {
                 Swal.fire({
-                    title: 'Access Granted',
-                    text: 'The Guardian is being granted permission to access your emotional data.',
+                    title: t('access_control.alerts.success_granted'),
+                    text: t('access_control.no_active.instruction'), // Using instruction as success message or we can add specific success msg
                     icon: 'success',
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         title: 'swal-title',
+                        cancelButton: 'swal-cancel-white'
                     }
                 }).then(() => {
                     setNewGuardian('');
@@ -76,7 +79,7 @@ const AccessManagePage = () => {
                 });
             } else if (response.status === 200) {
                 Swal.fire({
-                    title: 'Already Exists',
+                    title: t('access_control.alerts.already_exists'),
                     text: `A monitoring request or permission for this user already exists (status: ${response.data.status}).`,
                     icon: 'info',
                     confirmButtonColor: "var(--primary-color)",
@@ -91,8 +94,8 @@ const AccessManagePage = () => {
         } catch (error) {
             if (error.response && error.response.status === 404 && error.response.data.message === "User not existed.") {
                 Swal.fire({
-                    title: "User Not Found",
-                    text: "No user found with that email or name. Please check and try again.",
+                    title: t('access_control.alerts.user_not_found'),
+                    text: t('access_control.modals.helper_text'), // Reusing helper text or generic error
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
@@ -117,16 +120,17 @@ const AccessManagePage = () => {
     const handleRevokeAccess = async (permissionId) => {
         if (!userId) return;
         const result = await Swal.fire({
-            title: 'Are you sure?',
-            text: 'Do you want to revoke this guardian\'s access?',
+            title: t('access_control.alerts.confirm_revoke'),
+            text: t('access_control.alerts.confirm_revoke_text'),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: "var(--primary-color)",
             cancelButtonColor: "#FFF",
-            confirmButtonText: 'Yes, revoke',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: t('access_control.actions.yes_revoke'),
+            cancelButtonText: t('access_control.actions.cancel'),
             customClass: {
                 title: 'swal-title',
+                cancelButton: 'swal-cancel-white'
             }
         });
         if (!result.isConfirmed) return;
@@ -139,7 +143,7 @@ const AccessManagePage = () => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             Swal.fire({
-                title: 'Revoked',
+                title: t('access_control.alerts.success_revoked'),
                 text: 'Guardian access has been revoked.',
                 icon: 'success',
                 confirmButtonColor: "var(--primary-color)",
@@ -171,7 +175,7 @@ const AccessManagePage = () => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             Swal.fire({
-                title: 'Accepted',
+                title: t('access_control.alerts.success_accepted'),
                 text: 'Guardian request has been accepted.',
                 icon: 'success',
                 confirmButtonColor: "var(--primary-color)",
@@ -203,7 +207,7 @@ const AccessManagePage = () => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             Swal.fire({
-                title: 'Rejected',
+                title: t('access_control.alerts.success_rejected'),
                 text: 'Guardian request has been rejected.',
                 icon: 'success',
                 confirmButtonColor: "var(--primary-color)",
@@ -244,8 +248,8 @@ const AccessManagePage = () => {
             {pendingRequests.length === 0 ? (
                 <div className='no-users-row border-t border-gray-300'>
                     <div className="no-users-message">
-                        <strong>No pending requests.</strong>
-                        You don't have any tracking requests at the moment.
+                        <strong>{t('access_control.no_requests.title')}</strong>
+                        {t('access_control.no_requests.message')}
                     </div>
                 </div>
             ) : pendingRequests.map(req => (
@@ -267,13 +271,13 @@ const AccessManagePage = () => {
                             onClick={() => handleAcceptRequest(req.id)}
                             className="green-button"
                         >
-                            <Check size={16} className="mr-2" /> Accept
+                            <Check size={16} className="mr-2" /> {t('access_control.actions.accept')}
                         </button>
                         <button
                             onClick={() => handleRejectRequest(req.id)}
                             className="white-button"
                         >
-                            <X size={16} className="mr-2" /> Reject
+                            <X size={16} className="mr-2" /> {t('access_control.actions.reject')}
                         </button>
                     </div>
                 </div>
@@ -287,9 +291,9 @@ const AccessManagePage = () => {
             {activeGuardians.length === 0 ? (
                 <div className='no-users-row border-t border-gray-300'>
                     <div className="no-users-message">
-                        <strong>No active guardians.</strong>
-                        <p>You haven't granted access to any guardians yet.</p>
-                        <p>Click <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>"Add Guardian"</span> to add trusred person to monitor your emotional well-being.</p>
+                        <strong>{t('access_control.no_active.title')}</strong>
+                        <p>{t('access_control.no_active.message')}</p>
+                        <p>{t('access_control.no_active.instruction')}</p>
                     </div>
                 </div>
             ) : activeGuardians.map(g => (
@@ -301,11 +305,11 @@ const AccessManagePage = () => {
                             <p className="card-header-content">{g.guardianEmail}</p>
                         </div>
                         <button onClick={() => handleRevokeAccess(g.id)} className="white-button" style={{ color: '#dc2626', borderColor: '#fca5a5' }}>
-                            <UserMinus size={16} className="mr-2" /> Revoke Access
+                            <UserMinus size={16} className="mr-2" /> {t('access_control.actions.revoke')}
                         </button>
                     </div>
                     <div className="flex-row">
-                        <p className="text-sm text-slate-500">Access Granted</p>
+                        <p className="text-sm text-slate-500">{t('access_control.guardian_card.access_granted')}</p>
                         <p className="font-medium">{formatDate(g.accessGrantedDate)}</p>
                     </div>
                 </div>
@@ -316,9 +320,9 @@ const AccessManagePage = () => {
     return (
         <div className="main-container">
             <FloatingNavbar
-                brandText="Data Access Control"
+                brandText={t('access_control.page_title')}
                 actionButton={{
-                    label: "Add Guardian",
+                    label: t('access_control.add_guardian'),
                     icon: <UserPlus className="h-5 w-5" />,
                     onClick: () => setShowAddGuardianModal(true)
                 }}
@@ -336,13 +340,13 @@ const AccessManagePage = () => {
                                 className={`tab-btn${activeTab === 'requests' ? ' active' : ''}`}
                                 onClick={() => setActiveTab('requests')}
                             >
-                                Requests ({pendingRequests.length})
+                                {t('access_control.tabs.requests')} ({pendingRequests.length})
                             </button>
                             <button
                                 className={`tab-btn${activeTab === 'active' ? ' active' : ''}`}
                                 onClick={() => setActiveTab('active')}
                             >
-                                Active Guardians ({activeGuardians.length})
+                                {t('access_control.tabs.active')} ({activeGuardians.length})
                             </button>
                         </div>
                     </div>
@@ -355,25 +359,25 @@ const AccessManagePage = () => {
             {showAddGuardianModal && (
                 <div className="modal-overlay">
                     <div className="modal-container">
-                        <h3 className="modal-header modal-title">Add New Guardian</h3>
+                        <h3 className="modal-header modal-title mb-4">{t('access_control.modals.add_title')}</h3>
                         <form onSubmit={handleAddGuardian}>
                             <div className="modal-form">
-                                <label className="form-label">Email / Name</label>
+                                <label className="form-label">{t('access_control.modals.email_label')}</label>
                                 <input
                                     type="text"
                                     value={newGuardian}
                                     onChange={(e) => setNewGuardian(e.target.value)}
                                     className="form-input"
-                                    placeholder="e.g. johndoe@example.com or John Doe"
+                                    placeholder={t('access_control.modals.email_placeholder')}
                                     required
                                 />
                                 <p className="form-helper">
-                                    Enter a trusted guardian’s email or name to help monitor your emotional well-being.
+                                    {t('access_control.modals.helper_text')}
                                 </p>
                             </div>
                             <div className="modal-actions">
                                 <button type="submit" className="long-green-button">
-                                    Confirm
+                                    {t('access_control.actions.confirm')}
                                 </button>
                                 <button
                                     type="button"
@@ -383,7 +387,7 @@ const AccessManagePage = () => {
                                     }}
                                     className="long-white-button"
                                 >
-                                    Cancel
+                                    {t('access_control.actions.cancel')}
                                 </button>
                             </div>
                         </form>

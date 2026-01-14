@@ -7,7 +7,10 @@ import Swal from "sweetalert2";
 import { updateJournal, createJournal, deleteJournal } from "../services/journalService";
 import { getIdFromToken } from "../utils/auth";
 
+import { useTranslation } from "react-i18next";
+
 const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = false }) => {
+    const { t } = useTranslation();
     const userId = getIdFromToken();
     const isEditingExisting = !!initialData;
 
@@ -51,6 +54,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
     }, [close]);
 
     // Save/Add
+    // Save/Add
     const handleSave = async () => {
         if (!title.trim() || !content.trim()) return;
 
@@ -65,8 +69,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                     fav: isFav,
                     created_at: combined.toISOString(),
                 });
-
-                Swal.fire("Updated!", "Your journal entry has been updated.", "success");
+                Swal.fire(t('feature.journal.success_updated'), t('feature.journal.success_updated_msg'), "success");
             } else {
                 await createJournal({
                     user_id: userId,
@@ -74,13 +77,13 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                     body: content,
                     fav: isFav
                 });
-                Swal.fire("Created!", "Your new journal entry has been added.", "success");
+                Swal.fire(t('feature.journal.success_created'), t('feature.journal.success_created_msg'), "success");
             }
 
             if (onUpdate) onUpdate();
             close();
         } catch (error) {
-            Swal.fire("Error", "Failed to save journal entry.", "error");
+            Swal.fire(t('feature.journal.error_title'), t('feature.journal.error_msg'), "error");
         }
 
         setLoading(false);
@@ -89,11 +92,12 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
     // Delete
     const handleDelete = async () => {
         const res = await Swal.fire({
-            title: "Delete journal?",
-            text: "This action cannot be undone.",
+            title: t('feature.journal.confirm_delete_title'),
+            text: t('feature.journal.confirm_delete_msg'),
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Delete",
+            confirmButtonText: t('feature.journal.delete'),
+            cancelButtonText: t('feature.journal.cancel'),
             confirmButtonColor: "#d33",
         });
 
@@ -101,12 +105,12 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
 
         try {
             await deleteJournal(initialData.id);
-            Swal.fire("Deleted", "Your journal entry has been removed.", "success");
+            Swal.fire(t('feature.journal.success_deleted'), t('feature.journal.success_deleted_msg'), "success");
 
             if (onUpdate) onUpdate();
             close();
         } catch (err) {
-            Swal.fire("Error", "Failed to delete entry.", "error");
+            Swal.fire(t('feature.journal.error_title'), "Failed to delete entry.", "error");
         }
     };
 
@@ -117,7 +121,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                 {/* HEADER */}
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="modal-title">
-                        {isEditingExisting ? (editMode ? "Edit Journal" : title) : "New Journal"}
+                        {isEditingExisting ? (editMode ? t('feature.journal.edit_title') : title) : t('feature.journal.new_title')}
                     </h3>
                     <button onClick={close} className="p-2 rounded-full bg-gray-100 hover:opacity-80 text-gray-500">
                         <MdClose className="text-xl" />
@@ -140,13 +144,14 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                         {/* Title */}
                         {editMode && (
                             <div>
-                                <label className="form-label">Title</label>
+                                <label className="form-label">{t('feature.journal.label_title')}</label>
                                 <input
                                     type="text"
                                     className="form-input"
                                     value={title}
                                     disabled={!editMode}
                                     onChange={(e) => setTitle(e.target.value)}
+                                    placeholder={t('feature.journal.placeholder_title')}
                                 />
                             </div>
                         )}
@@ -154,7 +159,7 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                         {/* Date + Time */}
                         {(editMode && !show) ? (
                             <div>
-                                <label className="form-label">Date & Time</label>
+                                <label className="form-label">{t('feature.journal.label_date')}</label>
                                 <div className="flex gap-3">
                                     <input type="date" className="form-input" value={dateVal} onChange={(e) => setDateVal(e.target.value)} />
                                     <input type="time" className="form-input" value={timeVal} onChange={(e) => setTimeVal(e.target.value)} />
@@ -171,8 +176,13 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                         {/* Content */}
                         {editMode ? (
                             <div>
-                                <label className="form-label">Content</label>
-                                <textarea className="form-input h-32" value={content} onChange={(e) => setContent(e.target.value)} />
+                                <label className="form-label">{t('feature.journal.label_content')}</label>
+                                <textarea
+                                    className="form-input h-32"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                    placeholder={t('feature.journal.placeholder_body')}
+                                />
                             </div>
                         ) : (
                             <p className="form-display-box whitespace-pre-line">{content}</p>
@@ -183,15 +193,15 @@ const JournalModal = ({ initialData, image, onClose, onUpdate, openInitially = f
                             {editMode ? (
                                 <>
                                     <button className="green-button btn-primary" onClick={handleSave}>
-                                        {loading ? "Saving..." : "Save"}
+                                        {loading ? t('feature.journal.saving') : t('feature.journal.save')}
                                     </button>
-                                    <button className="white-button btn-outline" onClick={close}>Cancel</button>
+                                    <button className="white-button btn-outline" onClick={close}>{t('feature.journal.cancel')}</button>
                                 </>
                             ) : (
                                 <>
-                                    <button className="green-button btn-primary" onClick={() => setEditMode(true)}>Edit</button>
+                                    <button className="green-button btn-primary" onClick={() => setEditMode(true)}>{t('feature.journal.edit')}</button>
                                     {initialData && (
-                                        <button className="white-button btn-outline" onClick={handleDelete}>Delete</button>
+                                        <button className="white-button btn-outline" onClick={handleDelete}>{t('feature.journal.delete')}</button>
                                     )}
                                 </>
                             )}

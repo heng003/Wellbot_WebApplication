@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useTranslation } from 'react-i18next';
 import { AiOutlineLoading } from "react-icons/ai";
 import PieChart from "../charts/PieChart";
 import Card from "../card";
@@ -6,6 +7,7 @@ import { getIdFromToken } from "../../utils/auth";
 import { useInterventionData } from "../../hooks/useInterventionData";
 
 const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
+    const { t } = useTranslation();
     const userId = propUserId || getIdFromToken();
 
     const customRange = useMemo(() => ({ start: startDate, end: endDate }), [startDate, endDate]);
@@ -40,6 +42,19 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
         "Daily Quote"
     ], []);
 
+    const typeToKey = {
+        "Support Chat": "support_chat",
+        "Journaling": "journaling",
+        "Gratitude": "gratitude",
+        "Meditation with Music": "meditation",
+        "Daily Quote": "daily_quote"
+    };
+
+    const getTranslatedLabel = (type) => {
+        const key = typeToKey[type];
+        return key ? t(`report.activities.${key}`) : type;
+    };
+
     useEffect(() => {
         if (!Array.isArray(rawData)) return;
 
@@ -64,7 +79,7 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
         FIXED_ORDER.forEach(type => {
             if (counts[type] > 0) {
                 orderedSeries.push(counts[type]);
-                orderedLabels.push(type);
+                orderedLabels.push(getTranslatedLabel(type));
                 orderedColors.push(COLOR_MAP[type]);
             }
         });
@@ -73,7 +88,7 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
         Object.keys(counts).forEach(type => {
             if (!FIXED_ORDER.includes(type) && counts[type] > 0) {
                 orderedSeries.push(counts[type]);
-                orderedLabels.push(type);
+                orderedLabels.push(getTranslatedLabel(type));
                 orderedColors.push("#A3AED0"); // Default gray
             }
         });
@@ -91,7 +106,7 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
         const allPresentKeys = Object.keys(counts);
 
         const distData = allPresentKeys.map(label => ({
-            label,
+            label: getTranslatedLabel(label),
             count: counts[label],
             percentage: total > 0 ? Math.round((counts[label] / total) * 100) : 0,
             color: COLOR_MAP[label] || "#A3AED0"
@@ -106,7 +121,7 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
         <Card extra="col-span-1 rounded-[20px] p-3 h-full">
             <div className="flex flex-row justify-between px-3 pt-2">
                 <div>
-                    <h4 className="text-lg font-bold text-navy-700">Activity Frequency</h4>
+                    <h4 className="text-lg font-bold text-navy-700">{t('report.charts.activity_frequency')}</h4>
                 </div>
             </div>
             {loading ? (
@@ -140,7 +155,7 @@ const ReportPieChartCard = ({ startDate, endDate, userId: propUserId }) => {
                 </div>
             ) : (
                 <div className="h-full w-full flex items-center justify-center">
-                    <p className="text-sm text-gray-500">No data available for this period</p>
+                    <p className="text-sm text-gray-500">{t('report.charts.no_data')}</p>
                 </div>
             )}
         </Card>

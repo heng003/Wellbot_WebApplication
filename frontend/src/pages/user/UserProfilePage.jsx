@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { User, Edit, Save, Lock, Eye, EyeOff, Shield, Bot } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { User, Edit, Save, Lock, Eye, EyeOff, Shield, Bot, Globe } from 'lucide-react';
 import { AiOutlineLoading } from 'react-icons/ai';
 import '../../styles/profilePage.css';
 import Swal from 'sweetalert2';
@@ -7,8 +8,11 @@ import axios from 'axios';
 import { getIdFromToken } from '../../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import FloatingNavbar from '../../layout/FloatingNavbar';
+import LanguageChangeModal from '../../components/LanguageChangeModal';
 
 const UserProfilePage = () => {
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
     const [personalData, setPersonalData] = useState({});
     const userId = getIdFromToken();
     const [dataLoading, setDataLoading] = useState(true);
@@ -17,6 +21,7 @@ const UserProfilePage = () => {
     const [error, setError] = useState('');
     const [editingPersonal, setEditingPersonal] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showLanguageModal, setShowLanguageModal] = useState(false);
     const [showDeviceModal, setShowDeviceModal] = useState(false);
     const [serialNumberInput, setSerialNumberInput] = useState('');
     const navigate = useNavigate();
@@ -60,12 +65,12 @@ const UserProfilePage = () => {
         str.replace(/\b\w/g, char => char.toUpperCase());
 
     const languageMap = {
-        'en': 'English',
-        'cn': 'Chinese',
-        'bm': 'Bahasa Melayu',
-        'english': 'English', // Fallbacks for legacy data
-        'chinese': 'Chinese',
-        'malay': 'Bahasa Melayu'
+        'en': t('profile.options.language.en'),
+        'cn': t('profile.options.language.cn'),
+        'bm': t('profile.options.language.bm'),
+        'english': t('profile.options.language.en'), // Fallbacks
+        'chinese': t('profile.options.language.cn'),
+        'malay': t('profile.options.language.bm')
     };
 
     const handleFullNameInputChange = (e) => {
@@ -82,6 +87,9 @@ const UserProfilePage = () => {
             ...prev,
             [name]: value
         }));
+        if (name === 'websiteLanguage') {
+            i18n.changeLanguage(value);
+        }
     };
 
     const handlePasswordInputChange = (e) => {
@@ -105,22 +113,23 @@ const UserProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             scrollToTop();
-            setSuccess('Personal information updated successfully!');
+            setSuccess(t('profile.alerts.personal_updated'));
             setEditingPersonal(false);
             Swal.fire({
-                title: "Success",
-                text: "Personal information updated successfully!",
+                title: t('profile.alerts.success'),
+                text: t('profile.alerts.personal_updated'),
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title',
+                    cancelButton: 'swal-cancel-white'
                 }
             });
         } catch (err) {
-            setError('Failed to update profile');
+            setError(t('profile.alerts.error'));
             Swal.fire({
-                title: "Error",
-                text: err.response?.data?.message || "Failed to update profile",
+                title: t('profile.alerts.error'),
+                text: err.response?.data?.message || t('profile.alerts.error'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -136,21 +145,20 @@ const UserProfilePage = () => {
         e.preventDefault();
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             Swal.fire({
-                title: "Error",
-                text: "New passwords do not match.",
+                title: t('profile.alerts.error'),
+                text: t('profile.alerts.password_mismatch'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title',
                 }
             });
-            return;
         }
         if (passwordData.newPassword.length < 8) {
-            setError('Password must be at least 8 characters long');
+            setError(t('profile.alerts.password_length'));
             Swal.fire({
-                title: "Error",
-                text: "Password must be at least 8 characters long",
+                title: t('profile.alerts.error'),
+                text: t('profile.alerts.password_length'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -169,12 +177,12 @@ const UserProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             scrollToTop();
-            setSuccess('Password changed successfully!');
+            setSuccess(t('profile.alerts.password_changed'));
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' })
             setShowPasswordModal(false);
             Swal.fire({
-                title: "Success",
-                text: "Password changed successfully!",
+                title: t('profile.alerts.success'),
+                text: t('profile.alerts.password_changed'),
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -197,6 +205,24 @@ const UserProfilePage = () => {
         }
     };
 
+    const handleWebsiteLanguageChange = async (e) => {
+        const { value } = e.target;
+        setPersonalData(prev => ({
+            ...prev,
+            websiteLanguage: value
+        }));
+        i18n.changeLanguage(value);
+
+        try {
+            const token = localStorage.getItem('token');
+            await axios.put('/api/profile/userProfile', { websiteLanguage: value }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+        } catch (err) {
+            console.error("Failed to update website language", err);
+        }
+    };
+
     const handleGuardianTrackingToggle = async (checked) => {
         const token = localStorage.getItem('token');
         if (checked) {
@@ -210,10 +236,10 @@ const UserProfilePage = () => {
                     allowGuardian: true
                 }));
                 scrollToTop();
-                setSuccess('Guardian tracking enabled.');
+                setSuccess(t('profile.alerts.tracking_enabled'));
                 Swal.fire({
-                    title: "Success",
-                    text: "Guardian tracking enabled.",
+                    title: t('profile.alerts.success'),
+                    text: t('profile.alerts.tracking_enabled'),
                     icon: "success",
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
@@ -240,12 +266,12 @@ const UserProfilePage = () => {
                 });
                 if (res.data.count > 0) {
                     Swal.fire({
-                        title: "Active Guardians",
-                        text: `You have ${res.data.count} granted permissions. Do you want to revoke them before disabling Guardian to send tracking requests?`,
+                        title: t('profile.alerts.warning'),
+                        text: t('profile.alerts.disable_warning'), // "You have active permissions..."
                         icon: "warning",
                         showCancelButton: true,
-                        confirmButtonText: "Go to Access Control",
-                        cancelButtonText: "Disable Without Revoking",
+                        confirmButtonText: t('profile.alerts.disable_confirm'),
+                        cancelButtonText: t('profile.alerts.disable_cancel'),
                         confirmButtonColor: "var(--primary-color)",
                         cancelButtonColor: "#FFF",
                         customClass: {
@@ -283,10 +309,10 @@ const UserProfilePage = () => {
                 allowGuardian: false
             }));
             scrollToTop();
-            setSuccess('Guardian tracking disabled.');
+            setSuccess(t('profile.alerts.tracking_disabled'));
             Swal.fire({
-                title: "Success",
-                text: "Guardian tracking disabled.",
+                title: t('profile.alerts.success'),
+                text: t('profile.alerts.tracking_disabled'),
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -319,8 +345,8 @@ const UserProfilePage = () => {
         e.preventDefault();
         if (personalData.serialNumber === passwordData.confirmPassword) {
             Swal.fire({
-                title: "Device Error",
-                text: "The new serial number cannot be the same as the current one.",
+                title: t('profile.alerts.device_error'),
+                text: t('profile.alerts.device_same'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -339,11 +365,11 @@ const UserProfilePage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             scrollToTop();
-            setSuccess('Device changed successfully!');
+            setSuccess(t('profile.alerts.device_changed'));
             setShowDeviceModal(false);
             Swal.fire({
-                title: "Success",
-                text: "Device changed successfully!",
+                title: t('profile.alerts.success'),
+                text: t('profile.alerts.device_changed'),
                 icon: "success",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -368,7 +394,7 @@ const UserProfilePage = () => {
     return (
         <>
             <main className="main-container">
-                <FloatingNavbar brandText="Profile" showProfileSettingsOption={false} />
+                <FloatingNavbar brandText={t('profile.title')} showProfileSettingsOption={false} />
 
                 {error && (
                     <div className="alert alert-error">{error}</div>
@@ -386,9 +412,9 @@ const UserProfilePage = () => {
                         {/* Personal Information */}
                         <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                             <div className="profile-card-header">
-                                <div className="flex flex-row justify-center">
+                                <div className="flex flex-row items-end justify-center">
                                     <User size={25} className="profile-icon" />
-                                    Personal Information
+                                    {t('profile.personal_info')}
                                 </div>
                                 {!editingPersonal && (
                                     <button
@@ -397,14 +423,14 @@ const UserProfilePage = () => {
                                         disabled={editingPersonal}
                                     >
                                         <Edit size={16} />
-                                        Edit
+                                        {t('profile.buttons.edit')}
                                     </button>
                                 )}
                             </div>
                             {editingPersonal ? (
                                 <form onSubmit={handlePersonalSubmit} className="profile-card-content profile-form-grid">
                                     <div>
-                                        <label className="form-label">Full Name</label>
+                                        <label className="form-label">{t('profile.labels.full_name')}</label>
                                         <input
                                             type="text"
                                             name="fullName"
@@ -415,7 +441,7 @@ const UserProfilePage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="form-label">Prefer Name</label>
+                                        <label className="form-label">{t('profile.labels.prefer_name')}</label>
                                         <input
                                             type="text"
                                             name="preferName"
@@ -426,7 +452,7 @@ const UserProfilePage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="form-label">Age</label>
+                                        <label className="form-label">{t('profile.labels.age')}</label>
                                         <input
                                             type="number"
                                             name="age"
@@ -439,7 +465,7 @@ const UserProfilePage = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="form-label">Gender</label>
+                                        <label className="form-label">{t('profile.labels.gender')}</label>
                                         <select
                                             name="gender"
                                             value={personalData.gender}
@@ -447,12 +473,12 @@ const UserProfilePage = () => {
                                             className="form-input"
                                             required
                                         >
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                            <option value="Male">{t('profile.options.gender.male')}</option>
+                                            <option value="Female">{t('profile.options.gender.female')}</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="form-label">Language</label>
+                                        <label className="form-label">{t('profile.labels.language')}</label>
                                         <select
                                             name="language"
                                             value={personalData.language}
@@ -460,41 +486,41 @@ const UserProfilePage = () => {
                                             className="form-input"
                                             required
                                         >
-                                            <option value="en">English</option>
-                                            <option value="bm">Bahasa Melayu</option>
-                                            <option value="cn">Chinese</option>
+                                            <option value="en">{t('profile.options.language.en')}</option>
+                                            <option value="bm">{t('profile.options.language.bm')}</option>
+                                            <option value="cn">{t('profile.options.language.cn')}</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="form-label">Cultural Background</label>
+                                        <label className="form-label">{t('profile.labels.cultural_background')}</label>
                                         <select
                                             name="culturalBackground"
                                             value={personalData.culturalBackground}
                                             onChange={handlePersonalInputChange}
                                             className="form-input"
                                         >
-                                            <option value="">Select background</option>
-                                            <option value="Malay">Malay</option>
-                                            <option value="Chinese">Chinese</option>
-                                            <option value="Indian">Indian</option>
-                                            <option value="Other">Other</option>
+                                            <option value="">{t('profile.labels.select_background')}</option>
+                                            <option value="Malay">{t('profile.options.culture.malay')}</option>
+                                            <option value="Chinese">{t('profile.options.culture.chinese')}</option>
+                                            <option value="Indian">{t('profile.options.culture.indian')}</option>
+                                            <option value="Other">{t('profile.options.culture.other')}</option>
                                         </select>
                                     </div>
                                     <div className="span-2">
-                                        <label className="form-label">Spiritual/Religious Beliefs</label>
+                                        <label className="form-label">{t('profile.labels.spiritual_beliefs')}</label>
                                         <select
                                             name="spiritualBeliefs"
                                             value={personalData.spiritualBeliefs}
                                             onChange={handlePersonalInputChange}
                                             className="form-input"
                                         >
-                                            <option value="">Select beliefs</option>
-                                            <option value="Islam">Islam</option>
-                                            <option value="Buddhism">Buddhism</option>
-                                            <option value="Christianity">Christianity</option>
-                                            <option value="Hinduism">Hinduism</option>
-                                            <option value="None">None</option>
-                                            <option value="Other">Other</option>
+                                            <option value="">{t('profile.labels.select_beliefs')}</option>
+                                            <option value="Islam">{t('profile.options.beliefs.islam')}</option>
+                                            <option value="Buddhism">{t('profile.options.beliefs.buddhism')}</option>
+                                            <option value="Christianity">{t('profile.options.beliefs.christianity')}</option>
+                                            <option value="Hinduism">{t('profile.options.beliefs.hinduism')}</option>
+                                            <option value="None">{t('profile.options.beliefs.none')}</option>
+                                            <option value="Other">{t('profile.options.beliefs.other')}</option>
                                         </select>
                                     </div>
                                     <div className="profile-form-actions">
@@ -504,46 +530,46 @@ const UserProfilePage = () => {
                                             className="green-button btn-primary"
                                         >
                                             {loading ? <span className="loader"></span> : <Save size={16} />}
-                                            <span className="mt-1">Save Changes</span>
+                                            <span>Save Changes</span>
                                         </button>
                                         <button
                                             type="button"
                                             onClick={() => setEditingPersonal(false)}
                                             className="white-button btn-outline"
                                         >
-                                            Cancel
+                                            {t('profile.buttons.cancel')}
                                         </button>
                                     </div>
                                 </form>
                             ) : (
                                 <div className="profile-card-content profile-info-grid">
                                     <div>
-                                        <span className="profile-label">Full Name</span>
+                                        <span className="profile-label">{t('profile.labels.full_name')}</span>
                                         <span className="profile-value">{personalData.fullName}</span>
                                     </div>
                                     <div>
-                                        <span className="profile-label">Prefer Name</span>
+                                        <span className="profile-label">{t('profile.labels.prefer_name')}</span>
                                         <span className="profile-value">{personalData.preferName}</span>
                                     </div>
                                     <div>
-                                        <span className="profile-label">Age</span>
-                                        <span className="profile-value">{personalData.age} years old</span>
+                                        <span className="profile-label">{t('profile.labels.age')}</span>
+                                        <span className="profile-value">{personalData.age}</span>
                                     </div>
                                     <div>
-                                        <span className="profile-label">Gender</span>
+                                        <span className="profile-label">{t('profile.labels.gender')}</span>
                                         <span className="profile-value">{personalData.gender}</span>
                                     </div>
                                     <div>
-                                        <span className="profile-label">Language</span>
+                                        <span className="profile-label">{t('profile.labels.language')}</span>
                                         <span className="profile-value">{languageMap[personalData.language?.toLowerCase()] || personalData.language}</span>
                                     </div>
                                     <div>
-                                        <span className="profile-label">Cultural Background</span>
-                                        <span className="profile-value">{personalData.culturalBackground || 'Not specified'}</span>
+                                        <span className="profile-label">{t('profile.labels.cultural_background')}</span>
+                                        <span className="profile-value">{personalData.culturalBackground || t('profile.labels.not_specified')}</span>
                                     </div>
                                     <div className="span-2">
-                                        <span className="profile-label">Spiritual/Religious Beliefs</span>
-                                        <span className="profile-value">{personalData.spiritualBeliefs || 'Not specified'}</span>
+                                        <span className="profile-label">{t('profile.labels.spiritual_beliefs')}</span>
+                                        <span className="profile-value">{personalData.spiritualBeliefs || t('profile.labels.not_specified')}</span>
                                     </div>
                                 </div>
                             )}
@@ -552,17 +578,17 @@ const UserProfilePage = () => {
                         {/* Early Intervention */}
                         <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                             <div className="profile-card-header">
-                                <div className="flex flex-row justify-center">
+                                <div className="flex flex-row items-end justify-center">
                                     <Shield size={25} className="profile-icon" />
-                                    Early Intervention Preference
+                                    {t('profile.early_intervention')}
                                 </div>
                             </div>
                             {[
-                                { label: "Converse with Context Awareness", value: "converse", subtitle: "Engage in supportive conversations with Well-Bot, helping you feel heard and understood more deeply" },
-                                { label: "Voice Journaling", value: "journaling", subtitle: "Record your thoughts by speaking, making emotional expression easier and more personal without needing to type" },
-                                { label: "Meditation with Calming Music", value: "music", subtitle: "Listen to guided meditation sessions paired with relaxing music to reduce stress and promote emotional balance" },
-                                { label: "Make a Gratitude List", value: "gratitude", subtitle: "List down small or big things you're thankful for — a simple way to boost positivity and shift focus from stress to appreciation" },
-                                { label: "Spiritual Quote of the Day", value: "quote", subtitle: "Receive a calming or inspiring quote rooted in spiritual wisdom to uplift your mood and offer perspective for the day" },
+                                { label: t('profile.interventions.converse'), value: "converse", subtitle: t('profile.interventions.converse_desc') },
+                                { label: t('profile.interventions.journaling'), value: "journaling", subtitle: t('profile.interventions.journaling_desc') },
+                                { label: t('profile.interventions.music'), value: "music", subtitle: t('profile.interventions.music_desc') },
+                                { label: t('profile.interventions.gratitude'), value: "gratitude", subtitle: t('profile.interventions.gratitude_desc') },
+                                { label: t('profile.interventions.quote'), value: "quote", subtitle: t('profile.interventions.quote_desc') },
                             ].map(pref => (
                                 <div className="profile-card-content profile-card-row-between" key={pref.value}>
                                     <div className="d-flex flex-column">
@@ -590,10 +616,10 @@ const UserProfilePage = () => {
                                                         headers: { Authorization: `Bearer ${token}` }
                                                     });
                                                     scrollToTop();
-                                                    setSuccess('Intervention preferences updated successfully!');
+                                                    setSuccess(t('profile.alerts.success'));
                                                     Swal.fire({
-                                                        title: "Success",
-                                                        text: "Intervention preferences updated successfully!",
+                                                        title: t('profile.alerts.success'),
+                                                        text: t('profile.alerts.success_msg'),
                                                         icon: "success",
                                                         confirmButtonColor: "var(--primary-color)",
                                                         customClass: {
@@ -615,18 +641,41 @@ const UserProfilePage = () => {
                             ))}
                         </div>
 
-                        {/* Account Settings */}
+                        {/* App Settings */}
                         <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                             <div className="profile-card-header">
-                                <div className="flex flex-row justify-center">
-                                    <Lock size={25} className="profile-icon" />
-                                    Account Settings
+                                <div className="flex flex-row items-end justify-center">
+                                    <Globe size={25} className="profile-icon" />
+                                    {t('profile.app_settings') || "App Settings"}
                                 </div>
                             </div>
                             <div className="profile-card-content profile-card-row-between">
                                 <div className="d-flex flex-column">
-                                    <span className="profile-content-title">Password</span>
-                                    <span className="profile-content-subtitle">Password must be at least 8 characters and include a mix of letteres, numbers, and symbols</span>
+                                    <span className="profile-content-title">{t('profile.labels.website_language') || "Website Language"}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.language_desc') || "Select your preferred language for the interface"}</span>
+                                </div>
+                                <button
+                                    onClick={() => setShowLanguageModal(true)}
+                                    className="white-button btn-outline"
+                                >
+                                    <Edit size={16} />
+                                    {t('profile.buttons.edit') || "Change"}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Account Settings */}
+                        <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
+                            <div className="profile-card-header">
+                                <div className="flex flex-row items-end justify-center">
+                                    <Lock size={25} className="profile-icon" />
+                                    {t('profile.account_settings')}
+                                </div>
+                            </div>
+                            <div className="profile-card-content profile-card-row-between">
+                                <div className="d-flex flex-column">
+                                    <span className="profile-content-title">{t('profile.labels.password')}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.password_req')}</span>
                                 </div>
                                 <button
                                     onClick={() => setShowPasswordModal(true)}
@@ -634,13 +683,13 @@ const UserProfilePage = () => {
                                     disabled={editingPersonal}
                                 >
                                     <Edit size={16} />
-                                    Reset Password
+                                    {t('profile.buttons.reset_password')}
                                 </button>
                             </div>
                             <div className="profile-card-content profile-card-row-between">
                                 <div className="d-flex flex-column">
-                                    <span className="profile-content-title">Well-Bot Device Connection</span>
-                                    <span className="profile-content-subtitle">Replace your current Well-Bot connection with another validated droid</span>
+                                    <span className="profile-content-title">{t('profile.labels.device_connection')}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.device_desc')}</span>
                                 </div>
                                 <button
                                     onClick={() => setShowDeviceModal(true)}
@@ -648,7 +697,7 @@ const UserProfilePage = () => {
                                     disabled={editingPersonal}
                                 >
                                     <Bot size={20} />
-                                    <span className="mt-1">Change Device</span>
+                                    <span>{t('profile.buttons.change_device')}</span>
                                 </button>
                             </div>
                         </div>
@@ -656,15 +705,15 @@ const UserProfilePage = () => {
                         {/* Guardian Tracking */}
                         <div className="rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
                             <div className="profile-card-header">
-                                <div className="flex flex-row justify-center">
+                                <div className="flex flex-row items-end justify-center">
                                     <Shield size={25} className="profile-icon" />
-                                    Guardian Tracking
+                                    {t('profile.guardian_tracking')}
                                 </div>
                             </div>
                             <div className="profile-card-content profile-card-row-between">
                                 <div className="d-flex flex-column">
-                                    <span className="profile-content-title">Guardian Tracking Permission</span>
-                                    <span className="profile-content-subtitle">Enable caregivers to send tracking requests and monitor your well-being after getting your permission</span>
+                                    <span className="profile-content-title">{t('profile.helpers.guardian_permission')}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.guardian_desc_1')}</span>
                                 </div>
                                 <div className="profile-switch">
                                     <input
@@ -682,8 +731,8 @@ const UserProfilePage = () => {
                             </div>
                             {personalData.allowGuardian && (<div className="profile-card-content profile-card-row-between">
                                 <div className="d-flex flex-column">
-                                    <span className="profile-content-title">Manage Guardian Access</span>
-                                    <span className="profile-content-subtitle">View and manage guardian requests and permissions</span>
+                                    <span className="profile-content-title">{t('profile.helpers.guardian_header')}</span>
+                                    <span className="profile-content-subtitle">{t('profile.helpers.guardian_desc_2')}</span>
                                 </div>
                                 <button
                                     onClick={() => {
@@ -693,7 +742,7 @@ const UserProfilePage = () => {
                                     className="white-button btn-outline"
                                     disabled={editingPersonal}
                                 >
-                                    Manage Access
+                                    {t('profile.buttons.manage_access')}
                                 </button>
                             </div>)}
                         </div>
@@ -706,11 +755,11 @@ const UserProfilePage = () => {
                 showPasswordModal && (
                     <div className="modal-overlay">
                         <div className="modal-container">
-                            <h3 className="modal-header modal-title mb-4">Change Password</h3>
+                            <h3 className="modal-header modal-title mb-4">{t('profile.modals.change_password_title')}</h3>
                             <form onSubmit={handlePasswordSubmit}>
                                 <div className="modal-form">
                                     <div>
-                                        <label className="form-label">Current Password</label>
+                                        <label className="form-label">{t('profile.labels.current_password')}</label>
                                         <div className="input-password">
                                             <input
                                                 type={showCurrentPassword ? "text" : "password"}
@@ -730,7 +779,7 @@ const UserProfilePage = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="form-label">New Password</label>
+                                        <label className="form-label">{t('profile.labels.new_password')}</label>
                                         <div className="input-password">
                                             <input
                                                 type={showNewPassword ? "text" : "password"}
@@ -751,7 +800,7 @@ const UserProfilePage = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="form-label">Confirm New Password</label>
+                                        <label className="form-label">{t('profile.labels.confirm_password')}</label>
                                         <div className="input-password">
                                             <input
                                                 type={showConfirmPassword ? "text" : "password"}
@@ -779,14 +828,14 @@ const UserProfilePage = () => {
                                         className="green-button btn-primary"
                                     >
                                         {loading ? <span className="loader"></span> : <Save size={16} />}
-                                        <span className="mt-1">Update Password</span>
+                                        <span>{t('profile.buttons.update_password')}</span>
                                     </button>
                                     <button
                                         type="button"
                                         onClick={closeModals}
                                         className="white-button btn-outline"
                                     >
-                                        Cancel
+                                        {t('profile.buttons.cancel')}
                                     </button>
                                 </div>
                             </form>
@@ -800,16 +849,16 @@ const UserProfilePage = () => {
                 showDeviceModal && (
                     <div className="modal-overlay">
                         <div className="modal-container">
-                            <h3 className="modal-header modal-title mb-4">Change Well-Bot Device</h3>
+                            <h3 className="modal-header modal-title mb-4">{t('profile.buttons.change_device')}</h3>
                             <form onSubmit={handleDeviceChange}>
                                 <div className="modal-form">
-                                    <label className="form-label">New Device Serial Number</label>
+                                    <label className="form-label">{t('profile.labels.device_serial')}</label>
                                     <input
                                         type="text"
                                         value={serialNumberInput}
                                         onChange={e => setSerialNumberInput(e.target.value)}
                                         className="form-input"
-                                        placeholder="Enter new device serial number"
+                                        placeholder={t('profile.placeholders.device_serial')}
                                         required
                                     />
                                 </div>
@@ -819,14 +868,14 @@ const UserProfilePage = () => {
                                         className="green-button btn-primary"
                                     >
                                         <Save size={16} />
-                                        <span className="mt-1">Change Device</span>
+                                        <span>{t('profile.buttons.change_device')}</span>
                                     </button>
                                     <button
                                         type="button"
                                         onClick={closeModals}
                                         className="white-button btn-outline"
                                     >
-                                        Cancel
+                                        {t('profile.buttons.cancel')}
                                     </button>
                                 </div>
                             </form>
@@ -834,6 +883,21 @@ const UserProfilePage = () => {
                     </div>
                 )
             }
+
+            {/* Language Change Modal */}
+            {showLanguageModal && (
+                <LanguageChangeModal
+                    initialLanguage={personalData.websiteLanguage || personalData.language || 'en'}
+                    onClose={() => setShowLanguageModal(false)}
+                    onSuccess={(newLang) => {
+                        setPersonalData(prev => ({ ...prev, websiteLanguage: newLang }));
+                        setSuccess(t('profile.alerts.language_updated') || "Language updated successfully!");
+                        // Scroll to top to see alert if needed, or it's fixed? 
+                        // Alert is at top of main container.
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                />
+            )}
         </>
     );
 };

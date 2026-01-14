@@ -8,7 +8,10 @@ import FloatingNavbar from "../../layout/FloatingNavbar";
 import EmbeddingVisualizer from "../../components/EmbeddingVisualizer";
 import MessagePatternInsights from "../../components/MessagePatternInsights";
 
+import { useTranslation } from "react-i18next";
+
 const ChatMapDashboardPage = () => {
+    const { t } = useTranslation();
     const userId = getIdFromToken();
 
     const [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 30)));
@@ -38,7 +41,7 @@ const ChatMapDashboardPage = () => {
     return (
         <div className="main-container">
             <FloatingNavbar
-                brandText="ChatMap Dashboard"
+                brandText={t('dashboard.chatmap_title')}
                 startDate={startDate}
                 endDate={endDate}
                 onDateChange={(start, end) => {

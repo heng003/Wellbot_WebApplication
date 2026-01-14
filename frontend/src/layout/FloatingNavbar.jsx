@@ -14,6 +14,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getIdFromToken, getRoleFromToken } from "../utils/auth";
 import Swal from "sweetalert2";
 import HoverTooltip from "../components/HoverTooltip";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const FloatingNavbar = ({
     brandText,
@@ -28,6 +30,7 @@ const FloatingNavbar = ({
     actionButton // { label: string, icon: ReactElement, onClick: function }
 }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [userId, setUserId] = useState(null);
     const [role, setRole] = useState(null);
     const [name, setName] = useState(null);
@@ -182,8 +185,8 @@ const FloatingNavbar = ({
 
             Swal.fire({
                 icon: "success",
-                title: status === 'active' ? "Access Granted" : "Request Rejected",
-                text: status === 'active' ? "Guardian has been added." : "Guardian request rejected.",
+                title: status === 'active' ? t('navbar.alerts.access_granted') : t('navbar.alerts.request_rejected'),
+                text: status === 'active' ? t('navbar.alerts.guardian_added') : t('navbar.alerts.guardian_rejected'),
                 timer: 1500,
                 showConfirmButton: false,
                 customClass: {
@@ -195,8 +198,8 @@ const FloatingNavbar = ({
         } catch (err) {
             Swal.fire({
                 icon: "error",
-                title: "Error",
-                text: err.response?.data?.message || "Failed to update status",
+                title: t('navbar.alerts.error'),
+                text: err.response?.data?.message || t('navbar.alerts.failed_update'),
                 customClass: {
                     title: 'swal-title',
                 }
@@ -208,15 +211,15 @@ const FloatingNavbar = ({
 
     const handleLogout = async () => {
         const result = await Swal.fire({
-            title: "Log Out?",
-            text: "Are you sure you want to log out?",
+            title: t('navbar.logout_modal.title'),
+            text: t('navbar.logout_modal.text'),
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, Log Out",
-            cancelButtonText: "Cancel",
+            confirmButtonText: t('navbar.logout_modal.confirm'),
+            cancelButtonText: t('navbar.logout_modal.cancel'),
             confirmButtonColor: "var(--primary-color)",
             customClass: {
-                title: "swal-title",
+                title: "swal-title"
             }
         });
 
@@ -231,13 +234,13 @@ const FloatingNavbar = ({
     };
 
     return (
-        <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 px-2 py-3 backdrop-blur-xl mb-4">
+        <nav className="sticky top-4 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 px-2 py-3 backdrop-blur-xl mb-4" style={{ zIndex: 99 }}>
 
             {/* Left Side: Breadcrumbs / Title */}
             <div className="ml-[6px]">
                 <div className="h-6 pt-1">
                     <a className="text-sm font-normal text-navy-700 hover:underline" href="#">
-                        Pages
+                        {t('navbar.pages')}
                         <span className="mx-1 text-sm text-navy-700 hover:text-navy-700"> / </span>
                     </a>
                     <a className="text-sm font-normal capitalize text-navy-700 hover:underline" href="#">
@@ -256,7 +259,7 @@ const FloatingNavbar = ({
 
                 {/* Extra Action Button (e.g. Add Item) */}
                 {actionButton && (
-                    <HoverTooltip content={actionButton.label} placement="left">
+                    <HoverTooltip content={actionButton.label} placement="bottom">
                         <button
                             onClick={actionButton.onClick}
                             className="flex h-14 w-14 items-center justify-center rounded-full bg-[#3E9389] shadow-lg hover:bg-[#2F756D] transition-all text-white border-2 border-[#3E9389] hover:opacity-80"
@@ -270,8 +273,8 @@ const FloatingNavbar = ({
                 {showUserFilter && (
                     <div className="relative" ref={userRef}>
                         <HoverTooltip
-                            content={<>Select User for Insights {currentWardName !== "Select User" && <>, Current User: <span className="font-semibold">{currentWardName}</span></>}</>}
-                            placement="left"
+                            content={<>{t('navbar.select_user_tooltip')} {currentWardName !== "Select User" && <>, {t('navbar.current_user')}: <span className="font-semibold">{currentWardName}</span></>}</>}
+                            placement="bottom"
                             forceVisible={tutorialStep === 1}
                         >
                             <button
@@ -283,11 +286,11 @@ const FloatingNavbar = ({
                         </HoverTooltip>
 
                         {showUserMenu && (
-                            <div className="absolute right-0 top-14 mt-2 w-64 rounded-xl bg-white p-2 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000] max-h-[300px] overflow-y-auto">
-                                <p className="px-3 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    Monitored Users
-                                </p>
-                                <div className="flex flex-col gap-1">
+                            <div className="absolute right-0 top-14 mt-2 w-80 rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000] max-h-[300px] overflow-y-auto">
+                                <div className="px-4 py-3 border-b border-gray-300">
+                                    <p className="text-sm font-bold text-navy-700">{t('navbar.monitored_users')}</p>
+                                </div>
+                                <div className="p-2 flex flex-col gap-1">
                                     {uniqueWards.length > 0 ? (
                                         uniqueWards.map((ward) => (
                                             <button
@@ -296,7 +299,7 @@ const FloatingNavbar = ({
                                                     onUserChange(ward.id);
                                                     setShowUserMenu(false);
                                                 }}
-                                                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors text-left ${selectedWardId === ward.id
+                                                className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm transition-colors text-left ${selectedWardId === ward.id
                                                     ? "bg-[#3E9389]/10 text-[#3E9389] font-medium"
                                                     : "text-gray-700 hover:bg-gray-100"
                                                     }`}
@@ -304,15 +307,15 @@ const FloatingNavbar = ({
                                                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-500 shrink-0">
                                                     {ward.full_name ? ward.full_name.charAt(0).toUpperCase() : "U"}
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <span className="truncate">{ward.full_name || "Unknown User"}</span>
-                                                    <span className="text-xs text-gray-400 truncate">{ward.email}</span>
+                                                <div className="flex flex-col min-w-0">
+                                                    <span className="text-black truncate">{ward.full_name || t('navbar.unknown_user')}</span>
+                                                    <span className="text-xs text-gray-700 truncate">{ward.email}</span>
                                                 </div>
                                             </button>
                                         ))
                                     ) : (
                                         <div className="px-3 py-2 text-sm text-gray-500 text-center">
-                                            No monitored users found.
+                                            {t('navbar.no_monitored_users')}
                                         </div>
                                     )}
                                 </div>
@@ -325,8 +328,8 @@ const FloatingNavbar = ({
                 {onDateChange && (
                     <div className="relative" ref={dateRef}>
                         <HoverTooltip
-                            content="Select Date Filter to be applied for the overall dashboard"
-                            placement="left"
+                            content={t('navbar.select_date_tooltip')}
+                            placement="bottom"
                             forceVisible={tutorialStep === 2}
                         >
                             <button
@@ -340,7 +343,7 @@ const FloatingNavbar = ({
                         {showDateMenu && (
                             <div className="absolute right-0 top-14 mt-2 bg-white border rounded-lg shadow-xl px-4 py-4 z-50 text-black min-w-[250px] text-left ring-1 ring-black ring-opacity-5">
                                 <p className="pb-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    Filter Date Range
+                                    {t('navbar.filter_date_range')}
                                 </p>
                                 <DatePicker
                                     selected={startDate}
@@ -358,7 +361,7 @@ const FloatingNavbar = ({
                                         onClick={() => setShowDateMenu(false)}
                                         className="text-xs text-gray-500 hover:text-gray-700 underline"
                                     >
-                                        Close
+                                        {t('navbar.close')}
                                     </button>
                                 </div>
                             </div>
@@ -370,7 +373,7 @@ const FloatingNavbar = ({
                 {/* Notification Bell (User Only) - HIDDEN if not user */}
                 {role === 'user' && (
                     <div className="relative" ref={notifRef}>
-                        <HoverTooltip content="Notifications" placement="left">
+                        <HoverTooltip content={t('navbar.notifications_tooltip')} placement="bottom">
                             <button
                                 onClick={() => setShowNotifMenu(!showNotifMenu)}
                                 className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg hover:bg-gray-50 transition-all text-gray-600 hover:opacity-80"
@@ -389,24 +392,24 @@ const FloatingNavbar = ({
                         </HoverTooltip>
 
                         {showNotifMenu && (
-                            <div className="absolute right-0 top-14 mt-2 w-80 origin-top-right rounded-xl bg-white p-4 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000] max-h-[400px] overflow-y-auto">
-                                <div className="mb-3 flex items-center justify-between">
-                                    <h3 className="text-sm font-semibold text-gray-900">Notifications</h3>
+                            <div className="absolute right-0 top-14 mt-2 w-80 origin-top-right rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000] max-h-[400px] overflow-y-auto">
+                                <div className="px-4 py-3 flex items-center justify-between border-b border-gray-300">
+                                    <p className="text-sm font-semibold text-navy-700">{t('navbar.notifications_header')}</p>
                                     <span className="text-xs text-gray-500">
-                                        {notifications.length} Pending
+                                        {notifications.length} {t('navbar.pending')}
                                     </span>
                                 </div>
 
                                 {notifications.length === 0 ? (
-                                    <p className="text-sm text-gray-500 py-4 text-center">No new notifications</p>
+                                    <p className="text-sm text-gray-500 p-4 text-center">{t('navbar.no_new_notifications')}</p>
                                 ) : (
-                                    <div className="flex flex-col gap-3">
+                                    <div className="flex flex-col p-4 gap-3">
                                         {notifications.map((notif) => (
                                             <div key={notif.id} onClick={() => navigate("/user/accessManage")} className="flex flex-col rounded-lg bg-gray-50 p-3 shadow-sm border border-gray-100 hover:opacity-80 cursor-pointer">
                                                 <div className="flex items-start justify-between">
                                                     <div>
-                                                        <p className="text-sm font-bold text-navy-700">{notif.guardianName || "Unknown Guardian"}</p>
-                                                        <p className="text-xs text-gray-500 mt-1">Requesting access</p>
+                                                        <p className="text-sm font-bold text-navy-700">{notif.guardianName || t('navbar.unknown_guardian')}</p>
+                                                        <p className="text-xs text-gray-500 mt-1">{t('navbar.requesting_access')}</p>
                                                     </div>
                                                 </div>
                                                 <div className="mt-3 flex gap-2 justify-end">
@@ -415,14 +418,14 @@ const FloatingNavbar = ({
                                                         disabled={loading}
                                                         className="flex items-center gap-1 rounded-md bg-red-50 px-3 py-1.5 text-[10px] font-medium text-red-600 hover:bg-red-100"
                                                     >
-                                                        Reject
+                                                        {t('navbar.reject')}
                                                     </button>
                                                     <button
                                                         onClick={() => handleAction(notif.id, 'active')}
                                                         disabled={loading}
                                                         className="flex items-center gap-1 rounded-md bg-[#3E9389] px-3 py-1.5 text-[10px] font-medium text-white hover:bg-[#2F756D]"
                                                     >
-                                                        Approve
+                                                        {t('navbar.approve')}
                                                     </button>
                                                 </div>
                                             </div>
@@ -434,9 +437,12 @@ const FloatingNavbar = ({
                     </div>
                 )}
 
+                {/* Language Switcher */}
+                <LanguageSwitcher variant="icon" />
+
                 {/* Profile Dropdown */}
                 <div className="relative" ref={profileRef}>
-                    <HoverTooltip content={showProfileSettingsOption ? "Profile Settings" : "Log Out"} placement="left">
+                    <HoverTooltip content={showProfileSettingsOption ? t('navbar.profile_settings_tooltip') : t('navbar.logout_tooltip')} placement="bottom">
                         <button
                             onClick={() => setShowProfileMenu(!showProfileMenu)}
                             className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg hover:bg-gray-50 transition-all border-4 border-white overflow-hidden hover:opacity-80"
@@ -448,7 +454,7 @@ const FloatingNavbar = ({
                     {showProfileMenu && (
                         <div className="absolute right-0 top-14 mt-2 w-56 origin-top-right rounded-xl bg-white py-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000]">
                             <div className="px-4 py-3 border-b border-gray-300">
-                                <p className="text-sm font-bold text-navy-700">👋 Hey, {name || "User"}</p>
+                                <p className="text-sm font-bold text-navy-700">{t('navbar.hey', { name: name || "User" })}</p>
                             </div>
                             <div className="p-2 flex flex-col gap-1">
                                 {showProfileSettingsOption && (
@@ -457,14 +463,14 @@ const FloatingNavbar = ({
                                         className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
                                         onClick={() => setShowProfileMenu(false)}
                                     >
-                                        <MdSettings className="h-4 w-4" /> Profile Settings
+                                        <MdSettings className="h-4 w-4" /> {t('navbar.profile_settings')}
                                     </Link>
                                 )}
                                 <button
                                     onClick={handleLogout}
                                     className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors text-left font-medium"
                                 >
-                                    <MdLogout className="h-4 w-4" /> Log Out
+                                    <MdLogout className="h-4 w-4" /> {t('navbar.logout')}
                                 </button>
                             </div>
 

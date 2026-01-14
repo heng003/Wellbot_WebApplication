@@ -150,6 +150,8 @@ exports.logIn = async (req, res, next) => {
                     id: user.id,
                     name: user.prefer_name,
                     role,
+                    language: user.language,
+                    websiteLanguage: user.website_language,
                 },
             });
         } else {

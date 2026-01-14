@@ -14,10 +14,12 @@ import {
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { getIdFromToken } from "../../utils/auth";
 import { useSocketSubscription } from "../../hooks/useSocket";
+import { useTranslation } from "react-i18next";
 
 const columnHelper = createColumnHelper();
 
 const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+    const { t } = useTranslation();
     const userId = propUserId || getIdFromToken();
     const isControlled = propStartDate !== undefined && propEndDate !== undefined;
 
@@ -114,20 +116,21 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
     const columns = [
         columnHelper.accessor("ts", {
             id: "ts",
-            header: () => <p className="text-sm font-bold text-gray-400">TIMESTAMP</p>,
+            header: () => <p className="text-sm font-bold text-gray-400">{t('dashboard.emotional_table.headers.timestamp')}</p>,
             cell: (info) => <p className="text-sm font-medium text-navy-700">{formatDateTime(info.getValue())}</p>,
         }),
         columnHelper.accessor("emotion_label", {
             id: "emotion_label",
-            header: () => <p className="text-sm font-bold text-gray-400">EMOTION</p>,
+            header: () => <p className="text-sm font-bold text-gray-400">{t('dashboard.emotional_table.headers.emotion')}</p>,
             cell: (info) => {
-                const val = info.getValue();
-                return <div className="flex items-center gap-2 text-sm font-medium"><span className={`w-3 h-3 rounded-full bg-[${getEmotionColor(val)}]`}></span> {val}</div>;
+                const val = info.getValue() || "Unknown";
+                const label = t(`landing.${val.toLowerCase()}`, { defaultValue: val });
+                return <div className="flex items-center gap-2 text-sm font-medium"><span className={`w-3 h-3 rounded-full bg-[${getEmotionColor(val)}]`}></span> {label}</div>;
             },
         }),
         columnHelper.accessor("emotional_score", {
             id: "emotional_score",
-            header: () => <p className="text-sm font-bold text-gray-400">MOOD SCORE</p>,
+            header: () => <p className="text-sm font-bold text-gray-400">{t('dashboard.emotional_table.headers.mood_score')}</p>,
             cell: (info) => <p className="text-sm font-medium text-navy-700">{info.getValue() != null ? `${info.getValue()}%` : "-"}</p>,
         }),
     ];
@@ -136,7 +139,7 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
         columns.push(
             columnHelper.accessor("confidence_score", {
                 id: "confidence_score",
-                header: () => <p className="text-sm font-bold text-gray-400">CONFIDENCE</p>,
+                header: () => <p className="text-sm font-bold text-gray-400">{t('dashboard.emotional_table.headers.confidence')}</p>,
                 cell: (info) => {
                     const val = info.getValue();
                     const display = val !== null && val !== undefined ? Math.round(val * 100) + "%" : "-";
@@ -165,8 +168,8 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
         <Card extra={"col-span-2 w-full h-full p-8 pb-6 sm:overflow-x-auto"}>
             <div className="relative flex items-center justify-between">
                 <div className="text-lg font-bold text-navy-700">
-                    <HoverTooltip content="Detailed log of all emotional records">
-                        Emotional Records
+                    <HoverTooltip content={t('dashboard.emotional_table.tooltip')}>
+                        {t('dashboard.emotional_table.title')}
                     </HoverTooltip>
                 </div>
             </div>
@@ -178,12 +181,12 @@ const EmotionalTable = ({ startDate: propStartDate, endDate: propEndDate, userId
                     </div>
                 ) : error ? (
                     <div className="flex h-[200px] w-full items-center justify-center flex-col">
-                        <p className="text-gray-500 mb-2">No records found for this period</p>
-                        <button onClick={fetchTable} className="text-xs underline text-[#3E9389]">Retry</button>
+                        <p className="text-gray-500 mb-2">{t('dashboard.emotional_table.no_records')}</p>
+                        <button onClick={fetchTable} className="text-xs underline text-[#3E9389]">{t('dashboard.emotional_table.retry')}</button>
                     </div>
                 ) : data.length === 0 ? (
                     <div className="flex h-[220px] w-full items-center justify-center">
-                        <p className="text-gray-500 text-center py-4">No records found for this period.</p>
+                        <p className="text-gray-500 text-center py-4">{t('dashboard.emotional_table.no_records')}</p>
                     </div>
                 ) : (
                     <div className="max-h-[330px] overflow-y-auto">

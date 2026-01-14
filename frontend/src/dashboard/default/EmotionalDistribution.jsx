@@ -7,8 +7,10 @@ import BarChart from "../charts/BarChart";
 import HoverTooltip from "../../components/HoverTooltip";
 import { getIdFromToken } from "../../utils/auth";
 import { useSocketSubscription } from "../../hooks/useSocket";
+import { useTranslation } from "react-i18next";
 
 const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate, userId: propUserId }) => {
+	const { t } = useTranslation();
 	const currentUserId = getIdFromToken();
 	const targetUserId = propUserId || currentUserId;
 
@@ -139,7 +141,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 	};
 
 	const EMOTION_KEYS = ["fear", "sad", "angry", "happy"];
-	const LABELS = ["Fear", "Sad", "Angry", "Happy"];
+	const LABELS = [t('landing.fear'), t('landing.sad'), t('landing.anger'), t('landing.happy')];
 	const COLORS = ["#519AF6", "#69D5C5", "#EA5E8F", "#FFD56B"];
 
 	// Slicing data based on startIndex to support pagination
@@ -201,8 +203,8 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 	return (
 		<Card extra="!p-[20px] text-center col-span-1">
 			<div className="mb-auto flex items-center justify-between px-3">
-				<HoverTooltip content="Frequency of each emotion recorded by date">
-					<h2 className="text-lg font-bold text-navy-700">Emotional Distribution</h2>
+				<HoverTooltip content={t('dashboard.emotional_distribution.tooltip')}>
+					<h2 className="text-lg font-bold text-navy-700">{t('dashboard.emotional_distribution.title')}</h2>
 				</HoverTooltip>
 
 				{/* Only show controls if NOT controlled */}
@@ -211,17 +213,17 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 						<button onClick={() => shiftPage("left")} disabled={!canPageLeft} className={`px-2 py-1 rounded ${canPageLeft ? "bg-gray-200 hover:bg-gray-100" : "bg-gray-100 opacity-50"}`}>◀</button>
 						<button onClick={() => shiftPage("right")} disabled={!canPageRight} className={`px-2 py-1 rounded ${canPageRight ? "bg-gray-200 hover:bg-gray-100mo" : "bg-gray-100 opacity-50"}`}>▶</button>
 						<div className="relative">
-							<HoverTooltip content="Select custom date range">
+							<HoverTooltip content={t('dashboard.embedding_visualizer.date_range')}>
 								<button onClick={() => setShowDatePicker(!showDatePicker)} className="!linear z-[1] flex items-center justify-center rounded-lg bg-lightPrimary p-2 text-[#3E9389] hover:bg-gray-100">
 									<MdOutlineCalendarToday className="h-5 w-5" />
 								</button>
 							</HoverTooltip>
 							{showDatePicker && (
 								<div className="absolute right-0 bg-white border rounded-lg shadow-lg p-3 z-10 text-black min-w-[200px] text-sm text-align-left">
-									<p className="font-semibold mb-2">Date Range</p>
+									<p className="font-semibold mb-2">{t('dashboard.embedding_visualizer.date_range')}</p>
 									<div style={{ textAlign: 'start' }}>
 										<div className="flex flex-col justify-content-start">
-											<label className="text-xs text-gray-500">From</label>
+											<label className="text-xs text-gray-500">{t('dashboard.embedding_visualizer.from')}</label>
 											<input
 												type="date"
 												value={customStart ? formatLocalDate(customStart) : ""}
@@ -230,7 +232,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 											/>
 										</div>
 										<div className="flex flex-col justify-content-start">
-											<label className="text-xs text-gray-500">To</label>
+											<label className="text-xs text-gray-500">{t('dashboard.embedding_visualizer.to')}</label>
 											<input
 												type="date"
 												value={customEnd ? formatLocalDate(customEnd) : ""}
@@ -242,7 +244,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 											onClick={handleApplyCustomRange}
 											className="w-full bg-[#3E9389] text-white rounded py-1 mt-2 hover:bg-[#88BFB9] transition"
 										>
-											Apply
+											{t('dashboard.embedding_visualizer.apply')}
 										</button>
 									</div>
 								</div>
@@ -267,7 +269,7 @@ const EmotionalDistribution = ({ startDate: propStartDate, endDate: propEndDate,
 						<BarChart chartData={series} chartOptions={chartOptions} height={"270px"} />
 					) : (
 						<div className="flex h-[200px] items-center justify-center rounded-lg">
-							<p className="text-sm text-gray-500">No data available for this period</p>
+							<p className="text-sm text-gray-500">{t('dashboard.emotional_distribution.no_data')}</p>
 						</div>
 					)}
 				</div>

@@ -1,20 +1,18 @@
 import React, { useEffect, useMemo } from "react";
 import Card from "../dashboard/card";
 import { AiOutlineLoading } from "react-icons/ai";
+import { getEmotionLabel } from "../utils/emotionClassifier";
+
+import { useTranslation } from "react-i18next";
 
 const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated, loading = false }) => {
+    const { t } = useTranslation();
     const insights = useMemo(() => {
         if (!rawEmbeddings || rawEmbeddings.length === 0) return null;
 
         // Helper to classify emotion from text
-        const getEmotionLabel = (text = "") => {
-            const t = (text || "").toLowerCase();
-            if (t.match(/happy|joy|joyful|delighted|great|love|good|excited|wonderful|glad|cheerful|laugh|pleased|content|grateful|awesome|amazing|开心|快乐|喜悦|高兴|棒|美好|喜欢|gembira|bahagia|seronok|suka|teruja|hebat|bagus|ceria|puas|syukur/)) return 'Happy';
-            if (t.match(/angry|mad|furious|rage|annoyed|irritated|frustrated|upset|offended|hostile|生气|愤怒|讨厌|恼火|烦|不爽|marah|geram|bengang|panas|menyampah|tak puas hati/)) return 'Angry';
-            if (t.match(/sad|cry|crying|down|bad|lonely|grief|upset|disappointed|unhappy|heartbroken|low|moody|hurt|伤心|难过|哭|悲伤|孤独|失落|沮丧|sedih|kecewa|muram|sepi|sunyı|tersentuh|terluka|rasa down/)) return 'Sad';
-            if (t.match(/fear|scared|afraid|anxious|worry|worried|nervous|uneasy|uncertain|tense|shaken|concerned|害怕|恐惧|担心|焦虑|紧张|不安|takut|risau|cemas|gugup|gelisah|bimbang|was-was/)) return 'Fear';
-            return 'Neutral';
-        };
+        // Helper to classify emotion from text
+        // Used from shared utility
 
         // Count message frequencies
         const messageCounts = {};
@@ -112,8 +110,8 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated, loading =
             {/* Top 3 Recurring Messages */}
             <Card extra="p-4">
                 <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-800">Top Recurring Messages</h3>
-                    <p className="text-xs text-gray-500">Most frequent messages across all conversations</p>
+                    <h3 className="text-lg font-bold text-gray-800">{t('dashboard.message_insights.top_recurring')}</h3>
+                    <p className="text-xs text-gray-500">{t('dashboard.message_insights.top_recurring_desc')}</p>
                 </div>
                 <div className="flex flex-col gap-3">
                     {insights.topRecurring.map((msg, idx) => (
@@ -136,8 +134,8 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated, loading =
             {/* Emotional Pattern Breakdown */}
             <Card extra="p-4">
                 <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-800">Chat Emotion Frequency</h3>
-                    <p className="text-xs text-gray-500">How often each emotion appears in messages</p>
+                    <h3 className="text-lg font-bold text-gray-800">{t('dashboard.message_insights.emotion_freq')}</h3>
+                    <p className="text-xs text-gray-500">{t('dashboard.message_insights.emotion_freq_desc')}</p>
                 </div>
                 <div className="flex flex-col gap-3">
                     {Object.entries(insights.emotionFreq)
@@ -176,9 +174,9 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated, loading =
                                 className="w-3 h-3 rounded-full"
                                 style={{ backgroundColor: emotionColors[emotion] }}
                             />
-                            <p className="text-lg font-bold text-gray-800">Top {emotion} Messages</p>
+                            <p className="text-lg font-bold text-gray-800">{t('dashboard.message_insights.top_emotion_msgs', { emotion })}</p>
                         </div>
-                        <p className="text-xs text-gray-500">Most common when feeling {emotion.toLowerCase()}</p>
+                        <p className="text-xs text-gray-500">{t('dashboard.message_insights.top_emotion_desc', { emotion: emotion.toLowerCase() })}</p>
                     </div>
                     <div className="flex flex-col gap-2">
                         {insights.topPerEmotion[emotion].map((msg, idx) => (
@@ -197,23 +195,23 @@ const MessagePatternInsights = ({ rawEmbeddings, onInsightsCalculated, loading =
             {/* Message Uniqueness & Stats */}
             <Card extra={`p-4 ${(Object.keys(insights.topPerEmotion).length + 3) % 2 !== 0 ? 'lg:col-span-2' : ''}`}>
                 <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-800">Message Statistics</h3>
-                    <p className="text-xs text-gray-500">Overall conversation patterns</p>
+                    <h3 className="text-lg font-bold text-gray-800">{t('dashboard.message_insights.stats_title')}</h3>
+                    <p className="text-xs text-gray-500">{t('dashboard.message_insights.stats_desc')}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                     <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                        <p className="text-xs text-gray-700 mb-1">Total Messages</p>
+                        <p className="text-xs text-gray-700 mb-1">{t('dashboard.message_insights.total_msgs')}</p>
                         <p className="text-2xl font-bold text-blue-600">{insights.totalMessages}</p>
                     </div>
                     <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
-                        <p className="text-xs text-gray-700 mb-1">Unique Messages</p>
+                        <p className="text-xs text-gray-700 mb-1">{t('dashboard.message_insights.unique_msgs')}</p>
                         <p className="text-2xl font-bold text-purple-600">{insights.uniqueMessages}</p>
                     </div>
                     <div className="p-3 bg-indigo-50 rounded-lg border border-indigo-200 col-span-2">
-                        <p className="text-xs text-gray-700 mb-1">Message Diversity</p>
+                        <p className="text-xs text-gray-700 mb-1">{t('dashboard.message_insights.diversity')}</p>
                         <div className="flex items-baseline gap-2">
                             <p className="text-2xl font-bold text-indigo-600">{insights.uniquePercentage}%</p>
-                            <p className="text-xs text-gray-700">unique per message</p>
+                            <p className="text-xs text-gray-700">{t('dashboard.message_insights.diversity_suffix')}</p>
                         </div>
                     </div>
                 </div>

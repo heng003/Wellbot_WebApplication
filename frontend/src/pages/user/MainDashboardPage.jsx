@@ -12,7 +12,10 @@ import DisplayWidgets from "../../components/DisplayWidgets"
 import MoodActivityCorrelation from "../../dashboard/default/MoodActivityCorrelation";
 import '../../styles/dashboardPage.css';
 
+import { useTranslation } from "react-i18next";
+
 const MainDashboardPage = () => {
+	const { t } = useTranslation();
 	const [embeddings, setEmbeddings] = useState([]);
 	const [loadingEmbeddings, setLoadingEmbeddings] = useState(false);
 
@@ -51,17 +54,22 @@ const MainDashboardPage = () => {
 	return (
 		<div className="main-container">
 			<FloatingNavbar
-				brandText="Main Dashboard"
+				brandText={t('dashboard.main_title')}
 			/>
 
 			<div>
-				<h4 className="pl-4 text-lg font-bold text-navy-700">Today's Emotion Count</h4>
+				<h4 className="pl-4 text-lg font-bold text-navy-700">{t('dashboard.todays_emotion_count')}</h4>
 				<DisplayWidgets />
 			</div>
 
-			<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
+			{/* <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
 				<EmotionalScore />
 				<EmotionalDistribution />
+			</div> */}
+
+			<div className="grid grid-cols-1 gap-3 lg:grid-cols-2 mt-3">
+				<EmotionalScore />
+				<PieChartCard />
 			</div>
 
 			{/* Tables */}
@@ -82,14 +90,14 @@ const MainDashboardPage = () => {
 			</div>
 
 			{/* Charts */}
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
+			{/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
 				<DailyTraffic />
 
 				<PieChartCard />
-			</div>
+			</div> */}
 
 			<div className="mt-3">
-				<MoodActivityCorrelation />
+				<MoodActivityCorrelation hideSummary={true} />
 			</div>
 		</div>
 	);
