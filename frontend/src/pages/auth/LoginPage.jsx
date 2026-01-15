@@ -8,7 +8,7 @@ import '../../styles/loginPage.css';
 import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({
@@ -24,12 +24,12 @@ const LoginPage = () => {
         const newErrors = {};
 
         if (!email.trim()) {
-            newErrors.email = "*email is required";
+            newErrors.email = t('auth.errors.email_required');
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "*email is invalid";
+            newErrors.email = t('auth.errors.email_invalid');
         }
         if (!password.trim()) {
-            newErrors.password = "*password is required";
+            newErrors.password = t('auth.errors.password_required');
         }
         setErrors(newErrors);
 
@@ -39,6 +39,13 @@ const LoginPage = () => {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('name', response.data.user.name);
                 localStorage.setItem('role', response.data.user.role);
+
+                // Update language based on user profile
+                const userLanguage = response.data.user.language;
+                if (userLanguage) {
+                    const langCode = userLanguage === 'Malay' ? 'ms' : userLanguage === 'Chinese' ? 'zh' : 'en';
+                    i18n.changeLanguage(langCode);
+                }
 
                 const userRole = response.data.user.role;
                 if (userRole === 'user') {
@@ -52,13 +59,13 @@ const LoginPage = () => {
                     title: t('auth.login_failed_title'),
                     text: errors.response.data?.message,
                     icon: "error",
-                    confirmButtonText: "OK",
+                    confirmButtonText: t('auth.ok'),
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         title: 'swal-title',
                     }
                 });
-                setErrors({ form: "Login Failed: " + errors.response.data.message });
+                setErrors({ form: t('auth.login_failed_title') + ": " + errors.response.data.message });
             } finally {
                 setLoading(false);
             }

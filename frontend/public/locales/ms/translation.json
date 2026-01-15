@@ -40,8 +40,82 @@
         }
     },
     "auth": {
-        "title": "Well-Bot",
-        "login": "Log Masuk"
+        "welcome_back": "Selamat Kembali",
+        "sign_in_subtitle": "Log masuk ke akaun Well-Bot anda",
+        "email_label": "Alamat E-mel",
+        "password_label": "Kata Laluan",
+        "email_placeholder": "anda@contoh.com",
+        "password_placeholder": "Kata laluan anda",
+        "forgot_password": "Lupa kata laluan anda?",
+        "sign_in_button": "Log Masuk",
+        "login_failed_title": "Log Masuk Gagal",
+        "create_account": "Cipta Akaun Anda",
+        "join_message": "Sertai Well-Bot dan mulakan perjalanan kesejahteraan anda",
+        "full_name_label": "Nama Penuh",
+        "prefer_name_label": "Nama Pilihan",
+        "age_label": "Umur",
+        "gender_label": "Jantina",
+        "select_gender": "Pilih jantina",
+        "male": "Lelaki",
+        "female": "Perempuan",
+        "language_preference_label": "Pilihan Bahasa",
+        "cultural_background_label": "Latar Belakang Budaya",
+        "select_background": "Pilih latar belakang",
+        "religious_beliefs_label": "Kepercayaan Agama",
+        "select_beliefs": "Pilih kepercayaan",
+        "serial_number_label": "Nombor Siri Well-Bot",
+        "confirm_password_label": "Sahkan Kata Laluan",
+        "create_account_button": "Cipta Akaun",
+        "already_have_account": "Sudah mempunyai akaun?",
+        "login_here": "Log masuk di sini",
+        "passwords_mismatch": "Kata laluan tidak sepadan",
+        "age_requirement": "Umur mestilah sekurang-kurangnya 18 tahun",
+        "check_email_title": "Semak E-mel Anda",
+        "check_email_text": "Kami telah menghantar e-mel ke {{email}} untuk mengesahkan alamat e-mel anda dan mengaktifkan akaun anda. Pautan dalam e-mel akan tamat tempoh dalam masa 5 minit.",
+        "role_selection_title": "Apakah peranan yang anda mahu daftar?",
+        "role_selection_subtitle": "Untuk memulakan Perjalanan Kesejahteraan anda, kami perlu memilih jenis pengguna anda.",
+        "personal_account_title": "Akaun Peribadi",
+        "personal_account_desc": "Pantau kesejahteraan emosi anda sendiri, jejak mood anda, dan dapatkan wawasan yang diperibadikan.",
+        "guardian_account_title": "Akaun Penjaga",
+        "guardian_account_desc": "Pantau trend emosi pelbagai pengguna — sesuai untuk penjaga yang ingin menyokong keluarga, rakan, atau orang lain.",
+        "islam": "Islam",
+        "buddhism": "Buddha",
+        "christianity": "Kristian",
+        "hinduism": "Hindu",
+        "agnostic": "Agnostik",
+        "atheist": "Atheis",
+        "none": "Tiada",
+        "other": "Lain-lain",
+        "indian": "India",
+        "chinese": "Cina",
+        "malay": "Melayu",
+        "errors": {
+            "email_required": "*E-mel diperlukan",
+            "email_invalid": "*E-mel tidak sah",
+            "password_required": "*Kata laluan diperlukan",
+            "password_mismatch": "Kata laluan tidak sepadan",
+            "password_length": "Kata laluan mestilah sekurang-kurangnya 8 aksara",
+            "age_minimum": "Umur mestilah sekurang-kurangnya 18 tahun",
+            "create_failed": "Gagal mencipta akaun",
+            "unknown_error": "Ralat tidak diketahui berlaku",
+            "reset_success": "Kata laluan anda telah berjaya ditetapkan semula."
+        },
+        "forgot_password_page": {
+            "title": "Lupa Kata Laluan",
+            "subtitle": "Masukkan alamat e-mel yang berkaitan dengan akaun anda.",
+            "reset_button": "Tetapkan Semula Kata Laluan",
+            "no_account": "Tiada akaun?",
+            "sign_up": "Daftar",
+            "email_sent_title": "Semak E-mel Anda",
+            "email_sent_desc": "Kami telah menghantar e-mel ke {{email}} untuk menetapkan semula kata laluan anda. Pautan dalam e-mel akan tamat tempoh dalam masa 5 minit."
+        },
+        "reset_password_page": {
+            "title": "Tetapkan Semula Kata Laluan",
+            "new_password": "Kata Laluan Baru",
+            "confirm_password": "Sahkan Kata Laluan",
+            "reset_button": "Tetapkan Semula Kata Laluan"
+        },
+        "ok": "OK"
     },
     "landing": {
         "title": "Tingkatkan Kesejahteraan Emosi Anda",
@@ -224,24 +298,23 @@
         },
         "widget": {
             "records_captured": "Jumlah rekod {{title}} yang ditangkap",
-            "percentage_share": "Peratus bahagian daripada jumlah emosi dikira"
+            "percentage_share": "Peratusan daripada jumlah emosi yang dikira"
         }
     },
     "daily_traffic": {
         "activities_completed": "Aktiviti Selesai",
-        "tooltip_activities": "Jumlah bilangan aktiviti kesejahteraan yang telah diselesaikan",
-        "tooltip_interval": "Sesuaikan kepada paparan bulanan atau mingguan",
-        "tooltip_custom": "Pilih julat tarikh tersuai",
+        "tooltip_activities": "Jumlah Aktiviti Harian",
+        "tooltip_interval": "Pilih Selang Masa",
         "weekly": "Mingguan",
         "monthly": "Bulanan",
-        "yearly": "Tahunan",
-        "no_data": "Tiada data tersedia untuk tempoh ini",
+        "tooltip_custom": "Pilih Tarikh Tersuai",
         "select_week": "Pilih Minggu",
         "select_month": "Pilih Bulan",
         "select_year": "Pilih Tahun",
-        "pick_date": "Pilih mana-mana tarikh dalam minggu:",
+        "pick_date": "Pilih tarikh dalam minggu tersebut",
         "cancel": "Batal",
-        "apply": "Terapkan"
+        "apply": "Terapkan",
+        "no_data": "Tiada data aktiviti tersedia untuk tempoh ini"
     },
     "access_control": {
         "page_title": "Kawalan Akses Data",
@@ -622,5 +695,14 @@
             "confirm_delete_title": "Adakah anda pasti?",
             "confirm_delete_msg": "Tindakan ini tidak boleh dibatalkan."
         }
+    },
+    "footer": {
+        "follow_us": "Ikuti Kami",
+        "about_us": "Tentang Kami",
+        "contact_us": "Hubungi Kami",
+        "share_feedback": "Kongsi Maklum Balas",
+        "our_services": "Perkhidmatan Kami",
+        "qna": "Soalan Lazim",
+        "copyright": "© {{year}} Well-Bot.Com Malaysia Sdn Bhd. Hak Cipta Terpelihara"
     }
 }

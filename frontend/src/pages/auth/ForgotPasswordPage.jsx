@@ -4,8 +4,10 @@ import { ArrowRight } from 'lucide-react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../styles/loginPage.css';
+import { useTranslation } from "react-i18next";
 
 const ForgotPasswordPage = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [errors, setErrors] = useState({
         email: ""
@@ -17,9 +19,9 @@ const ForgotPasswordPage = () => {
         const validationErrors = {};
 
         if (!email.trim()) {
-            validationErrors.email = "*Please enter your email"
+            validationErrors.email = t('auth.errors.email_required')
         } else if (!/\S+@\S+\.\S+/.test(email)) {
-            validationErrors.email = "*email is invalid"
+            validationErrors.email = t('auth.errors.email_invalid')
         }
         setErrors(validationErrors);
 
@@ -30,12 +32,12 @@ const ForgotPasswordPage = () => {
                 await axios.post('/api/auth/forgotPassword', { email });
                 setLoading(false);
                 Swal.fire({
-                    title: "Check Your Email",
-                    text: "We have sent an email to " + email + " to reset your password. Link in email will expire within 5 minutes.",
+                    title: t('auth.forgot_password_page.email_sent_title'),
+                    text: t('auth.forgot_password_page.email_sent_desc', { email }),
                     imageUrl: "Images/checkEmail.gif",
                     imageHeight: 200,
                     imageAlt: "email",
-                    confirmButtonText: "OK",
+                    confirmButtonText: t('auth.ok'),
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         title: 'swal-title'
@@ -50,8 +52,8 @@ const ForgotPasswordPage = () => {
                 console.error(error);
                 console.error("Reset Password Error:", error.response?.data);
                 Swal.fire({
-                    title: "Error!",
-                    text: error.response?.data?.message || "An unknown error occurred",
+                    title: t('auth.errors.backend_error') || "Error!",
+                    text: error.response?.data?.message || t('auth.errors.unknown_error'),
                     icon: "error",
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
@@ -67,13 +69,13 @@ const ForgotPasswordPage = () => {
             <div className="login-container">
                 <div className="login-card">
                     <div className="login-header">
-                        <h1 className="login-title">Forgot Password</h1>
-                        <p className="login-subtitle">Enter the email address associated with your account.</p>
+                        <h1 className="login-title">{t('auth.forgot_password_page.title')}</h1>
+                        <p className="login-subtitle">{t('auth.forgot_password_page.subtitle')}</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="login-form">
                         <div className="form-group">
-                            <label htmlFor="email" className="form-label">Email Address</label>
+                            <label htmlFor="email" className="form-label">{t('auth.email_label')}</label>
                             <div className="input-wrapper">
                                 <input
                                     id="email"
@@ -83,7 +85,7 @@ const ForgotPasswordPage = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="form-input"
-                                    placeholder="you@example.com"
+                                    placeholder={t('auth.email_placeholder')}
                                 />
                             </div>
                             {errors.email && <p className="input-error">{errors.email}</p>}
@@ -96,16 +98,16 @@ const ForgotPasswordPage = () => {
                                 disabled={loading}
                             >
                                 {loading ? <span className="loader"></span> : <ArrowRight className="submit-icon" />}
-                                Reset Password
+                                {t('auth.forgot_password_page.reset_button')}
                             </button>
                         </div>
                     </form>
 
                     <div className="redirect-container">
                         <p>
-                            Don't have an account?{' '}
+                            {t('auth.forgot_password_page.no_account')}{' '}
                             <Link to="/registerRole" className="redirect-link">
-                                Sign up
+                                {t('auth.forgot_password_page.sign_up')}
                             </Link>
                         </p>
                     </div>

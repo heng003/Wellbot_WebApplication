@@ -40,7 +40,7 @@ const RegisterGuardianPage = () => {
 
         if (formData.password !== formData.confirmPassword) {
             scrollToTop();
-            return setError('Passwords do not match');
+            return setError(t('auth.errors.password_mismatch'));
         }
 
         try {
@@ -55,7 +55,7 @@ const RegisterGuardianPage = () => {
                 imageUrl: "Images/checkEmail.gif",
                 imageHeight: 200,
                 imageAlt: "email",
-                confirmButtonText: "OK",
+                confirmButtonText: t('auth.ok'),
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title'
@@ -76,10 +76,10 @@ const RegisterGuardianPage = () => {
             console.error(error);
             console.error("Registration Error:", error.response.data);
             Swal.fire({
-                title: "Error!",
-                text: error.response?.data?.message || "An unknown error occurred",
+                title: t('auth.errors.backend_error') || "Error!",
+                text: error.response?.data?.message || t('auth.errors.unknown_error'),
                 icon: "error",
-                confirmButtonText: "OK",
+                confirmButtonText: t('auth.ok'),
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title',

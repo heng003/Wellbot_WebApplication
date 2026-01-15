@@ -82,15 +82,13 @@ const LanguageSwitcher = ({ variant = 'default' }) => {
         } else if (variant === 'nav-icon') {
             return (
                 <div className='mr-10'>
-                    <HoverTooltip content={t('profile.labels.change_language') || "Change Language"} placement="bottom">
-                        <button
-                            onClick={() => setShowMenu(!showMenu)}
-                            className="text-gray-300 hover:opacity-60 transition-colors rounded-full"
-                            title={languages.find(l => l.code === i18n.language)?.label || "Change Language"}
-                        >
-                            <MdLanguage className="h-7 w-7" />
-                        </button>
-                    </HoverTooltip>
+                    <button
+                        onClick={() => setShowMenu(!showMenu)}
+                        className="text-gray-300 hover:opacity-60 transition-colors rounded-full"
+                        title={languages.find(l => l.code === i18n.language)?.label || "Change Language"}
+                    >
+                        <MdLanguage className="h-7 w-7" />
+                    </button>
                 </div>
             );
         }

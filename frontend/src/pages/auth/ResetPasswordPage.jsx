@@ -3,8 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import '../../styles/registerPage.css';
+import { useTranslation } from "react-i18next";
 
 const ResetPasswordPage = () => {
+    const { t } = useTranslation();
     const [errors, setErrors] = useState('');
     const { id, token, role } = useParams();
     const navigate = useNavigate();
@@ -27,8 +29,8 @@ const ResetPasswordPage = () => {
         e.preventDefault();
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             Swal.fire({
-                title: "Error",
-                text: "New passwords do not match",
+                title: t('auth.errors.error_title') || "Error",
+                text: t('auth.errors.password_mismatch'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -38,10 +40,10 @@ const ResetPasswordPage = () => {
             return;
         }
         if (passwordData.newPassword.length < 8) {
-            setErrors('Password must be at least 8 characters long');
+            setErrors(t('auth.errors.password_length'));
             Swal.fire({
-                title: "Error",
-                text: "Password must be at least 8 characters long",
+                title: t('auth.errors.error_title') || "Error",
+                text: t('auth.errors.password_length'),
                 icon: "error",
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
@@ -58,9 +60,9 @@ const ResetPasswordPage = () => {
             setLoading(false);
             if (response.data) {
                 Swal.fire({
-                    text: "Your password has been reset successfully.",
+                    text: t('auth.errors.reset_success'),
                     icon: "success",
-                    confirmButtonText: "OK",
+                    confirmButtonText: t('auth.ok'),
                     confirmButtonColor: "var(--primary-color)",
                     customClass: {
                         title: 'swal-title'
@@ -74,10 +76,10 @@ const ResetPasswordPage = () => {
             setLoading(false);
             console.error("Reset Password Error:", error);
             Swal.fire({
-                title: "Error!",
+                title: t('auth.errors.backend_error') || "Error!",
                 text: error.response.data.message,
                 icon: "error",
-                confirmButtonText: "OK",
+                confirmButtonText: t('auth.ok'),
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title',
@@ -91,7 +93,7 @@ const ResetPasswordPage = () => {
             <div className="register-container">
                 <div className="register-card">
                     <div className="register-header">
-                        <h1 className="register-title">Reset Password</h1>
+                        <h1 className="register-title">{t('auth.reset_password_page.title')}</h1>
                     </div>
 
                     {errors && <div className="error-box">{errors}</div>}
@@ -99,7 +101,7 @@ const ResetPasswordPage = () => {
                     <form onSubmit={handleResetButton} className="register-form">
                         <div className="form-full">
                             <div>
-                                <label className="form-label">New Password</label>
+                                <label className="form-label">{t('auth.reset_password_page.new_password')}</label>
                                 <input
                                     type="password"
                                     name="newPassword"
@@ -113,7 +115,7 @@ const ResetPasswordPage = () => {
                         </div>
                         <div className="form-full">
                             <div>
-                                <label className="form-label">Confirm Password</label>
+                                <label className="form-label">{t('auth.reset_password_page.confirm_password')}</label>
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -127,7 +129,7 @@ const ResetPasswordPage = () => {
                         </div>
                         <button type="submit" className="btn-submit" disabled={loading}>
                             {loading && <span className="loader"></span>}
-                            <span>Reset Password</span>
+                            <span>{t('auth.reset_password_page.reset_button')}</span>
                         </button>
                     </form>
                 </div>

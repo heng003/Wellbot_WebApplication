@@ -125,9 +125,9 @@ app.use((err, req, res, next) => {
 // Server listen
 const PORT = process.env.PORT || 5000;
 // use this to deploy
-// server.listen(PORT, '0.0.0.0', () => {
-// 	console.log(`Well-Bot is listening on port ${PORT}`);
-// });
-server.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+	console.log(`Well-Bot is listening on port ${PORT}`);
 });
+// server.listen(PORT, () => {
+// 	console.log(`Server running on port ${PORT}`);
+// });

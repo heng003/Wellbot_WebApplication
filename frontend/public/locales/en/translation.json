@@ -103,7 +103,34 @@
         "other": "Other",
         "indian": "Indian",
         "chinese": "Chinese",
-        "malay": "Malay"
+        "malay": "Malay",
+        "errors": {
+            "email_required": "*Email is required",
+            "email_invalid": "*Email is invalid",
+            "password_required": "*Password is required",
+            "password_mismatch": "Passwords do not match",
+            "password_length": "Password must be at least 8 characters long",
+            "age_minimum": "Age must be at least 18",
+            "create_failed": "Failed to create account",
+            "unknown_error": "An unknown error occurred",
+            "reset_success": "Your password has been reset successfully."
+        },
+        "forgot_password_page": {
+            "title": "Forgot Password",
+            "subtitle": "Enter the email address associated with your account.",
+            "reset_button": "Reset Password",
+            "no_account": "Don't have an account?",
+            "sign_up": "Sign up",
+            "email_sent_title": "Check Your Email",
+            "email_sent_desc": "We have sent an email to {{email}} to reset your password. Link in email will expire within 5 minutes."
+        },
+        "reset_password_page": {
+            "title": "Reset Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm Password",
+            "reset_button": "Reset Password"
+        },
+        "ok": "OK"
     },
     "landing": {
         "title": "Enhance Your Emotional Wellness",
@@ -273,6 +300,21 @@
             "records_captured": "Number of {{title}} records captured",
             "percentage_share": "Percentage share of total emotions counted"
         }
+    },
+    "daily_traffic": {
+        "activities_completed": "Activities Completed",
+        "tooltip_activities": "Daily Activity Count",
+        "tooltip_interval": "Select Time Interval",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "tooltip_custom": "Select Custom Date",
+        "select_week": "Select Week",
+        "select_month": "Select Month",
+        "select_year": "Select Year",
+        "pick_date": "Pick a date within the week",
+        "cancel": "Cancel",
+        "apply": "Apply",
+        "no_data": "No activity data available for this period"
     },
     "access_control": {
         "page_title": "Data Access Control",
@@ -658,5 +700,14 @@
             "confirm_delete_title": "Are you sure?",
             "confirm_delete_msg": "This action cannot be undone."
         }
+    },
+    "footer": {
+        "follow_us": "Follow Us",
+        "about_us": "About Us",
+        "contact_us": "Contact Us",
+        "share_feedback": "Share Feedback",
+        "our_services": "Our Services",
+        "qna": "QnA",
+        "copyright": "© {{year}} Well-Bot.Com Malaysia Sdn Bhd. All rights Reserved"
     }
 }

@@ -37,7 +37,82 @@
         }
     },
     "auth": {
-        "title": "Well-Bot"
+        "welcome_back": "欢迎回来",
+        "sign_in_subtitle": "登录到您的 Well-Bot 帐户",
+        "email_label": "电子邮件地址",
+        "password_label": "密码",
+        "email_placeholder": "you@example.com",
+        "password_placeholder": "您的密码",
+        "forgot_password": "忘记密码？",
+        "sign_in_button": "登录",
+        "login_failed_title": "登录失败",
+        "create_account": "创建您的帐户",
+        "join_message": "加入 Well-Bot，开始您的健康之旅",
+        "full_name_label": "全名",
+        "prefer_name_label": "偏好名称",
+        "age_label": "年龄",
+        "gender_label": "性别",
+        "select_gender": "选择性别",
+        "male": "男",
+        "female": "女",
+        "language_preference_label": "语言偏好",
+        "cultural_background_label": "文化背景",
+        "select_background": "选择背景",
+        "religious_beliefs_label": "宗教信仰",
+        "select_beliefs": "选择信仰",
+        "serial_number_label": "Well-Bot 序列号",
+        "confirm_password_label": "确认密码",
+        "create_account_button": "创建帐户",
+        "already_have_account": "已经有帐户？",
+        "login_here": "在此登录",
+        "passwords_mismatch": "密码不匹配",
+        "age_requirement": "年龄必须至少 18 岁",
+        "check_email_title": "检查您的电子邮件",
+        "check_email_text": "我们已向 {{email}} 发送了一封电子邮件，以验证您的电子邮件地址并激活您的帐户。电子邮件中的链接将在 5 分钟内失效。",
+        "role_selection_title": "您想注册什么角色？",
+        "role_selection_subtitle": "要开始您的健康之旅，我们需要选择您的用户类型。",
+        "personal_account_title": "个人帐户",
+        "personal_account_desc": "监控您自己的情绪健康，跟踪您的心情，并获得个性化的见解。",
+        "guardian_account_title": "监护人帐户",
+        "guardian_account_desc": "监控多个用户的情绪趋势 —— 非常适合想要支持家人、朋友或其他人的护理人员。",
+        "islam": "伊斯兰教",
+        "buddhism": "佛教",
+        "christianity": "基督教",
+        "hinduism": "印度教",
+        "agnostic": "不可知论",
+        "atheist": "无神论",
+        "none": "无",
+        "other": "其他",
+        "indian": "印度人",
+        "chinese": "华人",
+        "malay": "马来人",
+        "errors": {
+            "email_required": "*电子邮件是必填项",
+            "email_invalid": "*电子邮件无效",
+            "password_required": "*密码是必填项",
+            "password_mismatch": "密码不匹配",
+            "password_length": "密码必须至少为 8 个字符",
+            "age_minimum": "年龄必须至少 18 岁",
+            "create_failed": "创建帐户失败",
+            "unknown_error": "发生未知错误",
+            "reset_success": "您的密码已成功重置。"
+        },
+        "forgot_password_page": {
+            "title": "忘记密码",
+            "subtitle": "输入与您的帐户关联的电子邮件地址。",
+            "reset_button": "重置密码",
+            "no_account": "没有帐户？",
+            "sign_up": "注册",
+            "email_sent_title": "检查您的电子邮件",
+            "email_sent_desc": "我们已向 {{email}} 发送了一封电子邮件以重置您的密码。电子邮件中的链接将在 5 分钟内失效。"
+        },
+        "reset_password_page": {
+            "title": "重置密码",
+            "new_password": "新密码",
+            "confirm_password": "确认密码",
+            "reset_button": "重置密码"
+        },
+        "ok": "确定"
     },
     "landing": {
         "title": "提升您的情绪健康",
@@ -620,5 +695,14 @@
             "confirm_delete_title": "您确定吗？",
             "confirm_delete_msg": "此操作无法撤销。"
         }
+    },
+    "footer": {
+        "follow_us": "关注我们",
+        "about_us": "关于我们",
+        "contact_us": "联系我们",
+        "share_feedback": "分享反馈",
+        "our_services": "我们的服务",
+        "qna": "问答",
+        "copyright": "© {{year}} Well-Bot.Com Malaysia Sdn Bhd. 版权所有"
     }
 }

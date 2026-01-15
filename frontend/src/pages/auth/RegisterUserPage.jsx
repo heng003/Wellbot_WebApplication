@@ -60,19 +60,19 @@ const RegisterUserPage = () => {
 
         if (formData.age < 18) {
             scrollToTop();
-            return setError('Age must be at least 18');
+            return setError(t('auth.errors.age_minimum'));
         }
 
         if (formData.password !== formData.confirmPassword) {
             scrollToTop();
-            return setError('Passwords do not match');
+            return setError(t('auth.errors.password_mismatch'));
         }
 
         try {
             setError('');
             setShowConsent(true);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to create account');
+            setError(err instanceof Error ? err.message : t('auth.errors.create_failed'));
             scrollToTop();
         }
     };
@@ -89,7 +89,7 @@ const RegisterUserPage = () => {
                 imageUrl: "Images/checkEmail.gif",
                 imageHeight: 200,
                 imageAlt: "email",
-                confirmButtonText: "OK",
+                confirmButtonText: t('auth.ok'),
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title'
@@ -113,10 +113,10 @@ const RegisterUserPage = () => {
             });
         } catch (error) {
             Swal.fire({
-                title: "Error!",
-                text: error.response?.data?.message || "An unknown error occurred",
+                title: t('auth.errors.backend_error') || "Error!",
+                text: error.response?.data?.message || t('auth.errors.unknown_error'),
                 icon: "error",
-                confirmButtonText: "OK",
+                confirmButtonText: t('auth.ok'),
                 confirmButtonColor: "var(--primary-color)",
                 customClass: {
                     title: 'swal-title'
@@ -214,9 +214,9 @@ const RegisterUserPage = () => {
                                     className="form-input"
                                     required
                                 >
-                                    <option value="English">English</option>
-                                    <option value="Malay">Malay</option>
-                                    <option value="Chinese">Chinese</option>
+                                    <option value="English">{t('profile.options.language.en')}</option>
+                                    <option value="Malay">{t('profile.options.language.bm')}</option>
+                                    <option value="Chinese">{t('profile.options.language.cn')}</option>
                                 </select>
                             </div>
 
