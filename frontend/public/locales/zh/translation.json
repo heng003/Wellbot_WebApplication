@@ -95,7 +95,9 @@
             "age_minimum": "年龄必须至少 18 岁",
             "create_failed": "创建帐户失败",
             "unknown_error": "发生未知错误",
-            "reset_success": "您的密码已成功重置。"
+            "reset_success": "您的密码已成功重置。",
+            "backend_error": "错误！",
+            "error_title": "错误"
         },
         "forgot_password_page": {
             "title": "忘记密码",
@@ -112,7 +114,39 @@
             "confirm_password": "确认密码",
             "reset_button": "重置密码"
         },
-        "ok": "确定"
+        "ok": "确定",
+        "popup_consent": {
+            "title": "用户同意书",
+            "subtitle": "Well-Bot 情绪监测与干预同意书",
+            "intro": "感谢您考虑使用 Well-Bot 服务来支持您的心理健康。在我们开始之前，我们需要您的知情同意来追踪情绪数据并进行干预。请仔细阅读以下内容并表示您的同意。",
+            "purpose_title": "明确目的 – 我们为什么要收集情绪数据？",
+            "purpose_desc": "我们收集情绪数据是为了通过提供个性化支持来增强您的心理健康。这包括监测您的情绪状态以提供实时反馈，检测潜在的困扰，并建议及时的干预措施以改善您的情绪和整体健康。",
+            "data_type_title": "收集的数据类型 – 到底在追踪什么？",
+            "data_type_items": {
+                "expressions": "面部表情（每 5 分钟通过摄像头）。",
+                "vitals": "身体生命体征（通过连接的可穿戴设备）。",
+                "voice": "语调和语音模式（通过待机状态下的麦克风）。"
+            },
+            "usage_title": "数据将如何使用 –用于什么目的？",
+            "usage_items": {
+                "feedback": "提供实时反馈和基于情绪的互动。",
+                "reports": "生成情绪报告供您个人查看。",
+                "adapt": "调整 Well-Bot 的反应以更好地满足您的需求。"
+            },
+            "access_title": "谁有权访问 – 数据是私有的，还是与他人共享？",
+            "access_items": {
+                "private": "您的数据主要是私有的，只有您可以通过 Well-Bot 界面访问。",
+                "sharing": "经您明确许可，数据可能会与监护人、治疗师或授权的医疗保健提供者共享，以支持您的健康计划。",
+                "secure": "数据安全存储，未经您同意不会出售或与第三方共享。"
+            },
+            "consent_title": "您的同意",
+            "consent_desc": "通过同意此书，即表示您承认已阅读并理解上述信息。您可以随时通过联系 Well-Bot 支持或调整您的设置来撤回同意。",
+            "checkbox_label": "是的，我同意追踪我的情绪数据并执行如上所述的干预措施。",
+            "buttons": {
+                "confirm": "确认",
+                "cancel": "取消"
+            }
+        }
     },
     "landing": {
         "title": "提升您的情绪健康",

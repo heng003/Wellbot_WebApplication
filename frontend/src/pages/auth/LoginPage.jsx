@@ -38,6 +38,7 @@ const LoginPage = () => {
                 const response = await axios.post('/api/auth/logIn', { email, password });
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('name', response.data.user.name);
+                localStorage.setItem('fullName', response.data.user.fullName);
                 localStorage.setItem('role', response.data.user.role);
 
                 // Update language based on user profile

@@ -7,6 +7,7 @@ import HoverTooltip from "./HoverTooltip";
 
 const LanguageSwitcher = ({ variant = 'default' }) => {
     const { t, i18n } = useTranslation();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef(null);
 
@@ -63,6 +64,15 @@ const LanguageSwitcher = ({ variant = 'default' }) => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 992);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const languages = [
         { code: 'en', label: 'English' },
         { code: 'ms', label: 'Bahasa Melayu' },
@@ -81,7 +91,7 @@ const LanguageSwitcher = ({ variant = 'default' }) => {
             );
         } else if (variant === 'nav-icon') {
             return (
-                <div className='mr-10'>
+                <div className={isMobile ? "nav-link" : "mr-10"}>
                     <button
                         onClick={() => setShowMenu(!showMenu)}
                         className="text-gray-300 hover:opacity-60 transition-colors rounded-full"

@@ -98,7 +98,9 @@
             "age_minimum": "Umur mestilah sekurang-kurangnya 18 tahun",
             "create_failed": "Gagal mencipta akaun",
             "unknown_error": "Ralat tidak diketahui berlaku",
-            "reset_success": "Kata laluan anda telah berjaya ditetapkan semula."
+            "reset_success": "Kata laluan anda telah berjaya ditetapkan semula.",
+            "backend_error": "Ralat!",
+            "error_title": "Ralat"
         },
         "forgot_password_page": {
             "title": "Lupa Kata Laluan",
@@ -115,7 +117,39 @@
             "confirm_password": "Sahkan Kata Laluan",
             "reset_button": "Tetapkan Semula Kata Laluan"
         },
-        "ok": "OK"
+        "ok": "OK",
+        "popup_consent": {
+            "title": "BORANG PERSETUJUAN PENGGUNA",
+            "subtitle": "Borang Persetujuan Pemantauan Emosi dan Intervensi Well-Bot",
+            "intro": "Terima kasih kerana mempertimbangkan perkhidmatan Well-Bot untuk menyokong kesejahteraan mental anda. Sebelum kita bermula, kami memerlukan persetujuan anda yang dimaklumkan untuk menjejak data emosi dan melakukan intervensi. Sila baca maklumat berikut dengan teliti dan nyatakan persetujuan anda.",
+            "purpose_title": "Tujuan Jelas – Mengapa kami mengumpul data emosi?",
+            "purpose_desc": "Kami mengumpul data emosi untuk meningkatkan kesejahteraan mental anda dengan memberikan sokongan yang diperibadikan. Ini termasuk memantau keadaan emosi anda untuk menawarkan maklum balas masa nyata, mengesan potensi tekanan, dan mencadangkan intervensi tepat pada masanya untuk meningkatkan mood dan kesihatan keseluruhan anda.",
+            "data_type_title": "Jenis Data Dikumpul – Apa sebenarnya yang dijejaki?",
+            "data_type_items": {
+                "expressions": "Ekspresi wajah (melalui kamera setiap 5 minit).",
+                "vitals": "Tanda vital badan (melalui peranti boleh pakai).",
+                "voice": "Nada suara dan corak pertuturan (melalui mikrofon dalam keadaan sedia)."
+            },
+            "usage_title": "Bagaimana Data Akan Digunakan – Untuk tujuan apa?",
+            "usage_items": {
+                "feedback": "Menyediakan maklum balas masa nyata dan interaksi berasaskan mood.",
+                "reports": "Menjana laporan mood untuk semakan peribadi anda.",
+                "adapt": "Menyesuaikan tindak balas Well-Bot agar lebih sesuai dengan keperluan anda."
+            },
+            "access_title": "Siapa Mempunyai Akses – Adakah data peribadi, atau dikongsi dengan orang lain?",
+            "access_items": {
+                "private": "Data anda terutamanya peribadi dan boleh diakses hanya oleh anda melalui antara muka Well-Bot.",
+                "sharing": "Dengan kebenaran jelas anda, data mungkin dikongsi dengan penjaga, ahli terapi, atau penyedia penjagaan kesihatan yang diberi kuasa untuk menyokong rancangan kesjahteraan anda.",
+                "secure": "Data disimpan dengan selamat dan tidak akan dijual atau dikongsi dengan pihak ketiga tanpa persetujuan anda."
+            },
+            "consent_title": "Persetujuan Anda",
+            "consent_desc": "Dengan bersetuju terhadap persetujuan ini, anda mengakui bahawa anda telah membaca dan memahami maklumat di atas. Anda boleh menarik balik persetujuan anda pada bila-bila masa dengan menghubungi sokongan Well-Bot atau melaraskan tetapan anda.",
+            "checkbox_label": "Ya, saya memberi persetujuan untuk menjejak data emosi saya dan melakukan intervensi seperti yang diterangkan di atas.",
+            "buttons": {
+                "confirm": "Sahkan",
+                "cancel": "Batal"
+            }
+        }
     },
     "landing": {
         "title": "Tingkatkan Kesejahteraan Emosi Anda",

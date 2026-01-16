@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import "../styles/registerPage.css";
 
 const PopupConsent = ({ setFormData, setShowConsent, proceedWithLogin }) => {
+    const { t } = useTranslation();
     const [checked, setChecked] = useState(false);
 
     const handleCheckbox = (e) => {
@@ -22,43 +24,41 @@ const PopupConsent = ({ setFormData, setShowConsent, proceedWithLogin }) => {
     return (
         <div className="popup-consent-overlay">
             <div className="popup-consent-modal">
-                <h2 className="popup-title">USER CONSENT FORM</h2>
-                <h3 className="popup-section-title underline">Well-Bot Emotional Monitoring and Intervention Consent Form</h3>
+                <h2 className="popup-title">{t('auth.popup_consent.title')}</h2>
+                <h3 className="popup-section-title underline">{t('auth.popup_consent.subtitle')}</h3>
                 <p>
-                    Thank you for considering the Well-Bot service to support your mental wellness. Before we begin, we need your informed consent to track emotional data and perform interventions. Please read the following carefully and indicate your agreement.
+                    {t('auth.popup_consent.intro')}
                 </p>
 
-                <h3 className="popup-section-title underline">Clear Purpose – Why are we collecting emotional data?</h3>
+                <h3 className="popup-section-title underline">{t('auth.popup_consent.purpose_title')}</h3>
                 <p>
-                    We collect emotional data to enhance your mental well-being by providing personalized support. This includes monitoring your emotional state to offer real-time feedback, detect potential distress, and suggest timely interventions to improve your mood and overall health.
+                    {t('auth.popup_consent.purpose_desc')}
                 </p>
 
-                <h3 className="popup-section-title underline">Type of Data Collected – What exactly is being tracked?</h3>
+                <h3 className="popup-section-title underline">{t('auth.popup_consent.data_type_title')}</h3>
                 <ul>
-                    <li>Facial expressions (via camera every 5 minutes).</li>
-                    <li>Body vital signs (via connected wearable).</li>
-                    <li>Voice tone and speech patterns (via microphone on standby).</li>
-                    <li>Ambient noise or music (via microphone).</li>
+                    <li>{t('auth.popup_consent.data_type_items.expressions')}</li>
+                    <li>{t('auth.popup_consent.data_type_items.vitals')}</li>
+                    <li>{t('auth.popup_consent.data_type_items.voice')}</li>
                 </ul>
 
-                <h3 className="popup-section-title underline">How the Data Will Be Used – For what purposes?</h3>
+                <h3 className="popup-section-title underline">{t('auth.popup_consent.usage_title')}</h3>
                 <ul>
-                    <li>Provide real-time feedback and mood-based interactions.</li>
-                    <li>Generate mood reports for your personal review.</li>
-                    <li>Activate alert systems to notify you or others of critical emotional states.</li>
-                    <li>Adapt the Well-Bot’s responses to better suit your needs.</li>
+                    <li>{t('auth.popup_consent.usage_items.feedback')}</li>
+                    <li>{t('auth.popup_consent.usage_items.reports')}</li>
+                    <li>{t('auth.popup_consent.usage_items.adapt')}</li>
                 </ul>
 
-                <h3 className="popup-section-title underline">Who Has Access – Is the data private, or shared with others?</h3>
+                <h3 className="popup-section-title underline">{t('auth.popup_consent.access_title')}</h3>
                 <ul>
-                    <li>Your data is primarily private and accessible only to you through the Well-Bot interface.</li>
-                    <li>With your explicit permission, data may be shared with caregivers, therapists, or authorized healthcare providers to support your wellness plan.</li>
-                    <li>Data is stored securely and will not be sold or shared with third parties without your consent.</li>
+                    <li>{t('auth.popup_consent.access_items.private')}</li>
+                    <li>{t('auth.popup_consent.access_items.sharing')}</li>
+                    <li>{t('auth.popup_consent.access_items.secure')}</li>
                 </ul>
 
-                <h3 className="popup-section-title underline">Your Consent</h3>
+                <h3 className="popup-section-title underline">{t('auth.popup_consent.consent_title')}</h3>
                 <p>
-                    By agreeing to this consent, you acknowledge that you have read and understood the above information. You may withdraw your consent at any time by contacting Well-Bot support or adjusting your settings.
+                    {t('auth.popup_consent.consent_desc')}
                 </p>
                 <div className="popup-checkbox-row">
                     <input
@@ -69,16 +69,42 @@ const PopupConsent = ({ setFormData, setShowConsent, proceedWithLogin }) => {
                         onChange={handleCheckbox}
                     />
                     <label htmlFor="consent-checkbox">
-                        Yes, I give consent to track my emotional data and perform interventions as described above.
+                        {t('auth.popup_consent.checkbox_label')}
                     </label>
                 </div>
 
-                <div className="popup-actions">
+                <div className="popup-actions" style={{ gap: '10px' }}>
+                    <button
+                        className="cancel-button"
+                        onClick={() => setShowConsent(false)}
+                        style={{
+                            backgroundColor: '#e2e8f0',
+                            color: '#475569',
+                            padding: '0.75rem 1.5rem',
+                            borderRadius: '0.5rem',
+                            fontWeight: '600',
+                            border: 'none',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        {t('auth.popup_consent.buttons.cancel')}
+                    </button>
                     <button
                         className="green-button"
                         onClick={handleConfirm}
+                        disabled={!checked}
+                        style={{
+                            backgroundColor: checked ? 'var(--primary-color)' : '#94a3b8',
+                            color: 'white',
+                            padding: '0.75rem 1.5rem',
+                            borderRadius: '0.5rem',
+                            fontWeight: '600',
+                            border: 'none',
+                            cursor: checked ? 'pointer' : 'not-allowed',
+                            opacity: checked ? 1 : 0.7
+                        }}
                     >
-                        Confirm
+                        {t('auth.popup_consent.buttons.confirm')}
                     </button>
                 </div>
             </div>

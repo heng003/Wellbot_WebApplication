@@ -32,7 +32,8 @@ const DisplayWidgets = ({ userId: propUserId }) => {
     const { t } = useTranslation();
     const token = localStorage.getItem('token');
     const userId = propUserId || getIdFromToken();
-    const today = new Date().toISOString().slice(0, 10);
+    // Use local date (YYYY-MM-DD) instead of UTC to ensure we fetch data for the user's current day
+    const today = new Date().toLocaleDateString('en-CA');
 
     const { emotions, loading } = useEmotions(
         token,
@@ -63,8 +64,8 @@ const DisplayWidgets = ({ userId: propUserId }) => {
         <div className="dashboard-widget-wrapper">
             <div className="dashboard-widget-grid">
                 {ALL_EMOTIONS.map((label) => {
-                    // 2. Find data for this specific emotion
-                    const data = emotions?.find((e) => e.emotion_label === label);
+                    // 2. Find data for this specific emotion (Case Insensitive)
+                    const data = emotions?.find((e) => e.emotion_label?.toLowerCase() === label.toLowerCase());
 
                     // 3. Get Count (Fallback to 0)
                     const count = data ? Number(data.cnt) : 0;

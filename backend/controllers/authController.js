@@ -150,6 +150,7 @@ exports.logIn = async (req, res, next) => {
                     id: user.id,
                     name: user.prefer_name,
                     role,
+                    fullName: user.full_name,
                     language: user.language,
                     websiteLanguage: user.website_language,
                 },

@@ -67,7 +67,7 @@
         "create_account": "Create Your Account",
         "join_message": "Join Well-Bot and start your wellness journey",
         "full_name_label": "Full Name",
-        "prefer_name_label": "Prefer Name",
+        "prefer_name_label": "Preferred Name",
         "age_label": "Age",
         "gender_label": "Gender",
         "select_gender": "Select gender",
@@ -113,7 +113,9 @@
             "age_minimum": "Age must be at least 18",
             "create_failed": "Failed to create account",
             "unknown_error": "An unknown error occurred",
-            "reset_success": "Your password has been reset successfully."
+            "reset_success": "Your password has been reset successfully.",
+            "backend_error": "Error!",
+            "error_title": "Error"
         },
         "forgot_password_page": {
             "title": "Forgot Password",
@@ -130,7 +132,39 @@
             "confirm_password": "Confirm Password",
             "reset_button": "Reset Password"
         },
-        "ok": "OK"
+        "ok": "OK",
+        "popup_consent": {
+            "title": "USER CONSENT FORM",
+            "subtitle": "Well-Bot Emotional Monitoring and Intervention Consent Form",
+            "intro": "Thank you for considering the Well-Bot service to support your mental wellness. Before we begin, we need your informed consent to track emotional data and perform interventions. Please read the following carefully and indicate your agreement.",
+            "purpose_title": "Clear Purpose – Why are we collecting emotional data?",
+            "purpose_desc": "We collect emotional data to enhance your mental well-being by providing personalized support. This includes monitoring your emotional state to offer real-time feedback, detect potential distress, and suggest timely interventions to improve your mood and overall health.",
+            "data_type_title": "Type of Data Collected – What exactly is being tracked?",
+            "data_type_items": {
+                "expressions": "Facial expressions (via camera every 5 minutes).",
+                "vitals": "Body vital signs (via connected wearable).",
+                "voice": "Voice tone and speech patterns (via microphone on standby)."
+            },
+            "usage_title": "How the Data Will Be Used – For what purposes?",
+            "usage_items": {
+                "feedback": "Provide real-time feedback and mood-based interactions.",
+                "reports": "Generate mood reports for your personal review.",
+                "adapt": "Adapt the Well-Bot’s responses to better suit your needs."
+            },
+            "access_title": "Who Has Access – Is the data private, or shared with others?",
+            "access_items": {
+                "private": "Your data is primarily private and accessible only to you through the Well-Bot interface.",
+                "sharing": "With your explicit permission, data may be shared with caregivers, therapists, or authorized healthcare providers to support your wellness plan.",
+                "secure": "Data is stored securely and will not be sold or shared with third parties without your consent."
+            },
+            "consent_title": "Your Consent",
+            "consent_desc": "By agreeing to this consent, you acknowledge that you have read and understood the above information. You may withdraw your consent at any time by contacting Well-Bot support or adjusting your settings.",
+            "checkbox_label": "Yes, I give consent to track my emotional data and perform interventions as described above.",
+            "buttons": {
+                "confirm": "Confirm",
+                "cancel": "Cancel"
+            }
+        }
     },
     "landing": {
         "title": "Enhance Your Emotional Wellness",
@@ -389,7 +423,7 @@
         },
         "table": {
             "name": "Name",
-            "prefer_name": "Prefer Name",
+            "prefer_name": "Preferred Name",
             "email": "Email",
             "status": "Status",
             "actions": "Actions"
@@ -547,7 +581,7 @@
         "guardian_tracking": "Guardian Tracking",
         "labels": {
             "full_name": "Full Name",
-            "prefer_name": "Prefer Name",
+            "prefer_name": "Preferred Name",
             "age": "Age",
             "gender": "Gender",
             "language": "Language",

@@ -70,6 +70,7 @@ export function SidebarLinks(props) {
 					return (
 						<Link key={index} to={route.path} style={{ textDecoration: "none" }}
 							onClick={async (e) => {
+								window.scrollTo(0, 0);
 								if (route.logout) {
 									e.preventDefault(); // prevent navigation
 
@@ -89,6 +90,9 @@ export function SidebarLinks(props) {
 									if (result.isConfirmed) {
 										localStorage.removeItem("token");
 										localStorage.removeItem("name");
+										localStorage.removeItem("fullName");
+										localStorage.removeItem("role");
+										localStorage.removeItem("websiteLanguage");
 										localStorage.removeItem('tutorial_guardian_main_seen');
 										localStorage.removeItem('tutorial_guardian_analytics_seen');
 										localStorage.removeItem('tutorial_general_seen');
@@ -145,7 +149,7 @@ export function SidebarLinks(props) {
 									{route.children.map((child, ci) => {
 										const childActive = child.path && location.pathname.startsWith(child.path);
 										return (
-											<Link key={ci} to={child.path} style={{ textDecoration: 'none' }}>
+											<Link key={ci} to={child.path} style={{ textDecoration: 'none' }} onClick={() => window.scrollTo(0, 0)}>
 												<div className={`py-1 ${childActive ? 'font-light text-300' : 'text-gray-300'}`} style={{ fontSize: '0.85rem' }}>
 													{child.name}
 												</div>

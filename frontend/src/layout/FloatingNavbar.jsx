@@ -226,6 +226,9 @@ const FloatingNavbar = ({
         if (result.isConfirmed) {
             localStorage.removeItem("token");
             localStorage.removeItem("name");
+            localStorage.removeItem("fullName");
+            localStorage.removeItem("role");
+            localStorage.removeItem("websiteLanguage");
             localStorage.removeItem('tutorial_guardian_main_seen');
             localStorage.removeItem('tutorial_guardian_analytics_seen');
             localStorage.removeItem('tutorial_general_seen');
