@@ -8,19 +8,23 @@ RUN npm run build
 
 # Stage 2: Setup the backend
 FROM node:18-alpine
-WORKDIR /app
+WORKDIR /app/backend
+
 # Copy backend package files and install dependencies
-COPY backend/package*.json ./backend/
-RUN npm install --prefix backend --production
+COPY backend/package*.json ./
+RUN npm install --production
 
 # Copy the rest of the backend code
-COPY backend/ ./backend
+COPY backend/ ./
 
-# Copy the built frontend from the first stage
-COPY --from=build-frontend /app/frontend/build ./frontend/build
+# Copy the .env file (if it exists, for local dev)
+COPY backend/.env ./.env
+
+# Copy the built frontend from the first stage (adjusting path relative to WORKDIR)
+COPY --from=build-frontend /app/frontend/build ../frontend/build
 
 # Expose the port the app runs on
 EXPOSE 5000
 
 # Command to run the application
-CMD ["node", "backend/index.js"]
+CMD ["node", "index.js"]
