@@ -230,14 +230,15 @@ const ReportPage = () => {
                 const finalEmoLogs = pdfConfig.emotionalTable ? emotionalLogs : [];
                 const finalActLogs = pdfConfig.activityTable ? activityLogs : [];
 
-                generatePDFReport(
+                await generatePDFReport(
                     getCurrentUserName(),
                     images,
                     moodActivityInsights,
                     finalMsgInsights,
                     finalEmoLogs,
                     finalActLogs,
-                    { start: startDate, end: endDate }
+                    { start: startDate, end: endDate },
+                    t
                 );
 
                 Swal.fire({

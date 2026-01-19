@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import NotoSansSC from '../font/NotoSansSC-VariableFont_wght.ttf';
 
 // --- 3D MATH HELPERS (PCA) ---
 export const computePCA = (vectors) => {
@@ -87,9 +88,30 @@ export const generateCSV = (data, filename = "report.csv") => {
  * @param {Object} moodActivityInsights - Optional quick insights from mood-activity correlation
  * @param {Function} t - Translation function
  */
-export const generatePDFReport = (userName, images, moodActivityInsights = null, messagePatternInsights = null, emotionalLogs, activityLogs, dateRange = null, t) => {
+export const generatePDFReport = async (userName, images, moodActivityInsights = null, messagePatternInsights = null, emotionalLogs, activityLogs, dateRange = null, t) => {
     const doc = new jsPDF();
     const safeT = t || ((k) => k); // Fallback
+
+    // Load Custom Font for Chinese Support
+    try {
+        const response = await fetch(NotoSansSC);
+        const blob = await response.blob();
+        const base64 = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result.split(',')[1]);
+            reader.readAsDataURL(blob);
+        });
+
+        doc.addFileToVFS("CustomFont.ttf", base64);
+        doc.addFont("CustomFont.ttf", "CustomFont", "normal");
+        doc.addFont("CustomFont.ttf", "CustomFont", "bold");
+        doc.addFont("CustomFont.ttf", "CustomFont", "italic");
+        doc.addFont("CustomFont.ttf", "CustomFont", "bolditalic");
+        doc.setFont("CustomFont");
+        console.log("Custom Chinese Font Loaded Successfully");
+    } catch (e) {
+        console.error("Failed to load custom font, falling back to default.", e);
+    }
 
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -109,25 +131,25 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
     // Title
     doc.setFontSize(26);
     doc.setTextColor(...primaryColor);
-    doc.setFont("helvetica", "bold");
+    doc.setFont("CustomFont");
     doc.text(safeT('report.pdf.title'), pageWidth / 2, 80, { align: "center" });
 
     // Subtitle / User Info
     doc.setFontSize(14);
-    doc.setFont("helvetica", "normal");
+    doc.setFont("CustomFont");
     doc.setTextColor(...secondaryColor);
     doc.text(safeT('report.pdf.prepared_for'), pageWidth / 2, 100, { align: "center" });
 
     doc.setFontSize(18);
     doc.setTextColor(...primaryColor);
-    doc.setFont("helvetica", "bold");
+    doc.setFont("CustomFont");
     doc.text(userName, pageWidth / 2, 110, { align: "center" });
 
     // Date Range
     if (dateRange && dateRange.start && dateRange.end) {
         doc.setFontSize(12);
         doc.setTextColor(...secondaryColor);
-        doc.setFont("helvetica", "normal");
+        doc.setFont("CustomFont");
         const startStr = new Date(dateRange.start).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
         const endStr = new Date(dateRange.end).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' });
         doc.text(`${startStr} - ${endStr}`, pageWidth / 2, 120, { align: "center" });
@@ -147,13 +169,13 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
     // --- VISUAL ANALYTICS SECTION ---
     doc.setFontSize(14);
     doc.setTextColor(...primaryColor);
-    doc.setFont("helvetica", "bold");
+    doc.setFont("CustomFont");
     doc.text(safeT('report.pdf.visual_analytics'), margin, yPos);
     yPos += 15;
 
     const addTitle = (title) => {
         doc.setFontSize(9);
-        doc.setFont("helvetica", "normal");
+        doc.setFont("CustomFont");
         doc.setTextColor(0, 0, 0); // black
         doc.text(title, margin, yPos);
         yPos += 2;
@@ -223,7 +245,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
-        doc.setFont("helvetica", "bold");
+        doc.setFont("CustomFont");
         doc.text(safeT('report.pdf.activity_insights'), margin, yPos);
         yPos += 8;
 
@@ -239,7 +261,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             body: statsData,
             startY: yPos,
             theme: 'plain',
-            styles: { fontSize: 10, cellPadding: 2, textColor: secondaryColor },
+            styles: { fontSize: 10, cellPadding: 2, textColor: secondaryColor, font: "CustomFont" },
             columnStyles: {
                 0: { fontStyle: 'bold', cellWidth: 45 },
                 1: { cellWidth: 40 }
@@ -279,8 +301,8 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
                 body: insightRows,
                 startY: yPos,
                 theme: 'striped',
-                headStyles: { fillColor: primaryColor, textColor: 255 },
-                styles: { fontSize: 10, cellPadding: 3 },
+                headStyles: { fillColor: primaryColor, textColor: 255, font: "CustomFont" },
+                styles: { fontSize: 10, cellPadding: 3, font: "CustomFont" },
                 columnStyles: {
                     0: { fontStyle: 'bold', cellWidth: 50 },
                     1: { cellWidth: 'auto' },
@@ -297,7 +319,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
-        doc.setFont("helvetica", "bold");
+        doc.setFont("CustomFont");
         doc.text(safeT('report.pdf.message_insights'), margin, yPos);
         yPos += 8;
 
@@ -320,7 +342,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             body: statsData,
             startY: yPos,
             theme: 'plain',
-            styles: { fontSize: 10, cellPadding: 2, textColor: secondaryColor },
+            styles: { fontSize: 10, cellPadding: 2, textColor: secondaryColor, font: "CustomFont" },
             columnStyles: {
                 0: { fontStyle: 'bold', cellWidth: 40 },
                 1: { cellWidth: 50 }
@@ -350,8 +372,8 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
                 body: recurringRows,
                 startY: yPos,
                 theme: 'striped',
-                headStyles: { fillColor: primaryColor, textColor: 255 },
-                styles: { fontSize: 9, cellPadding: 3 },
+                headStyles: { fillColor: primaryColor, textColor: 255, font: "CustomFont" },
+                styles: { fontSize: 9, cellPadding: 3, font: "CustomFont" },
                 columnStyles: {
                     0: { cellWidth: 10 },
                     1: { cellWidth: 'auto', overflow: 'linebreak' }, // Message takes remaining space & breaks
@@ -395,7 +417,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
-        doc.setFont("helvetica", "bold");
+        doc.setFont("CustomFont");
         doc.text(safeT('report.pdf.emotional_history'), margin, yPos);
         yPos += 5;
 
@@ -405,12 +427,18 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             safeT('report.pdf.headers.mood_score'),
             safeT('report.pdf.headers.confidence')
         ];
-        const tableRows = emotionalLogs.map(log => [
-            new Date(log.timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }),
-            safeT(`landing.${log.emotion_label.toLowerCase()}`),
-            log.emotional_score !== null ? log.emotional_score : "-",
-            log.confidence_score !== null ? `${Math.round(log.confidence_score * 100)}%` : "-"
-        ]);
+        const tableRows = emotionalLogs.map(log => {
+            const dateVal = log.timestamp || log.ts; // Handle both key formats
+            const rawLabel = log.emotion_label?.toLowerCase();
+            const labelKey = rawLabel === 'angry' ? 'anger' : rawLabel; // Map angry -> anger for landing namespace
+
+            return [
+                new Date(dateVal).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' }),
+                safeT(`landing.${labelKey}`),
+                log.emotional_score !== null ? log.emotional_score : "-",
+                log.confidence_score !== null ? `${Math.round(log.confidence_score * 100)}%` : "-"
+            ];
+        });
 
         autoTable(doc, {
             head: [tableColumn],
@@ -420,12 +448,14 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             headStyles: {
                 fillColor: primaryColor,
                 textColor: 255,
-                fontStyle: 'bold'
+                fontStyle: 'bold',
+                font: "CustomFont"
             },
             styles: {
                 fontSize: 10,
                 cellPadding: 4,
-                textColor: 50
+                textColor: 50,
+                font: "CustomFont"
             },
             alternateRowStyles: {
                 fillColor: [245, 247, 250] // Very light grey for readability
@@ -443,7 +473,7 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
 
         doc.setFontSize(14);
         doc.setTextColor(...primaryColor);
-        doc.setFont("helvetica", "bold");
+        doc.setFont("CustomFont");
         doc.text(safeT('report.pdf.intervention_activities'), margin, yPos);
         yPos += 5;
 
@@ -482,12 +512,14 @@ export const generatePDFReport = (userName, images, moodActivityInsights = null,
             headStyles: {
                 fillColor: primaryColor,
                 textColor: 255,
-                fontStyle: 'bold'
+                fontStyle: 'bold',
+                font: "CustomFont"
             },
             styles: {
                 fontSize: 10,
                 cellPadding: 4,
-                textColor: 50
+                textColor: 50,
+                font: "CustomFont"
             },
             alternateRowStyles: {
                 fillColor: [245, 247, 250]

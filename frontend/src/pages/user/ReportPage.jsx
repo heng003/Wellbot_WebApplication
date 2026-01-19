@@ -196,7 +196,7 @@ const ReportPage = () => {
                 const finalEmoLogs = pdfConfig.emotionalTable ? emotionalLogs : [];
                 const finalActLogs = pdfConfig.activityTable ? activityLogs : [];
 
-                generatePDFReport(
+                await generatePDFReport(
                     userName,
                     images,
                     moodActivityInsights,
